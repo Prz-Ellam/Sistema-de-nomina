@@ -80,7 +80,6 @@ CREATE TABLE employees(
 	active BIT DEFAULT 1,
 	department_id INT NOT NULL,
 	position_id INT NOT NULL,
-	administrator_id INT NOT NULL,
 	hiring_date DATE DEFAULT GETDATE()
 
 	CONSTRAINT PK_Employee
@@ -94,9 +93,9 @@ CREATE TABLE perceptions(
 	id INT IDENTITY(1,1) NOT NULL,
 	name VARCHAR(30),
 	amount_type CHAR NOT NULL,
-	amount MONEY,
+	fixed MONEY,
 	percentage FLOAT,
-	duration_type CHAR,
+	duration_type CHAR DEFAULT 'P', -- 'B' es de basic (basico) y 'P' es de punctual (Puntual)
 	active BIT DEFAULT 1
 
 	CONSTRAINT PK_Perception
@@ -110,9 +109,9 @@ CREATE TABLE deductions(
 	id INT IDENTITY(1,1) NOT NULL,
 	name VARCHAR(30),
 	amount_type CHAR NOT NULL,
-	amount MONEY,
+	fixed MONEY,
 	percentage FLOAT,
-	duration_type CHAR,
+	duration_type CHAR DEFAULT 'P',
 	active BIT DEFAULT 1
 
 	CONSTRAINT PK_Deduction
@@ -123,26 +122,24 @@ IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'employees_perceptions' AND type
 	DROP TABLE employees_perceptions;
 
 CREATE TABLE employees_perceptions(
-	id INT IDENTITY(1,1) NOT NULL,
-	employee_id INT,
-	perception_id INT,
-	actual_date DATE
+	employee_id INT NOT NULL,
+	perception_id INT NOT NULL,
+	actual_date DATE NOT NULL
 
 	CONSTRAINT PK_Employees_Perceptions
-		PRIMARY KEY (id)
+		PRIMARY KEY (employee_id, perception_id, actual_date)
 );
 
 IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'employees_deductions' AND type = 'u')
 	DROP TABLE employees_deductions;
 
 CREATE TABLE employees_deductions(
-	id INT IDENTITY(1,1) NOT NULL,
-	employee_id INT,
-	deduction_id INT,
-	actual_date DATE
+	employee_id INT NOT NULL,
+	deduction_id INT NOT NULL,
+	actual_date DATE NOT NULL
 
 	CONSTRAINT PK_Employees_Deductions
-		PRIMARY KEY (id)
+		PRIMARY KEY (employee_id, deduction_id, actual_date)
 );
 
 IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'payrolls' AND type = 'u')
@@ -168,24 +165,22 @@ IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'payrolls_perceptions' AND type 
 	DROP TABLE payrolls_perceptions;
 
 CREATE TABLE payrolls_perceptions(
-	id INT IDENTITY(1,1) NOT NULL,
 	payroll_id INT,
 	perception_id INT
 
 	CONSTRAINT PK_Payrolls_Perceptions
-		PRIMARY KEY (id)
+		PRIMARY KEY (payroll_id, perception_id)
 );
 
 IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'payrolls_deductions' AND type = 'u')
 	DROP TABLE payrolls_deductions;
 
 CREATE TABLE payrolls_deductions(
-	id INT IDENTITY(1,1) NOT NULL,
 	payroll_id INT,
 	deduction_id INT
 
 	CONSTRAINT PK_Payrolls_Deductions
-		PRIMARY KEY (id)
+		PRIMARY KEY (payroll_id, deduction_id)
 );
 
 IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'addresses' AND type = 'u')
@@ -273,10 +268,7 @@ ALTER TABLE employees
 		REFERENCES departments(id),
 		CONSTRAINT FK_Employee_Position
 		FOREIGN KEY (position_id)
-		REFERENCES positions(id),
-		CONSTRAINT FK_Employee_Administrator
-		FOREIGN KEY (administrator_id)
-		REFERENCES administrators(id);
+		REFERENCES positions(id);
 
 ALTER TABLE employees_perceptions
 	ADD CONSTRAINT FK_EP_Employee
@@ -352,8 +344,7 @@ ALTER TABLE employees
 	DROP CONSTRAINT FK_Employee_Address,
 		CONSTRAINT FK_Employee_Bank,
 		CONSTRAINT FK_Employee_Department,
-		CONSTRAINT FK_Employee_Position,
-		CONSTRAINT FK_Employee_Administrator;
+		CONSTRAINT FK_Employee_Position;
 
 ALTER TABLE employees_perceptions
 	DROP CONSTRAINT FK_EP_Employee,
@@ -418,3 +409,20 @@ LEFT OUTER JOIN sys.schemas ON schemas.[schema_id] = all_objects.[schema_id]
 WHERE syscolumns.id IN (SELECT id
 FROM sysobjects
 WHERE xtype = 'U') AND (systypes.name <> 'sysname')
+
+
+SELECT IC.COLUMN_NAME, IC.Data_TYPE, EP.[Value] as [MS_Description], IKU.CONSTRAINT_NAME,
+ITC.CONSTRAINT_TYPE, IC.IS_NULLABLE
+FROM INFORMATION_SCHEMA.COLUMNS IC
+INNER JOIN sys.columns sc ON OBJECT_ID(QUOTENAME(IC.TABLE_SCHEMA) + '.' +
+QUOTENAME(IC.TABLE_NAME)) = sc.[object_id] AND IC.COLUMN_NAME = sc.name
+LEFT OUTER JOIN sys.extended_properties EP ON sc.[object_id] = EP.major_id AND
+sc.[column_id] = EP.minor_id AND EP.name = 'MS_Description' AND EP.class = 1
+LEFT OUTER JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE IKU ON IKU.COLUMN_NAME =
+IC.COLUMN_NAME and IKU.TABLE_NAME = IC.TABLE_NAME and IKU.TABLE_CATALOG = IC.TABLE_CATALOG
+LEFT OUTER JOIN INFORMATION_SCHEMA.TABLE_CONSTRAINTS ITC ON ITC.TABLE_NAME =
+IKU.TABLE_NAME and ITC.CONSTRAINT_NAME = IKU.CONSTRAINT_NAME
+WHERE IC.TABLE_CATALOG = 'base_datos'
+and IC.TABLE_SCHEMA = 'dbo'
+--and IC.TABLE_NAME = 'Table'
+order by IC.ORDINAL_POSITION

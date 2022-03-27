@@ -9,11 +9,11 @@ namespace Presentation.Views
     public interface ICrudeable
     {
         void AddEntity();
-        void EditEntity();
+        void UpdateEntity();
         void DeleteEntity();
-        void FillEntity();
-        void FillForm(int index);
-        void FillDataGridView();
-        void ClearForm();
+        void ListEntity();
+        //void FillEntity();
+        //void FillForm(int index);
+        //void ClearForm();
     }
 }

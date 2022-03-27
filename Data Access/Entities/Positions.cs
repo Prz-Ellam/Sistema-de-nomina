@@ -8,11 +8,11 @@ namespace Data_Access.Entities
 {
     public class Positions
     {
-        int id;
-        string name;
-        decimal wageLevel;
-        bool active;
-        int companyId;
+        private int id;
+        private string name;
+        private decimal wageLevel;
+        private bool active;
+        private int companyId;
 
         public int Id { get => id; set => id = value; }
         public string Name { get => name; set => name = value; }

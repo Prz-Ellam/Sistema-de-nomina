@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Data_Access.Entities
 {
-    class Perceptions
+    public class Perceptions
     {
     }
 }

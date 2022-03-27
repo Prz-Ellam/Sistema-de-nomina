@@ -18,15 +18,15 @@ namespace Data_Access.Entities
 
         public int Id { get => id; set => id = value; }
 
-        [Required(ErrorMessage = "Todos los campos son obligatorios")]
-        [RegularExpression("^[a-zA-Z \u00C0-\u00FF]+$", ErrorMessage ="Nombre de departamento solo puede contener letras")]
+        [Required(ErrorMessage = "El nombre del departamento no puede estar vacío")]
+        //[RegularExpression("^[a-zA-Z \u00C0-\u00FF]+$", ErrorMessage ="El nombre de departamento solo puede contener letras")]
         public string Name { get => name; set => name = value; }
 
-        [Required(ErrorMessage = "Todos los campos son obligatorios")]
+        [Required(ErrorMessage = "El sueldo base no puede estar vacío")]
         public decimal BaseSalary { get => baseSalary; set => baseSalary = value; }
         public bool Active { get => active; set => active = value; }
 
-        [Required(ErrorMessage = "Todos los campos son obligatorios")]
+        [Required(ErrorMessage = "El departamento debe pertenecer a una empresa")]
         public int Company_id { get => company_id; set => company_id = value; }
     }
 }

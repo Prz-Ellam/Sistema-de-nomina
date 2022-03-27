@@ -10,16 +10,11 @@ using System.Windows.Forms;
 
 namespace Presentation.Views
 {
-    public partial class Payroll : Form
+    public partial class ModalPayroll : Form
     {
-        public Payroll()
+        public ModalPayroll()
         {
             InitializeComponent();
-        }
-
-        private void Payroll_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

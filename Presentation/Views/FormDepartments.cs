@@ -18,7 +18,6 @@ namespace Presentation.Views
 {
     public partial class FormDepartments : Form
     {
-
         private DepartmentsRepository repository = new DepartmentsRepository();
         private Departments department = new Departments();
         int dtgPrevIndex = -1;
@@ -43,6 +42,7 @@ namespace Presentation.Views
                         btnAdd.Enabled = true;
                         btnEdit.Enabled = false;
                         btnDelete.Enabled = false;
+                        entityID = -1;
                         break;
                     }
                     case EntityState.Modify:
@@ -59,54 +59,37 @@ namespace Presentation.Views
         public FormDepartments()
         {
             InitializeComponent();
+            Session.company_id = 1; // <- Temporal
         }
 
         private void FormDepartments_Load(object sender, EventArgs e)
         {
             DepartmentState = EntityState.Add;
-            FillDataGridView();
+            ListDepartments();
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            FillEntity();
-            AddEntity();
-            MessageBox.Show("La operación se realizó exitosamente");
-            FillDataGridView();
+            FillDepartment();
+            AddDepartment();
+            ListDepartments();
             ClearForm();
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            FillEntity();
-            EditEntity();
-            MessageBox.Show("La operación se realizó exitosamente");
-            FillDataGridView();
+            FillDepartment();
+            UpdateDepartment();
+            ListDepartments();
             ClearForm();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            FillEntity();
-            DeleteEntity();
-            MessageBox.Show("La operación se realizó exitosamente");
-            FillDataGridView();
+            FillDepartment();
+            DeleteDepartment();
+            ListDepartments();
             ClearForm();
-        }
-
-        private void lblName_Click(object sender, EventArgs e)
-        {
-            txtName.Focus();
-        }
-
-        private void lblBaseSalary_Click(object sender, EventArgs e)
-        {
-            nudBaseSalary.Focus();
-        }
-
-        private void lblFilter_Click(object sender, EventArgs e)
-        {
-            txtFilter.Focus();
         }
 
         private void dtgDepartaments_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -128,73 +111,118 @@ namespace Presentation.Views
 
         }
 
-        void AddEntity()
+        private void lblName_Click(object sender, EventArgs e)
+        {
+            txtName.Focus();
+        }
+
+        private void lblBaseSalary_Click(object sender, EventArgs e)
+        {
+            nudBaseSalary.Focus();
+        }
+
+        private void lblFilter_Click(object sender, EventArgs e)
+        {
+            txtFilter.Focus();
+        }
+
+
+
+
+
+
+        public void AddDepartment()
         {
             if (departmentState == EntityState.Add)
             {
-                int rowsAffected = repository.Create(department);
-                if (rowsAffected == 0)
+                Tuple<bool, string> feedback = new DataValidation(department).Validate();
+                if (!feedback.Item1)
                 {
-                    MessageBox.Show("Algo fallo");
+                    MessageBox.Show(feedback.Item2, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
+
+                repository.Create(department);
+                MessageBox.Show("La operación se realizó exitosamente");
             }
         }
 
-        void EditEntity()
+        public void UpdateDepartment()
         {
             if (departmentState == EntityState.Modify)
             {
+                Tuple<bool, string> feedback = new DataValidation(department).Validate();
+                if (!feedback.Item1)
+                {
+                    MessageBox.Show(feedback.Item2, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 repository.Update(department);
+                MessageBox.Show("La operación se realizó exitosamente");
             }
         }
 
-        void DeleteEntity()
+        public void DeleteDepartment()
         {
             if (departmentState == EntityState.Modify)
             {
                 repository.Delete(entityID);
+                MessageBox.Show("La operación se realizó exitosamente");
             }
         }
 
+        public void ListDepartments()
+        {
+            try
+            {
+                dtgDepartaments.DataSource = repository.ReadAll();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
 
-
-
-
-        // El Formulario llena la entidad
-        void FillEntity()
+        public void FillDepartment()
         {
             department.Id = entityID;
             department.Name = txtName.Text;
             department.BaseSalary = nudBaseSalary.Value;
-            department.Company_id = /* Session.company_id */1;
+            department.Company_id = Session.company_id;
         }
 
-        // El Data Grid View llena el formulario
-        void FillForm(int index)
+        public void ClearForm()
         {
-            var row = dtgDepartaments.Rows[index];
+            txtName.Text = string.Empty;
+            nudBaseSalary.Value = 0.0m;
+            txtFilter.Text = string.Empty;
+            DepartmentState = EntityState.Add;
+        }
+
+        public void FillForm(int rowIndex)
+        {
+            if (rowIndex == -1)
+            {
+                return;
+            }
+
+            var row = dtgDepartaments.Rows[rowIndex];
             entityID = Convert.ToInt32(row.Cells[0].Value);
             txtName.Text = row.Cells[1].Value.ToString();
             nudBaseSalary.Value = Convert.ToDecimal(row.Cells[2].Value);
         }
 
-        // La capa de persistencia llena el Data Grid View
-        void FillDataGridView()
-        {
-            List<DepartmentsViewModel> departments = repository.ReadAll();
-            dtgDepartaments.DataSource = departments;
-        }
-
-        void ClearForm()
-        {
-            txtName.Clear();
-            nudBaseSalary.Value = 0.0m;
-            DepartmentState = EntityState.Add;
-        }
-
         private void txtFilter_TextChanged(object sender, EventArgs e)
         {
-
+            try
+            {
+                dtgDepartaments.DataSource = repository.ReadLike(txtFilter.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
     }
 }

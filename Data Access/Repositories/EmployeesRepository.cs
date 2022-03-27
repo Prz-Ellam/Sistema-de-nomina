@@ -26,30 +26,53 @@ namespace Data_Access.Repositories
             readAll = "sp_ReadEmployees";
         }
 
-        public int Create(Employees department)
+        public int Create(Employees employee)
         {
             sqlParams.Start();
-            //sqlParams.Add("@name", department.Name);
-            //sqlParams.Add("@base_salary", department.BaseSalary);
-            //sqlParams.Add("@company_id", department.Company_id);
+            sqlParams.Add("@name", employee.Name);
+            sqlParams.Add("@father_last_name", employee.FatherLastName);
+            sqlParams.Add("@mother_last_name", employee.MotherLastName);
+            sqlParams.Add("@date_of_birth", employee.DateOfBirth);
+            sqlParams.Add("@curp", employee.Curp);
+            sqlParams.Add("@nss", employee.Nss);
+            sqlParams.Add("@rfc", employee.Rfc);
+            sqlParams.Add("@address", employee.Address);
+            sqlParams.Add("@bank", employee.Bank);
+            sqlParams.Add("@account_number", employee.AccountNumber);
+            sqlParams.Add("@email", employee.Email);
+            sqlParams.Add("@password", employee.Password);
+            sqlParams.Add("@department_id", employee.DepartmentId);
+            sqlParams.Add("@position_id", employee.PositionId);
 
             return mainRepository.ExecuteNonQuery(create, sqlParams);
         }
 
-        public int Update(Employees department)
+        public int Update(Employees employee)
         {
             sqlParams.Start();
-            //sqlParams.Add("@id", department.Id);
-            //sqlParams.Add("@name", department.Name);
-            //sqlParams.Add("@base_salary", department.BaseSalary);
+            sqlParams.Add("@employee_number", employee.EmployeeNumber);
+            sqlParams.Add("@name", employee.Name);
+            sqlParams.Add("@father_last_name", employee.FatherLastName);
+            sqlParams.Add("@mother_last_name", employee.MotherLastName);
+            sqlParams.Add("@date_of_birth", employee.DateOfBirth);
+            sqlParams.Add("@curp", employee.Curp);
+            sqlParams.Add("@nss", employee.Nss);
+            sqlParams.Add("@rfc", employee.Rfc);
+            sqlParams.Add("@address", employee.Address);
+            sqlParams.Add("@bank", employee.Bank);
+            sqlParams.Add("@account_number", employee.AccountNumber);
+            sqlParams.Add("@email", employee.Email);
+            sqlParams.Add("@password", employee.Password);
+            sqlParams.Add("@department_id", employee.DepartmentId);
+            sqlParams.Add("@position_id", employee.PositionId);
 
             return mainRepository.ExecuteNonQuery(update, sqlParams);
         }
 
-        public int Delete(int id)
+        public int Delete(int employeeNumber)
         {
             sqlParams.Start();
-            //sqlParams.Add("@id", id);
+            sqlParams.Add("@employee_number", employeeNumber);
 
             return mainRepository.ExecuteNonQuery(delete, sqlParams);
         }

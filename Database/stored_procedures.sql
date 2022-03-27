@@ -255,8 +255,7 @@ CREATE PROCEDURE sp_AddEmployee
 	@email				VARCHAR(60),
 	@password			VARCHAR(30),
 	@department_id		INT,
-	@position_id		INT,
-	@administrator_id	INT
+	@position_id		INT
 AS
 
 	IF NOT EXISTS (SELECT id FROM departments WHERE id = @department_id)
@@ -272,9 +271,9 @@ AS
 		END;
 
 	INSERT INTO employees(name, father_last_name, mother_last_name, date_of_birth, curp, nss, rfc,
-		address, bank, account_number, email, password, department_id, position_id, administrator_id)
+		address, bank, account_number, email, password, department_id, position_id)
 	VALUES (@name, @father_last_name, @mother_last_name, @date_of_birth, @curp, @nss, @rfc, @address, 
-		@bank, @account_number, @email, @password, @department_id, @position_id, @administrator_id);
+		@bank, @account_number, @email, @password, @department_id, @position_id);
 
 GO
 
@@ -387,6 +386,284 @@ EXEC sp_ReadEmployees;
 
 
 
+
+
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AddPerception')
+	DROP PROCEDURE sp_AddPerception;
+GO
+
+CREATE PROCEDURE sp_AddPerception(
+	@name				VARCHAR(30),
+	@amount_type		CHAR(1),
+	@fixed				MONEY,
+	@percentage			FLOAT
+) 
+AS
+
+	INSERT INTO perceptions(name, amount_type, fixed, percentage)
+	VALUES(@name, @amount_type, @fixed, @percentage);
+
+GO
+
+
+
+
+
+
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_UpdatePerception')
+	DROP PROCEDURE sp_UpdatePerception;
+GO
+
+CREATE PROCEDURE sp_UpdatePerception(
+	@id					INT,
+	@name				VARCHAR(30),
+	@amount_type		CHAR(1),
+	@fixed				MONEY,
+	@percentage			FLOAT
+)
+AS
+
+	UPDATE perceptions
+	SET
+	name = ISNULL(@name, name),
+	amount_type = ISNULL(@amount_type, amount_type),
+	fixed = ISNULL(@fixed, fixed),
+	percentage = ISNULL(@percentage, percentage)
+	WHERE
+	id = @id;
+
+GO
+
+-- CREATE PROCEDURE sp_DeletePerception
+
+-- CREATE PROCEDURE sp_ReadPerceptions
+
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AddDeduction')
+	DROP PROCEDURE sp_AddDeduction;
+GO
+
+CREATE PROCEDURE sp_AddDeduction(
+	@name				VARCHAR(30),
+	@amount_type		CHAR(1),
+	@fixed				MONEY,
+	@percentage			FLOAT
+) 
+AS
+
+	INSERT INTO deductions(name, amount_type, fixed, percentage)
+	VALUES(@name, @amount_type, @fixed, @percentage);
+
+GO
+
+
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_UpdateDeduction')
+	DROP PROCEDURE sp_UpdateDeduction;
+GO
+
+CREATE PROCEDURE sp_UpdateDeduction(
+	@id					INT,
+	@name				VARCHAR(30),
+	@amount_type		CHAR(1),
+	@fixed				MONEY,
+	@percentage			FLOAT
+)
+AS
+
+	UPDATE deductions
+	SET
+	name = ISNULL(@name, name),
+	amount_type = ISNULL(@amount_type, amount_type),
+	fixed = ISNULL(@fixed, fixed),
+	percentage = ISNULL(@percentage, percentage)
+	WHERE
+	id = @id;
+
+GO
+
+-- CREATE PROCEDURE sp_DeleteDeduction
+
+-- CREATE PROCEDURE sp_ReadDeductions
+
+
+-- Validaciones de que pasa si una percepcion o deduccion ya fue aplicada a un empleado !!!
+
+-- CREATE PROCEDURE sp_ApplyEmployeePerception
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ApplyEmployeePerception')
+	DROP PROCEDURE sp_ApplyEmployeePerception;
+GO
+
+CREATE PROCEDURE sp_ApplyEmployeePerception(
+	@employee_id			INT,
+	@perception_id			INT,
+	@actual_date			DATE
+)
+AS
+
+	INSERT INTO employees_perceptions(employee_id, perception_id, actual_date)
+	VALUES(@employee_id, @perception_id, @actual_date);
+
+GO
+
+-- CREATE PROCEDURE sp_ApplyEmployeeDeduction
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ApplyEmployeeDeduction')
+	DROP PROCEDURE sp_ApplyEmployeeDeduction;
+GO
+
+CREATE PROCEDURE sp_ApplyEmployeeDeduction(
+	@employee_id			INT,
+	@deduction_id			INT,
+	@actual_date			DATE
+)
+AS
+
+	INSERT INTO employees_perceptions(employee_id, perception_id, actual_date)
+	VALUES(@employee_id, @deduction_id, @actual_date);
+
+GO
+
+-- CREATE PROCEDURE sp_UndoEmployeePerception
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_UndoEmployeePerception')
+	DROP PROCEDURE sp_UndoEmployeePerception;
+GO
+
+CREATE PROCEDURE sp_UndoEmployeePerception(
+	@employee_id			INT,
+	@perception_id			INT,
+	@actual_date			DATE
+)
+AS
+
+	DELETE FROM employees_perceptions
+	WHERE employee_id = @employee_id AND perception_id = @perception_id AND actual_date = @actual_date;
+
+GO
+
+-- CREATE PROCEDURE sp_UndoEmployeeDeduction
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_UndoEmployeeDeduction')
+	DROP PROCEDURE sp_UndoEmployeeDeduction;
+GO
+
+CREATE PROCEDURE sp_UndoEmployeeDeduction(
+	@employee_id			INT,
+	@deduction_id			INT,
+	@actual_date			DATE
+)
+AS
+
+	DELETE FROM employees_deductions
+	WHERE employee_id = @employee_id AND deduction_id = @deduction_id AND actual_date = @actual_date;
+
+GO
+
+
+-- CREATE PROCEDURE sp_ApplyDepartmentPerception
+
+-- CREATE PROCEDURE sp_ApplyDepartmentDeduction
+
+-- CREATE PROCEDURE sp_UndoDepartmentPerception
+
+-- CREATE PROCEDURE sp_UndoDepartmentDeduction
+
+
+
+-- CREATE PROCEDURE sp_GeneratePayroll
+
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_GeneratePayroll')
+	DROP PROCEDURE sp_GeneratePayroll;
+GO
+
+CREATE PROCEDURE sp_GeneratePayroll(
+	@employee_number	INT,
+	@gen_date			DATE
+)
+AS
+
+	DECLARE @year		INT;
+	DECLARE @month		INT;
+	DECLARE @days		INT;
+
+	SET @year = YEAR(@gen_date);
+	SET @month = MONTH(@gen_date);
+	SET @days =  dbo.GETMONTHLENGTH(@year, @month);
+
+	--SELECT @year, @month, @days;
+
+	DECLARE @daily_salary	MONEY;
+	SET @daily_salary = (SELECT D.base_salary * P.wage_level 
+						FROM employees
+						JOIN departments AS D
+						ON employees.department_id = D.id
+						JOIN positions AS P
+						ON employees.position_id = P.id
+						WHERE employees.employee_number = @employee_number);
+
+	DECLARE @gross_salary	MONEY;
+	SET @gross_salary = @daily_salary * @days;
+
+	SELECT @days AS [Dias], @daily_salary AS [Salario Diario], @gross_salary AS [Sueldo bruto]
+
+
+	SELECT perceptions.id 
+	FROM perceptions
+	JOIN employees_perceptions
+	ON employees_perceptions.perception_id = perceptions.id
+	JOIN employees
+	ON employees_perceptions.employee_id = employees.employee_number
+	WHERE YEAR(employees_perceptions.actual_date) = @year
+	AND MONTH(employees_perceptions.actual_date) = @month;
+
+
+
+
+
+
+GO
+
+EXEC sp_GeneratePayroll 1, '2021-03-27';
+
+-- Esta es para obtener todas las nominas de una determinada fecha
+-- CREATE PROCEDURE sp_ReadPayrollsByDate
+
+-- Esta es para obtener la nomina de un empleado en cierto mes y anio
+-- CREATE PROCEDURE sp_ReadEmployeePayroll
+
+
+
+
+
+-- CREATE PROCEDURE sp_AddBank
+
+-- CREATE PROCEDURE sp_UpdateBank
+
+-- CREATE PROCEDURE sp_DeleteBank
+
+-- CREATE PROCEDURE sp_ReadBanks
+
+-- CREATE PROCEDURE sp_AddAddress
+
+-- CREATE PROCEDURE sp_UpdateAddress
+
+-- CREATE PROCEDURE sp_DeleteAddress
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 DECLARE @sueldo_base	MONEY;
 SET @sueldo_base = (SELECT D.base_salary 
 					FROM employees AS E 
@@ -427,97 +704,3 @@ IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_Employees'
 	DROP PROCEDURE sp_Employees;
 GO
 
-CREATE PROCEDURE sp_Employees
-	@operation			CHAR(1),
-	@employee_number	INT,
-	@name				VARCHAR(30),
-	@father_last_name	VARCHAR(30),
-	@mother_last_name	VARCHAR(30),
-	@date_of_birth		DATE,
-	@curp				VARCHAR(20),
-	@nss				VARCHAR(20),
-	@rfc				VARCHAR(20),
-	@address			INT,
-	@bank				INT,
-	@account_number		INT,
-	@email				VARCHAR(60),
-	@password			VARCHAR(30),
-	@active				BIT,
-	@department_id		INT,
-	@position_id		INT,
-	@administrator_id	INT,
-	@hiring_date		DATE
-AS
-
-	IF @operation = 'C'
-	BEGIN
-
-		IF NOT EXISTS (SELECT id FROM departments WHERE id = @department_id) OR
-		NOT EXISTS(SELECT id FROM positions WHERE id = @position_id) OR
-		NOT EXISTS(SELECT id FROM administrators WHERE id = @administrator_id)
-		BEGIN
-			RAISERROR(15600,1,1,'Error','No existe alguno'); --Alguno que?
-			RETURN;
-		END;
-
-		INSERT INTO employees(name, father_last_name, mother_last_name, date_of_birth, curp, nss, rfc,
-		address, bank, account_number, email, password, department_id, position_id, administrator_id)
-		VALUES (@name, @father_last_name, @mother_last_name, @date_of_birth, @curp, @nss, @rfc, @address, 
-		@bank, @account_number, @email, @password, @department_id, @position_id, @administrator_id);
-
-	END
-
-	ELSE IF @operation = 'R'
-	BEGIN
-
-		IF @employee_number IS NULL
-		BEGIN
-			SELECT employee_number, name, father_last_name, mother_last_name, date_of_birth, curp, nss, 
-			rfc, address, bank, account_number, email, password, active, department_id, position_id, 
-			administrator_id
-			FROM employees WHERE active = 1;
-		END
-
-		IF @employee_number IS NOT NULL
-		BEGIN
-			SELECT employee_number, name, father_last_name, mother_last_name, date_of_birth, curp, nss, 
-			rfc, address, bank, account_number, email, password, active, department_id, position_id, 
-			administrator_id
-			FROM employees WHERE employee_number = @employee_number AND active = 1;
-		END
-
-	END
-
-	ELSE IF @operation = 'U'
-	BEGIN
-
-		UPDATE employees 
-		SET
-		name					= ISNULL(@name, name),
-		father_last_name		= ISNULL(@father_last_name, father_last_name),
-		mother_last_name		= ISNULL(@mother_last_name, mother_last_name),
-		date_of_birth			= ISNULL(@date_of_birth, date_of_birth),
-		curp					= ISNULL(@curp, curp),
-		nss						= ISNULL(@nss, nss),
-		rfc						= ISNULL(@rfc, rfc),
-		address					= ISNULL(@address, address),
-		bank					= ISNULL(@bank, bank),
-		account_number			= ISNULL(@account_number, account_number),
-		email					= ISNULL(@email, email),
-		password				= ISNULL(@password, password),
-		department_id			= ISNULL(@department_id, department_id),
-		position_id				= ISNULL(@position_id, position_id)
-		WHERE employee_number = @employee_number;
-
-	END
-
-	ELSE IF @operation = 'D'
-	BEGIN
-		UPDATE employees
-		SET
-		active = 0
-		WHERE employee_number = @employee_number;
-	END
-
-
-GO

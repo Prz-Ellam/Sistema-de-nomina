@@ -80,6 +80,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\DataValidation.cs" />
     <Compile Include="Helpers\EntityState.cs" />
     <Compile Include="Helpers\ExtensionMethods.cs" />
     <Compile Include="Helpers\RegexUtilities.cs" />
@@ -129,7 +130,7 @@
     <Compile Include="Views\HeadcounterReports.Designer.cs">
       <DependentUpon>HeadcounterReports.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\ICrudeable.cs" />
+    <Compile Include="Interfaces\ICrudeable.cs" />
     <Compile Include="Views\Layout.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -142,11 +143,17 @@
     <Compile Include="Views\Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Payroll.cs">
+    <Compile Include="Views\FormPayroll.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\Payroll.Designer.cs">
-      <DependentUpon>Payroll.cs</DependentUpon>
+    <Compile Include="Views\FormPayroll.Designer.cs">
+      <DependentUpon>FormPayroll.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ModalPayroll.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\ModalPayroll.Designer.cs">
+      <DependentUpon>ModalPayroll.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\PayrollReceipts.cs">
       <SubType>Form</SubType>
@@ -209,8 +216,11 @@
     <EmbeddedResource Include="Views\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Payroll.resx">
-      <DependentUpon>Payroll.cs</DependentUpon>
+    <EmbeddedResource Include="Views\FormPayroll.resx">
+      <DependentUpon>FormPayroll.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\ModalPayroll.resx">
+      <DependentUpon>ModalPayroll.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\PayrollReceipts.resx">
       <DependentUpon>PayrollReceipts.cs</DependentUpon>

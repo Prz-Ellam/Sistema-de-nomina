@@ -89,7 +89,7 @@ namespace Presentation.Views
 
         private void btnPayroll_Click(object sender, EventArgs e)
         {
-            OpenFormChild(new Payroll());
+            OpenFormChild(new FormPayroll());
         }
 
         private void btnReports_Click(object sender, EventArgs e)

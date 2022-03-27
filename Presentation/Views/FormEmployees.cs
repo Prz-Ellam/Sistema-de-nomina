@@ -14,7 +14,7 @@ using Presentation.Helpers;
 
 namespace Presentation.Views
 {
-    public partial class FormEmployees : Form, ICrudeable
+    public partial class FormEmployees : Form
     {
         private EmployeesRepository repository = new EmployeesRepository();
         private Employees employee = new Employees();
@@ -143,7 +143,6 @@ namespace Presentation.Views
             employee.Password = txtPassword.Text;
             employee.DepartmentId = 0;
             employee.PositionId = 0;
-            employee.AdministratorId = 0;
         }
 
         public void FillForm(int index)

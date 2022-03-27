@@ -14,7 +14,7 @@ using Data_Access.ViewModels;
 
 namespace Presentation.Views
 {
-    public partial class FormPositions : Form, ICrudeable
+    public partial class FormPositions : Form
     {
         private PositionsRepository repository = new PositionsRepository();
         private Positions position = new Positions();

@@ -74,5 +74,10 @@ namespace Data_Access.Repositories
             return departments;
         }
 
+        public List<DepartmentsViewModel> ReadLike(string like)
+        {
+            return ReadAll().FindAll(e => e.Name.Contains(like));
+        }
+
     }
 }

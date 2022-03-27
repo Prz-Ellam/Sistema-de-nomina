@@ -12,6 +12,7 @@ namespace Data_Access.Repositories
     {
         private readonly string login;
         private MainRepository mainRepository;
+        private RepositoryParameters sqlParams;
 
         public UsersRepository()
         {
@@ -22,12 +23,12 @@ namespace Data_Access.Repositories
 
         public int Login(char type, string email, string password)
         {
-            List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter("@type", type));
-            parameters.Add(new SqlParameter("@email", email));
-            parameters.Add(new SqlParameter("@password", password));
+            sqlParams.Start();
+            sqlParams.Add("@type", type);
+            sqlParams.Add("@email", email);
+            sqlParams.Add("@password", password);
 
-            //DataTable table = mainRepository.ExecuteReader(login, parameters);
+            DataTable table = mainRepository.ExecuteReader(login, sqlParams);
 
 
 

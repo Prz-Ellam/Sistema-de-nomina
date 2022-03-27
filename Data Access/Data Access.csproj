@@ -90,6 +90,8 @@
     <Compile Include="Interfaces\IGenericRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CompaniesRepository.cs" />
+    <Compile Include="Repositories\DeductionsRepository.cs" />
+    <Compile Include="Repositories\PerceptionsRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\DepartmentsRepository.cs" />
     <Compile Include="Repositories\EmployeesRepository.cs" />

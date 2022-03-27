@@ -1,7 +1,7 @@
 ﻿
 namespace Presentation.Views
 {
-    partial class Payroll
+    partial class FormPayroll
     {
         /// <summary>
         /// Required designer variable.
@@ -38,14 +38,15 @@ namespace Presentation.Views
             this.button1 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
-            this.label3 = new System.Windows.Forms.Label();
             this.number = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.empName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.amountemp = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bank = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.accountNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
+            this.label3 = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -99,7 +100,7 @@ namespace Presentation.Views
             this.button1.ForeColor = System.Drawing.Color.White;
             this.button1.Image = global::Presentation.Properties.Resources.CSV_Logo;
             this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(33, 324);
+            this.button1.Location = new System.Drawing.Point(828, 251);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(224, 81);
             this.button1.TabIndex = 10;
@@ -144,35 +145,10 @@ namespace Presentation.Views
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle3;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 420);
+            this.dataGridView1.Location = new System.Drawing.Point(12, 349);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(1040, 238);
+            this.dataGridView1.Size = new System.Drawing.Size(1040, 309);
             this.dataGridView1.TabIndex = 12;
-            // 
-            // dateTimePicker2
-            // 
-            this.dateTimePicker2.CustomFormat = "MMMM / yyyy";
-            this.dateTimePicker2.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker2.Location = new System.Drawing.Point(33, 278);
-            this.dateTimePicker2.MaxDate = new System.DateTime(2038, 12, 31, 0, 0, 0, 0);
-            this.dateTimePicker2.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
-            this.dateTimePicker2.Name = "dateTimePicker2";
-            this.dateTimePicker2.Size = new System.Drawing.Size(200, 29);
-            this.dateTimePicker2.TabIndex = 13;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label3.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label3.Location = new System.Drawing.Point(29, 245);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(55, 21);
-            this.label3.TabIndex = 14;
-            this.label3.Text = "Fecha";
             // 
             // number
             // 
@@ -212,12 +188,53 @@ namespace Presentation.Views
             this.accountNumber.Name = "accountNumber";
             this.accountNumber.Width = 200;
             // 
-            // Payroll
+            // dateTimePicker2
+            // 
+            this.dateTimePicker2.CustomFormat = "MMMM / yyyy";
+            this.dateTimePicker2.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePicker2.Location = new System.Drawing.Point(12, 303);
+            this.dateTimePicker2.MaxDate = new System.DateTime(2038, 12, 31, 0, 0, 0, 0);
+            this.dateTimePicker2.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
+            this.dateTimePicker2.Name = "dateTimePicker2";
+            this.dateTimePicker2.Size = new System.Drawing.Size(200, 29);
+            this.dateTimePicker2.TabIndex = 13;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label3.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.label3.Location = new System.Drawing.Point(14, 279);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(55, 21);
+            this.label3.TabIndex = 14;
+            this.label3.Text = "Fecha";
+            // 
+            // button2
+            // 
+            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button2.FlatAppearance.BorderSize = 0;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.button2.ForeColor = System.Drawing.Color.White;
+            this.button2.Location = new System.Drawing.Point(241, 303);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(129, 29);
+            this.button2.TabIndex = 28;
+            this.button2.Text = "Consultar";
+            this.button2.UseVisualStyleBackColor = false;
+            // 
+            // FormPayroll
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(1064, 670);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.dateTimePicker2);
             this.Controls.Add(this.dataGridView1);
@@ -227,7 +244,7 @@ namespace Presentation.Views
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dateTimePicker1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "Payroll";
+            this.Name = "FormPayroll";
             this.Text = "Payroll";
             this.Load += new System.EventHandler(this.Payroll_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -252,5 +269,6 @@ namespace Presentation.Views
         private System.Windows.Forms.DataGridViewTextBoxColumn amountemp;
         private System.Windows.Forms.DataGridViewTextBoxColumn bank;
         private System.Windows.Forms.DataGridViewTextBoxColumn accountNumber;
+        private System.Windows.Forms.Button button2;
     }
 }

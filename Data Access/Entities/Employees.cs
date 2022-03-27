@@ -24,7 +24,6 @@ namespace Data_Access.Entities
         private bool active;
         private int departmentId;
         private int positionId;
-        private int administratorId;
         private DateTime hiringDate;
 
         public int EmployeeNumber { get => employeeNumber; set => employeeNumber = value; }
@@ -43,7 +42,6 @@ namespace Data_Access.Entities
         public bool Active { get => active; set => active = value; }
         public int DepartmentId { get => departmentId; set => departmentId = value; }
         public int PositionId { get => positionId; set => positionId = value; }
-        public int AdministratorId { get => administratorId; set => administratorId = value; }
         public DateTime HiringDate { get => hiringDate; set => hiringDate = value; }
     }
 }
