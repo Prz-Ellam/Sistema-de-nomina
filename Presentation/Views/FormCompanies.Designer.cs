@@ -53,6 +53,8 @@ namespace Presentation.Views
             this.lblEmail = new System.Windows.Forms.Label();
             this.cbCities = new System.Windows.Forms.ComboBox();
             this.cbStates = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // txtBusinessName
@@ -86,7 +88,7 @@ namespace Presentation.Views
             // 
             this.txtEmail.BackColor = System.Drawing.Color.White;
             this.txtEmail.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.txtEmail.Location = new System.Drawing.Point(527, 500);
+            this.txtEmail.Location = new System.Drawing.Point(31, 370);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(400, 29);
             this.txtEmail.TabIndex = 3;
@@ -120,9 +122,9 @@ namespace Presentation.Views
             this.btnEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEdit.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEdit.ForeColor = System.Drawing.Color.White;
-            this.btnEdit.Location = new System.Drawing.Point(242, 481);
+            this.btnEdit.Location = new System.Drawing.Point(287, 534);
             this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(155, 41);
+            this.btnEdit.Size = new System.Drawing.Size(400, 41);
             this.btnEdit.TabIndex = 6;
             this.btnEdit.Text = "Editar";
             this.btnEdit.UseVisualStyleBackColor = false;
@@ -302,7 +304,7 @@ namespace Presentation.Views
             this.lblEmail.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.lblEmail.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.lblEmail.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.lblEmail.Location = new System.Drawing.Point(523, 476);
+            this.lblEmail.Location = new System.Drawing.Point(27, 346);
             this.lblEmail.Name = "lblEmail";
             this.lblEmail.Size = new System.Drawing.Size(151, 21);
             this.lblEmail.TabIndex = 43;
@@ -329,12 +331,36 @@ namespace Presentation.Views
             this.cbStates.TabIndex = 45;
             this.cbStates.SelectedIndexChanged += new System.EventHandler(this.cbStates_SelectedIndexChanged);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label1.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label1.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.label1.Location = new System.Drawing.Point(27, 410);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(84, 21);
+            this.label1.TabIndex = 46;
+            this.label1.Text = "Teléfonos";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(31, 434);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(400, 29);
+            this.comboBox1.TabIndex = 47;
+            // 
             // FormCompanies
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(1064, 670);
+            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.cbStates);
             this.Controls.Add(this.cbCities);
             this.Controls.Add(this.lblEmail);
@@ -394,5 +420,7 @@ namespace Presentation.Views
         private System.Windows.Forms.Label lblEmail;
         private System.Windows.Forms.ComboBox cbCities;
         private System.Windows.Forms.ComboBox cbStates;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }

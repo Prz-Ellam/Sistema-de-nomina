@@ -4,6 +4,14 @@ SELECT*FROM employees;
 SELECT*FROM perceptions;
 SELECT*FROM employees_perceptions;
 
+
+
+
+
+
+
+
+
 EXEC sp_AddPosition 'Gerente', 0.5, 1;
 EXEC sp_AddPosition 'Presidente', 1.5, 1;
 

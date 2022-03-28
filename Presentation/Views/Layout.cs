@@ -122,5 +122,14 @@ namespace Presentation.Views
             Application.Exit();
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnConceptsApply_Click(object sender, EventArgs e)
+        {
+            OpenFormChild(new Concepts());
+        }
     }
 }

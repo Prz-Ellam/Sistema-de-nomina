@@ -61,6 +61,8 @@ namespace Presentation.Views
             this.btnReports = new System.Windows.Forms.Button();
             this.panelStorage = new System.Windows.Forms.Panel();
             this.fadeIn = new System.Windows.Forms.Timer(this.components);
+            this.btnConceptsApply = new System.Windows.Forms.Button();
+            this.panel10 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).BeginInit();
             this.panel2.SuspendLayout();
@@ -143,7 +145,7 @@ namespace Presentation.Views
             this.btnConcepts.Name = "btnConcepts";
             this.btnConcepts.Size = new System.Drawing.Size(200, 41);
             this.btnConcepts.TabIndex = 4;
-            this.btnConcepts.Text = "Conceptos";
+            this.btnConcepts.Text = "Catalogo de conceptos";
             this.btnConcepts.UseVisualStyleBackColor = true;
             this.btnConcepts.Click += new System.EventHandler(this.btnConcepts_Click);
             // 
@@ -155,7 +157,7 @@ namespace Presentation.Views
             this.btnPayroll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPayroll.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.btnPayroll.ForeColor = System.Drawing.Color.White;
-            this.btnPayroll.Location = new System.Drawing.Point(0, 333);
+            this.btnPayroll.Location = new System.Drawing.Point(0, 382);
             this.btnPayroll.Name = "btnPayroll";
             this.btnPayroll.Size = new System.Drawing.Size(200, 41);
             this.btnPayroll.TabIndex = 5;
@@ -188,6 +190,8 @@ namespace Presentation.Views
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
+            this.panel2.Controls.Add(this.panel10);
+            this.panel2.Controls.Add(this.btnConceptsApply);
             this.panel2.Controls.Add(this.panelSubmenuReports);
             this.panel2.Controls.Add(this.lblEmailLogged);
             this.panel2.Controls.Add(this.lblPositionLogged);
@@ -223,7 +227,7 @@ namespace Presentation.Views
             this.panelSubmenuReports.Controls.Add(this.btnHeadcounterReport);
             this.panelSubmenuReports.Controls.Add(this.panelGeneralReport);
             this.panelSubmenuReports.Controls.Add(this.btnGeneralPayrollReport);
-            this.panelSubmenuReports.Location = new System.Drawing.Point(0, 428);
+            this.panelSubmenuReports.Location = new System.Drawing.Point(0, 477);
             this.panelSubmenuReports.Margin = new System.Windows.Forms.Padding(2);
             this.panelSubmenuReports.Name = "panelSubmenuReports";
             this.panelSubmenuReports.Size = new System.Drawing.Size(201, 122);
@@ -366,7 +370,7 @@ namespace Presentation.Views
             // panel9
             // 
             this.panel9.BackColor = System.Drawing.Color.Black;
-            this.panel9.Location = new System.Drawing.Point(0, 382);
+            this.panel9.Location = new System.Drawing.Point(0, 431);
             this.panel9.Name = "panel9";
             this.panel9.Size = new System.Drawing.Size(8, 41);
             this.panel9.TabIndex = 6;
@@ -374,7 +378,7 @@ namespace Presentation.Views
             // panel8
             // 
             this.panel8.BackColor = System.Drawing.Color.Black;
-            this.panel8.Location = new System.Drawing.Point(0, 333);
+            this.panel8.Location = new System.Drawing.Point(0, 382);
             this.panel8.Name = "panel8";
             this.panel8.Size = new System.Drawing.Size(8, 41);
             this.panel8.TabIndex = 5;
@@ -443,7 +447,7 @@ namespace Presentation.Views
             this.btnReports.ForeColor = System.Drawing.Color.White;
             this.btnReports.Image = global::Presentation.Properties.Resources.Reports_Logo;
             this.btnReports.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnReports.Location = new System.Drawing.Point(8, 382);
+            this.btnReports.Location = new System.Drawing.Point(8, 431);
             this.btnReports.Name = "btnReports";
             this.btnReports.Size = new System.Drawing.Size(192, 41);
             this.btnReports.TabIndex = 6;
@@ -462,6 +466,30 @@ namespace Presentation.Views
             // 
             this.fadeIn.Enabled = true;
             this.fadeIn.Tick += new System.EventHandler(this.fadeIn_Tick);
+            // 
+            // btnConceptsApply
+            // 
+            this.btnConceptsApply.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnConceptsApply.FlatAppearance.BorderSize = 0;
+            this.btnConceptsApply.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnConceptsApply.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnConceptsApply.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.btnConceptsApply.ForeColor = System.Drawing.Color.White;
+            this.btnConceptsApply.Location = new System.Drawing.Point(0, 331);
+            this.btnConceptsApply.Name = "btnConceptsApply";
+            this.btnConceptsApply.Size = new System.Drawing.Size(200, 41);
+            this.btnConceptsApply.TabIndex = 23;
+            this.btnConceptsApply.Text = "Aplicar conceptos";
+            this.btnConceptsApply.UseVisualStyleBackColor = true;
+            this.btnConceptsApply.Click += new System.EventHandler(this.btnConceptsApply_Click);
+            // 
+            // panel10
+            // 
+            this.panel10.BackColor = System.Drawing.Color.Black;
+            this.panel10.Location = new System.Drawing.Point(0, 331);
+            this.panel10.Name = "panel10";
+            this.panel10.Size = new System.Drawing.Size(8, 41);
+            this.panel10.TabIndex = 6;
             // 
             // Layout
             // 
@@ -520,5 +548,7 @@ namespace Presentation.Views
         private System.Windows.Forms.Button btnHeadcounterReport;
         private System.Windows.Forms.Panel panelGeneralReport;
         private System.Windows.Forms.Button btnGeneralPayrollReport;
+        private System.Windows.Forms.Panel panel10;
+        private System.Windows.Forms.Button btnConceptsApply;
     }
 }

@@ -159,10 +159,10 @@ namespace Presentation.Views
             txtStreet.Text = row.Cells[8].Value.ToString();
             txtNumber.Text = row.Cells[9].Value.ToString();
             txtSuburb.Text = row.Cells[10].Value.ToString();
-            txtCity.Text = row.Cells[11].Value.ToString();
-            txtState.Text = row.Cells[12].Value.ToString();
+            //txtCity.Text = row.Cells[11].Value.ToString();
+            //txtState.Text = row.Cells[12].Value.ToString();
             txtPostalCode.Text = row.Cells[13].Value.ToString();
-            txtBank.Text = row.Cells[14].Value.ToString();
+            //txtBank.Text = row.Cells[14].Value.ToString();
             txtAccountNumber.Text = row.Cells[15].Value.ToString();
             txtEmail.Text = row.Cells[16].Value.ToString();
         }
@@ -187,10 +187,10 @@ namespace Presentation.Views
             txtStreet.Clear();
             txtNumber.Clear();
             txtSuburb.Clear();
-            txtCity.Clear();
-            txtState.Clear();
+            //txtCity.Clear();
+            //txtState.Clear();
             txtPostalCode.Clear();
-            txtBank.Clear();
+            //txtBank.Clear();
             txtAccountNumber.Clear();
             cbPhones.Items.Clear();
         }

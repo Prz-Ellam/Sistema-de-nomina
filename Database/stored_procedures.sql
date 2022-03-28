@@ -110,8 +110,8 @@ AS
 
 	UPDATE departments
 	SET
-	name = ISNULL(@name, name),
-	base_salary = ISNULL(@base_salary, base_salary)
+	name =			ISNULL(@name, name),
+	base_salary =	ISNULL(@base_salary, base_salary)
 	WHERE id = @id;
 
 GO
@@ -146,7 +146,6 @@ AS
 	SELECT id [ID], name [Nombre], base_salary [Sueldo base]
 	FROM departments
 	WHERE active = 1;
-
 
 GO
 
@@ -188,8 +187,8 @@ AS
 
 	UPDATE positions
 	SET
-	name = ISNULL(@name, name),
-	wage_level = ISNULL(@wage_level, wage_level)
+	name =			ISNULL(@name, name),
+	wage_level =	ISNULL(@wage_level, wage_level)
 	WHERE id = @id;
 
 GO
@@ -450,6 +449,8 @@ CREATE PROCEDURE sp_AddDeduction(
 ) 
 AS
 
+	-- Validar que amount_type solo sea los dos caracteres aceptados
+
 	INSERT INTO deductions(name, amount_type, fixed, percentage)
 	VALUES(@name, @amount_type, @fixed, @percentage);
 
@@ -602,8 +603,8 @@ AS
 
 	SELECT @days AS [Dias], @daily_salary AS [Salario Diario], @gross_salary AS [Sueldo bruto]
 
-
-	SELECT perceptions.id 
+/*
+	SELECT perceptions.id
 	FROM perceptions
 	JOIN employees_perceptions
 	ON employees_perceptions.perception_id = perceptions.id
@@ -612,14 +613,45 @@ AS
 	WHERE YEAR(employees_perceptions.actual_date) = @year
 	AND MONTH(employees_perceptions.actual_date) = @month;
 
+	SELECT deductions.id
+	FROM deductions
+	JOIN employees_deductions
+	ON employees_deductions.deduction_id = deduction_id
+	JOIN employees
+	ON employees_deductions.employee_id = employees.employee_number
+	WHERE YEAR(employees_deductions.actual_date) = @year
+	AND MONTH(employees_deductions.actual_date) = @month;
+*/
 
+	DECLARE @total_perception_fixed	MONEY;
+	SET @total_perception_fixed = (SELECT SUM(p.fixed) FROM perceptions AS p
+	JOIN employees_perceptions AS ep
+	ON ep.perception_id = p.id
+	JOIN employees AS e
+	ON ep.employee_id = e.employee_number
+	WHERE ep.employee_id = @employee_number AND ep.perception_id = p.id AND ep.actual_date = @gen_date
+	AND amount_type = 'F');
 
+	DECLARE @total_perception_percentage	FLOAT;
+	SET @total_perception_percentage = (SELECT SUM(p.percentage) FROM perceptions AS p
+	JOIN employees_perceptions AS ep
+	ON ep.perception_id = p.id
+	JOIN employees AS e
+	ON ep.employee_id = e.employee_number
+	WHERE ep.employee_id = @employee_number AND ep.perception_id = p.id AND ep.actual_date = @gen_date
+	AND amount_type = 'P');
 
+	DECLARE @total_deduction_fixed		MONEY;
+	DECLARE @total_deduction_percentage	FLOAT;
+
+	DECLARE @net_salary	MONEY;
+	SET @net_salary = @gross_salary + @total_perception_fixed + (@total_perception_percentage * @gross_salary)
+	- @total_deduction_fixed - (@total_deduction_fixed * @total_deduction_percentage);
 
 
 GO
 
-EXEC sp_GeneratePayroll 1, '2021-03-27';
+EXEC sp_GeneratePayroll 1, '2022-03-01';
 
 -- Esta es para obtener todas las nominas de una determinada fecha
 -- CREATE PROCEDURE sp_ReadPayrollsByDate
