@@ -645,9 +645,11 @@ AS
 	DECLARE @total_deduction_percentage	FLOAT;
 
 	DECLARE @net_salary	MONEY;
-	SET @net_salary = @gross_salary + @total_perception_fixed + (@total_perception_percentage * @gross_salary)
-	- @total_deduction_fixed - (@total_deduction_fixed * @total_deduction_percentage);
+	SET @net_salary = @gross_salary + @total_perception_fixed + (@total_perception_percentage * @gross_salary);
+	/*- @total_deduction_fixed - (@total_deduction_fixed * @total_deduction_percentage);*/
 
+
+	SELECT ROUND(@net_salary, 2);
 
 GO
 

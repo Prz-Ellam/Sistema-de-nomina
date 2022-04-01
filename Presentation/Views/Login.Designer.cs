@@ -98,7 +98,7 @@ namespace Presentation.Views
             this.btnLogin.ForeColor = System.Drawing.Color.White;
             this.btnLogin.Location = new System.Drawing.Point(39, 379);
             this.btnLogin.Name = "btnLogin";
-            this.btnLogin.Size = new System.Drawing.Size(400, 29);
+            this.btnLogin.Size = new System.Drawing.Size(400, 47);
             this.btnLogin.TabIndex = 8;
             this.btnLogin.Text = "Iniciar sesión";
             this.btnLogin.UseVisualStyleBackColor = false;

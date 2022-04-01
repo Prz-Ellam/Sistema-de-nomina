@@ -1,3 +1,5 @@
+-- DROP DATABASE payroll_system;
+-- CREATE DATABASE payroll_system;
 USE payroll_system;
 
 -- Tablas
@@ -5,82 +7,82 @@ IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'administrators' AND type = 'u')
 	DROP TABLE administrators;
 
 CREATE TABLE administrators(
-	id INT IDENTITY(1,1) NOT NULL,
-	email VARCHAR(60) UNIQUE NOT NULL,
-	password VARCHAR(30) NOT NULL,
-	active BIT DEFAULT 1,
-	company_id INT NOT NULL
+	administrator_id		INT IDENTITY(1,1) NOT NULL,
+	email					VARCHAR(60) UNIQUE NOT NULL,
+	password				VARCHAR(30) NOT NULL,
+	active					BIT DEFAULT 1,
+	company_id				INT NOT NULL
 
 	CONSTRAINT PK_Administrator
-		PRIMARY KEY (id)
+		PRIMARY KEY (administrator_id)
 );
 
 IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'companies' AND type = 'u')
 	DROP TABLE companies;
 
 CREATE TABLE companies(
-	id INT IDENTITY(1,1) NOT NULL,
-	business_name VARCHAR(60) NOT NULL,
-	address INT NOT NULL,
-	email VARCHAR(30) UNIQUE NOT NULL,
-	rfc VARCHAR(18) UNIQUE NOT NULL,
-	employer_registration VARCHAR(30) NOT NULL,
-	start_date DATE NOT NULL,
-	active BIT DEFAULT 1
+	company_id				INT IDENTITY(1,1) NOT NULL,
+	business_name			VARCHAR(60) NOT NULL,
+	address					INT NOT NULL,
+	email					VARCHAR(30) UNIQUE NOT NULL,
+	rfc						VARCHAR(18) UNIQUE NOT NULL,
+	employer_registration	VARCHAR(30) NOT NULL,
+	start_date				DATE NOT NULL,
+	active					BIT DEFAULT 1
 
 	CONSTRAINT PK_Company
-		PRIMARY KEY (id)
+		PRIMARY KEY (company_id)
 );
 
 IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'departments' AND type = 'u')
 	DROP TABLE departments;
 
 CREATE TABLE departments(
-	id INT IDENTITY(1,1) NOT NULL,
-	name VARCHAR(30) NOT NULL,
-	base_salary MONEY NOT NULL,
-	active BIT DEFAULT 1 NOT NULL,
-	company_id INT NOT NULL
+	department_id			INT IDENTITY(1,1) NOT NULL,
+	name					VARCHAR(30) NOT NULL,
+	base_salary				MONEY NOT NULL,
+	active					BIT DEFAULT 1 NOT NULL,
+	company_id				INT NOT NULL
 
 	CONSTRAINT PK_Department
-		PRIMARY KEY (id)
+		PRIMARY KEY (department_id)
 );
 
 IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'positions' AND type = 'u')
 	DROP TABLE positions;
 
 CREATE TABLE positions(
-	id INT IDENTITY(1,1) NOT NULL,
-	name VARCHAR(30) NOT NULL,
-	wage_level FLOAT NOT NULL,
-	active BIT DEFAULT 1 NOT NULL,
-	company_id INT NOT NULL
+	position_id				INT IDENTITY(1,1) NOT NULL,
+	name					VARCHAR(30) NOT NULL,
+	wage_level				FLOAT NOT NULL,
+	active					BIT DEFAULT 1 NOT NULL,
+	company_id				INT NOT NULL
 
 	CONSTRAINT PK_Position
-		PRIMARY KEY (id)
+		PRIMARY KEY (position_id)
 );
 
 IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'employees' AND type = 'u')
 	DROP TABLE employees;
 
 CREATE TABLE employees(
-	employee_number INT IDENTITY(1,1) NOT NULL,
-	name VARCHAR(30),
-	father_last_name VARCHAR(30),
-	mother_last_name VARCHAR(30),
-	date_of_birth DATE,
-	curp VARCHAR(20) UNIQUE,
-	nss VARCHAR(20) UNIQUE,
-	rfc VARCHAR(20) UNIQUE,
-	address INT,
-	bank INT,
-	account_number INT UNIQUE,
-	email VARCHAR(60) UNIQUE,
-	password VARCHAR(30),
-	active BIT DEFAULT 1,
-	department_id INT NOT NULL,
-	position_id INT NOT NULL,
-	hiring_date DATE DEFAULT GETDATE()
+	employee_number			INT IDENTITY(1,1) NOT NULL,
+	name					VARCHAR(30) NOT NULL,
+	father_last_name		VARCHAR(30) NOT NULL,
+	mother_last_name		VARCHAR(30) NOT NULL,
+	date_of_birth			DATE NOT NULL,
+	curp					VARCHAR(20) UNIQUE NOT NULL,
+	nss						VARCHAR(20)	UNIQUE NOT NULL,
+	rfc						VARCHAR(20)	UNIQUE NOT NULL,
+	address					INT NOT NULL,
+	bank					INT NOT NULL,
+	account_number			INT UNIQUE NOT NULL,
+	email					VARCHAR(60) UNIQUE NOT NULL,
+	password				VARCHAR(30) NOT NULL,
+	active					BIT DEFAULT 1,
+	department_id			INT NOT NULL,
+	position_id				INT NOT NULL,
+	hiring_date				DATE NOT NULL
 
 	CONSTRAINT PK_Employee
 		PRIMARY KEY (employee_number)
@@ -90,148 +92,132 @@ IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'perceptions' AND type = 'u')
 	DROP TABLE perceptions;
 
 CREATE TABLE perceptions(
-	id INT IDENTITY(1,1) NOT NULL,
-	name VARCHAR(30),
-	amount_type CHAR NOT NULL,
-	fixed MONEY,
-	percentage FLOAT,
-	duration_type CHAR DEFAULT 'P', -- 'B' es de basic (basico) y 'P' es de punctual (Puntual)
-	active BIT DEFAULT 1
+	perception_id			INT IDENTITY(1,1) NOT NULL,
+	name					VARCHAR(30) NOT NULL,
+	amount_type				CHAR NOT NULL,
+	fixed					MONEY,
+	percentage				FLOAT,
+	duration_type			CHAR DEFAULT 'S' NOT NULL, -- 'B' es de basic (basico) y 'S' es de special (Especial)
+	active					BIT DEFAULT 1 NOT NULL
 
 	CONSTRAINT PK_Perception
-		PRIMARY KEY (id)
+		PRIMARY KEY (perception_id)
 );
 
 IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'deductions' AND type = 'u')
 	DROP TABLE deductions;
 
 CREATE TABLE deductions(
-	id INT IDENTITY(1,1) NOT NULL,
-	name VARCHAR(30),
-	amount_type CHAR NOT NULL,
-	fixed MONEY,
-	percentage FLOAT,
-	duration_type CHAR DEFAULT 'P',
-	active BIT DEFAULT 1
+	id						INT IDENTITY(1,1) NOT NULL,
+	name					VARCHAR(30) NOT NULL,
+	amount_type				CHAR NOT NULL,
+	fixed					MONEY,
+	percentage				FLOAT,
+	duration_type			CHAR DEFAULT 'P' NOT NULL,
+	active					BIT DEFAULT 1 NOT NULL
 
 	CONSTRAINT PK_Deduction
 		PRIMARY KEY (id)
 );
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'employees_perceptions' AND type = 'u')
-	DROP TABLE employees_perceptions;
+IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'apply_perceptions' AND type = 'u')
+	DROP TABLE apply_perceptions;
 
-CREATE TABLE employees_perceptions(
-	employee_id INT NOT NULL,
-	perception_id INT NOT NULL,
-	actual_date DATE NOT NULL
+CREATE TABLE apply_perceptions(
+	apply_perception_id		INT IDENTITY(1,1) NOT NULL,
+	employee_id				INT NOT NULL,
+	perception_id			INT NOT NULL,
+	payroll_id				INT,
+	amount					MONEY NOT NULL,
+	actual_date				DATE NOT NULL
 
 	CONSTRAINT PK_Employees_Perceptions
-		PRIMARY KEY (employee_id, perception_id, actual_date)
+		PRIMARY KEY (apply_perception_id)
 );
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'employees_deductions' AND type = 'u')
-	DROP TABLE employees_deductions;
+IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'apply_deductions' AND type = 'u')
+	DROP TABLE apply_deductions;
 
-CREATE TABLE employees_deductions(
-	employee_id INT NOT NULL,
-	deduction_id INT NOT NULL,
-	actual_date DATE NOT NULL
+CREATE TABLE apply_deductions(
+	apply_deduction_id		INT IDENTITY(1,1) NOT NULL,
+	employee_id				INT NOT NULL,
+	deduction_id			INT NOT NULL,
+	payroll_id				INT,
+	amount					MONEY NOT NULL,
+	actual_date				DATE NOT NULL
 
 	CONSTRAINT PK_Employees_Deductions
-		PRIMARY KEY (employee_id, deduction_id, actual_date)
+		PRIMARY KEY (apply_deduction_id)
 );
 
 IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'payrolls' AND type = 'u')
 	DROP TABLE payrolls;
 
 CREATE TABLE payrolls(
-	id INT IDENTITY(1,1) NOT NULL,
-	daily_salary MONEY,
-	gross_salary MONEY,
-	net_salary MONEY,
-	bank INT,
-	active BIT DEFAULT 1,
-	actual_date DATE,
-	employee_id INT,
-	department_id INT,
-	position_id INT
+	payroll_id				INT IDENTITY(1,1) NOT NULL,
+	daily_salary			MONEY NOT NULL,
+	gross_salary			MONEY NOT NULL,
+	net_salary				MONEY NOT NULL,
+	bank					INT NOT NULL,
+	account_number			INT NOT NULL,
+	actual_date				DATE NOT NULL,
+	employee_id				INT NOT NULL,
+	department_id			INT NOT NULL,
+	position_id				INT NOT NULL
 
 	CONSTRAINT PK_Payrolls
-		PRIMARY KEY (id)
-);
-
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'payrolls_perceptions' AND type = 'u')
-	DROP TABLE payrolls_perceptions;
-
-CREATE TABLE payrolls_perceptions(
-	payroll_id INT,
-	perception_id INT
-
-	CONSTRAINT PK_Payrolls_Perceptions
-		PRIMARY KEY (payroll_id, perception_id)
-);
-
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'payrolls_deductions' AND type = 'u')
-	DROP TABLE payrolls_deductions;
-
-CREATE TABLE payrolls_deductions(
-	payroll_id INT,
-	deduction_id INT
-
-	CONSTRAINT PK_Payrolls_Deductions
-		PRIMARY KEY (payroll_id, deduction_id)
+		PRIMARY KEY (payroll_id)
 );
 
 IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'addresses' AND type = 'u')
 	DROP TABLE addresses;
 
 CREATE TABLE addresses(
-	id INT IDENTITY(1,1) NOT NULL,
-	street VARCHAR(30),
-	number INT,
-	suburb VARCHAR(30),
-	city VARCHAR(30),
-	state VARCHAR(30),
-	postal_code INT
+	address_id				INT IDENTITY(1,1) NOT NULL,
+	street					VARCHAR(30) NOT NULL,
+	number					VARCHAR(10) NOT NULL,
+	suburb					VARCHAR(30) NOT NULL,
+	city					VARCHAR(30) NOT NULL,
+	state					VARCHAR(30) NOT NULL,
+	postal_code				VARCHAR(5) NOT NULL
 
 	CONSTRAINT PK_Addresses
-		PRIMARY KEY (id)
+		PRIMARY KEY (address_id)
 );
 
 IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'phones_companies' AND type = 'u')
 	DROP TABLE phones_companies;
 
 CREATE TABLE phones_companies(
-	id INT IDENTITY(1,1) NOT NULL,
-	phone VARCHAR(12),
-	company_id INT
+	phone_company_id		INT IDENTITY(1,1) NOT NULL,
+	phone					VARCHAR(12) NOT NULL,
+	company_id				INT NOT NULL
 
 	CONSTRAINT PK_Phones_Companies
-		PRIMARY KEY (id)
+		PRIMARY KEY (phone_company_id)
 );
 
 IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'phones_employees' AND type = 'u')
 	DROP TABLE phones_employees;
 
 CREATE TABLE phones_employees(
-	id INT IDENTITY(1,1) NOT NULL,
-	phone VARCHAR(12),
-	employee_id INT
+	phone_employee_id		INT IDENTITY(1,1) NOT NULL,
+	phone					VARCHAR(12) NOT NULL,
+	employee_id				INT NOT NULL
 
 	CONSTRAINT PK_Phones_Employees
-		PRIMARY KEY (id)
+		PRIMARY KEY (phone_employee_id)
 );
 
 IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'banks' AND type = 'u')
 	DROP TABLE banks;
 
 CREATE TABLE banks(
-	id INT IDENTITY(1,1) NOT NULL,
-	name VARCHAR(30)
+	bank_id					INT IDENTITY(1,1) NOT NULL,
+	name					VARCHAR(30) NOT NULL
 
 	CONSTRAINT PK_Banks
-		PRIMARY KEY (id)
+		PRIMARY KEY (bank_id)
 );
 
 
@@ -239,88 +225,77 @@ CREATE TABLE banks(
 ALTER TABLE administrators
 	ADD CONSTRAINT FK_Admin_Company
 		FOREIGN KEY (company_id)
-		REFERENCES Companies(id);
+		REFERENCES Companies(company_id);
 
 ALTER TABLE companies
 	ADD CONSTRAINT FK_Company_Address
 		FOREIGN KEY (address)
-		REFERENCES addresses(id);
+		REFERENCES addresses(address_id);
 
 ALTER TABLE departments
 	ADD CONSTRAINT FK_Department_Company
 		FOREIGN KEY (company_id)
-		REFERENCES companies(id);
+		REFERENCES companies(company_id);
 
 ALTER TABLE positions
 	ADD CONSTRAINT FK_Position_Company
 		FOREIGN KEY (company_id)
-		REFERENCES companies(id);
+		REFERENCES companies(company_id);
 
 ALTER TABLE employees
 	ADD CONSTRAINT FK_Employee_Address
 		FOREIGN KEY (address)
-		REFERENCES addresses(id),
+		REFERENCES addresses(address_id),
 		CONSTRAINT FK_Employee_Bank
 		FOREIGN KEY (bank)
-		REFERENCES banks(id),
+		REFERENCES banks(bank_id),
 		CONSTRAINT FK_Employee_Department
 		FOREIGN KEY (department_id)
-		REFERENCES departments(id),
+		REFERENCES departments(department_id),
 		CONSTRAINT FK_Employee_Position
 		FOREIGN KEY (position_id)
-		REFERENCES positions(id);
+		REFERENCES positions(position_id);
 
-ALTER TABLE employees_perceptions
-	ADD CONSTRAINT FK_EP_Employee
+ALTER TABLE apply_perceptions
+	ADD CONSTRAINT FK_P_Employee
 		FOREIGN KEY (employee_id)
 		REFERENCES employees(employee_number),
-		CONSTRAINT FK_EP_Perception
+		CONSTRAINT FK_P_Perception
 		FOREIGN KEY (perception_id)
-		REFERENCES perceptions(id);
+		REFERENCES perceptions(perception_id),
+		CONSTRAINT FK_P_Payroll
+		FOREIGN KEY (payroll_id)
+		REFERENCES payrolls(payroll_id);
 
-ALTER TABLE employees_deductions
-	ADD CONSTRAINT FK_ED_Employee
+ALTER TABLE apply_deductions
+	ADD CONSTRAINT FK_D_Employee
 		FOREIGN KEY (employee_id)
 		REFERENCES employees(employee_number),
-		CONSTRAINT FK_ED_Deduction
+		CONSTRAINT FK_D_Deduction
 		FOREIGN KEY (deduction_id)
-		REFERENCES deductions(id);
+		REFERENCES deductions(id),
+		CONSTRAINT FK_D_Payroll
+		FOREIGN KEY (payroll_id)
+		REFERENCES payrolls(payroll_id);
 
 ALTER TABLE payrolls
 	ADD CONSTRAINT FK_Payroll_Bank
 		FOREIGN KEY (bank)
-		REFERENCES banks(id),
+		REFERENCES banks(bank_id),
 		CONSTRAINT FK_Payroll_Employee
 		FOREIGN KEY (employee_id)
 		REFERENCES employees(employee_number),
 		CONSTRAINT FK_Payroll_Department
 		FOREIGN KEY (department_id)
-		REFERENCES departments(id),
+		REFERENCES departments(department_id),
 		CONSTRAINT FK_Payroll_Position
 		FOREIGN KEY (position_id)
-		REFERENCES positions(id);
-		
-ALTER TABLE payrolls_perceptions
-	ADD CONSTRAINT PK_PP_Payroll
-		FOREIGN KEY (payroll_id)
-		REFERENCES payrolls(id),
-		CONSTRAINT PK_PP_Perception
-		FOREIGN KEY (perception_id)
-		REFERENCES perceptions(id);
-
-ALTER TABLE payrolls_deductions
-	ADD CONSTRAINT PK_PD_Payroll
-		FOREIGN KEY (payroll_id)
-		REFERENCES payrolls(id),
-		CONSTRAINT PK_PD_Deduction
-		FOREIGN KEY (deduction_id)
-		REFERENCES deductions(id);
-
+		REFERENCES positions(position_id);
 
 ALTER TABLE phones_companies
 	ADD CONSTRAINT PK_Phone_Company
 		FOREIGN KEY (company_id)
-		REFERENCES companies(id);
+		REFERENCES companies(company_id);
 
 ALTER TABLE phones_employees
 	ADD CONSTRAINT PK_Phone_Employee
@@ -423,6 +398,6 @@ IC.COLUMN_NAME and IKU.TABLE_NAME = IC.TABLE_NAME and IKU.TABLE_CATALOG = IC.TAB
 LEFT OUTER JOIN INFORMATION_SCHEMA.TABLE_CONSTRAINTS ITC ON ITC.TABLE_NAME =
 IKU.TABLE_NAME and ITC.CONSTRAINT_NAME = IKU.CONSTRAINT_NAME
 WHERE IC.TABLE_CATALOG = 'base_datos'
-and IC.TABLE_SCHEMA = 'dbo'
+and IC.TABLE_SCHEMA = 'payroll_system'
 --and IC.TABLE_NAME = 'Table'
 order by IC.ORDINAL_POSITION
