@@ -13,12 +13,12 @@ namespace Data_Access.Repositories
     {
         private readonly string create, update, delete, readAll;
         private readonly string applyEmployee, undoEmployee, applyDepartment, undoDepartment;
-        private MainRepository mainRepository;
+        private MainConnection mainRepository;
         private RepositoryParameters sqlParams;
 
         PerceptionsRepository()
         {
-            mainRepository = MainRepository.GetInstance();
+            mainRepository = MainConnection.GetInstance();
             create = "sp_AddPerception";
             update = "sp_UpdatePerception";
             delete = "sp_DeletePerception";

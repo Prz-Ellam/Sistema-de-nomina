@@ -61,7 +61,7 @@ namespace Presentation.Views
         private void Employees_Load(object sender, EventArgs e)
         {
             PositionState = EntityState.Add;
-            FillDataGridView();
+            //FillDataGridView();
 
             // Esto es para evitar el molesto flickering que tienen los data grid view
             dtgEmployees.DoubleBuffered(true);

@@ -80,7 +80,7 @@ namespace Presentation.Views
             this.button2.ForeColor = System.Drawing.Color.White;
             this.button2.Image = global::Presentation.Properties.Resources.PDF_Logo;
             this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button2.Location = new System.Drawing.Point(126, 200);
+            this.button2.Location = new System.Drawing.Point(29, 282);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(212, 80);
             this.button2.TabIndex = 15;
@@ -96,9 +96,9 @@ namespace Presentation.Views
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(263, 119);
+            this.button1.Location = new System.Drawing.Point(30, 175);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(129, 29);
+            this.button1.Size = new System.Drawing.Size(129, 48);
             this.button1.TabIndex = 29;
             this.button1.Text = "Consultar";
             this.button1.UseVisualStyleBackColor = false;

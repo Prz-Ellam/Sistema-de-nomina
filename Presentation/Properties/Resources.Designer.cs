@@ -83,6 +83,16 @@ namespace Presentation.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Minimized_Button_Logo {
+            get {
+                object obj = ResourceManager.GetObject("Minimized_Button_Logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap PDF_Logo {
             get {
                 object obj = ResourceManager.GetObject("PDF_Logo", resourceCulture);

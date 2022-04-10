@@ -14,12 +14,12 @@ namespace Data_Access.Repositories
     public class EmployeesRepository
     {
         private readonly string create, update, delete, readAll, readLike;
-        private MainRepository mainRepository;
+        private MainConnection mainRepository;
         private RepositoryParameters sqlParams = new RepositoryParameters();
 
         public EmployeesRepository()
         {
-            mainRepository = MainRepository.GetInstance();
+            mainRepository = MainConnection.GetInstance();
             create = "sp_AddEmployee";
             update = "sp_UpdateEmployee";
             delete = "sp_DeleteEmployee";

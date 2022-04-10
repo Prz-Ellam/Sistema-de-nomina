@@ -30,7 +30,7 @@ namespace Presentation.Views
         private void Companies_Load(object sender, EventArgs e)
         {
             InitStates();
-            InitCompanyData();
+            //InitCompanyData();
         }
 
         private void cbStates_SelectedIndexChanged(object sender, EventArgs e)

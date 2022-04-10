@@ -8,24 +8,22 @@ using System.Threading.Tasks;
 
 namespace Data_Access.Repositories
 {
-    public class MainRepository : Repository
+    public class MainConnection : Connection
     {
-        private static MainRepository _instance;
+        private static MainConnection _instance;
 
-        public static MainRepository GetInstance()
+        public static MainConnection GetInstance()
         {
             if (_instance == null)
             {
-                _instance = new MainRepository();
+                _instance = new MainConnection();
             }
 
             return _instance;
-
         }
 
-        private MainRepository()
+        private MainConnection()
         {
-
         }
 
         public int ExecuteNonQuery(string query, RepositoryParameters parameters)

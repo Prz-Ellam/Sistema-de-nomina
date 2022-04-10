@@ -92,11 +92,11 @@
     <Compile Include="Repositories\CompaniesRepository.cs" />
     <Compile Include="Repositories\DeductionsRepository.cs" />
     <Compile Include="Repositories\PerceptionsRepository.cs" />
-    <Compile Include="Repositories\Repository.cs" />
+    <Compile Include="Connections\Connection.cs" />
     <Compile Include="Repositories\DepartmentsRepository.cs" />
     <Compile Include="Repositories\EmployeesRepository.cs" />
     <Compile Include="Repositories\PositionsRepository.cs" />
-    <Compile Include="Repositories\MainRepository.cs" />
+    <Compile Include="Connections\MainConnection.cs" />
     <Compile Include="Repositories\RepositoryParameters.cs" />
     <Compile Include="Repositories\StatesRepository.cs" />
     <Compile Include="Repositories\UsersRepository.cs" />

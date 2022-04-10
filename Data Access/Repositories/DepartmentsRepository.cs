@@ -14,12 +14,12 @@ namespace Data_Access.Repositories
     public class DepartmentsRepository
     {
         private readonly string create, update, delete, readAll, readLike;
-        private MainRepository mainRepository;
+        private MainConnection mainRepository;
         private RepositoryParameters sqlParams = new RepositoryParameters();
 
         public DepartmentsRepository()
         {
-            mainRepository = MainRepository.GetInstance();
+            mainRepository = MainConnection.GetInstance();
             create = "sp_AddDepartment";
             update = "sp_UpdateDepartment";
             delete = "sp_DeleteDepartment";

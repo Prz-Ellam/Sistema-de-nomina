@@ -9,11 +9,11 @@ using System.Configuration;
 
 namespace Data_Access.Repositories
 {
-    public abstract class Repository
+    public abstract class Connection
     {
         private readonly string connection;
 
-        public Repository()
+        public Connection()
         {
             connection = ConfigurationManager.ConnectionStrings["PayrollSystem"].ToString();
         }

@@ -38,12 +38,22 @@ namespace Presentation.Views
             this.lblPasswordError = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.chkAdmin = new System.Windows.Forms.CheckBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pbClose = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbClose)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.SuspendLayout();
             // 
             // txtEmail
             // 
             this.txtEmail.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.txtEmail.Location = new System.Drawing.Point(39, 136);
+            this.txtEmail.Location = new System.Drawing.Point(39, 171);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(400, 29);
             this.txtEmail.TabIndex = 2;
@@ -53,7 +63,7 @@ namespace Presentation.Views
             // txtPassword
             // 
             this.txtPassword.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.txtPassword.Location = new System.Drawing.Point(39, 240);
+            this.txtPassword.Location = new System.Drawing.Point(39, 275);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(400, 29);
             this.txtPassword.TabIndex = 5;
@@ -66,7 +76,7 @@ namespace Presentation.Views
             this.lblEmail.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lblEmail.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEmail.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.lblEmail.Location = new System.Drawing.Point(37, 112);
+            this.lblEmail.Location = new System.Drawing.Point(37, 147);
             this.lblEmail.Name = "lblEmail";
             this.lblEmail.Size = new System.Drawing.Size(151, 21);
             this.lblEmail.TabIndex = 1;
@@ -81,7 +91,7 @@ namespace Presentation.Views
             this.lblPassword.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lblPassword.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.lblPassword.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.lblPassword.Location = new System.Drawing.Point(37, 216);
+            this.lblPassword.Location = new System.Drawing.Point(37, 251);
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(97, 21);
             this.lblPassword.TabIndex = 4;
@@ -96,7 +106,7 @@ namespace Presentation.Views
             this.btnLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLogin.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLogin.ForeColor = System.Drawing.Color.White;
-            this.btnLogin.Location = new System.Drawing.Point(39, 379);
+            this.btnLogin.Location = new System.Drawing.Point(39, 414);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(400, 47);
             this.btnLogin.TabIndex = 8;
@@ -108,7 +118,7 @@ namespace Presentation.Views
             // 
             this.lblEmailError.AutoSize = true;
             this.lblEmailError.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEmailError.Location = new System.Drawing.Point(37, 173);
+            this.lblEmailError.Location = new System.Drawing.Point(37, 208);
             this.lblEmailError.Name = "lblEmailError";
             this.lblEmailError.Size = new System.Drawing.Size(37, 16);
             this.lblEmailError.TabIndex = 3;
@@ -119,7 +129,7 @@ namespace Presentation.Views
             // 
             this.lblPasswordError.AutoSize = true;
             this.lblPasswordError.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPasswordError.Location = new System.Drawing.Point(37, 276);
+            this.lblPasswordError.Location = new System.Drawing.Point(37, 311);
             this.lblPasswordError.Name = "lblPasswordError";
             this.lblPasswordError.Size = new System.Drawing.Size(37, 16);
             this.lblPasswordError.TabIndex = 6;
@@ -132,7 +142,7 @@ namespace Presentation.Views
             this.label3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label3.Font = new System.Drawing.Font("Microsoft YaHei", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label3.Location = new System.Drawing.Point(136, 33);
+            this.label3.Location = new System.Drawing.Point(136, 68);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(161, 31);
             this.label3.TabIndex = 0;
@@ -143,19 +153,77 @@ namespace Presentation.Views
             this.chkAdmin.AutoSize = true;
             this.chkAdmin.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkAdmin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.chkAdmin.Location = new System.Drawing.Point(41, 318);
+            this.chkAdmin.Location = new System.Drawing.Point(41, 353);
             this.chkAdmin.Name = "chkAdmin";
             this.chkAdmin.Size = new System.Drawing.Size(140, 23);
             this.chkAdmin.TabIndex = 7;
             this.chkAdmin.Text = "Soy administrador";
             this.chkAdmin.UseVisualStyleBackColor = true;
             // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            this.panel1.Controls.Add(this.pictureBox2);
+            this.panel1.Controls.Add(this.pictureBox3);
+            this.panel1.Controls.Add(this.pictureBox1);
+            this.panel1.Controls.Add(this.pbClose);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(486, 36);
+            this.panel1.TabIndex = 9;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pictureBox1.Image = global::Presentation.Properties.Resources.Minimized_Button_Logo;
+            this.pictureBox1.Location = new System.Drawing.Point(1223, 8);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 10;
+            this.pictureBox1.TabStop = false;
+            // 
+            // pbClose
+            // 
+            this.pbClose.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbClose.Image = global::Presentation.Properties.Resources.Close_Button_Logo;
+            this.pbClose.Location = new System.Drawing.Point(1249, 8);
+            this.pbClose.Name = "pbClose";
+            this.pbClose.Size = new System.Drawing.Size(20, 20);
+            this.pbClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbClose.TabIndex = 9;
+            this.pbClose.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pictureBox2.Image = global::Presentation.Properties.Resources.Minimized_Button_Logo;
+            this.pictureBox2.Location = new System.Drawing.Point(431, 8);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 12;
+            this.pictureBox2.TabStop = false;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pictureBox3.Image = global::Presentation.Properties.Resources.Close_Button_Logo;
+            this.pictureBox3.Location = new System.Drawing.Point(457, 8);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox3.TabIndex = 11;
+            this.pictureBox3.TabStop = false;
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.ClientSize = new System.Drawing.Size(486, 450);
+            this.ClientSize = new System.Drawing.Size(486, 491);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.chkAdmin);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.lblPasswordError);
@@ -169,6 +237,11 @@ namespace Presentation.Views
             this.Name = "Login";
             this.Text = "Login";
             this.Load += new System.EventHandler(this.Login_Load);
+            this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbClose)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -185,5 +258,10 @@ namespace Presentation.Views
         private System.Windows.Forms.Label lblPasswordError;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox chkAdmin;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pbClose;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox pictureBox3;
     }
 }

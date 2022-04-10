@@ -11,12 +11,12 @@ namespace Data_Access.Repositories
     public class UsersRepository
     {
         private readonly string login;
-        private MainRepository mainRepository;
-        private RepositoryParameters sqlParams;
+        private MainConnection mainRepository;
+        private RepositoryParameters sqlParams = new RepositoryParameters();
 
         public UsersRepository()
         {
-            mainRepository = MainRepository.GetInstance();
+            mainRepository = MainConnection.GetInstance();
             login = "sp_Login";
         }
 

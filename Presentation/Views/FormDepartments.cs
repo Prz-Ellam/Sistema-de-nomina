@@ -65,7 +65,7 @@ namespace Presentation.Views
         private void FormDepartments_Load(object sender, EventArgs e)
         {
             DepartmentState = EntityState.Add;
-            ListDepartments();
+            //ListDepartments();
         }
 
         private void btnAdd_Click(object sender, EventArgs e)

@@ -12,12 +12,12 @@ namespace Data_Access.Repositories
     public class PositionsRepository
     {
         private readonly string create, update, delete, readAll, readLike;
-        private MainRepository mainRepository;
+        private MainConnection mainRepository;
         private RepositoryParameters sqlParams = new RepositoryParameters();
 
         public PositionsRepository()
         {
-            mainRepository = MainRepository.GetInstance();
+            mainRepository = MainConnection.GetInstance();
             create = "sp_AddPosition";
             update = "sp_UpdatePosition";
             delete = "sp_DeletePosition";

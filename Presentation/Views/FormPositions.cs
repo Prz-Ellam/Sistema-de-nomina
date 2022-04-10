@@ -61,7 +61,7 @@ namespace Presentation.Views
         private void Positions_Load(object sender, EventArgs e)
         {
             PositionState = EntityState.Add;
-            FillDataGridView();
+            //FillDataGridView();
         }
 
         private void btnAdd_Click(object sender, EventArgs e)

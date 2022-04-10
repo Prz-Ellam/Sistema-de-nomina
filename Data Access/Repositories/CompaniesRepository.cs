@@ -14,12 +14,12 @@ namespace Data_Access.Repositories
     public class CompaniesRepository : ICompaniesRepository
     {
         private readonly string create, read;
-        private MainRepository mainRepository;
+        private MainConnection mainRepository;
         private RepositoryParameters sqlParams = new RepositoryParameters();
 
         public CompaniesRepository()
         {
-            mainRepository = MainRepository.GetInstance();
+            mainRepository = MainConnection.GetInstance();
             create = "sp_AddCompany";
             read = "sp_ReadCompany";
         }

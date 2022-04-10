@@ -9,12 +9,12 @@ namespace Data_Access.Repositories
     class DeductionsRepository
     {
         private readonly string create, update, delete, readAll;
-        private MainRepository mainRepository;
+        private MainConnection mainRepository;
         private RepositoryParameters sqlParams;
 
         DeductionsRepository()
         {
-            mainRepository = MainRepository.GetInstance();
+            mainRepository = MainConnection.GetInstance();
             create = "sp_AddDeduction";
             update = "sp_UpdateDeduction";
             delete = "sp_DeleteDeduction";
