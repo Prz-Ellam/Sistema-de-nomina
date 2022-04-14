@@ -1,377 +1,377 @@
--- DROP DATABASE payroll_system;
--- CREATE DATABASE payroll_system;
-USE payroll_system;
+--CREATE DATABASE sistema_de_nomina;
+USE sistema_de_nomina;
 
--- Tablas
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'administrators' AND type = 'u')
-	DROP TABLE administrators;
+-- Tablas primas
+IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'empresas' AND type = 'u')
+	DROP TABLE empresas;
 
-CREATE TABLE administrators(
-	administrator_id		INT IDENTITY(1,1) NOT NULL,
-	email					VARCHAR(60) UNIQUE NOT NULL,
-	password				VARCHAR(30) NOT NULL,
-	active					BIT DEFAULT 1,
-	company_id				INT NOT NULL
-
-	CONSTRAINT PK_Administrator
-		PRIMARY KEY (administrator_id)
-);
-
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'companies' AND type = 'u')
-	DROP TABLE companies;
-
-CREATE TABLE companies(
-	company_id				INT IDENTITY(1,1) NOT NULL,
-	business_name			VARCHAR(60) NOT NULL,
-	address					INT NOT NULL,
-	email					VARCHAR(30) UNIQUE NOT NULL,
-	rfc						VARCHAR(18) UNIQUE NOT NULL,
-	employer_registration	VARCHAR(30) NOT NULL,
-	start_date				DATE NOT NULL,
-	active					BIT DEFAULT 1
+CREATE TABLE empresas(
+	id_empresa				INT IDENTITY(1,1) NOT NULL,
+	razon_social			VARCHAR(60) NOT NULL,
+	domicilio_fiscal		INT NOT NULL,
+	correo_electronico		VARCHAR(30) UNIQUE NOT NULL,
+	registro_patronal		VARCHAR(11) UNIQUE NOT NULL,
+	rfc						VARCHAR(12) UNIQUE NOT NULL,
+	fecha_inicio			DATE NOT NULL,
+	activo					BIT DEFAULT 1
 
 	CONSTRAINT PK_Company
-		PRIMARY KEY (company_id)
+		PRIMARY KEY (id_empresa)
 );
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'departments' AND type = 'u')
-	DROP TABLE departments;
+IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'administradores' AND type = 'u')
+	DROP TABLE administradores;
 
-CREATE TABLE departments(
-	department_id			INT IDENTITY(1,1) NOT NULL,
-	name					VARCHAR(30) NOT NULL,
-	base_salary				MONEY NOT NULL,
-	active					BIT DEFAULT 1 NOT NULL,
-	company_id				INT NOT NULL
+CREATE TABLE administradores(
+	id_administrador			INT IDENTITY(1,1),
+	correo_electronico			VARCHAR(60) UNIQUE NOT NULL,
+	contrasena					VARCHAR(30) NOT NULL,
+	activo						BIT DEFAULT 1,
+	id_empresa					INT NOT NULL
+
+	CONSTRAINT PK_Administrator
+		PRIMARY KEY (id_administrador)
+);
+
+IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'departamentos' AND type = 'u')
+	DROP TABLE departamentos;
+
+CREATE TABLE departamentos(
+	id_departamento				INT IDENTITY(1,1),
+	nombre						VARCHAR(30) NOT NULL,
+	sueldo_base					MONEY NOT NULL,
+	activo						BIT DEFAULT 1 NOT NULL,
+	id_empresa					INT NOT NULL
 
 	CONSTRAINT PK_Department
-		PRIMARY KEY (department_id)
+		PRIMARY KEY (id_departamento)
 );
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'positions' AND type = 'u')
-	DROP TABLE positions;
+IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'puestos' AND type = 'u')
+	DROP TABLE puestos;
 
-CREATE TABLE positions(
-	position_id				INT IDENTITY(1,1) NOT NULL,
-	name					VARCHAR(30) NOT NULL,
-	wage_level				FLOAT NOT NULL,
-	active					BIT DEFAULT 1 NOT NULL,
-	company_id				INT NOT NULL
+CREATE TABLE puestos(
+	id_puesto					INT IDENTITY(1,1) NOT NULL,
+	nombre						VARCHAR(30) NOT NULL,
+	nivel_salarial				FLOAT NOT NULL,
+	activo						BIT DEFAULT 1 NOT NULL,
+	id_empresa					INT NOT NULL
 
 	CONSTRAINT PK_Position
-		PRIMARY KEY (position_id)
+		PRIMARY KEY (id_puesto)
 );
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'employees' AND type = 'u')
-	DROP TABLE employees;
+IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'empleados' AND type = 'u')
+	DROP TABLE empleados;
 
-CREATE TABLE employees(
-	employee_number			INT IDENTITY(1,1) NOT NULL,
-	name					VARCHAR(30) NOT NULL,
-	father_last_name		VARCHAR(30) NOT NULL,
-	mother_last_name		VARCHAR(30) NOT NULL,
-	date_of_birth			DATE NOT NULL,
-	curp					VARCHAR(20) UNIQUE NOT NULL,
-	nss						VARCHAR(20)	UNIQUE NOT NULL,
-	rfc						VARCHAR(20)	UNIQUE NOT NULL,
-	address					INT NOT NULL,
-	bank					INT NOT NULL,
-	account_number			INT UNIQUE NOT NULL,
-	email					VARCHAR(60) UNIQUE NOT NULL,
-	password				VARCHAR(30) NOT NULL,
-	active					BIT DEFAULT 1,
-	department_id			INT NOT NULL,
-	position_id				INT NOT NULL,
-	hiring_date				DATE NOT NULL
+CREATE TABLE empleados(
+	numero_empleado				INT IDENTITY(1,1),
+	nombre						VARCHAR(30) NOT NULL,
+	apellido_paterno			VARCHAR(30) NOT NULL,
+	apellido_materno			VARCHAR(30) NOT NULL,
+	fecha_nacimiento			DATE NOT NULL,
+	curp						VARCHAR(18) UNIQUE NOT NULL,
+	nss							VARCHAR(11)	UNIQUE NOT NULL,
+	rfc							VARCHAR(13)	UNIQUE NOT NULL,
+	domicilio					INT NOT NULL,
+	banco						INT NOT NULL,
+	numero_cuenta				VARCHAR(10) UNIQUE NOT NULL,
+	correo_electronico			VARCHAR(60) UNIQUE NOT NULL,
+	contrasena					VARCHAR(30) NOT NULL,
+	sueldo_diario				MONEY NOT NULL,
+	fecha_contratacion			DATE NOT NULL,
+	activo						BIT DEFAULT 1,
+	id_departamento				INT NOT NULL,
+	id_puesto					INT NOT NULL,
 
 	CONSTRAINT PK_Employee
-		PRIMARY KEY (employee_number)
+		PRIMARY KEY (numero_empleado)
 );
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'perceptions' AND type = 'u')
-	DROP TABLE perceptions;
+IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'percepciones' AND type = 'u')
+	DROP TABLE percepciones;
 
-CREATE TABLE perceptions(
-	perception_id			INT IDENTITY(1,1) NOT NULL,
-	name					VARCHAR(30) NOT NULL,
-	amount_type				CHAR NOT NULL,
-	fixed					MONEY,
-	percentage				FLOAT,
-	duration_type			CHAR DEFAULT 'S' NOT NULL, -- 'B' es de basic (basico) y 'S' es de special (Especial)
-	active					BIT DEFAULT 1 NOT NULL
+CREATE TABLE percepciones(
+	id_percepcion				INT IDENTITY(1,1),
+	nombre						VARCHAR(30) NOT NULL,
+	tipo_monto					CHAR NOT NULL,
+	fijo						MONEY,
+	porcentual					FLOAT,
+	tipo_duracion				CHAR DEFAULT 'S' NOT NULL, -- 'B' es de basic (basico) y 'S' es de special (Especial)
+	activo						BIT DEFAULT 1 NOT NULL,
 
 	CONSTRAINT PK_Perception
-		PRIMARY KEY (perception_id)
+		PRIMARY KEY (id_percepcion),
+	CONSTRAINT Chk_Percepcion_Tipo
+		CHECK (tipo_monto in ('F', 'P')),
+	CONSTRAINT Chk_Percepcion_Duracion
+		CHECK (tipo_duracion in ('S', 'B'))
 );
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'deductions' AND type = 'u')
-	DROP TABLE deductions;
+IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'deducciones' AND type = 'u')
+	DROP TABLE deducciones;
 
-CREATE TABLE deductions(
-	id						INT IDENTITY(1,1) NOT NULL,
-	name					VARCHAR(30) NOT NULL,
-	amount_type				CHAR NOT NULL,
-	fixed					MONEY,
-	percentage				FLOAT,
-	duration_type			CHAR DEFAULT 'P' NOT NULL,
-	active					BIT DEFAULT 1 NOT NULL
+CREATE TABLE deducciones(
+	id_deduccion				INT IDENTITY(1,1),
+	nombre						VARCHAR(30) NOT NULL,
+	tipo_monto					CHAR NOT NULL,
+	fijo						MONEY,
+	porcentual					FLOAT,
+	tipo_duracion				CHAR DEFAULT 'S' NOT NULL,
+	activo						BIT DEFAULT 1 NOT NULL,
 
 	CONSTRAINT PK_Deduction
-		PRIMARY KEY (id)
+		PRIMARY KEY (id_deduccion),
+	CONSTRAINT Chk_Deduccion_Tipo
+		CHECK (tipo_monto in ('F', 'P')),
+	CONSTRAINT Chk_Deduccion_Duracion
+		CHECK (tipo_duracion in ('S', 'B'))
 );
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'apply_perceptions' AND type = 'u')
-	DROP TABLE apply_perceptions;
+IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'nominas' AND type = 'u')
+	DROP TABLE nominas;
 
-CREATE TABLE apply_perceptions(
-	apply_perception_id		INT IDENTITY(1,1) NOT NULL,
-	employee_id				INT NOT NULL,
-	perception_id			INT NOT NULL,
-	payroll_id				INT,
-	amount					MONEY NOT NULL,
-	actual_date				DATE NOT NULL
-
-	CONSTRAINT PK_Employees_Perceptions
-		PRIMARY KEY (apply_perception_id)
-);
-
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'apply_deductions' AND type = 'u')
-	DROP TABLE apply_deductions;
-
-CREATE TABLE apply_deductions(
-	apply_deduction_id		INT IDENTITY(1,1) NOT NULL,
-	employee_id				INT NOT NULL,
-	deduction_id			INT NOT NULL,
-	payroll_id				INT,
-	amount					MONEY NOT NULL,
-	actual_date				DATE NOT NULL
-
-	CONSTRAINT PK_Employees_Deductions
-		PRIMARY KEY (apply_deduction_id)
-);
-
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'payrolls' AND type = 'u')
-	DROP TABLE payrolls;
-
-CREATE TABLE payrolls(
-	payroll_id				INT IDENTITY(1,1) NOT NULL,
-	daily_salary			MONEY NOT NULL,
-	gross_salary			MONEY NOT NULL,
-	net_salary				MONEY NOT NULL,
-	bank					INT NOT NULL,
-	account_number			INT NOT NULL,
-	actual_date				DATE NOT NULL,
-	employee_id				INT NOT NULL,
-	department_id			INT NOT NULL,
-	position_id				INT NOT NULL
+CREATE TABLE nominas(
+	id_nomina					INT IDENTITY(1,1) NOT NULL,
+	sueldo_diario				MONEY NOT NULL,
+	sueldo_bruto				MONEY NOT NULL,
+	sueldo_neto					MONEY NOT NULL,
+	banco						INT NOT NULL,
+	numero_cuenta				INT NOT NULL,
+	fecha						DATE NOT NULL,
+	numero_empleado				INT NOT NULL,
+	id_departamento				INT NOT NULL,
+	id_puesto					INT NOT NULL
 
 	CONSTRAINT PK_Payrolls
-		PRIMARY KEY (payroll_id)
+		PRIMARY KEY (id_nomina)
 );
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'addresses' AND type = 'u')
-	DROP TABLE addresses;
 
-CREATE TABLE addresses(
-	address_id				INT IDENTITY(1,1) NOT NULL,
-	street					VARCHAR(30) NOT NULL,
-	number					VARCHAR(10) NOT NULL,
-	suburb					VARCHAR(30) NOT NULL,
-	city					VARCHAR(30) NOT NULL,
-	state					VARCHAR(30) NOT NULL,
-	postal_code				VARCHAR(5) NOT NULL
+
+-- Tablas asociativas
+IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'percepciones_aplicadas' AND type = 'u')
+	DROP TABLE percepciones_aplicadas;
+
+CREATE TABLE percepciones_aplicadas(
+	id_percepcion_aplicada		INT IDENTITY(1,1),
+	numero_empleado				INT NOT NULL,
+	id_percepcion				INT NOT NULL,
+	id_nomina					INT,
+	cantidad					MONEY NOT NULL,
+	fecha						DATE NOT NULL
+
+	CONSTRAINT PK_Employees_Perceptions
+		PRIMARY KEY (id_percepcion_aplicada)
+);
+
+IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'deducciones_aplicadas' AND type = 'u')
+	DROP TABLE deducciones_aplicadas;
+
+CREATE TABLE deducciones_aplicadas(
+	id_deduccion_aplicada		INT IDENTITY(1,1),
+	numero_empleado				INT NOT NULL,
+	id_deduccion				INT NOT NULL,
+	id_nomina					INT,
+	cantidad					MONEY NOT NULL,
+	fecha						DATE NOT NULL
+
+	CONSTRAINT PK_Employees_Deductions
+		PRIMARY KEY (id_deduccion_aplicada)
+);
+
+
+
+-- Tablas de Normalizacion
+IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'domicilios' AND type = 'u')
+	DROP TABLE domicilios;
+
+CREATE TABLE domicilios(
+	id_domicilio				INT IDENTITY(1,1),
+	calle						VARCHAR(30) NOT NULL,
+	numero						VARCHAR(10) NOT NULL,
+	colonia						VARCHAR(30) NOT NULL,
+	ciudad						VARCHAR(30) NOT NULL,
+	estado						VARCHAR(30) NOT NULL,
+	codigo_postal				VARCHAR(5) NOT NULL
 
 	CONSTRAINT PK_Addresses
-		PRIMARY KEY (address_id)
+		PRIMARY KEY (id_domicilio)
 );
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'phones_companies' AND type = 'u')
-	DROP TABLE phones_companies;
+IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'telefonos_empresas' AND type = 'u')
+	DROP TABLE telefonos_empresas;
 
-CREATE TABLE phones_companies(
-	phone_company_id		INT IDENTITY(1,1) NOT NULL,
-	phone					VARCHAR(12) NOT NULL,
-	company_id				INT NOT NULL
+CREATE TABLE telefonos_empresas(
+	id_telefono_empresa			INT IDENTITY(1,1),
+	telefono					VARCHAR(12) NOT NULL,
+	id_empresa					INT NOT NULL
 
 	CONSTRAINT PK_Phones_Companies
-		PRIMARY KEY (phone_company_id)
+		PRIMARY KEY (id_telefono_empresa)
 );
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'phones_employees' AND type = 'u')
-	DROP TABLE phones_employees;
+IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'telefonos_empleados' AND type = 'u')
+	DROP TABLE telefonos_empleados;
 
-CREATE TABLE phones_employees(
-	phone_employee_id		INT IDENTITY(1,1) NOT NULL,
-	phone					VARCHAR(12) NOT NULL,
-	employee_id				INT NOT NULL
+CREATE TABLE telefonos_empleados(
+	id_telefono_empleado		INT IDENTITY(1,1),
+	telefono					VARCHAR(12) NOT NULL,
+	numero_empleado				INT NOT NULL
 
 	CONSTRAINT PK_Phones_Employees
-		PRIMARY KEY (phone_employee_id)
+		PRIMARY KEY (id_telefono_empleado)
 );
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'banks' AND type = 'u')
-	DROP TABLE banks;
+IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'bancos' AND type = 'u')
+	DROP TABLE bancos;
 
-CREATE TABLE banks(
-	bank_id					INT IDENTITY(1,1) NOT NULL,
-	name					VARCHAR(30) NOT NULL
+CREATE TABLE bancos(
+	id_banco					INT IDENTITY(1,1),
+	nombre						VARCHAR(30) NOT NULL
 
 	CONSTRAINT PK_Banks
-		PRIMARY KEY (bank_id)
+		PRIMARY KEY (id_banco)
 );
+
 
 
 -- Llaves foraneas
-ALTER TABLE administrators
-	ADD CONSTRAINT FK_Admin_Company
-		FOREIGN KEY (company_id)
-		REFERENCES Companies(company_id);
+ALTER TABLE empresas
+	ADD CONSTRAINT FK_Empresa_Domicilio
+		FOREIGN KEY (domicilio_fiscal)
+		REFERENCES domicilios(id_domicilio);
 
-ALTER TABLE companies
-	ADD CONSTRAINT FK_Company_Address
-		FOREIGN KEY (address)
-		REFERENCES addresses(address_id);
+ALTER TABLE administradores
+	ADD CONSTRAINT FK_Admin_Empresa
+		FOREIGN KEY (id_empresa)
+		REFERENCES empresas(id_empresa);
 
-ALTER TABLE departments
-	ADD CONSTRAINT FK_Department_Company
-		FOREIGN KEY (company_id)
-		REFERENCES companies(company_id);
+ALTER TABLE departamentos
+	ADD CONSTRAINT FK_Departmento_Empresa
+		FOREIGN KEY (id_empresa)
+		REFERENCES empresas(id_empresa);
 
-ALTER TABLE positions
-	ADD CONSTRAINT FK_Position_Company
-		FOREIGN KEY (company_id)
-		REFERENCES companies(company_id);
+ALTER TABLE puestos
+	ADD CONSTRAINT FK_Puesto_Empresa
+		FOREIGN KEY (id_empresa)
+		REFERENCES empresas(id_empresa);
 
-ALTER TABLE employees
-	ADD CONSTRAINT FK_Employee_Address
-		FOREIGN KEY (address)
-		REFERENCES addresses(address_id),
-		CONSTRAINT FK_Employee_Bank
-		FOREIGN KEY (bank)
-		REFERENCES banks(bank_id),
-		CONSTRAINT FK_Employee_Department
-		FOREIGN KEY (department_id)
-		REFERENCES departments(department_id),
-		CONSTRAINT FK_Employee_Position
-		FOREIGN KEY (position_id)
-		REFERENCES positions(position_id);
+ALTER TABLE empleados
+	ADD CONSTRAINT FK_Empleado_Domicilio
+		FOREIGN KEY (domicilio)
+		REFERENCES domicilios(id_domicilio),
+		CONSTRAINT FK_Empleado_Banco
+		FOREIGN KEY (banco)
+		REFERENCES bancos(id_banco),
+		CONSTRAINT FK_Empleado_Departamento
+		FOREIGN KEY (id_departamento)
+		REFERENCES departamentos(id_departamento),
+		CONSTRAINT FK_Empleado_Puesto
+		FOREIGN KEY (id_puesto)
+		REFERENCES puestos(id_puesto);
 
-ALTER TABLE apply_perceptions
-	ADD CONSTRAINT FK_P_Employee
-		FOREIGN KEY (employee_id)
-		REFERENCES employees(employee_number),
-		CONSTRAINT FK_P_Perception
-		FOREIGN KEY (perception_id)
-		REFERENCES perceptions(perception_id),
-		CONSTRAINT FK_P_Payroll
-		FOREIGN KEY (payroll_id)
-		REFERENCES payrolls(payroll_id);
+ALTER TABLE percepciones_aplicadas
+	ADD CONSTRAINT fk_percepcion_empleado
+		FOREIGN KEY (numero_empleado)
+		REFERENCES empleados(numero_empleado),
+		CONSTRAINT fk_percepcion_percepcion
+		FOREIGN KEY (id_percepcion)
+		REFERENCES percepciones(id_percepcion),
+		CONSTRAINT fk_percepcion_nomina
+		FOREIGN KEY (id_nomina)
+		REFERENCES nominas(id_nomina);
 
-ALTER TABLE apply_deductions
-	ADD CONSTRAINT FK_D_Employee
-		FOREIGN KEY (employee_id)
-		REFERENCES employees(employee_number),
-		CONSTRAINT FK_D_Deduction
-		FOREIGN KEY (deduction_id)
-		REFERENCES deductions(id),
-		CONSTRAINT FK_D_Payroll
-		FOREIGN KEY (payroll_id)
-		REFERENCES payrolls(payroll_id);
+ALTER TABLE deducciones_aplicadas
+	ADD CONSTRAINT fk_deduccion_empleado
+		FOREIGN KEY (numero_empleado)
+		REFERENCES empleados(numero_empleado),
+		CONSTRAINT fk_deduccion_deduccion
+		FOREIGN KEY (id_deduccion)
+		REFERENCES deducciones(id_deduccion),
+		CONSTRAINT fk_deduccion_nomina
+		FOREIGN KEY (id_nomina)
+		REFERENCES nominas(id_nomina);
 
-ALTER TABLE payrolls
-	ADD CONSTRAINT FK_Payroll_Bank
-		FOREIGN KEY (bank)
-		REFERENCES banks(bank_id),
-		CONSTRAINT FK_Payroll_Employee
-		FOREIGN KEY (employee_id)
-		REFERENCES employees(employee_number),
-		CONSTRAINT FK_Payroll_Department
-		FOREIGN KEY (department_id)
-		REFERENCES departments(department_id),
-		CONSTRAINT FK_Payroll_Position
-		FOREIGN KEY (position_id)
-		REFERENCES positions(position_id);
+ALTER TABLE nominas
+	ADD CONSTRAINT fk_nomina_banco
+		FOREIGN KEY (banco)
+		REFERENCES bancos(id_banco),
+		CONSTRAINT fk_nomina_empleado
+		FOREIGN KEY (numero_empleado)
+		REFERENCES empleados(numero_empleado),
+		CONSTRAINT fk_nomina_departamento
+		FOREIGN KEY (id_departamento)
+		REFERENCES departamentos(id_departamento),
+		CONSTRAINT fk_nomina_puesto
+		FOREIGN KEY (id_puesto)
+		REFERENCES puestos(id_puesto);
 
-ALTER TABLE phones_companies
-	ADD CONSTRAINT PK_Phone_Company
-		FOREIGN KEY (company_id)
-		REFERENCES companies(company_id);
+ALTER TABLE telefonos_empresas
+	ADD CONSTRAINT fk_telefono_empresa
+		FOREIGN KEY (id_empresa)
+		REFERENCES empresas(id_empresa);
 
-ALTER TABLE phones_employees
-	ADD CONSTRAINT PK_Phone_Employee
-		FOREIGN KEY (employee_id)
-		REFERENCES employees(employee_number);
+ALTER TABLE telefonos_empleados
+	ADD CONSTRAINT fk_telefono_empleado
+		FOREIGN KEY (numero_empleado)
+		REFERENCES empleados(numero_empleado);
+
+
+
+
+
 
 
 
 
 /*
-ALTER TABLE companies
-	DROP CONSTRAINT FK_Company_Address;
 
-ALTER TABLE departments
-	DROP CONSTRAINT FK_Department_Company;
+ALTER TABLE empresas
+	DROP CONSTRAINT FK_Empresa_Domicilio;
 
-ALTER TABLE positions
-	DROP CONSTRAINT FK_Position_Company;
+ALTER TABLE administradores
+	DROP CONSTRAINT FK_Admin_Empresa;
 
-ALTER TABLE employees
-	DROP CONSTRAINT FK_Employee_Address,
-		CONSTRAINT FK_Employee_Bank,
-		CONSTRAINT FK_Employee_Department,
-		CONSTRAINT FK_Employee_Position;
+ALTER TABLE departamentos
+	DROP CONSTRAINT FK_Departmento_Empresa;
 
-ALTER TABLE employees_perceptions
-	DROP CONSTRAINT FK_EP_Employee,
-		CONSTRAINT FK_EP_Perception;
+ALTER TABLE puestos
+	DROP CONSTRAINT FK_Puesto_Empresa;
 
-ALTER TABLE employees_deductions
-	DROP CONSTRAINT FK_ED_Employee,
-		CONSTRAINT FK_ED_Deduction;
+ALTER TABLE empleados
+	DROP CONSTRAINT FK_Empleado_Domicilio,
+		CONSTRAINT FK_Empleado_Banco,
+		CONSTRAINT FK_Empleado_Departamento,
+		CONSTRAINT FK_Empleado_Puesto;
 
-ALTER TABLE payrolls
-	DROP CONSTRAINT FK_Payroll_Bank,
-		CONSTRAINT FK_Payroll_Employee,
-		CONSTRAINT FK_Payroll_Department,
-		CONSTRAINT FK_Payroll_Position;
-		
-ALTER TABLE payrolls_perceptions
-	DROP CONSTRAINT PK_PP_Payroll,
-		CONSTRAINT PK_PP_Perception;
+ALTER TABLE percepciones_aplicadas
+	DROP CONSTRAINT fk_percepcion_empleado,
+		CONSTRAINT fk_percepcion_percepcion,
+		CONSTRAINT fk_percepcion_nomina;
 
-ALTER TABLE payrolls_deductions
-	DROP CONSTRAINT PK_PD_Payroll,
-		CONSTRAINT PK_PD_Deduction;
+ALTER TABLE deducciones_aplicadas
+	DROP CONSTRAINT fk_deduccion_empleado,
+		CONSTRAINT fk_deduccion_deduccion,
+		CONSTRAINT fk_deduccion_nomina;
 
+ALTER TABLE nominas
+	DROP CONSTRAINT fk_nomina_banco,
+		CONSTRAINT fk_nomina_empleado,
+		CONSTRAINT fk_nomina_departamento,
+		CONSTRAINT fk_nomina_puesto;
 
-ALTER TABLE phones_companies
-	DROP CONSTRAINT PK_Phone_Company;
+ALTER TABLE telefonos_empresas
+	DROP CONSTRAINT fk_telefono_empresa;
 
-ALTER TABLE phones_employees
-	DROP CONSTRAINT PK_Phone_Employee;
+ALTER TABLE telefonos_empleados
+	DROP CONSTRAINT fk_telefono_empleado;
 */
 
 
-SELECT * FROM addresses;
-SELECT * FROM companies;
-
-
-INSERT INTO addresses(street, number, suburb, city, state, postal_code)
-VALUES('Montes de Leon', '935', 'Las Puentes 6to Sector', 'San Nicolas de los Garza', 'Nuevo Leon', '66460');
-
-INSERT INTO companies(business_name, address, email, rfc, employer_registration, start_date)
-VALUES('Crystal Soft Development S.A. de C.V.', 1, 'crystal@domain.com', 'MOV1004082C1', 'Y5499995107',
-'20101026');
-
-INSERT INTO administrators(email, password, company_id)
-VALUES('PerezAlex088@outlook.com', '123', '1');
-
-
-
-
-SELECT schemas.name AS SchemaName
-,all_objects.name AS TableName ,syscolumns.id AS ColumnId
-,syscolumns.name AS ColumnName ,systypes.name AS DataType
+/*
+SELECT all_objects.name AS TableName,
+syscolumns.name AS ColumnName ,systypes.name AS DataType
 ,syscolumns.length AS CharacterMaximumLength
 ,sysproperties.[value] AS ColumnDescription
 ,syscomments.TEXT AS ColumnDefault ,syscolumns.isnullable AS IsNullable
@@ -384,20 +384,5 @@ LEFT OUTER JOIN sys.schemas ON schemas.[schema_id] = all_objects.[schema_id]
 WHERE syscolumns.id IN (SELECT id
 FROM sysobjects
 WHERE xtype = 'U') AND (systypes.name <> 'sysname')
-
-
-SELECT IC.COLUMN_NAME, IC.Data_TYPE, EP.[Value] as [MS_Description], IKU.CONSTRAINT_NAME,
-ITC.CONSTRAINT_TYPE, IC.IS_NULLABLE
-FROM INFORMATION_SCHEMA.COLUMNS IC
-INNER JOIN sys.columns sc ON OBJECT_ID(QUOTENAME(IC.TABLE_SCHEMA) + '.' +
-QUOTENAME(IC.TABLE_NAME)) = sc.[object_id] AND IC.COLUMN_NAME = sc.name
-LEFT OUTER JOIN sys.extended_properties EP ON sc.[object_id] = EP.major_id AND
-sc.[column_id] = EP.minor_id AND EP.name = 'MS_Description' AND EP.class = 1
-LEFT OUTER JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE IKU ON IKU.COLUMN_NAME =
-IC.COLUMN_NAME and IKU.TABLE_NAME = IC.TABLE_NAME and IKU.TABLE_CATALOG = IC.TABLE_CATALOG
-LEFT OUTER JOIN INFORMATION_SCHEMA.TABLE_CONSTRAINTS ITC ON ITC.TABLE_NAME =
-IKU.TABLE_NAME and ITC.CONSTRAINT_NAME = IKU.CONSTRAINT_NAME
-WHERE IC.TABLE_CATALOG = 'base_datos'
-and IC.TABLE_SCHEMA = 'payroll_system'
---and IC.TABLE_NAME = 'Table'
-order by IC.ORDINAL_POSITION
+ORDER BY TableName ASC;
+*/

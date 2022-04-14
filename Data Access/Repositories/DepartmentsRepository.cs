@@ -20,18 +20,18 @@ namespace Data_Access.Repositories
         public DepartmentsRepository()
         {
             mainRepository = MainConnection.GetInstance();
-            create = "sp_AddDepartment";
-            update = "sp_UpdateDepartment";
-            delete = "sp_DeleteDepartment";
-            readAll = "sp_ReadDepartments";
+            create = "sp_AgregarDepartamento";
+            update = "sp_ActualizarDepartamento";
+            delete = "sp_EliminarDepartamento";
+            readAll = "sp_LeerDepartamentos";
         }
 
         public int Create(Departments department)
         {
             sqlParams.Start();
-            sqlParams.Add("@name", department.Name);
-            sqlParams.Add("@base_salary", department.BaseSalary);
-            sqlParams.Add("@company_id", department.Company_id);
+            sqlParams.Add("@nombre", department.Name);
+            sqlParams.Add("@sueldo_base", department.BaseSalary);
+            sqlParams.Add("@id_empresa", department.Company_id);
 
             return mainRepository.ExecuteNonQuery(create, sqlParams);
         }
@@ -39,9 +39,9 @@ namespace Data_Access.Repositories
         public int Update(Departments department)
         {
             sqlParams.Start();
-            sqlParams.Add("@id", department.Id);
-            sqlParams.Add("@name", department.Name);
-            sqlParams.Add("@base_salary", department.BaseSalary);
+            sqlParams.Add("@id_departamento", department.Id);
+            sqlParams.Add("@nombre", department.Name);
+            sqlParams.Add("@sueldo_base", department.BaseSalary);
 
             return mainRepository.ExecuteNonQuery(update, sqlParams);
         }
@@ -49,7 +49,7 @@ namespace Data_Access.Repositories
         public int Delete(int id)
         {
             sqlParams.Start();
-            sqlParams.Add("@id", id);
+            sqlParams.Add("@id_departamento", id);
 
             return mainRepository.ExecuteNonQuery(delete, sqlParams);
         }
@@ -64,9 +64,9 @@ namespace Data_Access.Repositories
             {
                 departments.Add(new DepartmentsViewModel
                 {
-                    Id = Convert.ToInt32(row["ID"]),
-                    Name = row["Nombre"].ToString(),
-                    BaseSalary = Convert.ToDecimal(row["Sueldo base"])
+                    Id = Convert.ToInt32(row["id_departamento"]),
+                    Name = row["nombre"].ToString(),
+                    BaseSalary = Convert.ToDecimal(row["sueldo_base"])
 
                 });
             }

@@ -15,7 +15,7 @@ namespace Data_Access.Repositories
 
         public Connection()
         {
-            connection = ConfigurationManager.ConnectionStrings["PayrollSystem"].ToString();
+            connection = ConfigurationManager.ConnectionStrings["SistemaDeNomina"].ToString();
         }
 
         protected SqlConnection GetConnection()
