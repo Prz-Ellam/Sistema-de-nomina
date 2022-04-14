@@ -16,9 +16,9 @@ namespace Presentation.Helpers
 
         public DataValidation(object instance)
         {
-            context = new ValidationContext(instance);
+            context = new ValidationContext(instance, null, null);
             results = new List<ValidationResult>();
-            valid = Validator.TryValidateObject(instance, context, results);
+            valid = Validator.TryValidateObject(instance, context, results, true);
             message = "";
         }
 

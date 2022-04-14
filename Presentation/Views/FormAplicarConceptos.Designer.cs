@@ -1,7 +1,7 @@
 ﻿
 namespace Presentation.Views
 {
-    partial class Concepts
+    partial class FormAplicarConceptos
     {
         /// <summary>
         /// Required designer variable.
@@ -48,7 +48,7 @@ namespace Presentation.Views
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnApply = new System.Windows.Forms.Button();
             this.txtName = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtEntity = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.dtgDepartaments = new System.Windows.Forms.DataGridView();
@@ -207,14 +207,14 @@ namespace Presentation.Views
             this.txtName.Size = new System.Drawing.Size(259, 29);
             this.txtName.TabIndex = 48;
             // 
-            // textBox1
+            // txtEntity
             // 
-            this.textBox1.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.textBox1.Location = new System.Drawing.Point(14, 380);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(259, 29);
-            this.textBox1.TabIndex = 49;
+            this.txtEntity.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.txtEntity.Location = new System.Drawing.Point(14, 380);
+            this.txtEntity.Name = "txtEntity";
+            this.txtEntity.ReadOnly = true;
+            this.txtEntity.Size = new System.Drawing.Size(259, 29);
+            this.txtEntity.TabIndex = 49;
             // 
             // lblName
             // 
@@ -286,6 +286,7 @@ namespace Presentation.Views
             this.dtgDepartaments.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dtgDepartaments.Size = new System.Drawing.Size(582, 150);
             this.dtgDepartaments.TabIndex = 53;
+            this.dtgDepartaments.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgDepartaments_CellDoubleClick);
             // 
             // id
             // 
@@ -777,8 +778,9 @@ namespace Presentation.Views
             this.dtgEmployees.RowsDefaultCellStyle = dataGridViewCellStyle11;
             this.dtgEmployees.Size = new System.Drawing.Size(582, 170);
             this.dtgEmployees.TabIndex = 52;
+            this.dtgEmployees.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgEmployees_CellDoubleClick);
             // 
-            // Concepts
+            // FormAplicarConceptos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -803,7 +805,7 @@ namespace Presentation.Views
             this.Controls.Add(this.dtgEmployees);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lblName);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtEntity);
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnApply);
@@ -811,7 +813,7 @@ namespace Presentation.Views
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.lblConcepts);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "Concepts";
+            this.Name = "FormAplicarConceptos";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Concepts";
             this.Load += new System.EventHandler(this.Concepts_Load);
@@ -836,7 +838,7 @@ namespace Presentation.Views
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnApply;
         private System.Windows.Forms.TextBox txtName;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtEntity;
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dtgDepartaments;

@@ -7,7 +7,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 
-namespace Data_Access.Repositories
+namespace Data_Access.Connections
 {
     public abstract class Connection
     {

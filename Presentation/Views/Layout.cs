@@ -69,22 +69,22 @@ namespace Presentation.Views
 
         private void btnDepartments_Click(object sender, EventArgs e)
         {
-            OpenFormChild(new FormDepartments());
+            OpenFormChild(new FormDepartamentos());
         }
 
         private void btnPositions_Click(object sender, EventArgs e)
         {
-            OpenFormChild(new FormPositions());
+            OpenFormChild(new FormPuestos());
         }
 
         private void btnEmployees_Click(object sender, EventArgs e)
         {
-            OpenFormChild(new FormEmployees());
+            OpenFormChild(new FormEmpleados());
         }
 
         private void btnConcepts_Click(object sender, EventArgs e)
         {
-            OpenFormChild(new ConceptsCatalog());
+            OpenFormChild(new FormCatalogoConceptos());
         }
 
         private void btnPayroll_Click(object sender, EventArgs e)
@@ -129,7 +129,7 @@ namespace Presentation.Views
 
         private void btnConceptsApply_Click(object sender, EventArgs e)
         {
-            OpenFormChild(new Concepts());
+            OpenFormChild(new FormAplicarConceptos());
         }
     }
 }

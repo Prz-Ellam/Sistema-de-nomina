@@ -5,19 +5,19 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-using Data_Access.Entities;
+using Data_Access.Connections;
+using Data_Access.Entidades;
 using Data_Access.ViewModels;
 
-namespace Data_Access.Repositories
+namespace Data_Access.Repositorios
 {
-    public class EmployeesRepository
+    public class RepositorioEmpleados
     {
         private readonly string create, update, delete, readAll, readLike;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams = new RepositoryParameters();
 
-        public EmployeesRepository()
+        public RepositorioEmpleados()
         {
             mainRepository = MainConnection.GetInstance();
             create = "sp_AddEmployee";
@@ -26,7 +26,7 @@ namespace Data_Access.Repositories
             readAll = "sp_ReadEmployees";
         }
 
-        public int Create(Employees employee)
+        public int Create(Empleados employee)
         {
             sqlParams.Start();
             sqlParams.Add("@name", employee.Name);
@@ -47,7 +47,7 @@ namespace Data_Access.Repositories
             return mainRepository.ExecuteNonQuery(create, sqlParams);
         }
 
-        public int Update(Employees employee)
+        public int Update(Empleados employee)
         {
             sqlParams.Start();
             sqlParams.Add("@employee_number", employee.EmployeeNumber);

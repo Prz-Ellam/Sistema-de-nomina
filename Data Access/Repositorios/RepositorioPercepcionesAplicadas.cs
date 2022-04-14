@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data_Access.Entities
+namespace Data_Access.Repositorios
 {
-    public class Perceptions
+    class RepositorioPercepcionesAplicadas
     {
     }
 }

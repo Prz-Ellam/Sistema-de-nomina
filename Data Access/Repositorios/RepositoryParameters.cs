@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data_Access.Repositories
+namespace Data_Access.Repositorios
 {
     public class RepositoryParameters : IEnumerable
     {

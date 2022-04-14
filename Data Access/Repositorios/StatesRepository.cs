@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 using Data_Access.Entities;
 
-namespace Data_Access.Repositories
+namespace Data_Access.Repositorios
 {
     public class StatesRepository
     {

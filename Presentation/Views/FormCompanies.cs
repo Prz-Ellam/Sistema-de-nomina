@@ -8,18 +8,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using Data_Access.Repositories;
+using Data_Access.Repositorios;
 using System.IO;
 using Data_Access.Entities;
 using Data_Access.Interfaces;
 using Presentation.Helpers;
+using Data_Access.Entidades;
 
 namespace Presentation.Views
 {
     public partial class FormCompanies : Form
     {
         private CompaniesRepository repository = new CompaniesRepository();
-        private Companies company = new Companies();
+        private Empresas company = new Empresas();
 
         private List<States> states;
         public FormCompanies()
@@ -71,7 +72,7 @@ namespace Presentation.Views
 
         private void InitCompanyData()
         {
-            Companies company = repository.Read(/*Session.company_id*/ 1);
+            Empresas company = repository.Read(/*Session.company_id*/ 1);
             txtBusinessName.Text = company.BusinessName;
             txtEmployerRegistration.Text = company.Employer_registration;
             txtRFC.Text = company.Rfc;

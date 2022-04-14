@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data_Access.Entities
+namespace Data_Access.Entidades
 {
-    public class Companies
+    public class Empresas
     {
         int id;
         string businessName;

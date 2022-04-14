@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Data_Access.ViewModels
 {
-    class PerceptionViewModel
+    public class PerceptionViewModel
     {
+        private int perceptionId;
+        private string name;
     }
 }

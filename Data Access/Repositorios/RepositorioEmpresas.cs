@@ -5,11 +5,11 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Data_Access.Entities;
+using Data_Access.Connections;
+using Data_Access.Entidades;
 using Data_Access.Interfaces;
-using Data_Access.Repositories;
 
-namespace Data_Access.Repositories
+namespace Data_Access.Repositorios
 {
     public class CompaniesRepository : ICompaniesRepository
     {
@@ -24,7 +24,7 @@ namespace Data_Access.Repositories
             read = "sp_ReadCompany";
         }
 
-        public int Create(Companies company)
+        public int Create(Empresas company)
         {
             sqlParams.Start();
             sqlParams.Add("@business_name", company.BusinessName);
@@ -37,17 +37,17 @@ namespace Data_Access.Repositories
             return mainRepository.ExecuteNonQuery(create, sqlParams);
         }
 
-        public Companies Read(int id)
+        public Empresas Read(int id)
         {
             sqlParams.Start();
             sqlParams.Add("@company_id", id);
 
             DataTable table = mainRepository.ExecuteReader(read, sqlParams);
 
-            Companies company;
+            Empresas company;
             foreach (DataRow row in table.Rows)
             {
-                company = new Companies {
+                company = new Empresas {
                     Id = Convert.ToInt32(row[0]),
                     BusinessName = row[1].ToString(),
                     Address = Convert.ToInt32(row[2]),

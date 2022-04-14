@@ -27,7 +27,7 @@ CREATE TABLE administradores(
 	correo_electronico			VARCHAR(60) UNIQUE NOT NULL,
 	contrasena					VARCHAR(30) NOT NULL,
 	activo						BIT DEFAULT 1,
-	id_empresa					INT NOT NULL
+	id_empresa					INT
 
 	CONSTRAINT PK_Administrator
 		PRIMARY KEY (id_administrador)
@@ -108,6 +108,10 @@ CREATE TABLE percepciones(
 		CHECK (tipo_duracion in ('S', 'B'))
 );
 
+INSERT INTO percepciones(nombre, tipo_monto, fijo, porcentual)
+VALUES('Llegadas temprano', 'F', 120.00, null);
+SELECT*FROM percepciones;
+
 IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'deducciones' AND type = 'u')
 	DROP TABLE deducciones;
 
@@ -158,7 +162,7 @@ CREATE TABLE percepciones_aplicadas(
 	numero_empleado				INT NOT NULL,
 	id_percepcion				INT NOT NULL,
 	id_nomina					INT,
-	cantidad					MONEY NOT NULL,
+	--cantidad					MONEY NOT NULL,
 	fecha						DATE NOT NULL
 
 	CONSTRAINT PK_Employees_Perceptions
@@ -386,3 +390,14 @@ FROM sysobjects
 WHERE xtype = 'U') AND (systypes.name <> 'sysname')
 ORDER BY TableName ASC;
 */
+
+
+
+INSERT INTO domicilios(calle, numero, colonia, ciudad, estado, codigo_postal)
+VALUES('Montes de Leon', '935', 'Las Puentes 6to Sector', 'San Nicolas de los Garza', 'Nuevo Leon', '66460');
+
+INSERT INTO empresas(razon_social, domicilio_fiscal, correo_electronico, rfc, registro_patronal, fecha_inicio)
+VALUES('Crystal Soft Development S.A. de C.V.', 1, 'crystal@domain.com', 'MOV1004082C1', 'Y5499995107','20101026');
+
+INSERT INTO administradores(correo_electronico, contrasena)
+VALUES('a@a.com', '123');

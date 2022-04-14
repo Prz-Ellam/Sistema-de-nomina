@@ -1,7 +1,7 @@
 ﻿
 namespace Presentation.Views
 {
-    partial class FormDepartments
+    partial class FormDepartamentos
     {
         /// <summary>
         /// Required designer variable.
@@ -56,6 +56,7 @@ namespace Presentation.Views
             // 
             this.txtName.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.txtName.Location = new System.Drawing.Point(20, 120);
+            this.txtName.MaxLength = 30;
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(400, 29);
             this.txtName.TabIndex = 0;
@@ -270,7 +271,7 @@ namespace Presentation.Views
             this.lblFilter.Text = "Filtrar:";
             this.lblFilter.Click += new System.EventHandler(this.lblFilter_Click);
             // 
-            // FormDepartments
+            // FormDepartamentos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -289,7 +290,7 @@ namespace Presentation.Views
             this.Controls.Add(this.lblName);
             this.Controls.Add(this.txtName);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "FormDepartments";
+            this.Name = "FormDepartamentos";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Agregar";
             this.Load += new System.EventHandler(this.FormDepartments_Load);

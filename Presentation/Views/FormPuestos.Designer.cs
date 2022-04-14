@@ -1,7 +1,7 @@
 ﻿
 namespace Presentation.Views
 {
-    partial class FormPositions
+    partial class FormPuestos
     {
         /// <summary>
         /// Required designer variable.

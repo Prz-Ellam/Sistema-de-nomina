@@ -1,7 +1,7 @@
 ﻿
 namespace Presentation.Views
 {
-    partial class FormEmployees
+    partial class FormEmpleados
     {
         /// <summary>
         /// Required designer variable.
@@ -92,10 +92,10 @@ namespace Presentation.Views
             this.department = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.position = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.hiringDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
+            this.cbDepartments = new System.Windows.Forms.ComboBox();
+            this.cbPositions = new System.Windows.Forms.ComboBox();
+            this.cbState = new System.Windows.Forms.ComboBox();
+            this.cbCity = new System.Windows.Forms.ComboBox();
             this.comboBox5 = new System.Windows.Forms.ComboBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.label21 = new System.Windows.Forms.Label();
@@ -724,45 +724,45 @@ namespace Presentation.Views
             this.hiringDate.ReadOnly = true;
             this.hiringDate.Width = 120;
             // 
-            // comboBox1
+            // cbDepartments
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(509, 292);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(200, 27);
-            this.comboBox1.TabIndex = 48;
+            this.cbDepartments.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbDepartments.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
+            this.cbDepartments.FormattingEnabled = true;
+            this.cbDepartments.Location = new System.Drawing.Point(509, 292);
+            this.cbDepartments.Name = "cbDepartments";
+            this.cbDepartments.Size = new System.Drawing.Size(200, 27);
+            this.cbDepartments.TabIndex = 48;
             // 
-            // comboBox2
+            // cbPositions
             // 
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox2.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(837, 297);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(200, 27);
-            this.comboBox2.TabIndex = 49;
+            this.cbPositions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbPositions.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
+            this.cbPositions.FormattingEnabled = true;
+            this.cbPositions.Location = new System.Drawing.Point(837, 297);
+            this.cbPositions.Name = "cbPositions";
+            this.cbPositions.Size = new System.Drawing.Size(200, 27);
+            this.cbPositions.TabIndex = 49;
             // 
-            // comboBox3
+            // cbState
             // 
-            this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox3.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(837, 216);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(200, 27);
-            this.comboBox3.TabIndex = 50;
+            this.cbState.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbState.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
+            this.cbState.FormattingEnabled = true;
+            this.cbState.Location = new System.Drawing.Point(837, 216);
+            this.cbState.Name = "cbState";
+            this.cbState.Size = new System.Drawing.Size(200, 27);
+            this.cbState.TabIndex = 50;
             // 
-            // comboBox4
+            // cbCity
             // 
-            this.comboBox4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox4.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Location = new System.Drawing.Point(837, 180);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(200, 27);
-            this.comboBox4.TabIndex = 51;
+            this.cbCity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbCity.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
+            this.cbCity.FormattingEnabled = true;
+            this.cbCity.Location = new System.Drawing.Point(837, 180);
+            this.cbCity.Name = "cbCity";
+            this.cbCity.Size = new System.Drawing.Size(200, 27);
+            this.cbCity.TabIndex = 51;
             // 
             // comboBox5
             // 
@@ -834,7 +834,7 @@ namespace Presentation.Views
             this.textBox2.Size = new System.Drawing.Size(200, 25);
             this.textBox2.TabIndex = 57;
             // 
-            // FormEmployees
+            // FormEmpleados
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -847,10 +847,10 @@ namespace Presentation.Views
             this.Controls.Add(this.label21);
             this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.comboBox5);
-            this.Controls.Add(this.comboBox4);
-            this.Controls.Add(this.comboBox3);
-            this.Controls.Add(this.comboBox2);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.cbCity);
+            this.Controls.Add(this.cbState);
+            this.Controls.Add(this.cbPositions);
+            this.Controls.Add(this.cbDepartments);
             this.Controls.Add(this.dtgEmployees);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cbPhones);
@@ -892,7 +892,7 @@ namespace Presentation.Views
             this.Controls.Add(this.txtNames);
             this.Controls.Add(this.lblTitle);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "FormEmployees";
+            this.Name = "FormEmpleados";
             this.Text = "Employees";
             this.Load += new System.EventHandler(this.Employees_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dtgEmployees)).EndInit();
@@ -943,10 +943,10 @@ namespace Presentation.Views
         private System.Windows.Forms.ComboBox cbPhones;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dtgEmployees;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.ComboBox comboBox3;
-        private System.Windows.Forms.ComboBox comboBox4;
+        private System.Windows.Forms.ComboBox cbDepartments;
+        private System.Windows.Forms.ComboBox cbPositions;
+        private System.Windows.Forms.ComboBox cbState;
+        private System.Windows.Forms.ComboBox cbCity;
         private System.Windows.Forms.DataGridViewTextBoxColumn employeeNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn empName;
         private System.Windows.Forms.DataGridViewTextBoxColumn fatherLastName;

@@ -8,16 +8,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Data_Access.Entities;
-using Data_Access.Repositories;
+using Data_Access.Repositorios;
 using Presentation.Helpers;
 using Data_Access.ViewModels;
+using Data_Access.Entidades;
 
 namespace Presentation.Views
 {
-    public partial class FormPositions : Form
+    public partial class FormPuestos : Form
     {
-        private PositionsRepository repository = new PositionsRepository();
-        private Positions position = new Positions();
+        private RepositorioPuestos repository = new RepositorioPuestos();
+        private Puestos position = new Puestos();
         int dtgPrevIndex = -1;
         int entityID = -1;
 
@@ -53,7 +54,7 @@ namespace Presentation.Views
             }
         }
 
-        public FormPositions()
+        public FormPuestos()
         {
             InitializeComponent();
         }
@@ -61,7 +62,7 @@ namespace Presentation.Views
         private void Positions_Load(object sender, EventArgs e)
         {
             PositionState = EntityState.Add;
-            //FillDataGridView();
+            FillDataGridView();
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -128,6 +129,13 @@ namespace Presentation.Views
         {
             if (positionState == EntityState.Add)
             {
+                Tuple<bool, string> feedback = new DataValidation(position).Validate();
+                if (!feedback.Item1)
+                {
+                    MessageBox.Show(feedback.Item2, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 int rowsAffected = repository.Create(position);
                 if (rowsAffected == 0)
                 {
@@ -154,10 +162,10 @@ namespace Presentation.Views
 
         public void FillEntity()
         {
-            position.Id = entityID;
-            position.Name = txtName.Text;
-            position.WageLevel = nudWageLevel.Value;
-            position.CompanyId = /* Session.company_id */ 1;
+            position.IdPuesto = entityID;
+            position.Nombre = txtName.Text;
+            position.NivelSalarial = nudWageLevel.Value;
+            position.IdEmpresa = /* Session.company_id */ 1;
         }
 
         public void FillForm(int index)

@@ -7,33 +7,35 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Data_Access.Entidades;
 using Data_Access.Entities;
-using Data_Access.Repositories;
+using Data_Access.Repositorios;
 using Data_Access.ViewModels;
 using Presentation.Helpers;
 
 namespace Presentation.Views
 {
-    public partial class FormEmployees : Form
+    public partial class FormEmpleados : Form
     {
-        private EmployeesRepository repository = new EmployeesRepository();
-        private Employees employee = new Employees();
+        private RepositorioEmpleados repository = new RepositorioEmpleados();
+        private Empleados employee = new Empleados();
+        private Domicilios domicilio = new Domicilios();
         int dtgPrevIndex = -1;
         int entityID = -1;
 
-        private EntityState positionState;
-        private EntityState PositionState
+        private EntityState employeeState;
+        private EntityState EmployeeState
         {
             get
             {
-                return positionState;
+                return employeeState;
             }
 
             set
             {
-                positionState = value;
+                employeeState = value;
 
-                switch (positionState)
+                switch (employeeState)
                 {
                     case EntityState.Add:
                     {
@@ -53,15 +55,33 @@ namespace Presentation.Views
             }
         }
 
-        public FormEmployees()
+        public FormEmpleados()
         {
             InitializeComponent();
         }
 
         private void Employees_Load(object sender, EventArgs e)
         {
-            PositionState = EntityState.Add;
-            //FillDataGridView();
+            employeeState = EntityState.Add;
+            FillDataGridView();
+
+            List<DepartmentsViewModel> departamentos = new RepositorioDepartamentos().Leer();
+            List<ComboBoxItem> nombres = new List<ComboBoxItem>();
+            foreach(var departamento in departamentos)
+            {
+                nombres.Add(new ComboBoxItem(departamento.Name, departamento.Id));
+            }
+            cbDepartments.DataSource = nombres;
+
+
+            List<PositionsViewModel> puestos = new RepositorioPuestos().ReadAll();
+            nombres = new List<ComboBoxItem>();
+            foreach (var puesto in puestos)
+            {
+                nombres.Add(new ComboBoxItem(puesto.Name, puesto.Id));
+            }
+            cbPositions.DataSource = nombres;
+
 
             // Esto es para evitar el molesto flickering que tienen los data grid view
             dtgEmployees.DoubleBuffered(true);
@@ -101,7 +121,7 @@ namespace Presentation.Views
 
         public void AddEntity()
         {
-            if (positionState == EntityState.Add)
+            if (EmployeeState == EntityState.Add)
             {
                 int rowsAffected = repository.Create(employee);
                 if (rowsAffected == 0)
@@ -113,7 +133,7 @@ namespace Presentation.Views
 
         public void EditEntity()
         {
-            if (positionState == EntityState.Modify)
+            if (EmployeeState == EntityState.Modify)
             {
                 repository.Update(employee);
             }
@@ -121,7 +141,7 @@ namespace Presentation.Views
 
         public void DeleteEntity()
         {
-            if (positionState == EntityState.Modify)
+            if (EmployeeState == EntityState.Modify)
             {
                 repository.Delete(entityID);
             }
@@ -143,6 +163,12 @@ namespace Presentation.Views
             employee.Password = txtPassword.Text;
             employee.DepartmentId = 0;
             employee.PositionId = 0;
+
+            domicilio.Calle = txtStreet.Text;
+            domicilio.Numero = txtNumber.Text;
+            domicilio.Colonia = txtSuburb.Text;
+            domicilio.Ciudad = cbCity.SelectedItem.ToString();
+            domicilio.Estado = cbState.SelectedItem.ToString();
         }
 
         public void FillForm(int index)
@@ -171,6 +197,18 @@ namespace Presentation.Views
         {
             List<EmployeesViewModel> employees = repository.ReadAll();
             dtgEmployees.DataSource = employees;
+        }
+
+        private void ListEmployees()
+        {
+            try
+            {
+                dtgEmployees.DataSource = repository.ReadAll();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         public void ClearForm()
@@ -202,13 +240,13 @@ namespace Presentation.Views
             if (index == dtgPrevIndex || index == -1)
             {
                 ClearForm();
-                PositionState = EntityState.Add;
+                EmployeeState = EntityState.Add;
                 dtgPrevIndex = -1;
             }
             else
             {
                 FillForm(index);
-                PositionState = EntityState.Modify;
+                EmployeeState = EntityState.Modify;
                 dtgPrevIndex = index;
             }
         }

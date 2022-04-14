@@ -5,8 +5,9 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Data_Access.Repositorios;
 
-namespace Data_Access.Repositories
+namespace Data_Access.Connections
 {
     public class MainConnection : Connection
     {
@@ -30,32 +31,25 @@ namespace Data_Access.Repositories
         {
             using (var connection = GetConnection())
             {
-                try
-                {
-                    connection.Open();
+                connection.Open();
 
-                    using (var command = new SqlCommand(query, connection))
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandTimeout = 9000;
+
+                    foreach (SqlParameter parameter in parameters)
                     {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandTimeout = 9000;
-
-                        foreach (SqlParameter parameter in parameters)
-                        {
-                            command.Parameters.Add(parameter);
-                        }
-
-                        return command.ExecuteNonQuery();
+                        command.Parameters.Add(parameter);
                     }
-                }
-                catch (SqlException e)
-                {
-                    return -1;
-                }
-                finally
-                {
+
+                    int result = command.ExecuteNonQuery();
                     connection.Close();
+                    return result;
                 }
+
             }
+            
         }
 
         public DataTable ExecuteReader(string query, RepositoryParameters parameters)

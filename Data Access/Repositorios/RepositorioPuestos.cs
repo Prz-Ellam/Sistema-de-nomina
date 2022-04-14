@@ -1,4 +1,5 @@
-﻿using Data_Access.Entities;
+﻿using Data_Access.Connections;
+using Data_Access.Entidades;
 using Data_Access.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -7,39 +8,40 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data_Access.Repositories
+namespace Data_Access.Repositorios
 {
-    public class PositionsRepository
+    public class RepositorioPuestos
     {
         private readonly string create, update, delete, readAll, readLike;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams = new RepositoryParameters();
 
-        public PositionsRepository()
+        public RepositorioPuestos()
         {
             mainRepository = MainConnection.GetInstance();
-            create = "sp_AddPosition";
-            update = "sp_UpdatePosition";
-            delete = "sp_DeletePosition";
-            readAll = "sp_ReadPositions";
+            create = "sp_AgregarPuesto";
+            update = "sp_ActualizarPuesto";
+            delete = "sp_EliminarPuesto";
+            readAll = "sp_LeerPuestos";
+            readLike = "sp_FiltrarPuestos";
         }
 
-        public int Create(Positions position)
+        public int Create(Puestos position)
         {
             sqlParams.Start();
-            sqlParams.Add("@name", position.Name);
-            sqlParams.Add("@wage_level", position.WageLevel);
-            sqlParams.Add("@company_id", position.CompanyId);
+            sqlParams.Add("@nombre", position.Nombre);
+            sqlParams.Add("@nivel_salarial", position.NivelSalarial);
+            sqlParams.Add("@id_empresa", position.IdEmpresa);
 
             return mainRepository.ExecuteNonQuery(create, sqlParams);
         }
 
-        public int Update(Positions position)
+        public int Update(Puestos position)
         {
             sqlParams.Start();
-            sqlParams.Add("@id", position.Id);
-            sqlParams.Add("@name", position.Name);
-            sqlParams.Add("@wage_level", position.WageLevel);
+            sqlParams.Add("@id_puesto", position.IdPuesto);
+            sqlParams.Add("@nombre", position.Nombre);
+            sqlParams.Add("@nivel_salarial", position.NivelSalarial);
 
             return mainRepository.ExecuteNonQuery(update, sqlParams);
         }
@@ -47,7 +49,7 @@ namespace Data_Access.Repositories
         public int Delete(int id)
         {
             sqlParams.Start();
-            sqlParams.Add("@id", id);
+            sqlParams.Add("@id_puesto", id);
 
             return mainRepository.ExecuteNonQuery(delete, sqlParams);
         }
@@ -62,9 +64,9 @@ namespace Data_Access.Repositories
             {
                 departments.Add(new PositionsViewModel
                 {
-                    Id = Convert.ToInt32(row["ID"]),
-                    Name = row["Nombre"].ToString(),
-                    WageLevel = Convert.ToDecimal(row["Nivel salarial"])
+                    Id = Convert.ToInt32(row[0]),
+                    Name = row[1].ToString(),
+                    WageLevel = Convert.ToDecimal(row[2])
 
                 });
             }

@@ -9,17 +9,17 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Presentation.Helpers;
-using Data_Access.Entities;
-using Data_Access.Interfaces;
-using Data_Access.Repositories;
+using Data_Access.Repositorios;
 using Data_Access.ViewModels;
+using Data_Access.Entidades;
+using System.Data.SqlClient;
 
 namespace Presentation.Views
 {
-    public partial class FormDepartments : Form
+    public partial class FormDepartamentos : Form
     {
-        private DepartmentsRepository repository = new DepartmentsRepository();
-        private Departments department = new Departments();
+        private RepositorioDepartamentos repository = new RepositorioDepartamentos();
+        private Departamentos department = new Departamentos();
         int dtgPrevIndex = -1;
         int entityID = -1;
 
@@ -56,7 +56,7 @@ namespace Presentation.Views
             }
         }
 
-        public FormDepartments()
+        public FormDepartamentos()
         {
             InitializeComponent();
             Session.company_id = 1; // <- Temporal
@@ -65,7 +65,7 @@ namespace Presentation.Views
         private void FormDepartments_Load(object sender, EventArgs e)
         {
             DepartmentState = EntityState.Add;
-            //ListDepartments();
+            ListDepartments();
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -86,10 +86,17 @@ namespace Presentation.Views
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            FillDepartment();
-            DeleteDepartment();
-            ListDepartments();
-            ClearForm();
+            try
+            {
+                FillDepartment();
+                DeleteDepartment();
+                ListDepartments();
+                ClearForm();
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void dtgDepartaments_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -142,7 +149,7 @@ namespace Presentation.Views
                     return;
                 }
 
-                repository.Create(department);
+                repository.Agregar(department);
                 MessageBox.Show("La operación se realizó exitosamente");
             }
         }
@@ -158,7 +165,7 @@ namespace Presentation.Views
                     return;
                 }
 
-                repository.Update(department);
+                repository.Actualizar(department);
                 MessageBox.Show("La operación se realizó exitosamente");
             }
         }
@@ -167,7 +174,7 @@ namespace Presentation.Views
         {
             if (departmentState == EntityState.Modify)
             {
-                repository.Delete(entityID);
+                repository.Eliminar(entityID);
                 MessageBox.Show("La operación se realizó exitosamente");
             }
         }
@@ -176,7 +183,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgDepartaments.DataSource = repository.ReadAll();
+                dtgDepartaments.DataSource = repository.Leer();
             }
             catch (Exception ex)
             {
@@ -186,10 +193,10 @@ namespace Presentation.Views
 
         public void FillDepartment()
         {
-            department.Id = entityID;
-            department.Name = txtName.Text;
-            department.BaseSalary = nudBaseSalary.Value;
-            department.Company_id = Session.company_id;
+            department.IdDepartamento = entityID;
+            department.Nombre = txtName.Text;
+            department.SueldoBase = nudBaseSalary.Value;
+            department.IdEmpresa = Session.company_id;
         }
 
         public void ClearForm()
@@ -217,7 +224,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgDepartaments.DataSource = repository.ReadLike(txtFilter.Text);
+                dtgDepartaments.DataSource = repository.Filtrar(txtFilter.Text);
             }
             catch (Exception ex)
             {

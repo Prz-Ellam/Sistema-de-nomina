@@ -34,6 +34,7 @@ namespace Presentation.Views
             this.label1 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.ofnPayroll = new System.Windows.Forms.SaveFileDialog();
             this.SuspendLayout();
             // 
             // label3
@@ -103,6 +104,10 @@ namespace Presentation.Views
             this.button1.Text = "Consultar";
             this.button1.UseVisualStyleBackColor = false;
             // 
+            // ofnPayroll
+            // 
+            this.ofnPayroll.Filter = "CSV (*.csv)|.csv";
+            // 
             // PayrollReceipts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -129,5 +134,6 @@ namespace Presentation.Views
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.SaveFileDialog ofnPayroll;
     }
 }

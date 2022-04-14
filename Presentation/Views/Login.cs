@@ -11,14 +11,14 @@ using System.Windows.Forms;
 using Presentation.Helpers;
 using Data_Access.Entities;
 using Data_Access.Interfaces;
-using Data_Access.Repositories;
+using Data_Access.Repositorios;
 
 namespace Presentation.Views
 {
     public partial class Login : Form
     {
         UsersRepository repository = new UsersRepository();
-        Users user = new Data_Access.Entities.Users();
+        Users user;
 
         public Login()
         {
@@ -61,6 +61,16 @@ namespace Presentation.Views
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
+            string email = txtEmail.Text;
+            string password = txtPassword.Text;
+
+            if (email == string.Empty || password == string.Empty)
+            {
+                MessageBox.Show("Fail");
+                return;
+            }
+
+            user = new Users();
             user.Email = txtEmail.Text;
             user.Password = txtPassword.Text;
             char position = (chkAdmin.Checked) ? 'A' : 'E';
