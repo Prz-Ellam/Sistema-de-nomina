@@ -17,7 +17,7 @@ namespace Data_Access.Entidades
 
         public int IdDepartamento { get => idDepartamento; set => idDepartamento = value; }
         [Required(ErrorMessage="El nombre del departamento es requerido")]
-        [RegularExpression(@"^[a-zA-Z ]+$", ErrorMessage="El nombre del departamento solo puede contener letras y espacios")]
+        [RegularExpression(@"^[a-zA-Z \u00C0-\u00FF]+$", ErrorMessage="El nombre del departamento solo puede contener letras y espacios")]
         [MaxLength(30, ErrorMessage="El nombre del departamento es muy largo")]
         public string Nombre { get => nombre; set => nombre = value; }
         public decimal SueldoBase { get => sueldoBase; set => sueldoBase = value; }

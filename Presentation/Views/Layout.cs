@@ -64,7 +64,7 @@ namespace Presentation.Views
 
         private void btnCompanies_Click(object sender, EventArgs e)
         {
-            OpenFormChild(new Profile());
+            OpenFormChild(new FormCompanies());
         }
 
         private void btnDepartments_Click(object sender, EventArgs e)

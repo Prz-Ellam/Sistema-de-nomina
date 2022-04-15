@@ -1,4 +1,5 @@
 ﻿using Data_Access.Connections;
+using Data_Access.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -22,23 +23,29 @@ namespace Data_Access.Repositorios
         }
 
 
-        public int Login(char type, string email, string password)
+        public Users Login(string email, string password)
         {
             sqlParams.Start();
-            sqlParams.Add("@tipo", type);
             sqlParams.Add("@correo_electronico", email);
             sqlParams.Add("@contrasena", password);
 
             DataTable table = mainRepository.ExecuteReader(login, sqlParams);
 
+            Users user;
+            foreach (DataRow row in table.Rows)
+            {
+                user = new Users
+                {
+                    Id = Convert.ToInt32(row["ID"]),
+                    Email = row["Correo"].ToString(),
+                    Position = row["Posicion"].ToString()
+                };
 
+                return user;
+            }
 
-
-
-
-            return 0;
+            return null;
         }
-
 
     }
 }

@@ -11,16 +11,16 @@ namespace Data_Access.Connections
 {
     public class MainConnection : Connection
     {
-        private static MainConnection _instance;
+        private static MainConnection instance;
 
         public static MainConnection GetInstance()
         {
-            if (_instance == null)
+            if (instance == null)
             {
-                _instance = new MainConnection();
+                instance = new MainConnection();
             }
 
-            return _instance;
+            return instance;
         }
 
         private MainConnection()

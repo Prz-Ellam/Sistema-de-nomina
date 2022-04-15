@@ -29,6 +29,7 @@ namespace Data_Access.ViewModels
         private string department;
         private string position;
         private DateTime hiringDate;
+        private decimal sueldoDiario;
 
         public int EmployeeNumber { get => employeeNumber; set => employeeNumber = value; }
         public string Name { get => name; set => name = value; }
@@ -50,5 +51,6 @@ namespace Data_Access.ViewModels
         public string Department { get => department; set => department = value; }
         public string Position { get => position; set => position = value; }
         public DateTime HiringDate { get => hiringDate; set => hiringDate = value; }
+        public decimal SueldoDiario { get => sueldoDiario; set => sueldoDiario = value; }
     }
 }

@@ -2,6 +2,7 @@
 using Data_Access.Entidades;
 using Data_Access.Entities;
 using Data_Access.Interfaces;
+using Data_Access.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -46,31 +47,41 @@ namespace Data_Access.Repositorios
             return mainRepository.ExecuteNonQuery(create, sqlParams);
         }
 
-        public int Update(Percepciones perception)
+        public int Update(Percepciones percepcion)
         {
+            sqlParams.Start();
+            sqlParams.Add("@id_percepcion", percepcion.IdPercepcion);
+            sqlParams.Add("@nombre", percepcion.Nombre);
+            sqlParams.Add("@tipo_monto", percepcion.TipoMonto);
+            sqlParams.Add("@fijo", percepcion.Fijo);
+            sqlParams.Add("@porcentual", percepcion.Porcentual);
+
             return mainRepository.ExecuteNonQuery(update, sqlParams);
         }
 
         public int Delete(int id)
         {
+            sqlParams.Start();
+            sqlParams.Add("@id_percepcion", id);
+
             return mainRepository.ExecuteNonQuery(delete, sqlParams);
         }
 
-        public List<Percepciones> Leer()
+        public List<PerceptionViewModel> Leer()
         {
             sqlParams.Start();
 
             DataTable table = mainRepository.ExecuteReader(leer, sqlParams);
-            List<Percepciones> perceptions = new List<Percepciones>();
+            List<PerceptionViewModel> perceptions = new List<PerceptionViewModel>();
             foreach (DataRow row in table.Rows) 
             {
-                perceptions.Add(new Percepciones
+                perceptions.Add(new PerceptionViewModel
                 {
                     IdPercepcion = Convert.ToInt32(row[0]),
                     Nombre = row[1].ToString(),
                     TipoMonto = Convert.ToChar(row[2]),
                     Fijo = Convert.ToDecimal(row[3]),
-                   // Porcentual = Convert.ToDecimal(row[4])
+                    Porcentual = Convert.ToDecimal(row[4])
                 });
             }
 

@@ -32,17 +32,17 @@ namespace Presentation.Views
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.departamento = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.puesto = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.count = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.depa2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cantu = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cbStates = new System.Windows.Forms.ComboBox();
             this.lblState = new System.Windows.Forms.Label();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
-            this.departamento = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.puesto = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.count = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.depa2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cantu = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
@@ -50,7 +50,7 @@ namespace Presentation.Views
             // dataGridView1
             // 
             this.dataGridView1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
-            this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
@@ -66,10 +66,30 @@ namespace Presentation.Views
             this.puesto,
             this.count});
             this.dataGridView1.EnableHeadersVisualStyles = false;
+            this.dataGridView1.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.dataGridView1.Location = new System.Drawing.Point(40, 145);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(645, 227);
+            this.dataGridView1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.dataGridView1.Size = new System.Drawing.Size(644, 227);
             this.dataGridView1.TabIndex = 0;
+            // 
+            // departamento
+            // 
+            this.departamento.HeaderText = "Departamento";
+            this.departamento.Name = "departamento";
+            this.departamento.Width = 200;
+            // 
+            // puesto
+            // 
+            this.puesto.HeaderText = "Puesto";
+            this.puesto.Name = "puesto";
+            this.puesto.Width = 200;
+            // 
+            // count
+            // 
+            this.count.HeaderText = "Cantidad de empleados";
+            this.count.Name = "count";
+            this.count.Width = 200;
             // 
             // label1
             // 
@@ -86,7 +106,7 @@ namespace Presentation.Views
             // dataGridView2
             // 
             this.dataGridView2.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
-            this.dataGridView2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dataGridView2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView2.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
@@ -101,10 +121,24 @@ namespace Presentation.Views
             this.depa2,
             this.cantu});
             this.dataGridView2.EnableHeadersVisualStyles = false;
+            this.dataGridView2.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.dataGridView2.Location = new System.Drawing.Point(40, 420);
             this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dataGridView2.Size = new System.Drawing.Size(545, 216);
             this.dataGridView2.TabIndex = 2;
+            // 
+            // depa2
+            // 
+            this.depa2.HeaderText = "Departamento";
+            this.depa2.Name = "depa2";
+            this.depa2.Width = 300;
+            // 
+            // cantu
+            // 
+            this.cantu.HeaderText = "Cantidad de empleados";
+            this.cantu.Name = "cantu";
+            this.cantu.Width = 200;
             // 
             // cbStates
             // 
@@ -150,36 +184,6 @@ namespace Presentation.Views
             this.label3.Size = new System.Drawing.Size(55, 21);
             this.label3.TabIndex = 48;
             this.label3.Text = "Fecha";
-            // 
-            // departamento
-            // 
-            this.departamento.HeaderText = "Departamento";
-            this.departamento.Name = "departamento";
-            this.departamento.Width = 200;
-            // 
-            // puesto
-            // 
-            this.puesto.HeaderText = "Puesto";
-            this.puesto.Name = "puesto";
-            this.puesto.Width = 200;
-            // 
-            // count
-            // 
-            this.count.HeaderText = "Cantidad de empleados";
-            this.count.Name = "count";
-            this.count.Width = 200;
-            // 
-            // depa2
-            // 
-            this.depa2.HeaderText = "Departamento";
-            this.depa2.Name = "depa2";
-            this.depa2.Width = 300;
-            // 
-            // cantu
-            // 
-            this.cantu.HeaderText = "Cantidad de empleados";
-            this.cantu.Name = "cantu";
-            this.cantu.Width = 200;
             // 
             // HeadcounterReports
             // 

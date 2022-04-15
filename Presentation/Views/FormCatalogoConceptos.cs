@@ -20,7 +20,10 @@ namespace Presentation.Views
         private RepositorioDeducciones deductionRepository = new RepositorioDeducciones();
         private Percepciones percepcion = new Percepciones();
         private Deducciones deduccion = new Deducciones();
-        int entityID = -1;
+        int perceptionId = -1;
+        int deductionId = -1;
+        int dtgPerceptionPrevIndex = -1;
+        int dtgDeductionPrevIndex = -1;
 
         private EntityState conceptsState;
         private EntityState ConceptsState
@@ -41,7 +44,8 @@ namespace Presentation.Views
                         btnAgregar.Enabled = true;
                         btnActualizar.Enabled = false;
                         btnEliminar.Enabled = false;
-                        entityID = -1;
+                        perceptionId = -1;
+                        deductionId = -1;
                         break;
                     }
                     case EntityState.Modify:
@@ -60,6 +64,16 @@ namespace Presentation.Views
             InitializeComponent();
         }
 
+        private void FormCatalogoConceptos_Load(object sender, EventArgs e)
+        {
+            ConceptsState = EntityState.Add;
+            ListPerceptions();
+            ListDeductions();
+
+            dtgPerceptions.DoubleBuffered(true);
+            dtgDeductions.DoubleBuffered(true);
+        }
+
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             if (!rbPerception.Checked && !rbDeduction.Checked)
@@ -68,11 +82,69 @@ namespace Presentation.Views
             }
             else if (rbPerception.Checked)
             {
+                FillPerception();
                 AddPerception();
+                ListPerceptions();
+                ClearForm();
             }
             else if (rbDeduction.Checked)
             {
+                FillDeduction();
                 AddDeduction();
+                ListDeductions();
+                ClearForm();
+            }
+            else
+            {
+                MessageBox.Show("Accion no soportada");
+            }
+        }
+
+        private void btnActualizar_Click(object sender, EventArgs e)
+        {
+            if (!rbPerception.Checked && !rbDeduction.Checked)
+            {
+                MessageBox.Show("No esta bien");
+            }
+            else if (rbPerception.Checked)
+            {
+                FillPerception();
+                UpdatePerception();
+                ListPerceptions();
+                ClearForm();
+            }
+            else if (rbDeduction.Checked)
+            {
+                FillDeduction();
+                UpdateDeduction();
+                ListDeductions();
+                ClearForm();
+            }
+            else
+            {
+                MessageBox.Show("Accion no soportada");
+            }
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            if (!rbPerception.Checked && !rbDeduction.Checked)
+            {
+                MessageBox.Show("No esta bien");
+            }
+            else if (rbPerception.Checked)
+            {
+                FillPerception();
+                DeletePerception();
+                ListPerceptions();
+                ClearForm();
+            }
+            else if (rbDeduction.Checked)
+            {
+                FillDeduction();
+                DeleteDeduction();
+                ListDeductions();
+                ClearForm();
             }
             else
             {
@@ -92,7 +164,7 @@ namespace Presentation.Views
         {
             if (ConceptsState == EntityState.Modify)
             {
-
+                perceptionRepository.Update(percepcion);
             }
         }
 
@@ -100,7 +172,7 @@ namespace Presentation.Views
         {
             if (ConceptsState == EntityState.Modify)
             {
-
+                perceptionRepository.Delete(perceptionId);
             }
         }
 
@@ -116,7 +188,7 @@ namespace Presentation.Views
         {
             if (ConceptsState == EntityState.Modify)
             {
-
+                deductionRepository.Update(deduccion);
             }
         }
 
@@ -124,6 +196,7 @@ namespace Presentation.Views
         {
             if (ConceptsState == EntityState.Modify)
             {
+                deductionRepository.Delete(deductionId);
             }
         }
 
@@ -139,61 +212,138 @@ namespace Presentation.Views
             }
         }
 
+        private void ListDeductions()
+        {
+            try
+            {
+                dtgDeductions.DataSource = deductionRepository.ReadAll();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+
+        public void FillPerception()
+        {
+            percepcion.IdPercepcion = perceptionId;
+            percepcion.Nombre = txtName.Text;
+            percepcion.TipoMonto = (rbFijo.Checked ? 'F' : 'P');
+            percepcion.Fijo = nudFijo.Value;
+            percepcion.Porcentual = nudPorcentual.Value;
+        }
+
+        public void FillDeduction()
+        {
+            deduccion.IdDeduccion = deductionId;
+            deduccion.Nombre = txtName.Text;
+            deduccion.TipoMonto = (rbFijo.Checked ? 'F' : 'P');
+            deduccion.Fijo = nudFijo.Value;
+            deduccion.Porcentual = nudPorcentual.Value;
+        }
+
+        public void ClearForm()
+        {
+            txtName.Text = string.Empty;
+            nudFijo.Value = 0.0m;
+            nudPorcentual.Value = 0.0m;
+            rbPerception.Checked = false;
+            rbDeduction.Checked = false;
+            rbFijo.Checked = false;
+            rbPorcentual.Checked = false;
+        }
+
         private void rbFijo_CheckedChanged(object sender, EventArgs e)
         {
             nudFijo.Enabled = rbFijo.Checked;
-            nudPorcentual.Enabled = !rbFijo.Checked;
         }
 
         private void rbPorcentual_CheckedChanged(object sender, EventArgs e)
         {
             nudPorcentual.Enabled = rbPorcentual.Checked;
-            nudFijo.Enabled = !rbPorcentual.Checked;
         }
 
-        private void FormCatalogoConceptos_Load(object sender, EventArgs e)
-        {
-            ListPerceptions();
 
-        }
-
-        private void btnActualizar_Click(object sender, EventArgs e)
+        private void dtgPerceptions_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (!rbPerception.Checked && !rbDeduction.Checked)
+            int index = e.RowIndex;
+
+            if (index == dtgPerceptionPrevIndex || index == -1)
             {
-                MessageBox.Show("No esta bien");
-            }
-            else if (rbPerception.Checked)
-            {
-                UpdatePerception();
-            }
-            else if (rbDeduction.Checked)
-            {
-                UpdateDeduction();
+                ClearForm();
+                ConceptsState = EntityState.Add;
+                dtgPerceptionPrevIndex = -1;
             }
             else
             {
-                MessageBox.Show("Accion no soportada");
+                FillPerceptionForm(index);
+                ConceptsState = EntityState.Modify;
+                dtgPerceptionPrevIndex = index;
             }
         }
 
-        private void btnEliminar_Click(object sender, EventArgs e)
+        private void FillPerceptionForm(int rowIndex)
         {
-            if (!rbPerception.Checked && !rbDeduction.Checked)
+            if (rowIndex == -1)
             {
-                MessageBox.Show("No esta bien");
+                return;
             }
-            else if (rbPerception.Checked)
+
+            var row = dtgPerceptions.Rows[rowIndex];
+
+            rbPerception.Checked = true;
+            perceptionId = Convert.ToInt32(row.Cells[0].Value);
+            txtName.Text = row.Cells[1].Value.ToString();
+            char type = Convert.ToChar(row.Cells[2].Value);
+            if (type == 'F')
             {
-                DeletePerception();
-            }
-            else if (rbDeduction.Checked)
-            {
-                DeleteDeduction();
+                rbFijo.Checked = true;
             }
             else
             {
-                MessageBox.Show("Accion no soportada");
+                rbPorcentual.Checked = true;
+            }
+        }
+
+        private void dtgDeductions_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int index = e.RowIndex;
+
+            if (index == dtgDeductionPrevIndex || index == -1)
+            {
+                ClearForm();
+                ConceptsState = EntityState.Add;
+                dtgDeductionPrevIndex = -1;
+            }
+            else
+            {
+                FillDeductionForm(index);
+                ConceptsState = EntityState.Modify;
+                dtgDeductionPrevIndex = index;
+            }
+        }
+
+        private void FillDeductionForm(int rowIndex)
+        {
+            if (rowIndex == -1)
+            {
+                return;
+            }
+
+            var row = dtgDeductions.Rows[rowIndex];
+
+            rbDeduction.Checked = true;
+            deductionId = Convert.ToInt32(row.Cells[0].Value);
+            txtName.Text = row.Cells[1].Value.ToString();
+            char type = Convert.ToChar(row.Cells[2].Value);
+            if (type == 'F')
+            {
+                rbFijo.Checked = true;
+            }
+            else
+            {
+                rbPorcentual.Checked = true;
             }
         }
     }

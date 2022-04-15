@@ -1,3 +1,5 @@
+USE sistema_de_nomina;
+
 GO
 CREATE FUNCTION GETMONTHLENGTH(
 	@year		INT,

@@ -270,6 +270,10 @@
       <Project>{76ccd7a2-660c-4e5b-9fb9-0872838b7da7}</Project>
       <Name>Data Access</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Domain\Domain.csproj">
+      <Project>{27d37f15-db56-4a95-91fc-abb20b270792}</Project>
+      <Name>Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\PDF_Logo.png" />

@@ -94,6 +94,7 @@
     <Compile Include="Repositorios\RepositorioDeducciones.cs" />
     <Compile Include="Repositorios\RepositorioDomicilios.cs" />
     <Compile Include="Repositorios\RepositorioEmpresas.cs" />
+    <Compile Include="Repositorios\RepositorioNominas.cs" />
     <Compile Include="Repositorios\RepositorioPercepciones.cs" />
     <Compile Include="Connections\Connection.cs" />
     <Compile Include="Repositorios\RepositorioDepartamentos.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Repositorios\RepositoryParameters.cs" />
     <Compile Include="Repositorios\StatesRepository.cs" />
     <Compile Include="Repositorios\UsersRepository.cs" />
+    <Compile Include="ViewModels\CompaniesViewModel.cs" />
     <Compile Include="ViewModels\DeductionViewModel.cs" />
     <Compile Include="ViewModels\DepartmentsViewModel.cs" />
     <Compile Include="ViewModels\EmployeesViewModel.cs" />

@@ -8,25 +8,21 @@ IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_Login')
 GO
 
 CREATE PROCEDURE sp_Login
-	@tipo						CHAR(1),
 	@correo_electronico			VARCHAR(60),
 	@contrasena					VARCHAR(30)
 AS
 
-	IF @tipo = 'A'
-
-		SELECT id_administrador, correo_electronico FROM administradores
-		WHERE correo_electronico = @correo_electronico AND contrasena = @contrasena;
-
-	ELSE IF @tipo = 'E'
-
-		SELECT numero_empleado, correo_electronico FROM empleados
-		WHERE correo_electronico = @correo_electronico AND contrasena = @contrasena;
+	SELECT id_administrador [ID], correo_electronico [Correo], 'Administrador' [Posicion] FROM administradores
+	WHERE correo_electronico = @correo_electronico AND contrasena = @contrasena
+	UNION
+	SELECT numero_empleado [ID], correo_electronico [Correo], 'Empleado' [Posicion] FROM empleados
+	WHERE correo_electronico = @correo_electronico AND contrasena = @contrasena;
+	
 
 GO
 
 
-
+exec sp_Login 'a@a.com', '123';
 
 
 -- Empresas
@@ -44,21 +40,77 @@ CREATE PROCEDURE sp_AgregarEmpresa
 AS
 
 	-- Solo puede haber una empresa para el proyecto, esta validacion impide crear mas
-	IF (SELECT COUNT(1) FROM companies) > 0
+	IF (SELECT COUNT(0) FROM empresas) > 0
 	BEGIN
 		RAISERROR(15600, 1, 1, 'Error', 'Ya existe la empresa');
 		RETURN;
 	END;
 
-	IF NOT EXISTS(SELECT 1 FROM addresses WHERE id = @address)
+	IF NOT EXISTS(SELECT 1 FROM domicilios WHERE id_domicilio = @domicilio_fiscal)
 	BEGIN
 		RAISERROR(15600, 1, 1, 'Error', 'Direccion no existe');
 		RETURN;
 	END
 
-	INSERT INTO companies(business_name, address, email, rfc, employer_registration, start_date)
-	VALUES(@business_name, @address, @email, @rfc, @employer_registration, @start_date);
+	INSERT INTO empresas(razon_social, domicilio_fiscal, correo_electronico, rfc, registro_patronal, fecha_inicio)
+	VALUES(@razon_social, @domicilio_fiscal, @correo_electronico, @rfc, @registro_patronal, @fecha_inicio);
 		
+GO
+
+
+
+
+
+
+
+
+-- Domicilios
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AgregarDomicilio')
+	DROP PROCEDURE sp_AgregarDomicilio;
+GO
+
+CREATE PROCEDURE sp_AgregarDomicilio
+	@calle				VARCHAR(30),
+	@numero				VARCHAR(10),
+	@colonia			VARCHAR(30),
+	@ciudad				VARCHAR(30),
+	@estado				VARCHAR(30),
+	@codigo_postal		VARCHAR(5)
+AS
+
+	INSERT INTO domicilios(calle, numero, colonia, ciudad, estado, codigo_postal)
+	VALUES(@calle, @numero, @colonia, @ciudad, @estado, @codigo_postal);
+	SELECT SCOPE_IDENTITY();
+
+GO
+
+
+
+
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ActualizarDomicilio')
+	DROP PROCEDURE sp_ActualizarDomicilio;
+GO
+
+CREATE PROCEDURE sp_ActualizarDomicilio
+	@id_domicilio		INT,
+	@calle				VARCHAR(30),
+	@numero				VARCHAR(10),
+	@colonia			VARCHAR(30),
+	@ciudad				VARCHAR(30),
+	@estado				VARCHAR(30),
+	@codigo_postal		VARCHAR(5)
+AS
+
+	UPDATE domicilios
+	SET
+	calle = ISNULL(@calle, calle),
+	numero = ISNULL(@numero, numero),
+	colonia = ISNULL(@colonia, colonia),
+	ciudad = ISNULL(@ciudad, ciudad),
+	estado = ISNULL(@estado, estado),
+	codigo_postal = ISNULL(@codigo_postal, codigo_postal)
+	WHERE id_domicilio = @id_domicilio;
+
 GO
 
 
@@ -70,6 +122,9 @@ GO
 
 
 
+
+
+select*from domicilios;
 
 
 -- Departamentos
@@ -96,11 +151,11 @@ GO
 
 
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ActualizarDepartmento')
-	DROP PROCEDURE sp_ActualizarDepartmento;
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ActualizarDepartamento')
+	DROP PROCEDURE sp_ActualizarDepartamento;
 GO
 
-CREATE PROCEDURE sp_ActualizarDepartmento
+CREATE PROCEDURE sp_ActualizarDepartamento
 	@id_departamento			INT,
 	@nombre						VARCHAR(60),
 	@sueldo_base				MONEY
@@ -200,7 +255,7 @@ AS
 
 	IF NOT EXISTS (SELECT id_empresa FROM empresas WHERE id_empresa = @id_empresa)
 		BEGIN
-			RAISERROR(15600, 1, 1, 'Error', 'No existe la empresa');
+			RAISERROR('La empresa aún no existe', 11, 1);
 			RETURN;
 		END;
 
@@ -281,6 +336,103 @@ GO
 
 
 
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AgregarEmpleado')
+	DROP PROCEDURE sp_AgregarEmpleado;
+GO
+
+CREATE PROCEDURE sp_AgregarEmpleado(
+	@nombre					VARCHAR(30),
+	@apellido_paterno		VARCHAR(30),
+	@apellido_materno		VARCHAR(30),
+	@fecha_nacimiento		DATE,
+	@curp					VARCHAR(20),
+	@nss					VARCHAR(20),
+	@rfc					VARCHAR(20),
+	@domicilio				INT,
+	@banco					INT,
+	@numero_cuenta			INT,
+	@correo_electronico		VARCHAR(60),
+	@contrasena				VARCHAR(30),
+	@id_departamento		INT,
+	@id_puesto				INT,
+	@fecha_contratacion		DATE
+)
+AS
+
+	DECLARE @sueldo_diario	MONEY
+	SET @sueldo_diario = (SELECT sueldo_base FROM departamentos WHERE id_departamento = @id_departamento) *
+						(SELECT nivel_salarial FROM puestos WHERE id_puesto = @id_puesto);
+
+	INSERT INTO empleados(nombre, apellido_paterno, apellido_materno, fecha_nacimiento, curp, nss, rfc,
+		domicilio, banco, numero_cuenta, correo_electronico, contrasena, id_departamento, id_puesto, sueldo_diario, fecha_contratacion)
+	VALUES (@nombre, @apellido_paterno, @apellido_materno, @fecha_nacimiento, @curp, @nss, @rfc, @domicilio, 
+		@banco, @numero_cuenta, @correo_electronico, @contrasena, @id_departamento, @id_puesto, @sueldo_diario, @fecha_contratacion);
+
+GO
+
+
+
+
+
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerEmpleados')
+	DROP PROCEDURE sp_LeerEmpleados;
+GO
+
+CREATE PROCEDURE sp_LeerEmpleados
+
+AS
+
+	SELECT	E.numero_empleado [ID], 
+			E.nombre [Nombre], 
+			E.apellido_paterno [Apellido paterno],
+			E.apellido_materno [Apellido materno],
+			E.fecha_nacimiento [Fecha de nacimiento],
+			E.curp [CURP],
+			E.nss [NSS],
+			E.rfc [RFC],
+			A.calle [Calle],
+			A.numero [Numero],
+			A.colonia [Colonia],
+			A.ciudad [Municipio],
+			A.estado [Estado],
+			A.codigo_postal [Codigo postal],
+			B.nombre [Banco],
+			E.numero_cuenta [Numero de cuenta],
+			E.correo_electronico [Correo electronico],
+			D.nombre [Departamento],
+			P.nombre [Puesto],
+			E.fecha_contratacion [Fecha de contratacion],
+			E.sueldo_diario [Sueldo diario]
+	FROM empleados AS E
+	JOIN domicilios AS A
+	ON A.id_domicilio = E.domicilio
+	JOIN bancos AS B
+	ON B.id_banco = E.banco
+	JOIN departamentos AS D
+	ON D.id_departamento = E.id_departamento
+	JOIN puestos AS P
+	ON P.id_puesto = E.id_puesto
+	WHERE E.activo = 1;
+
+GO
+
+
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ObtenerEmpleados')
+	DROP PROCEDURE sp_ObtenerEmpleados;
+GO
+
+CREATE PROCEDURE sp_ObtenerEmpleados
+AS
+
+	SELECT numero_empleado FROM empleados WHERE activo = 1;
+
+GO
+
+
+
+
+
+
 
 
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AgregarPercepcion')
@@ -303,6 +455,51 @@ GO
 
 
 
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ActualizarPercepcion')
+	DROP PROCEDURE sp_ActualizarPercepcion;
+GO
+
+CREATE PROCEDURE sp_ActualizarPercepcion(
+	@id_percepcion		INT,
+	@nombre				VARCHAR(30),
+	@tipo_monto			CHAR(1),
+	@fijo				MONEY,
+	@porcentual			FLOAT
+)
+AS
+
+	UPDATE percepciones
+	SET
+	nombre = ISNULL(@nombre, nombre),
+	tipo_monto = ISNULL(@tipo_monto, tipo_monto),
+	fijo = ISNULL(@fijo, fijo),
+	porcentual = ISNULL(@porcentual, porcentual)
+	WHERE id_percepcion = @id_percepcion;
+
+GO
+
+
+
+
+
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_EliminarPercepcion')
+	DROP PROCEDURE sp_EliminarPercepcion;
+GO
+
+CREATE PROCEDURE sp_EliminarPercepcion(
+	@id_percepcion		INT
+)
+AS
+
+	UPDATE percepciones
+	SET
+	activo = 0
+	WHERE id_percepcion = @id_percepcion;
+
+GO
+
+
+
 
 
 
@@ -315,7 +512,7 @@ GO
 CREATE PROCEDURE sp_LeerPercepciones
 AS
 
-	SELECT id_percepcion, nombre, tipo_monto, fijo, porcentual
+	SELECT id_percepcion, nombre, tipo_monto, ISNULL(fijo, 0), ISNULL(porcentual, 0)
 	FROM percepciones
 	WHERE activo = 1;
 
@@ -344,6 +541,49 @@ AS
 GO
 
 
+
+
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ActualizarDeduccion')
+	DROP PROCEDURE sp_ActualizarDeduccion;
+GO
+
+CREATE PROCEDURE sp_ActualizarDeduccion(
+	@id_deduccion		INT,
+	@nombre				VARCHAR(30),
+	@tipo_monto			CHAR(1),
+	@fijo				MONEY,
+	@porcentual			FLOAT
+)
+AS
+
+	UPDATE deducciones
+	SET
+	nombre = ISNULL(@nombre, nombre),
+	tipo_monto = ISNULL(@tipo_monto, tipo_monto),
+	fijo = ISNULL(@fijo, fijo),
+	porcentual = ISNULL(@porcentual, porcentual)
+	WHERE id_deduccion = @id_deduccion;
+
+GO
+
+
+
+
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_EliminarDeduccion')
+	DROP PROCEDURE sp_EliminarDeduccion;
+GO
+
+CREATE PROCEDURE sp_EliminarDeduccion(
+	@id_deduccion		INT
+)
+AS
+
+	UPDATE deducciones
+	SET
+	activo = 0
+	WHERE id_deduccion = @id_deduccion;
+
+GO
 
 
 
@@ -378,46 +618,6 @@ VALUES('Santander');
 
 
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ReadEmployees')
-	DROP PROCEDURE sp_ReadEmployees;
-GO
-
-CREATE PROCEDURE sp_ReadEmployees
-
-AS
-
-	SELECT	E.numero_empleado [ID], 
-			E.nombre [Nombre], 
-			E.apellido_paterno [Apellido paterno],
-			E.apellido_materno [Apellido materno],
-			E.fecha_nacimiento [Fecha de nacimiento],
-			E.curp [CURP],
-			E.nss [NSS],
-			E.rfc [RFC],
-			A.calle [Calle],
-			A.numero [Numero],
-			A.colonia [Colonia],
-			A.ciudad [Municipio],
-			A.estado [Estado],
-			A.codigo_postal [Codigo postal],
-			B.nombre [Banco],
-			E.numero_cuenta [Numero de cuenta],
-			E.correo_electronico [Correo electronico],
-			D.nombre [Departamento],
-			P.nombre [Puesto],
-			E.fecha_contratacion [Fecha de contratacion]
-	FROM empleados AS E
-	JOIN domicilios AS A
-	ON A.id_domicilio = E.domicilio
-	JOIN bancos AS B
-	ON B.id_banco = E.banco
-	JOIN departamentos AS D
-	ON D.id_departamento = E.id_departamento
-	JOIN puestos AS P
-	ON P.id_puesto = E.id_puesto
-	WHERE E.activo = 1;
-
-GO
 
 
 
@@ -461,3 +661,90 @@ GO
 
 
 
+
+
+
+
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_GenerarNomina')
+	DROP PROCEDURE sp_GenerarNomina;
+GO
+
+CREATE PROCEDURE sp_GenerarNomina(
+	@numero_empleado	INT,
+	@fecha			DATE
+)
+AS
+
+	DECLARE @anio		INT;
+	DECLARE @mes		INT;
+	DECLARE @dias		INT;
+
+	SET @anio = YEAR(@fecha);
+	SET @mes = MONTH(@fecha);
+	SET @dias =  dbo.GETMONTHLENGTH(@anio, @mes);
+
+	--SELECT @year, @month, @days;
+	/*
+	DECLARE @daily_salary	MONEY;
+	SET @daily_salary = (SELECT D.base_salary * P.wage_level 
+						FROM employees
+						JOIN departments AS D
+						ON employees.department_id = D.id
+						JOIN positions AS P
+						ON employees.position_id = P.id
+						WHERE employees.employee_number = @employee_number);
+
+	DECLARE @gross_salary	MONEY;
+	SET @gross_salary = @daily_salary * @days;
+
+	SELECT @days AS [Dias], @daily_salary AS [Salario Diario], @gross_salary AS [Sueldo bruto]
+
+
+	SELECT perceptions.id
+	FROM perceptions
+	JOIN employees_perceptions
+	ON employees_perceptions.perception_id = perceptions.id
+	JOIN employees
+	ON employees_perceptions.employee_id = employees.employee_number
+	WHERE YEAR(employees_perceptions.actual_date) = @year
+	AND MONTH(employees_perceptions.actual_date) = @month;
+
+	SELECT deductions.id
+	FROM deductions
+	JOIN employees_deductions
+	ON employees_deductions.deduction_id = deduction_id
+	JOIN employees
+	ON employees_deductions.employee_id = employees.employee_number
+	WHERE YEAR(employees_deductions.actual_date) = @year
+	AND MONTH(employees_deductions.actual_date) = @month;
+
+
+	DECLARE @total_perception_fixed	MONEY;
+	SET @total_perception_fixed = (SELECT SUM(p.fixed) FROM perceptions AS p
+	JOIN employees_perceptions AS ep
+	ON ep.perception_id = p.id
+	JOIN employees AS e
+	ON ep.employee_id = e.employee_number
+	WHERE ep.employee_id = @employee_number AND ep.perception_id = p.id AND ep.actual_date = @gen_date
+	AND amount_type = 'F');
+
+	DECLARE @total_perception_percentage	FLOAT;
+	SET @total_perception_percentage = (SELECT SUM(p.percentage) FROM perceptions AS p
+	JOIN employees_perceptions AS ep
+	ON ep.perception_id = p.id
+	JOIN employees AS e
+	ON ep.employee_id = e.employee_number
+	WHERE ep.employee_id = @employee_number AND ep.perception_id = p.id AND ep.actual_date = @gen_date
+	AND amount_type = 'P');
+
+	DECLARE @total_deduction_fixed		MONEY;
+	DECLARE @total_deduction_percentage	FLOAT;
+
+	DECLARE @net_salary	MONEY;
+	SET @net_salary = @gross_salary + @total_perception_fixed + (@total_perception_percentage * @gross_salary);
+	/*- @total_deduction_fixed - (@total_deduction_fixed * @total_deduction_percentage);*/
+
+
+	SELECT ROUND(@net_salary, 2);
+	*/
+GO

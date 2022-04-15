@@ -59,7 +59,6 @@ namespace Presentation.Views
         public FormDepartamentos()
         {
             InitializeComponent();
-            Session.company_id = 1; // <- Temporal
         }
 
         private void FormDepartments_Load(object sender, EventArgs e)
@@ -70,18 +69,32 @@ namespace Presentation.Views
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            FillDepartment();
-            AddDepartment();
-            ListDepartments();
-            ClearForm();
+            try
+            {
+                FillDepartment();
+                AddDepartment();
+                ListDepartments();
+                ClearForm();
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            FillDepartment();
-            UpdateDepartment();
-            ListDepartments();
-            ClearForm();
+            try
+            {
+                FillDepartment();
+                UpdateDepartment();
+                ListDepartments();
+                ClearForm();
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -95,7 +108,7 @@ namespace Presentation.Views
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

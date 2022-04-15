@@ -8,60 +8,81 @@ using System.Threading.Tasks;
 using Data_Access.Connections;
 using Data_Access.Entidades;
 using Data_Access.Interfaces;
+using Data_Access.ViewModels;
 
 namespace Data_Access.Repositorios
 {
     public class CompaniesRepository : ICompaniesRepository
     {
-        private readonly string create, read;
+        private readonly string create, read, verify;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams = new RepositoryParameters();
 
         public CompaniesRepository()
         {
             mainRepository = MainConnection.GetInstance();
-            create = "sp_AddCompany";
-            read = "sp_ReadCompany";
+            create = "sp_AgregarEmpresa";
+            read = "sp_LeerEmpresa";
+            verify = "sp_ObtenerEmpresa";
         }
 
         public int Create(Empresas company)
         {
             sqlParams.Start();
-            sqlParams.Add("@business_name", company.BusinessName);
-            sqlParams.Add("@address", company.Address);
-            sqlParams.Add("@email", company.Email);
+            sqlParams.Add("@razon_social", company.RazonSocial);
+            sqlParams.Add("@domicilio_fiscal", company.Domicilio);
+            sqlParams.Add("@correo_electronico", company.CorreoElectronico);
             sqlParams.Add("@rfc", company.Rfc);
-            sqlParams.Add("@employer_registration", company.Employer_registration);
-            sqlParams.Add("@start_date", company.Start_date);
+            sqlParams.Add("@registro_patronal", company.RegistroPatronal);
+            sqlParams.Add("@fecha_inicio", company.FechaInicio);
+            sqlParams.Add("@id_administrador", company.IdAdministrador);
 
             return mainRepository.ExecuteNonQuery(create, sqlParams);
         }
 
-        public Empresas Read(int id)
+        public CompaniesViewModel Read(int id)
         {
             sqlParams.Start();
-            sqlParams.Add("@company_id", id);
+            sqlParams.Add("@id_empresa", id);
 
             DataTable table = mainRepository.ExecuteReader(read, sqlParams);
 
-            Empresas company;
+            CompaniesViewModel company;
             foreach (DataRow row in table.Rows)
             {
-                company = new Empresas {
-                    Id = Convert.ToInt32(row[0]),
-                    BusinessName = row[1].ToString(),
-                    Address = Convert.ToInt32(row[2]),
-                    Email = row[3].ToString(),
-                    Rfc = row[4].ToString(),
-                    Employer_registration = row[5].ToString(),
-                    Start_date = Convert.ToDateTime(row[6]),
-                    Active = Convert.ToBoolean(row[7])
+                company = new CompaniesViewModel {
+                    IdEmpresa = Convert.ToInt32(row[0]),
+                    RazonSocial = row[1].ToString(),
+                    Calle = row[2].ToString(),
+                    Numero = row[3].ToString(),
+                    Colonia = row[4].ToString(),
+                    Ciudad = row[5].ToString(),
+                    Estado = row[6].ToString(),
+                    CodigoPostal = row[7].ToString(),
+                    CorreoElectronico = row[8].ToString(),
+                    RegistroPatronal = row[9].ToString(),
+                    Rfc = row[10].ToString(),
+                    FechaInicio = Convert.ToDateTime(row[11])
                 };
 
                 return company;
             }
 
             return null;
+        }
+
+        public int Verify(int id)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@id_administrador", id);
+            DataTable table = mainRepository.ExecuteReader(verify, sqlParams);
+
+            foreach (DataRow row in table.Rows)
+            {
+                return Convert.ToInt32(row[0]);
+            }
+
+            return -1;
         }
     }
 }

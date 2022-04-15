@@ -12,6 +12,7 @@ using Data_Access.Repositorios;
 using Presentation.Helpers;
 using Data_Access.ViewModels;
 using Data_Access.Entidades;
+using System.Data.SqlClient;
 
 namespace Presentation.Views
 {
@@ -67,11 +68,18 @@ namespace Presentation.Views
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            FillEntity();
-            AddEntity();
-            MessageBox.Show("La operación se realizó exitosamente");
-            FillDataGridView();
-            ClearForm();
+            try
+            {
+                FillEntity();
+                AddEntity();
+                MessageBox.Show("La operación se realizó exitosamente");
+                FillDataGridView();
+                ClearForm();
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
@@ -165,7 +173,7 @@ namespace Presentation.Views
             position.IdPuesto = entityID;
             position.Nombre = txtName.Text;
             position.NivelSalarial = nudWageLevel.Value;
-            position.IdEmpresa = /* Session.company_id */ 1;
+            position.IdEmpresa = Session.company_id;
         }
 
         public void FillForm(int index)

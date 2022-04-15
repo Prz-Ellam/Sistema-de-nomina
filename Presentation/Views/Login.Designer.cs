@@ -37,7 +37,6 @@ namespace Presentation.Views
             this.lblEmailError = new System.Windows.Forms.Label();
             this.lblPasswordError = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.chkAdmin = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
@@ -148,18 +147,6 @@ namespace Presentation.Views
             this.label3.TabIndex = 0;
             this.label3.Text = "Iniciar sesión";
             // 
-            // chkAdmin
-            // 
-            this.chkAdmin.AutoSize = true;
-            this.chkAdmin.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkAdmin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.chkAdmin.Location = new System.Drawing.Point(41, 353);
-            this.chkAdmin.Name = "chkAdmin";
-            this.chkAdmin.Size = new System.Drawing.Size(140, 23);
-            this.chkAdmin.TabIndex = 7;
-            this.chkAdmin.Text = "Soy administrador";
-            this.chkAdmin.UseVisualStyleBackColor = true;
-            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
@@ -224,7 +211,6 @@ namespace Presentation.Views
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(486, 491);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.chkAdmin);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.lblPasswordError);
             this.Controls.Add(this.lblEmailError);
@@ -257,7 +243,6 @@ namespace Presentation.Views
         private System.Windows.Forms.Label lblEmailError;
         private System.Windows.Forms.Label lblPasswordError;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.CheckBox chkAdmin;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pbClose;

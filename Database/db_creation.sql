@@ -13,6 +13,7 @@ CREATE TABLE empresas(
 	registro_patronal		VARCHAR(11) UNIQUE NOT NULL,
 	rfc						VARCHAR(12) UNIQUE NOT NULL,
 	fecha_inicio			DATE NOT NULL,
+	id_administrador		INT NOT NULL,
 	activo					BIT DEFAULT 1
 
 	CONSTRAINT PK_Company
@@ -27,8 +28,7 @@ CREATE TABLE administradores(
 	correo_electronico			VARCHAR(60) UNIQUE NOT NULL,
 	contrasena					VARCHAR(30) NOT NULL,
 	activo						BIT DEFAULT 1,
-	id_empresa					INT
-
+	
 	CONSTRAINT PK_Administrator
 		PRIMARY KEY (id_administrador)
 );
@@ -70,13 +70,13 @@ CREATE TABLE empleados(
 	apellido_paterno			VARCHAR(30) NOT NULL,
 	apellido_materno			VARCHAR(30) NOT NULL,
 	fecha_nacimiento			DATE NOT NULL,
-	curp						VARCHAR(18) UNIQUE NOT NULL,
-	nss							VARCHAR(11)	UNIQUE NOT NULL,
-	rfc							VARCHAR(13)	UNIQUE NOT NULL,
+	curp						VARCHAR(18) NOT NULL,
+	nss							VARCHAR(11) NOT NULL,
+	rfc							VARCHAR(13) NOT NULL,
 	domicilio					INT NOT NULL,
 	banco						INT NOT NULL,
-	numero_cuenta				VARCHAR(10) UNIQUE NOT NULL,
-	correo_electronico			VARCHAR(60) UNIQUE NOT NULL,
+	numero_cuenta				VARCHAR(10) NOT NULL,
+	correo_electronico			VARCHAR(60) NOT NULL,
 	contrasena					VARCHAR(30) NOT NULL,
 	sueldo_diario				MONEY NOT NULL,
 	fecha_contratacion			DATE NOT NULL,
@@ -85,7 +85,17 @@ CREATE TABLE empleados(
 	id_puesto					INT NOT NULL,
 
 	CONSTRAINT PK_Employee
-		PRIMARY KEY (numero_empleado)
+		PRIMARY KEY (numero_empleado),
+	CONSTRAINT Unique_Curp
+		UNIQUE (curp),
+	CONSTRAINT Unique_Nss
+		UNIQUE (nss),
+	CONSTRAINT Unique_Rfc
+		UNIQUE (rfc),
+	CONSTRAINT Unique_Numero_Cuenta
+		UNIQUE (numero_cuenta),
+	CONSTRAINT Unique_Correo_electronico
+		UNIQUE (correo_electronico)
 );
 
 IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'percepciones' AND type = 'u')
@@ -107,10 +117,6 @@ CREATE TABLE percepciones(
 	CONSTRAINT Chk_Percepcion_Duracion
 		CHECK (tipo_duracion in ('S', 'B'))
 );
-
-INSERT INTO percepciones(nombre, tipo_monto, fijo, porcentual)
-VALUES('Llegadas temprano', 'F', 120.00, null);
-SELECT*FROM percepciones;
 
 IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'deducciones' AND type = 'u')
 	DROP TABLE deducciones;
@@ -177,7 +183,7 @@ CREATE TABLE deducciones_aplicadas(
 	numero_empleado				INT NOT NULL,
 	id_deduccion				INT NOT NULL,
 	id_nomina					INT,
-	cantidad					MONEY NOT NULL,
+	--cantidad					MONEY NOT NULL,
 	fecha						DATE NOT NULL
 
 	CONSTRAINT PK_Employees_Deductions
@@ -246,10 +252,10 @@ ALTER TABLE empresas
 		FOREIGN KEY (domicilio_fiscal)
 		REFERENCES domicilios(id_domicilio);
 
-ALTER TABLE administradores
+ALTER TABLE empresas
 	ADD CONSTRAINT FK_Admin_Empresa
-		FOREIGN KEY (id_empresa)
-		REFERENCES empresas(id_empresa);
+		FOREIGN KEY (id_administrador)
+		REFERENCES administradores(id_administrador);
 
 ALTER TABLE departamentos
 	ADD CONSTRAINT FK_Departmento_Empresa
@@ -330,7 +336,6 @@ ALTER TABLE telefonos_empleados
 
 
 /*
-
 ALTER TABLE empresas
 	DROP CONSTRAINT FK_Empresa_Domicilio;
 
@@ -370,6 +375,7 @@ ALTER TABLE telefonos_empresas
 
 ALTER TABLE telefonos_empleados
 	DROP CONSTRAINT fk_telefono_empleado;
+
 */
 
 
@@ -401,3 +407,4 @@ VALUES('Crystal Soft Development S.A. de C.V.', 1, 'crystal@domain.com', 'MOV100
 
 INSERT INTO administradores(correo_electronico, contrasena)
 VALUES('a@a.com', '123');
+

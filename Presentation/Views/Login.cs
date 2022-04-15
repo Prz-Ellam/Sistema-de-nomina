@@ -18,7 +18,6 @@ namespace Presentation.Views
     public partial class Login : Form
     {
         UsersRepository repository = new UsersRepository();
-        Users user;
 
         public Login()
         {
@@ -66,16 +65,33 @@ namespace Presentation.Views
 
             if (email == string.Empty || password == string.Empty)
             {
-                MessageBox.Show("Fail");
+                MessageBox.Show("Todos los campos son obligatorios", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            user = new Users();
-            user.Email = txtEmail.Text;
-            user.Password = txtPassword.Text;
-            char position = (chkAdmin.Checked) ? 'A' : 'E';
+            Users user = repository.Login(email, password);
 
-            repository.Login(position, user.Email, user.Password);
+            if (user == null)
+            {
+                MessageBox.Show("Sus credenciales no coinciden", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                ShowMenu(user);
+            }
+
+        }
+
+        private void ShowMenu(Users user)
+        {
+            Session.position = user.Position;
+            Session.email = user.Email;
+            Session.id = user.Id;
+            Session.company_id = new CompaniesRepository().Verify(Session.id);
+
+            Layout menu = new Layout();
+            menu.Show();
+            this.Hide();
         }
     }
 }

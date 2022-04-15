@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -18,10 +19,12 @@ namespace Presentation.Views
     public partial class FormEmpleados : Form
     {
         private RepositorioEmpleados repository = new RepositorioEmpleados();
+        private RepositorioDomicilios addressesRepository = new RepositorioDomicilios();
         private Empleados employee = new Empleados();
-        private Domicilios domicilio = new Domicilios();
+        private Domicilios address = new Domicilios();
         int dtgPrevIndex = -1;
         int entityID = -1;
+        private List<States> states;
 
         private EntityState employeeState;
         private EntityState EmployeeState
@@ -62,8 +65,12 @@ namespace Presentation.Views
 
         private void Employees_Load(object sender, EventArgs e)
         {
-            employeeState = EntityState.Add;
-            FillDataGridView();
+            EmployeeState = EntityState.Add;
+            ListEmployees();
+
+
+
+
 
             List<DepartmentsViewModel> departamentos = new RepositorioDepartamentos().Leer();
             List<ComboBoxItem> nombres = new List<ComboBoxItem>();
@@ -82,6 +89,8 @@ namespace Presentation.Views
             }
             cbPositions.DataSource = nombres;
 
+            InitStates();
+
 
             // Esto es para evitar el molesto flickering que tienen los data grid view
             dtgEmployees.DoubleBuffered(true);
@@ -89,11 +98,18 @@ namespace Presentation.Views
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            FillEntity();
-            AddEntity();
-            MessageBox.Show("La operación se realizó exitosamente");
-            FillDataGridView();
-            ClearForm();
+            try
+            {
+                FillEntity();
+                AddEntity();
+                MessageBox.Show("La operación se realizó exitosamente");
+                ListEmployees();
+                ClearForm();
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
@@ -101,7 +117,7 @@ namespace Presentation.Views
             FillEntity();
             EditEntity();
             MessageBox.Show("La operación se realizó exitosamente");
-            FillDataGridView();
+            ListEmployees();
             ClearForm();
         }
 
@@ -110,19 +126,37 @@ namespace Presentation.Views
             FillEntity();
             DeleteEntity();
             MessageBox.Show("La operación se realizó exitosamente");
-            FillDataGridView();
+            ListEmployees();
             ClearForm();
         }
 
-        private void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void dtgEmployees_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            int index = e.RowIndex;
 
+            if (index == dtgPrevIndex || index == -1)
+            {
+                ClearForm();
+                EmployeeState = EntityState.Add;
+                dtgPrevIndex = -1;
+            }
+            else
+            {
+                FillForm(index);
+                EmployeeState = EntityState.Modify;
+                dtgPrevIndex = index;
+            }
         }
+
 
         public void AddEntity()
         {
             if (EmployeeState == EntityState.Add)
             {
+                int id = addressesRepository.Create(address);
+
+                employee.Domicilio = id;
+
                 int rowsAffected = repository.Create(employee);
                 if (rowsAffected == 0)
                 {
@@ -149,26 +183,28 @@ namespace Presentation.Views
 
         public void FillEntity()
         {
-            employee.Name = txtNames.Text;
-            employee.FatherLastName = txtFatherLastName.Text;
-            employee.MotherLastName = txtMotherLastName.Text;
-            employee.DateOfBirth = dtpDateOfBirth.Value;
+            employee.Nombre = txtNames.Text;
+            employee.ApellidoPaterno = txtFatherLastName.Text;
+            employee.ApellidoMaterno = txtMotherLastName.Text;
+            employee.FechaNacimiento = dtpDateOfBirth.Value;
             employee.Curp = txtCURP.Text;
             employee.Nss = txtNSS.Text;
             employee.Rfc = txtRFC.Text;
-            employee.Address = 1;
-            employee.Bank = 1;
-            employee.AccountNumber = Convert.ToInt32(txtAccountNumber.Text);
-            employee.Email = txtEmail.Text;
-            employee.Password = txtPassword.Text;
-            employee.DepartmentId = 0;
-            employee.PositionId = 0;
+            //employee.Address = 1;
+            employee.Banco = 1;
+            employee.NumeroCuenta = Convert.ToInt32(txtAccountNumber.Text);
+            employee.CorreoElectronico = txtEmail.Text;
+            employee.Contrasena = txtPassword.Text;
+            employee.IdDepartamento = ((ComboBoxItem)cbDepartments.SelectedItem).HiddenValue;
+            employee.IdPuesto = ((ComboBoxItem)cbPositions.SelectedItem).HiddenValue;
+            employee.FechaContratacion = dtpHiringDate.Value;
 
-            domicilio.Calle = txtStreet.Text;
-            domicilio.Numero = txtNumber.Text;
-            domicilio.Colonia = txtSuburb.Text;
-            domicilio.Ciudad = cbCity.SelectedItem.ToString();
-            domicilio.Estado = cbState.SelectedItem.ToString();
+            address.Calle = txtStreet.Text;
+            address.Numero = txtNumber.Text;
+            address.Colonia = txtSuburb.Text;
+            address.Ciudad = cbCity.SelectedItem.ToString();
+            address.Estado = cbState.SelectedItem.ToString();
+            address.CodigoPostal = txtPostalCode.Text;
         }
 
         public void FillForm(int index)
@@ -191,12 +227,7 @@ namespace Presentation.Views
             //txtBank.Text = row.Cells[14].Value.ToString();
             txtAccountNumber.Text = row.Cells[15].Value.ToString();
             txtEmail.Text = row.Cells[16].Value.ToString();
-        }
-
-        public void FillDataGridView()
-        {
-            List<EmployeesViewModel> employees = repository.ReadAll();
-            dtgEmployees.DataSource = employees;
+            txtBaseSalary.Text = row.Cells[20].Value.ToString();
         }
 
         private void ListEmployees()
@@ -225,30 +256,39 @@ namespace Presentation.Views
             txtStreet.Clear();
             txtNumber.Clear();
             txtSuburb.Clear();
-            //txtCity.Clear();
-            //txtState.Clear();
+            cbCity.SelectedIndex = -1;
+            cbState.SelectedIndex = 0;
             txtPostalCode.Clear();
-            //txtBank.Clear();
+            cbBank.SelectedIndex = -1;
             txtAccountNumber.Clear();
             cbPhones.Items.Clear();
         }
 
-        private void dtgEmployees_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            int index = e.RowIndex;
 
-            if (index == dtgPrevIndex || index == -1)
+
+        private void InitStates()
+        {
+            StatesRepository repository = new StatesRepository();
+            states = repository.GetAll();
+
+            cbState.Items.Add("Seleccionar");
+            foreach (var state in states)
             {
-                ClearForm();
-                EmployeeState = EntityState.Add;
-                dtgPrevIndex = -1;
+                cbState.Items.Add(state.state);
             }
-            else
+
+            cbState.SelectedIndex = 0;
+        }
+
+        private void cbState_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cbCity.DataSource = null;
+            if (cbState.SelectedIndex <= 0)
             {
-                FillForm(index);
-                EmployeeState = EntityState.Modify;
-                dtgPrevIndex = index;
+                return;
             }
+            cbCity.DataSource = states[cbState.SelectedIndex - 1].cities;
+            cbCity.SelectedIndex = 0;
         }
     }
 }
