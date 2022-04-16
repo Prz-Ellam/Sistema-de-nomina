@@ -87,11 +87,27 @@ namespace Presentation.Views
             Session.position = user.Position;
             Session.email = user.Email;
             Session.id = user.Id;
-            Session.company_id = new CompaniesRepository().Verify(Session.id);
+            if (Session.position == "Administrador")
+                Session.company_id = new CompaniesRepository().Verify(Session.id);
 
             Layout menu = new Layout();
             menu.Show();
             this.Hide();
+        }
+
+        private void fadeIn_Tick(object sender, EventArgs e)
+        {
+            Opacity = Opacity + 0.2f % 1;
+        }
+
+        private void pbClosed_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void pbMinimized_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
         }
     }
 }

@@ -31,5 +31,18 @@ namespace Presentation.Views
 
             }
         }
+
+        private void GeneralPayrollReports_Load(object sender, EventArgs e)
+        {
+            DateTime date = dtpDate.Value;
+            try
+            {
+                dtgGeneralPayroll.DataSource = payrollRepository.GeneralPayrollReport(date);
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
     }
 }

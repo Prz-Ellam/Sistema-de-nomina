@@ -28,10 +28,21 @@ namespace Presentation.Views
                 case "Administrador":
                 {
                     // Habilitar o deshabilitar opciones de acuerdo al tipo de usuario
+                    btnProfile.Visible = false;
+                    btnEmployeeReceipts.Visible = false;
                     break;
                 }
                 case "Empleado":
                 {
+                    btnCompanies.Visible = false;
+                    btnDepartments.Visible = false;
+                    btnPositions.Visible = false;
+                    btnEmployees.Visible = false;
+                    btnConcepts.Visible = false;
+                    btnConceptsApply.Visible = false;
+                    btnPayroll.Visible = false;
+                    btnReports.Visible = false;
+                    panelSubmenuReports.Visible = false;
                     // Habilitar o deshabilitar opciones de acuerdo al tipo de usuario
                     break;
                 }
@@ -136,6 +147,26 @@ namespace Presentation.Views
             Form form = new Login();
             form.Show();
             this.Close();
+        }
+
+        private void pbMinimized_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void panel11_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void btnEmployeeReceipts_Click(object sender, EventArgs e)
+        {
+            OpenFormChild(new PayrollReceipts());
+        }
+
+        private void btnProfile_Click(object sender, EventArgs e)
+        {
+            OpenFormChild(new Profile());
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Data_Access.Repositorios
         public RepositorioNominas()
         {
             mainRepository = MainConnection.GetInstance();
-            generate = "sp_GenerarNominas";
+            generate = "sp_GenerarNomina";
             readByDate = "sp_ObtenerNominasPorFecha";
             generalPayrollReport = "sp_ReporteGeneralNomina";
         }

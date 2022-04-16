@@ -45,6 +45,7 @@ namespace Presentation.Views
                         btnAgregar.Enabled = true;
                         btnActualizar.Enabled = false;
                         btnEliminar.Enabled = false;
+                        gbTipoConcepto.Enabled = true;
                         perceptionId = -1;
                         deductionId = -1;
                         break;
@@ -54,6 +55,7 @@ namespace Presentation.Views
                         btnAgregar.Enabled = false;
                         btnActualizar.Enabled = true;
                         btnEliminar.Enabled = true;
+                        gbTipoConcepto.Enabled = false;
                         break;
                     }
                 }
@@ -157,113 +159,150 @@ namespace Presentation.Views
 
         private string AddPerception()
         {
-            if (ConceptsState == EntityState.Add)
+            if (ConceptsState != EntityState.Add)
             {
-                try
-                {
-                    int rowCount = perceptionRepository.Create(percepcion);
-
-                    if (rowCount > 0)
-                    {
-                        return "La operación se realizó éxitosamente";
-                    }
-                    else
-                    {
-                        return "No se pudo realizar la operación";
-                    }
-                }
-                catch (SqlException ex)
-                {
-                    return ex.Message;
-                }
+                return "Operación incorrecta";
             }
 
+            try
+            {
+                Tuple<bool, string> feedback = new DataValidation(percepcion).Validate();
+                if (!feedback.Item1)
+                {
+                    return feedback.Item2;
+                }
+
+                int rowCount = perceptionRepository.Create(percepcion);
+
+                if (rowCount > 0)
+                {
+                    return "La operación se realizó éxitosamente";
+                }
+                else
+                {
+                    return "No se pudo realizar la operación";
+                }
+            }
+            catch (SqlException ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        public string UpdatePerception()
+        {
+            if (ConceptsState != EntityState.Modify)
+            {
+                return "Operación incorrecta";
+            }
+
+            try
+            {
+                Tuple<bool, string> feedback = new DataValidation(percepcion).Validate();
+                if (!feedback.Item1)
+                {
+                    return feedback.Item2;
+                }
+
+                perceptionRepository.Update(percepcion);
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             return "";
         }
 
-        public void UpdatePerception()
+        public string DeletePerception()
         {
-            if (ConceptsState == EntityState.Modify)
+            if (ConceptsState != EntityState.Modify)
             {
-                try
-                {
-                    perceptionRepository.Update(percepcion);
-                }
-                catch (SqlException ex)
-                {
-                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                return "Operación incorrecta";
             }
-        }
 
-        public void DeletePerception()
-        {
-            if (ConceptsState == EntityState.Modify)
+            try
             {
-                try
-                {
-                    perceptionRepository.Delete(perceptionId);
-                }
-                catch (SqlException ex)
-                {
-                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                perceptionRepository.Delete(perceptionId);
             }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
+            return "";
         }
 
         private string AddDeduction()
         {
-            if (ConceptsState == EntityState.Add)
+            if (ConceptsState != EntityState.Add)
             {
-                try
-                {
-                    int rowCount = deductionRepository.Create(deduccion);
-                    if (rowCount > 0)
-                    {
-                        return "La operación se realizó éxitosamente";
-                    }
-                    else
-                    {
-                        return "No se pudo realizar la operación";
-                    }
-                }
-                catch (SqlException ex)
-                {
-                    return ex.Message;
-                }
+                return "Operación incorrecta";
             }
 
+            try
+            {
+                Tuple<bool, string> feedback = new DataValidation(deduccion).Validate();
+                if (!feedback.Item1)
+                {
+                    return feedback.Item2;
+                }
+
+                int rowCount = deductionRepository.Create(deduccion);
+                if (rowCount > 0)
+                {
+                    return "La operación se realizó éxitosamente";
+                }
+                else
+                {
+                    return "No se pudo realizar la operación";
+                }
+            }
+            catch (SqlException ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        private string UpdateDeduction()
+        {
+            if (ConceptsState != EntityState.Modify)
+            {
+                return "Operación incorrecta";
+            }
+
+            try
+            {
+                Tuple<bool, string> feedback = new DataValidation(deduccion).Validate();
+                if (!feedback.Item1)
+                {
+                    return feedback.Item2;
+                }
+
+                deductionRepository.Update(deduccion);
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             return "";
         }
 
-        private void UpdateDeduction()
+        private string DeleteDeduction()
         {
-            if (ConceptsState == EntityState.Modify)
+            if (ConceptsState != EntityState.Modify)
             {
-                try
-                {
-                    deductionRepository.Update(deduccion);
-                }
-                catch (SqlException ex)
-                {
-                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                return "Operación incorrecta";
             }
-        }
 
-        private void DeleteDeduction()
-        {
-            if (ConceptsState == EntityState.Modify)
+            try
             {
-                try
-                {
-                    deductionRepository.Delete(deductionId);
-                }
-                catch (SqlException ex) 
-                { 
-                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); 
-                }
+                deductionRepository.Delete(deductionId);
             }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            return "";
         }
 
         private void ListPerceptions()
@@ -311,7 +350,9 @@ namespace Presentation.Views
 
         public void ClearForm()
         {
-            txtName.Text = string.Empty;
+            perceptionId = -1;
+            deductionId = -1;
+            txtName.Clear();
             nudFijo.Value = 0.0m;
             nudPorcentual.Value = 0.0m;
             rbPerception.Checked = false;

@@ -174,7 +174,7 @@ namespace Presentation.Views
             this.id2,
             this.name2,
             this.nivel});
-            this.dtgPositions.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.dtgPositions.Cursor = System.Windows.Forms.Cursors.Arrow;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft YaHei", 12F);

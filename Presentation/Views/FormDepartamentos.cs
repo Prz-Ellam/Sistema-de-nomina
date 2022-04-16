@@ -21,7 +21,7 @@ namespace Presentation.Views
         private RepositorioDepartamentos repository = new RepositorioDepartamentos();
         private Departamentos department = new Departamentos();
         int dtgPrevIndex = -1;
-        int entityID = -1;
+        int departmentId = -1;
 
         private EntityState departmentState;
         private EntityState DepartmentState
@@ -42,7 +42,6 @@ namespace Presentation.Views
                         btnAdd.Enabled = true;
                         btnEdit.Enabled = false;
                         btnDelete.Enabled = false;
-                        entityID = -1;
                         break;
                     }
                     case EntityState.Modify:
@@ -65,54 +64,35 @@ namespace Presentation.Views
         {
             DepartmentState = EntityState.Add;
             ListDepartments();
+
+            dtgDepartaments.DoubleBuffered(true);
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            try
-            {
-                FillDepartment();
-                string message = AddDepartment();
-                MessageBox.Show(message);
-                ListDepartments();
-                ClearForm();
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            FillDepartment();
+            string message = AddDepartment();
+            MessageBox.Show(message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+            ListDepartments();
+            ClearForm();
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            try
-            {
-                FillDepartment();
-                string message = UpdateDepartment();
-                MessageBox.Show(message);
-                ListDepartments();
-                ClearForm();
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            FillDepartment();
+            string message = UpdateDepartment();
+            MessageBox.Show(message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+            ListDepartments();
+            ClearForm();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            try
-            {
-                FillDepartment();
-                string message = DeleteDepartment();
-                MessageBox.Show(message);
-                ListDepartments();
-                ClearForm();
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            FillDepartment();
+            string message = DeleteDepartment();
+            MessageBox.Show(message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+            ListDepartments();
+            ClearForm();
         }
 
         private void dtgDepartaments_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -122,16 +102,24 @@ namespace Presentation.Views
             if (index == dtgPrevIndex || index == -1)
             {
                 ClearForm();
-                DepartmentState = EntityState.Add;
-                dtgPrevIndex = -1;
             }
             else
             {
                 FillForm(index);
-                DepartmentState = EntityState.Modify;
-                dtgPrevIndex = index;
             }
 
+        }
+
+        private void txtFilter_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                dtgDepartaments.DataSource = repository.Filtrar(txtFilter.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         private void lblName_Click(object sender, EventArgs e)
@@ -151,96 +139,93 @@ namespace Presentation.Views
 
 
 
-
-
-
         public string AddDepartment()
         {
-            if (departmentState == EntityState.Add)
+            if (departmentState != EntityState.Add)
             {
-                try
-                {
-                    Tuple<bool, string> feedback = new DataValidation(department).Validate();
-                    if (!feedback.Item1)
-                    {
-                        return feedback.Item2;
-                    }
-
-                    int result = repository.Agregar(department);
-
-                    if (result > 0)
-                    {
-                        return "La operación se realizó éxitosamente";
-                    }
-                    else
-                    {
-                        return "No se pudo realizar la operación";
-                    }
-                }
-                catch (SqlException ex)
-                {
-                    return ex.Message;
-                }
+                return "Operación incorrecta";
             }
 
-            return "";
+            try
+            {
+                Tuple<bool, string> feedback = new DataValidation(department).Validate();
+                if (!feedback.Item1)
+                {
+                    return feedback.Item2;
+                }
+
+                int result = repository.Agregar(department);
+
+                if (result > 0)
+                {
+                    return "La operación se realizó éxitosamente";
+                }
+                else
+                {
+                    return "No se pudo realizar la operación";
+                }
+            }
+            catch (SqlException ex)
+            {
+                return ex.Message;
+            }
         }
 
         public string UpdateDepartment()
         {
-            if (departmentState == EntityState.Modify)
+            if (departmentState != EntityState.Modify)
             {
-                try
-                {
-                    Tuple<bool, string> feedback = new DataValidation(department).Validate();
-                    if (!feedback.Item1)
-                    {
-                        return feedback.Item2;
-                    }
-
-                    int result = repository.Actualizar(department);
-                    if (result > 0)
-                    {
-                        return "La operación se realizó éxitosamente";
-                    }
-                    else
-                    {
-                        return "No se pudo realizar la operación";
-                    }
-                }
-                catch (SqlException ex)
-                {
-                    return ex.Message;
-                }
+                return "Operación incorrecta";
             }
 
-            return "";
+            try
+            {
+                Tuple<bool, string> feedback = new DataValidation(department).Validate();
+                if (!feedback.Item1)
+                {
+                    return feedback.Item2;
+                }
+
+                int result = repository.Actualizar(department);
+                if (result > 0)
+                {
+                    return "La operación se realizó éxitosamente";
+                }
+                else
+                {
+                    return "No se pudo realizar la operación";
+                }
+            }
+            catch (SqlException ex)
+            {
+                return ex.Message;
+            }
         }
 
         public string DeleteDepartment()
         {
-            if (departmentState == EntityState.Modify)
+            if (departmentState != EntityState.Modify)
             {
-                try
-                {
-                    int result = repository.Eliminar(entityID);
-
-                    if (result > 0)
-                    {
-                        return "La operación se realizó éxitosamente";
-                    }
-                    else
-                    {
-                        return "No se pudo realizar la operación";
-                    }
-                }
-                catch (SqlException ex)
-                {
-                    return ex.Message;
-                }
+                return "Operación incorrecta";
             }
 
-            return "";
+            try
+            {
+                int result = repository.Eliminar(departmentId);
+
+                if (result > 0)
+                {
+                    return "La operación se realizó éxitosamente";
+                }
+                else
+                {
+                    return "No se pudo realizar la operación";
+                }
+            }
+            catch (SqlException ex)
+            {
+                return ex.Message;
+            }
         }
 
         public void ListDepartments()
@@ -257,7 +242,7 @@ namespace Presentation.Views
 
         public void FillDepartment()
         {
-            department.IdDepartamento = entityID;
+            department.IdDepartamento = departmentId;
             department.Nombre = txtName.Text;
             department.SueldoBase = nudBaseSalary.Value;
             department.IdEmpresa = Session.company_id;
@@ -265,10 +250,12 @@ namespace Presentation.Views
 
         public void ClearForm()
         {
-            txtName.Text = string.Empty;
+            departmentId = -1;
+            txtName.Clear();
             nudBaseSalary.Value = 0.0m;
-            txtFilter.Text = string.Empty;
+
             DepartmentState = EntityState.Add;
+            dtgPrevIndex = -1;
         }
 
         public void FillForm(int rowIndex)
@@ -279,21 +266,13 @@ namespace Presentation.Views
             }
 
             var row = dtgDepartaments.Rows[rowIndex];
-            entityID = Convert.ToInt32(row.Cells[0].Value);
+            departmentId = Convert.ToInt32(row.Cells[0].Value); // Podria tronar si la celda 0 no es numero
             txtName.Text = row.Cells[1].Value.ToString();
-            nudBaseSalary.Value = Convert.ToDecimal(row.Cells[2].Value);
+            nudBaseSalary.Value = Convert.ToDecimal(row.Cells[2].Value); // Lo mismo
+
+            DepartmentState = EntityState.Modify;
+            dtgPrevIndex = rowIndex;
         }
 
-        private void txtFilter_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                dtgDepartaments.DataSource = repository.Filtrar(txtFilter.Text);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
     }
 }

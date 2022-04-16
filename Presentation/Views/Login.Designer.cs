@@ -29,6 +29,7 @@ namespace Presentation.Views
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.txtEmail = new System.Windows.Forms.TextBox();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.lblEmail = new System.Windows.Forms.Label();
@@ -38,13 +39,14 @@ namespace Presentation.Views
             this.lblPasswordError = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.pbMinimized = new System.Windows.Forms.PictureBox();
+            this.pbClosed = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pbClose = new System.Windows.Forms.PictureBox();
+            this.fadeIn = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbMinimized)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbClosed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).BeginInit();
             this.SuspendLayout();
@@ -150,8 +152,8 @@ namespace Presentation.Views
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
-            this.panel1.Controls.Add(this.pictureBox2);
-            this.panel1.Controls.Add(this.pictureBox3);
+            this.panel1.Controls.Add(this.pbMinimized);
+            this.panel1.Controls.Add(this.pbClosed);
             this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Controls.Add(this.pbClose);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -160,27 +162,29 @@ namespace Presentation.Views
             this.panel1.Size = new System.Drawing.Size(486, 36);
             this.panel1.TabIndex = 9;
             // 
-            // pictureBox2
+            // pbMinimized
             // 
-            this.pictureBox2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBox2.Image = global::Presentation.Properties.Resources.Minimized_Button_Logo;
-            this.pictureBox2.Location = new System.Drawing.Point(431, 8);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(20, 20);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 12;
-            this.pictureBox2.TabStop = false;
+            this.pbMinimized.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbMinimized.Image = global::Presentation.Properties.Resources.Minimized_Button_Logo;
+            this.pbMinimized.Location = new System.Drawing.Point(431, 8);
+            this.pbMinimized.Name = "pbMinimized";
+            this.pbMinimized.Size = new System.Drawing.Size(20, 20);
+            this.pbMinimized.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbMinimized.TabIndex = 12;
+            this.pbMinimized.TabStop = false;
+            this.pbMinimized.Click += new System.EventHandler(this.pbMinimized_Click);
             // 
-            // pictureBox3
+            // pbClosed
             // 
-            this.pictureBox3.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBox3.Image = global::Presentation.Properties.Resources.Close_Button_Logo;
-            this.pictureBox3.Location = new System.Drawing.Point(457, 8);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(20, 20);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox3.TabIndex = 11;
-            this.pictureBox3.TabStop = false;
+            this.pbClosed.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbClosed.Image = global::Presentation.Properties.Resources.Close_Button_Logo;
+            this.pbClosed.Location = new System.Drawing.Point(457, 8);
+            this.pbClosed.Name = "pbClosed";
+            this.pbClosed.Size = new System.Drawing.Size(20, 20);
+            this.pbClosed.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbClosed.TabIndex = 11;
+            this.pbClosed.TabStop = false;
+            this.pbClosed.Click += new System.EventHandler(this.pbClosed_Click);
             // 
             // pictureBox1
             // 
@@ -204,6 +208,11 @@ namespace Presentation.Views
             this.pbClose.TabIndex = 9;
             this.pbClose.TabStop = false;
             // 
+            // fadeIn
+            // 
+            this.fadeIn.Enabled = true;
+            this.fadeIn.Tick += new System.EventHandler(this.fadeIn_Tick);
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -221,11 +230,13 @@ namespace Presentation.Views
             this.Controls.Add(this.txtEmail);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Login";
+            this.Opacity = 0D;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login";
             this.Load += new System.EventHandler(this.Login_Load);
             this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbMinimized)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbClosed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).EndInit();
             this.ResumeLayout(false);
@@ -246,7 +257,8 @@ namespace Presentation.Views
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pbClose;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.PictureBox pbMinimized;
+        private System.Windows.Forms.PictureBox pbClosed;
+        private System.Windows.Forms.Timer fadeIn;
     }
 }

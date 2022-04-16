@@ -21,7 +21,7 @@ namespace Presentation.Views
         private RepositorioPuestos repository = new RepositorioPuestos();
         private Puestos position = new Puestos();
         int dtgPrevIndex = -1;
-        int entityID = -1;
+        int positionId = -1;
 
         private EntityState positionState;
         private EntityState PositionState
@@ -63,41 +63,62 @@ namespace Presentation.Views
         private void Positions_Load(object sender, EventArgs e)
         {
             PositionState = EntityState.Add;
-            FillDataGridView();
+            ListPositions();
+
+            dtgPositions.DoubleBuffered(true);
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            try
-            {
-                FillEntity();
-                AddEntity();
-                MessageBox.Show("La operación se realizó exitosamente");
-                FillDataGridView();
-                ClearForm();
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            FillPosition();
+            string message = AddPosition();
+            MessageBox.Show(message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+            ListPositions();
+            ClearForm();
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            FillEntity();
-            EditEntity();
-            MessageBox.Show("La operación se realizó exitosamente");
-            FillDataGridView();
+            FillPosition();
+            string message = UpdatePosition();
+            MessageBox.Show(message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+            ListPositions();
             ClearForm();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            FillEntity();
-            DeleteEntity();
-            MessageBox.Show("La operación se realizó exitosamente");
-            FillDataGridView();
+            FillPosition();
+            string message = DeletePosition();
+            MessageBox.Show(message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+            ListPositions();
             ClearForm();
+        }
+
+        private void dtgPositions_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int index = e.RowIndex;
+
+            if (index == dtgPrevIndex || index == -1)
+            {
+                ClearForm();
+            }
+            else
+            {
+                FillForm(index);
+            }
+        }
+
+        private void txtFilter_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                dtgPositions.DataSource = repository.ReadLike(txtFilter.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         private void lblName_Click(object sender, EventArgs e)
@@ -115,98 +136,141 @@ namespace Presentation.Views
             txtFilter.Focus();
         }
 
-        private void dtgPositions_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            int index = e.RowIndex;
+        
 
-            if (index == dtgPrevIndex || index == -1)
-            {
-                ClearForm();
-                PositionState = EntityState.Add;
-                dtgPrevIndex = -1;
-            }
-            else
-            {
-                FillForm(index);
-                PositionState = EntityState.Modify;
-                dtgPrevIndex = index;
-            }
-        }
-
-        public void AddEntity()
+        public string AddPosition()
         {
-            if (positionState == EntityState.Add)
+            if (positionState != EntityState.Add)
+            {
+                return "Operación incorrecta";
+            }
+
+            try
             {
                 Tuple<bool, string> feedback = new DataValidation(position).Validate();
                 if (!feedback.Item1)
                 {
-                    MessageBox.Show(feedback.Item2, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                    return feedback.Item2;
                 }
 
-                int rowsAffected = repository.Create(position);
-                if (rowsAffected == 0)
+                int result = repository.Create(position);
+                if (result > 0)
                 {
-                    MessageBox.Show("Algo fallo");
+                    return "La operación se realizó éxitosamente";
+                }
+                else
+                {
+                    return "No se pudo realizar la operación";
                 }
             }
-        }
-
-        public void EditEntity()
-        {
-            if (positionState == EntityState.Modify)
+            catch (SqlException ex)
             {
-                repository.Update(position);
+                return ex.Message;
             }
         }
 
-        public void DeleteEntity()
+        public string UpdatePosition()
         {
-            if (positionState == EntityState.Modify)
+            if (positionState != EntityState.Modify)
             {
-                repository.Delete(entityID);
+                return "Operación incorrecta";
+            }
+
+            try
+            {
+                Tuple<bool, string> feedback = new DataValidation(position).Validate();
+                if (!feedback.Item1)
+                {
+                    return feedback.Item2;
+                }
+
+                int result = repository.Update(position);
+                if (result > 0)
+                {
+                    return "La operación se realizó éxitosamente";
+                }
+                else
+                {
+                    return "No se pudo realizar la operación";
+                }
+            }
+            catch (SqlException ex)
+            {
+                return ex.Message;
             }
         }
 
-        public void FillEntity()
+        public string DeletePosition()
         {
-            position.IdPuesto = entityID;
-            position.Nombre = txtName.Text;
-            position.NivelSalarial = nudWageLevel.Value;
-            position.IdEmpresa = Session.company_id;
+            if (positionState != EntityState.Modify)
+            {
+                return "Operación incorrecta";
+            }
+
+            try
+            {
+                int result = repository.Delete(positionId);
+
+                if (result > 0)
+                {
+                    return "La operación se realizó éxitosamente";
+                }
+                else
+                {
+                    return "No se pudo realizar la operación";
+                }
+            }
+            catch (SqlException ex)
+            {
+                return ex.Message;
+            }
         }
 
-        public void FillForm(int index)
-        {
-            var row = dtgPositions.Rows[index];
-            entityID = Convert.ToInt32(row.Cells[0].Value);
-            txtName.Text = row.Cells[1].Value.ToString();
-            nudWageLevel.Value = Convert.ToDecimal(row.Cells[2].Value);
-        }
-
-        public void FillDataGridView()
-        {
-            List<PositionsViewModel> positions = repository.ReadAll();
-            dtgPositions.DataSource = positions;
-        }
-
-        public void ClearForm()
-        {
-            txtName.Clear();
-            nudWageLevel.Value = 0.0m;
-            PositionState = EntityState.Add;
-        }
-
-        private void txtFilter_TextChanged(object sender, EventArgs e)
+        public void ListPositions()
         {
             try
             {
-                dtgPositions.DataSource = repository.ReadLike(txtFilter.Text);
+                dtgPositions.DataSource = repository.ReadAll();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
         }
+
+        public void FillPosition()
+        {
+            position.IdPuesto = positionId;
+            position.Nombre = txtName.Text;
+            position.NivelSalarial = nudWageLevel.Value;
+            position.IdEmpresa = Session.company_id;
+        }
+
+        public void ClearForm()
+        {
+            positionId = -1;
+            txtName.Clear();
+            nudWageLevel.Value = 0.0m;
+
+            PositionState = EntityState.Add;
+            dtgPrevIndex = -1;
+        }
+
+        public void FillForm(int index)
+        {
+            if (index == -1)
+            {
+                return;
+            }
+
+            var row = dtgPositions.Rows[index];
+            positionId = Convert.ToInt32(row.Cells[0].Value);
+            txtName.Text = row.Cells[1].Value.ToString();
+            nudWageLevel.Value = Convert.ToDecimal(row.Cells[2].Value);
+
+            PositionState = EntityState.Modify;
+            dtgPrevIndex = index;
+        }
+
     }
 }

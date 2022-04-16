@@ -31,12 +31,12 @@ namespace Presentation.Views
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label3 = new System.Windows.Forms.Label();
             this.rbPerception = new System.Windows.Forms.RadioButton();
             this.rbDeduction = new System.Windows.Forms.RadioButton();
@@ -45,9 +45,14 @@ namespace Presentation.Views
             this.rbPorcentual = new System.Windows.Forms.RadioButton();
             this.rbFijo = new System.Windows.Forms.RadioButton();
             this.nudFijo = new System.Windows.Forms.NumericUpDown();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.gbTipoConcepto = new System.Windows.Forms.GroupBox();
             this.gbTipoMonto = new System.Windows.Forms.GroupBox();
             this.dtgDeductions = new System.Windows.Forms.DataGridView();
+            this.id2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.name2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.type2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.amount2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.porcentuald = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnAgregar = new System.Windows.Forms.Button();
             this.nudPorcentual = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
@@ -55,24 +60,19 @@ namespace Presentation.Views
             this.btnEliminar = new System.Windows.Forms.Button();
             this.btnActualizar = new System.Windows.Forms.Button();
             this.dtgPerceptions = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.porcentual = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lblFilter = new System.Windows.Forms.Label();
             this.txtFilter = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.porcentual = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.id2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.name2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.type2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.amount2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.porcentuald = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.nudFijo)).BeginInit();
-            this.groupBox1.SuspendLayout();
+            this.gbTipoConcepto.SuspendLayout();
             this.gbTipoMonto.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgDeductions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudPorcentual)).BeginInit();
@@ -89,7 +89,7 @@ namespace Presentation.Views
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(291, 31);
             this.label3.TabIndex = 11;
-            this.label3.Text = "Catalogo de conceptos";
+            this.label3.Text = "Catálogo de conceptos";
             // 
             // rbPerception
             // 
@@ -122,7 +122,7 @@ namespace Presentation.Views
             this.txtName.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.txtName.Location = new System.Drawing.Point(26, 232);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(241, 29);
+            this.txtName.Size = new System.Drawing.Size(285, 29);
             this.txtName.TabIndex = 14;
             // 
             // label1
@@ -177,20 +177,20 @@ namespace Presentation.Views
             0,
             0});
             this.nudFijo.Name = "nudFijo";
-            this.nudFijo.Size = new System.Drawing.Size(222, 29);
+            this.nudFijo.Size = new System.Drawing.Size(266, 29);
             this.nudFijo.TabIndex = 18;
             // 
-            // groupBox1
+            // gbTipoConcepto
             // 
-            this.groupBox1.Controls.Add(this.rbPerception);
-            this.groupBox1.Controls.Add(this.rbDeduction);
-            this.groupBox1.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.groupBox1.Location = new System.Drawing.Point(26, 72);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 105);
-            this.groupBox1.TabIndex = 21;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Tipo de concepto";
+            this.gbTipoConcepto.Controls.Add(this.rbPerception);
+            this.gbTipoConcepto.Controls.Add(this.rbDeduction);
+            this.gbTipoConcepto.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.gbTipoConcepto.Location = new System.Drawing.Point(26, 72);
+            this.gbTipoConcepto.Name = "gbTipoConcepto";
+            this.gbTipoConcepto.Size = new System.Drawing.Size(200, 105);
+            this.gbTipoConcepto.TabIndex = 21;
+            this.gbTipoConcepto.TabStop = false;
+            this.gbTipoConcepto.Text = "Tipo de concepto";
             // 
             // gbTipoMonto
             // 
@@ -210,10 +210,10 @@ namespace Presentation.Views
             this.dtgDeductions.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dtgDeductions.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dtgDeductions.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
@@ -228,19 +228,62 @@ namespace Presentation.Views
             dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dtgDeductions.DefaultCellStyle = dataGridViewCellStyle4;
             this.dtgDeductions.EnableHeadersVisualStyles = false;
             this.dtgDeductions.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.dtgDeductions.Location = new System.Drawing.Point(372, 351);
+            this.dtgDeductions.Location = new System.Drawing.Point(395, 351);
             this.dtgDeductions.Name = "dtgDeductions";
             this.dtgDeductions.ReadOnly = true;
             this.dtgDeductions.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dtgDeductions.Size = new System.Drawing.Size(643, 200);
             this.dtgDeductions.TabIndex = 25;
             this.dtgDeductions.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgDeductions_CellDoubleClick);
+            // 
+            // id2
+            // 
+            this.id2.DataPropertyName = "idDeduccion";
+            this.id2.HeaderText = "ID";
+            this.id2.Name = "id2";
+            this.id2.ReadOnly = true;
+            this.id2.Width = 150;
+            // 
+            // name2
+            // 
+            this.name2.DataPropertyName = "nombre";
+            this.name2.HeaderText = "Nombre";
+            this.name2.Name = "name2";
+            this.name2.ReadOnly = true;
+            this.name2.Width = 150;
+            // 
+            // type2
+            // 
+            this.type2.DataPropertyName = "tipoMonto";
+            this.type2.HeaderText = "Tipo de monto";
+            this.type2.Name = "type2";
+            this.type2.ReadOnly = true;
+            this.type2.Width = 150;
+            // 
+            // amount2
+            // 
+            this.amount2.DataPropertyName = "fijo";
+            dataGridViewCellStyle2.Format = "c";
+            this.amount2.DefaultCellStyle = dataGridViewCellStyle2;
+            this.amount2.HeaderText = "Fijo";
+            this.amount2.Name = "amount2";
+            this.amount2.ReadOnly = true;
+            this.amount2.Width = 150;
+            // 
+            // porcentuald
+            // 
+            this.porcentuald.DataPropertyName = "porcentual";
+            dataGridViewCellStyle3.Format = "0.00";
+            this.porcentuald.DefaultCellStyle = dataGridViewCellStyle3;
+            this.porcentuald.HeaderText = "Porcentual";
+            this.porcentuald.Name = "porcentuald";
+            this.porcentuald.ReadOnly = true;
             // 
             // btnAgregar
             // 
@@ -265,7 +308,7 @@ namespace Presentation.Views
             this.nudPorcentual.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.nudPorcentual.Location = new System.Drawing.Point(45, 461);
             this.nudPorcentual.Name = "nudPorcentual";
-            this.nudPorcentual.Size = new System.Drawing.Size(222, 29);
+            this.nudPorcentual.Size = new System.Drawing.Size(266, 29);
             this.nudPorcentual.TabIndex = 28;
             // 
             // label4
@@ -330,10 +373,10 @@ namespace Presentation.Views
             this.dtgPerceptions.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dtgPerceptions.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
             dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             dataGridViewCellStyle5.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
             dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dtgPerceptions.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
@@ -348,87 +391,19 @@ namespace Presentation.Views
             dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
             dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dtgPerceptions.DefaultCellStyle = dataGridViewCellStyle8;
             this.dtgPerceptions.EnableHeadersVisualStyles = false;
             this.dtgPerceptions.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.dtgPerceptions.Location = new System.Drawing.Point(372, 72);
+            this.dtgPerceptions.Location = new System.Drawing.Point(395, 72);
             this.dtgPerceptions.Name = "dtgPerceptions";
             this.dtgPerceptions.ReadOnly = true;
             this.dtgPerceptions.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dtgPerceptions.Size = new System.Drawing.Size(643, 200);
             this.dtgPerceptions.TabIndex = 45;
             this.dtgPerceptions.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgPerceptions_CellDoubleClick);
-            // 
-            // lblFilter
-            // 
-            this.lblFilter.AutoSize = true;
-            this.lblFilter.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblFilter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lblFilter.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.lblFilter.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.lblFilter.Location = new System.Drawing.Point(644, 40);
-            this.lblFilter.Name = "lblFilter";
-            this.lblFilter.Size = new System.Drawing.Size(58, 21);
-            this.lblFilter.TabIndex = 47;
-            this.lblFilter.Text = "Filtrar:";
-            // 
-            // txtFilter
-            // 
-            this.txtFilter.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.txtFilter.Location = new System.Drawing.Point(708, 37);
-            this.txtFilter.Name = "txtFilter";
-            this.txtFilter.Size = new System.Drawing.Size(307, 29);
-            this.txtFilter.TabIndex = 46;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label5.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label5.Location = new System.Drawing.Point(644, 317);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(58, 21);
-            this.label5.TabIndex = 49;
-            this.label5.Text = "Filtrar:";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.textBox2.Location = new System.Drawing.Point(708, 314);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(307, 29);
-            this.textBox2.TabIndex = 48;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label6.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label6.Location = new System.Drawing.Point(368, 317);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(111, 21);
-            this.label6.TabIndex = 50;
-            this.label6.Text = "Deducciones:";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label7.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label7.Location = new System.Drawing.Point(368, 45);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(114, 21);
-            this.label7.TabIndex = 51;
-            this.label7.Text = "Percepciones:";
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -473,48 +448,73 @@ namespace Presentation.Views
             this.porcentual.Name = "porcentual";
             this.porcentual.ReadOnly = true;
             // 
-            // id2
+            // lblFilter
             // 
-            this.id2.DataPropertyName = "idDeduccion";
-            this.id2.HeaderText = "ID";
-            this.id2.Name = "id2";
-            this.id2.ReadOnly = true;
-            this.id2.Width = 150;
+            this.lblFilter.AutoSize = true;
+            this.lblFilter.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblFilter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lblFilter.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.lblFilter.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.lblFilter.Location = new System.Drawing.Point(670, 40);
+            this.lblFilter.Name = "lblFilter";
+            this.lblFilter.Size = new System.Drawing.Size(58, 21);
+            this.lblFilter.TabIndex = 47;
+            this.lblFilter.Text = "Filtrar:";
             // 
-            // name2
+            // txtFilter
             // 
-            this.name2.DataPropertyName = "nombre";
-            this.name2.HeaderText = "Nombre";
-            this.name2.Name = "name2";
-            this.name2.ReadOnly = true;
-            this.name2.Width = 150;
+            this.txtFilter.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.txtFilter.Location = new System.Drawing.Point(731, 37);
+            this.txtFilter.Name = "txtFilter";
+            this.txtFilter.Size = new System.Drawing.Size(307, 29);
+            this.txtFilter.TabIndex = 46;
             // 
-            // type2
+            // label5
             // 
-            this.type2.DataPropertyName = "tipoMonto";
-            this.type2.HeaderText = "Tipo de monto";
-            this.type2.Name = "type2";
-            this.type2.ReadOnly = true;
-            this.type2.Width = 150;
+            this.label5.AutoSize = true;
+            this.label5.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label5.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.label5.Location = new System.Drawing.Point(670, 318);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(58, 21);
+            this.label5.TabIndex = 49;
+            this.label5.Text = "Filtrar:";
             // 
-            // amount2
+            // textBox2
             // 
-            this.amount2.DataPropertyName = "fijo";
-            dataGridViewCellStyle2.Format = "c";
-            this.amount2.DefaultCellStyle = dataGridViewCellStyle2;
-            this.amount2.HeaderText = "Fijo";
-            this.amount2.Name = "amount2";
-            this.amount2.ReadOnly = true;
-            this.amount2.Width = 150;
+            this.textBox2.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.textBox2.Location = new System.Drawing.Point(731, 314);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(307, 29);
+            this.textBox2.TabIndex = 48;
             // 
-            // porcentuald
+            // label6
             // 
-            this.porcentuald.DataPropertyName = "porcentual";
-            dataGridViewCellStyle3.Format = "0.00";
-            this.porcentuald.DefaultCellStyle = dataGridViewCellStyle3;
-            this.porcentuald.HeaderText = "Porcentual";
-            this.porcentuald.Name = "porcentuald";
-            this.porcentuald.ReadOnly = true;
+            this.label6.AutoSize = true;
+            this.label6.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label6.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.label6.Location = new System.Drawing.Point(391, 317);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(111, 21);
+            this.label6.TabIndex = 50;
+            this.label6.Text = "Deducciones:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label7.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.label7.Location = new System.Drawing.Point(391, 45);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(114, 21);
+            this.label7.TabIndex = 51;
+            this.label7.Text = "Percepciones:";
             // 
             // FormCatalogoConceptos
             // 
@@ -537,7 +537,7 @@ namespace Presentation.Views
             this.Controls.Add(this.btnAgregar);
             this.Controls.Add(this.dtgDeductions);
             this.Controls.Add(this.gbTipoMonto);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.gbTipoConcepto);
             this.Controls.Add(this.nudFijo);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtName);
@@ -548,8 +548,8 @@ namespace Presentation.Views
             this.Text = "s";
             this.Load += new System.EventHandler(this.FormCatalogoConceptos_Load);
             ((System.ComponentModel.ISupportInitialize)(this.nudFijo)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.gbTipoConcepto.ResumeLayout(false);
+            this.gbTipoConcepto.PerformLayout();
             this.gbTipoMonto.ResumeLayout(false);
             this.gbTipoMonto.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgDeductions)).EndInit();
@@ -570,7 +570,7 @@ namespace Presentation.Views
         private System.Windows.Forms.RadioButton rbPorcentual;
         private System.Windows.Forms.RadioButton rbFijo;
         private System.Windows.Forms.NumericUpDown nudFijo;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox gbTipoConcepto;
         private System.Windows.Forms.GroupBox gbTipoMonto;
         private System.Windows.Forms.DataGridView dtgDeductions;
         private System.Windows.Forms.Button btnAgregar;

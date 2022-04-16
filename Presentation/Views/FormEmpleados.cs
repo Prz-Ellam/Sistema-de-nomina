@@ -19,11 +19,12 @@ namespace Presentation.Views
     public partial class FormEmpleados : Form
     {
         private RepositorioEmpleados repository = new RepositorioEmpleados();
-        private RepositorioDomicilios addressesRepository = new RepositorioDomicilios();
         private Empleados employee = new Empleados();
         private Domicilios address = new Domicilios();
+
         int dtgPrevIndex = -1;
-        int entityID = -1;
+        int cbPhonesPrevIndex = -1;
+        int employeeId = -1;
         private List<States> states;
 
         private EntityState employeeState;
@@ -103,27 +104,27 @@ namespace Presentation.Views
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            FillEntity();
-            string message = AddEntity();
-            MessageBox.Show(message);
+            FillEmployee();
+            string message = AddEmployee();
+            MessageBox.Show(message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
             ListEmployees();
             ClearForm();
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            FillEntity();
-            EditEntity();
-            MessageBox.Show("La operación se realizó exitosamente");
+            FillEmployee();
+            string message = UpdateEmployee();
+            MessageBox.Show(message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
             ListEmployees();
             ClearForm();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            FillEntity();
-            DeleteEntity();
-            MessageBox.Show("La operación se realizó exitosamente");
+            FillEmployee();
+            string message = DeleteEmployee();
+            MessageBox.Show(message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
             ListEmployees();
             ClearForm();
         }
@@ -147,52 +148,106 @@ namespace Presentation.Views
         }
 
 
-        public string AddEntity()
+        public string AddEmployee()
         {
-            if (EmployeeState == EntityState.Add)
+            if (EmployeeState != EntityState.Add)
             {
-                try
+                return "Operación incorrecta";
+            }
+
+            try
+            {
+                Tuple<bool, string> feedback = new DataValidation(employee).Validate();
+                if (!feedback.Item1)
                 {
-                    int rowsAffected = repository.Create(employee, address);
-                    if (rowsAffected > 0)
-                    {
-                        return "La operación se realizó éxitosamente";
-                    }
-                    else
-                    {
-                        return "No se pudo realizar la operación";
-                    }
+                    return feedback.Item2;
                 }
-                catch (SqlException ex)
+
+                int result = repository.Create(employee, address);
+                if (result > 0)
                 {
-                    return ex.Message;
+                    return "La operación se realizó éxitosamente";
+                }
+                else
+                {
+                    return "No se pudo realizar la operación";
                 }
             }
-
-            return "";
+            catch (SqlException ex)
+            {
+                return ex.Message;
+            }
         }
 
-        public string EditEntity()
+        public string UpdateEmployee()
         {
-            if (EmployeeState == EntityState.Modify)
+            if (EmployeeState != EntityState.Modify)
             {
-                repository.Update(employee);
+                return "Operación incorrecta";
             }
 
-            return "";
+            try
+            {
+                Tuple<bool, string> feedback = new DataValidation(employee).Validate();
+                if (!feedback.Item1)
+                {
+                    return feedback.Item2;
+                }
+
+                int result =repository.Update(employee);
+                if (result > 0)
+                {
+                    return "La operación se realizó éxitosamente";
+                }
+                else
+                {
+                    return "No se pudo realizar la operación";
+                }
+            }
+            catch (SqlException ex)
+            {
+                return ex.Message;
+            }
         }
 
-        public string DeleteEntity()
+        public string DeleteEmployee()
         {
-            if (EmployeeState == EntityState.Modify)
+            if (EmployeeState != EntityState.Modify)
             {
-                repository.Delete(entityID);
+                return "Operación incorrecta";
             }
 
-            return "";
+            try
+            {
+                int result = repository.Delete(employeeId);
+                if (result > 0)
+                {
+                    return "La operación se realizó éxitosamente";
+                }
+                else
+                {
+                    return "No se pudo realizar la operación";
+                }
+            }
+            catch (SqlException ex)
+            {
+                return ex.Message;
+            }
         }
 
-        public void FillEntity()
+        private void ListEmployees()
+        {
+            try
+            {
+                dtgEmployees.DataSource = repository.ReadAll();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        public void FillEmployee()
         {
             employee.Nombre = txtNames.Text;
             employee.ApellidoPaterno = txtFatherLastName.Text;
@@ -218,41 +273,6 @@ namespace Presentation.Views
             address.CodigoPostal = txtPostalCode.Text;
         }
 
-        public void FillForm(int index)
-        {
-            var row = dtgEmployees.Rows[index];
-            entityID = Convert.ToInt32(row.Cells[0].Value);
-            txtNames.Text = row.Cells[1].Value.ToString();
-            txtFatherLastName.Text = row.Cells[2].Value.ToString();
-            txtMotherLastName.Text = row.Cells[3].Value.ToString();
-            dtpDateOfBirth.Value = Convert.ToDateTime(row.Cells[4].Value);
-            txtCURP.Text = row.Cells[5].Value.ToString();
-            txtNSS.Text = row.Cells[6].Value.ToString();
-            txtRFC.Text = row.Cells[7].Value.ToString();
-            txtStreet.Text = row.Cells[8].Value.ToString();
-            txtNumber.Text = row.Cells[9].Value.ToString();
-            txtSuburb.Text = row.Cells[10].Value.ToString();
-            //txtCity.Text = row.Cells[11].Value.ToString();
-            //txtState.Text = row.Cells[12].Value.ToString();
-            txtPostalCode.Text = row.Cells[13].Value.ToString();
-            //txtBank.Text = row.Cells[14].Value.ToString();
-            txtAccountNumber.Text = row.Cells[15].Value.ToString();
-            txtEmail.Text = row.Cells[16].Value.ToString();
-            txtBaseSalary.Text = row.Cells[20].Value.ToString();
-        }
-
-        private void ListEmployees()
-        {
-            try
-            {
-                dtgEmployees.DataSource = repository.ReadAll();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
-
         public void ClearForm()
         {
             txtNames.Clear();
@@ -274,6 +294,31 @@ namespace Presentation.Views
             txtAccountNumber.Clear();
             cbPhones.Items.Clear();
         }
+
+        public void FillForm(int index)
+        {
+            var row = dtgEmployees.Rows[index];
+            employeeId = Convert.ToInt32(row.Cells[0].Value);
+            txtNames.Text = row.Cells[1].Value.ToString();
+            txtFatherLastName.Text = row.Cells[2].Value.ToString();
+            txtMotherLastName.Text = row.Cells[3].Value.ToString();
+            dtpDateOfBirth.Value = Convert.ToDateTime(row.Cells[4].Value);
+            txtCURP.Text = row.Cells[5].Value.ToString();
+            txtNSS.Text = row.Cells[6].Value.ToString();
+            txtRFC.Text = row.Cells[7].Value.ToString();
+            txtStreet.Text = row.Cells[8].Value.ToString();
+            txtNumber.Text = row.Cells[9].Value.ToString();
+            txtSuburb.Text = row.Cells[10].Value.ToString();
+            //txtCity.Text = row.Cells[11].Value.ToString();
+            //txtState.Text = row.Cells[12].Value.ToString();
+            txtPostalCode.Text = row.Cells[13].Value.ToString();
+            //txtBank.Text = row.Cells[14].Value.ToString();
+            txtAccountNumber.Text = row.Cells[15].Value.ToString();
+            txtEmail.Text = row.Cells[16].Value.ToString();
+            txtBaseSalary.Text = row.Cells[20].Value.ToString();
+        }
+
+      
 
 
 
@@ -300,6 +345,40 @@ namespace Presentation.Views
             }
             cbCity.DataSource = states[cbState.SelectedIndex - 1].cities;
             cbCity.SelectedIndex = 0;
+        }
+
+        private void cbPhones_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (cbPhonesPrevIndex != -1)
+                {
+                    // Si dejo vacio se borra, si escribio un telefono que ya existe, igual se borra para
+                    // que quede el que ya estaba
+                    if (cbPhones.Text == string.Empty || cbPhones.FindString(cbPhones.Text) != -1)
+                    {
+                        cbPhones.Items.RemoveAt(cbPhonesPrevIndex);
+                    }
+                    else
+                    {
+                        cbPhones.Items[cbPhonesPrevIndex] = cbPhones.Text;
+                    }
+                    cbPhonesPrevIndex = -1;
+                }
+                else
+                {
+                    if (cbPhones.FindString(cbPhones.Text) == -1 && cbPhones.Text != string.Empty)
+                    {
+                        cbPhones.Items.Add(cbPhones.Text);
+                    }
+                }
+                cbPhones.Text = "";
+            }
+        }
+
+        private void cbPhones_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cbPhonesPrevIndex = cbPhones.SelectedIndex;
         }
     }
 }

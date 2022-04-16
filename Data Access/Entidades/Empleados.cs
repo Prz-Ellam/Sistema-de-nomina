@@ -30,10 +30,13 @@ namespace Data_Access.Entidades
 
         public int NumeroEmpleado { get => numeroEmpleado; set => numeroEmpleado = value; }
         [Required]
+        [RegularExpression(@"^[a-zA-Z \u00C0-\u00FF]+$", ErrorMessage = "El nombre del puesto solo puede contener letras y espacios")]
         public string Nombre { get => nombre; set => nombre = value; }
         [Required]
+        [RegularExpression(@"^[a-zA-Z \u00C0-\u00FF]+$", ErrorMessage = "El nombre del puesto solo puede contener letras y espacios")]
         public string ApellidoPaterno { get => apellidoPaterno; set => apellidoPaterno = value; }
         [Required]
+        [RegularExpression(@"^[a-zA-Z \u00C0-\u00FF]+$", ErrorMessage = "El nombre del puesto solo puede contener letras y espacios")]
         public string ApellidoMaterno { get => apellidoMaterno; set => apellidoMaterno = value; }
         [Required]
         public DateTime FechaNacimiento { get => fechaNacimiento; set => fechaNacimiento = value; }
@@ -42,6 +45,7 @@ namespace Data_Access.Entidades
         [Required]
         public string Nss { get => nss; set => nss = value; }
         [Required]
+        [RegularExpression(@"^(([A-ZÑ&]{4})([0-9]{2})([0][13578]|[1][02])(([0][1-9]|[12][\\d])|[3][01])([A-Z0-9]{3}))|(([A-ZÑ&]{4})([0-9]{2})([0][13456789]|[1][012])(([0][1-9]|[12][\\d])|[3][0])([A-Z0-9]{3}))|(([A-ZÑ&]{4})([02468][048]|[13579][26])[0][2]([0][1-9]|[12][\\d])([A-Z0-9]{3}))|(([A-ZÑ&]{4})([0-9]{2})[0][2]([0][1-9]|[1][0-9]|[2][0-8])([A-Z0-9]{3}))$", ErrorMessage = "RFC no válido")]
         public string Rfc { get => rfc; set => rfc = value; }
         [Required]
         public int Domicilio { get => domicilio; set => domicilio = value; }
@@ -50,6 +54,7 @@ namespace Data_Access.Entidades
         [Required]
         public int NumeroCuenta { get => numeroCuenta; set => numeroCuenta = value; }
         [Required]
+        [EmailAddress(ErrorMessage = "El correo electrónico que ingresó no es válido")]
         public string CorreoElectronico { get => correoElectronico; set => correoElectronico = value; }
         [Required]
         public string Contrasena { get => contrasena; set => contrasena = value; }

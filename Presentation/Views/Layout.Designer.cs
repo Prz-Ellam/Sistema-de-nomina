@@ -37,7 +37,7 @@ namespace Presentation.Views
             this.btnConcepts = new System.Windows.Forms.Button();
             this.btnPayroll = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pbMinimized = new System.Windows.Forms.PictureBox();
             this.pbClose = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel10 = new System.Windows.Forms.Panel();
@@ -58,14 +58,16 @@ namespace Presentation.Views
             this.panel7 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
             this.btnLogout = new System.Windows.Forms.Button();
             this.btnReports = new System.Windows.Forms.Button();
             this.panelStorage = new System.Windows.Forms.Panel();
             this.fadeIn = new System.Windows.Forms.Timer(this.components);
+            this.btnEmployeeReceipts = new System.Windows.Forms.Button();
+            this.panel11 = new System.Windows.Forms.Panel();
+            this.btnProfile = new System.Windows.Forms.Button();
+            this.panel4 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbMinimized)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).BeginInit();
             this.panel2.SuspendLayout();
             this.panelSubmenuReports.SuspendLayout();
@@ -95,7 +97,7 @@ namespace Presentation.Views
             this.btnCompanies.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCompanies.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.btnCompanies.ForeColor = System.Drawing.Color.White;
-            this.btnCompanies.Location = new System.Drawing.Point(3, 89);
+            this.btnCompanies.Location = new System.Drawing.Point(0, 89);
             this.btnCompanies.Name = "btnCompanies";
             this.btnCompanies.Size = new System.Drawing.Size(197, 41);
             this.btnCompanies.TabIndex = 1;
@@ -170,7 +172,7 @@ namespace Presentation.Views
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
-            this.panel1.Controls.Add(this.pictureBox1);
+            this.panel1.Controls.Add(this.pbMinimized);
             this.panel1.Controls.Add(this.pbClose);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
@@ -178,16 +180,17 @@ namespace Presentation.Views
             this.panel1.Size = new System.Drawing.Size(1280, 36);
             this.panel1.TabIndex = 7;
             // 
-            // pictureBox1
+            // pbMinimized
             // 
-            this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBox1.Image = global::Presentation.Properties.Resources.Minimized_Button_Logo;
-            this.pictureBox1.Location = new System.Drawing.Point(1223, 8);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(20, 20);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 10;
-            this.pictureBox1.TabStop = false;
+            this.pbMinimized.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbMinimized.Image = global::Presentation.Properties.Resources.Minimized_Button_Logo;
+            this.pbMinimized.Location = new System.Drawing.Point(1223, 8);
+            this.pbMinimized.Name = "pbMinimized";
+            this.pbMinimized.Size = new System.Drawing.Size(20, 20);
+            this.pbMinimized.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbMinimized.TabIndex = 10;
+            this.pbMinimized.TabStop = false;
+            this.pbMinimized.Click += new System.EventHandler(this.pbMinimized_Click);
             // 
             // pbClose
             // 
@@ -204,6 +207,10 @@ namespace Presentation.Views
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
+            this.panel2.Controls.Add(this.panel4);
+            this.panel2.Controls.Add(this.btnProfile);
+            this.panel2.Controls.Add(this.panel11);
+            this.panel2.Controls.Add(this.btnEmployeeReceipts);
             this.panel2.Controls.Add(this.panel10);
             this.panel2.Controls.Add(this.btnConceptsApply);
             this.panel2.Controls.Add(this.panelSubmenuReports);
@@ -216,8 +223,6 @@ namespace Presentation.Views
             this.panel2.Controls.Add(this.panel7);
             this.panel2.Controls.Add(this.panel6);
             this.panel2.Controls.Add(this.panel5);
-            this.panel2.Controls.Add(this.panel4);
-            this.panel2.Controls.Add(this.panel3);
             this.panel2.Controls.Add(this.btnLogout);
             this.panel2.Controls.Add(this.btnCompanies);
             this.panel2.Controls.Add(this.btnDepartments);
@@ -445,22 +450,6 @@ namespace Presentation.Views
             this.panel5.Size = new System.Drawing.Size(8, 41);
             this.panel5.TabIndex = 2;
             // 
-            // panel4
-            // 
-            this.panel4.BackColor = System.Drawing.Color.Black;
-            this.panel4.Location = new System.Drawing.Point(0, 138);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(8, 41);
-            this.panel4.TabIndex = 1;
-            // 
-            // panel3
-            // 
-            this.panel3.BackColor = System.Drawing.Color.Black;
-            this.panel3.Location = new System.Drawing.Point(0, 89);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(8, 41);
-            this.panel3.TabIndex = 0;
-            // 
             // btnLogout
             // 
             this.btnLogout.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -506,6 +495,55 @@ namespace Presentation.Views
             this.fadeIn.Enabled = true;
             this.fadeIn.Tick += new System.EventHandler(this.fadeIn_Tick);
             // 
+            // btnEmployeeReceipts
+            // 
+            this.btnEmployeeReceipts.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnEmployeeReceipts.FlatAppearance.BorderSize = 0;
+            this.btnEmployeeReceipts.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnEmployeeReceipts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEmployeeReceipts.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.btnEmployeeReceipts.ForeColor = System.Drawing.Color.White;
+            this.btnEmployeeReceipts.Location = new System.Drawing.Point(0, 138);
+            this.btnEmployeeReceipts.Name = "btnEmployeeReceipts";
+            this.btnEmployeeReceipts.Size = new System.Drawing.Size(200, 41);
+            this.btnEmployeeReceipts.TabIndex = 24;
+            this.btnEmployeeReceipts.Text = "Recibos";
+            this.btnEmployeeReceipts.UseVisualStyleBackColor = true;
+            this.btnEmployeeReceipts.Click += new System.EventHandler(this.btnEmployeeReceipts_Click);
+            // 
+            // panel11
+            // 
+            this.panel11.BackColor = System.Drawing.Color.Black;
+            this.panel11.Location = new System.Drawing.Point(0, 138);
+            this.panel11.Name = "panel11";
+            this.panel11.Size = new System.Drawing.Size(8, 41);
+            this.panel11.TabIndex = 2;
+            this.panel11.Paint += new System.Windows.Forms.PaintEventHandler(this.panel11_Paint);
+            // 
+            // btnProfile
+            // 
+            this.btnProfile.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnProfile.FlatAppearance.BorderSize = 0;
+            this.btnProfile.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnProfile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnProfile.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.btnProfile.ForeColor = System.Drawing.Color.White;
+            this.btnProfile.Location = new System.Drawing.Point(0, 89);
+            this.btnProfile.Name = "btnProfile";
+            this.btnProfile.Size = new System.Drawing.Size(197, 41);
+            this.btnProfile.TabIndex = 25;
+            this.btnProfile.Text = "Perfil";
+            this.btnProfile.UseVisualStyleBackColor = true;
+            this.btnProfile.Click += new System.EventHandler(this.btnProfile_Click);
+            // 
+            // panel4
+            // 
+            this.panel4.BackColor = System.Drawing.Color.Black;
+            this.panel4.Location = new System.Drawing.Point(0, 89);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(8, 41);
+            this.panel4.TabIndex = 1;
+            // 
             // Layout
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -522,7 +560,7 @@ namespace Presentation.Views
             this.Text = "Layout";
             this.Load += new System.EventHandler(this.Layout_Load);
             this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbMinimized)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
@@ -546,8 +584,6 @@ namespace Presentation.Views
         private System.Windows.Forms.PictureBox pbClose;
         private System.Windows.Forms.Panel panelStorage;
         private System.Windows.Forms.Timer fadeIn;
-        private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Panel panel8;
@@ -566,6 +602,10 @@ namespace Presentation.Views
         private System.Windows.Forms.Button btnGeneralPayrollReport;
         private System.Windows.Forms.Panel panel10;
         private System.Windows.Forms.Button btnConceptsApply;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pbMinimized;
+        private System.Windows.Forms.Button btnEmployeeReceipts;
+        private System.Windows.Forms.Panel panel11;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Button btnProfile;
     }
 }

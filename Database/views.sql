@@ -37,10 +37,12 @@ CREATE PROCEDURE sp_ReporteGeneralNomina(
 AS
 
 	SELECT [Departamento], [Puesto], [Nombre del empleado], [Fecha de ingreso], [Edad], [Salario diario] FROM vw_ReporteGeneralNomina
-	WHERE DATEADD(day, -DAY([Fecha de ingreso]) + 1, [Fecha de ingreso]) <= DATEADD(day, -DAY(@fecha) + 1, @fecha);
+	WHERE DATEADD(day, -DAY([Fecha de ingreso]) + 1, [Fecha de ingreso]) <= DATEADD(day, -DAY(@fecha) + 1, @fecha)
+	ORDER BY [Departamento] ASC, [Puesto] ASC;
 
 GO
 
+select*from empleados;
 
 
 
