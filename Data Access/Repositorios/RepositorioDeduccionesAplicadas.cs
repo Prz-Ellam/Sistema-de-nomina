@@ -7,27 +7,27 @@ using System.Threading.Tasks;
 
 namespace Data_Access.Repositorios
 {
-    public class RepositorioPercepcionesAplicadas
+    public class RepositorioDeduccionesAplicadas
     {
         private readonly string applyEmployee, undoEmployee;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams;
 
-        public RepositorioPercepcionesAplicadas()
+        public RepositorioDeduccionesAplicadas()
         {
             mainRepository = MainConnection.GetInstance();
-            applyEmployee = "sp_AplicarEmpleadoPercepcion";
+            applyEmployee = "sp_AplicarEmpleadoDeduccion";
             undoEmployee = "sp_UndoEmployee";
 
             sqlParams = new RepositoryParameters();
         }
 
-        public int ApplyEmployeePerception(int employeeNumber, int perceptionId, DateTime date)
+        public int ApplyEmployeePerception()
         {
             sqlParams.Start();
-            sqlParams.Add("@numero_empleado", employeeNumber);
-            sqlParams.Add("@id_percepcion", perceptionId);
-            sqlParams.Add("@fecha", date);
+            sqlParams.Add("@numero_empleado", 1);
+            sqlParams.Add("@id_deduccion", 1);
+            sqlParams.Add("@fecha", null);
 
             return mainRepository.ExecuteNonQuery(applyEmployee, sqlParams);
         }

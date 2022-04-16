@@ -74,6 +74,27 @@ namespace Data_Access.Repositorios
             return departments;
         }
 
+        public List<PositionsViewModel> ReadLike(string filter)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@filtro", filter);
+
+            DataTable table = mainRepository.ExecuteReader(readLike, sqlParams);
+            List<PositionsViewModel> departments = new List<PositionsViewModel>();
+            foreach (DataRow row in table.Rows)
+            {
+                departments.Add(new PositionsViewModel
+                {
+                    Id = Convert.ToInt32(row[0]),
+                    Name = row[1].ToString(),
+                    WageLevel = Convert.ToDecimal(row[2])
+
+                });
+            }
+
+            return departments;
+        }
+
 
     }
 }

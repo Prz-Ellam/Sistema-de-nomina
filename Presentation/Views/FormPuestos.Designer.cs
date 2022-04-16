@@ -29,8 +29,9 @@ namespace Presentation.Views
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.txtName = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
             this.lblWageLevel = new System.Windows.Forms.Label();
@@ -40,12 +41,12 @@ namespace Presentation.Views
             this.btnAdd = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.dtgPositions = new System.Windows.Forms.DataGridView();
-            this.label4 = new System.Windows.Forms.Label();
-            this.lblFilter = new System.Windows.Forms.Label();
-            this.txtFilter = new System.Windows.Forms.TextBox();
             this.id2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.name2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nivel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label4 = new System.Windows.Forms.Label();
+            this.lblFilter = new System.Windows.Forms.Label();
+            this.txtFilter = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudWageLevel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtgPositions)).BeginInit();
             this.SuspendLayout();
@@ -160,28 +161,28 @@ namespace Presentation.Views
             this.dtgPositions.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
             this.dtgPositions.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dtgPositions.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dtgPositions.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dtgPositions.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dtgPositions.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgPositions.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.id2,
             this.name2,
             this.nivel});
             this.dtgPositions.Cursor = System.Windows.Forms.Cursors.Hand;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dtgPositions.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dtgPositions.DefaultCellStyle = dataGridViewCellStyle3;
             this.dtgPositions.EnableHeadersVisualStyles = false;
             this.dtgPositions.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.dtgPositions.Location = new System.Drawing.Point(20, 402);
@@ -191,6 +192,32 @@ namespace Presentation.Views
             this.dtgPositions.Size = new System.Drawing.Size(851, 241);
             this.dtgPositions.TabIndex = 40;
             this.dtgPositions.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgPositions_CellDoubleClick);
+            // 
+            // id2
+            // 
+            this.id2.DataPropertyName = "id";
+            this.id2.HeaderText = "ID";
+            this.id2.Name = "id2";
+            this.id2.ReadOnly = true;
+            this.id2.Width = 200;
+            // 
+            // name2
+            // 
+            this.name2.DataPropertyName = "name";
+            this.name2.HeaderText = "Nombre";
+            this.name2.Name = "name2";
+            this.name2.ReadOnly = true;
+            this.name2.Width = 300;
+            // 
+            // nivel
+            // 
+            this.nivel.DataPropertyName = "wageLevel";
+            dataGridViewCellStyle2.Format = "0.00";
+            this.nivel.DefaultCellStyle = dataGridViewCellStyle2;
+            this.nivel.HeaderText = "Nivel salarial";
+            this.nivel.Name = "nivel";
+            this.nivel.ReadOnly = true;
+            this.nivel.Width = 310;
             // 
             // label4
             // 
@@ -225,32 +252,9 @@ namespace Presentation.Views
             this.txtFilter.Name = "txtFilter";
             this.txtFilter.Size = new System.Drawing.Size(307, 29);
             this.txtFilter.TabIndex = 42;
+            this.txtFilter.TextChanged += new System.EventHandler(this.txtFilter_TextChanged);
             // 
-            // id2
-            // 
-            this.id2.DataPropertyName = "id";
-            this.id2.HeaderText = "ID";
-            this.id2.Name = "id2";
-            this.id2.ReadOnly = true;
-            this.id2.Width = 200;
-            // 
-            // name2
-            // 
-            this.name2.DataPropertyName = "name";
-            this.name2.HeaderText = "Nombre";
-            this.name2.Name = "name2";
-            this.name2.ReadOnly = true;
-            this.name2.Width = 300;
-            // 
-            // nivel
-            // 
-            this.nivel.DataPropertyName = "wageLevel";
-            this.nivel.HeaderText = "Nivel salarial";
-            this.nivel.Name = "nivel";
-            this.nivel.ReadOnly = true;
-            this.nivel.Width = 310;
-            // 
-            // FormPositions
+            // FormPuestos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -269,7 +273,7 @@ namespace Presentation.Views
             this.Controls.Add(this.lblName);
             this.Controls.Add(this.txtName);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "FormPositions";
+            this.Name = "FormPuestos";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Positions";
             this.Load += new System.EventHandler(this.Positions_Load);

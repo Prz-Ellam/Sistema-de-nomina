@@ -15,7 +15,6 @@ namespace Data_Access.Repositorios
     public class RepositorioPercepciones
     {
         private readonly string create, update, delete, leer;
-        private readonly string applyEmployee, undoEmployee, applyDepartment, undoDepartment;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams;
 
@@ -26,12 +25,6 @@ namespace Data_Access.Repositorios
             update = "sp_ActualizarPercepcion";
             delete = "sp_EliminarPercepcion";
             leer = "sp_LeerPercepciones";
-
-            applyEmployee = "sp_ApplyEmployee";
-            undoEmployee = "sp_UndoEmployee";
-            applyDepartment = "sp_ApplyDepartment";
-            undoDepartment = "sp_UndoDepartment";
-
             sqlParams = new RepositoryParameters();
 
         }

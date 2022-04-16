@@ -168,7 +168,7 @@ CREATE TABLE percepciones_aplicadas(
 	numero_empleado				INT NOT NULL,
 	id_percepcion				INT NOT NULL,
 	id_nomina					INT,
-	--cantidad					MONEY NOT NULL,
+	cantidad					MONEY NOT NULL,
 	fecha						DATE NOT NULL
 
 	CONSTRAINT PK_Employees_Perceptions
@@ -183,7 +183,7 @@ CREATE TABLE deducciones_aplicadas(
 	numero_empleado				INT NOT NULL,
 	id_deduccion				INT NOT NULL,
 	id_nomina					INT,
-	--cantidad					MONEY NOT NULL,
+	cantidad					MONEY NOT NULL,
 	fecha						DATE NOT NULL
 
 	CONSTRAINT PK_Employees_Deductions
@@ -402,9 +402,20 @@ ORDER BY TableName ASC;
 INSERT INTO domicilios(calle, numero, colonia, ciudad, estado, codigo_postal)
 VALUES('Montes de Leon', '935', 'Las Puentes 6to Sector', 'San Nicolas de los Garza', 'Nuevo Leon', '66460');
 
-INSERT INTO empresas(razon_social, domicilio_fiscal, correo_electronico, rfc, registro_patronal, fecha_inicio)
-VALUES('Crystal Soft Development S.A. de C.V.', 1, 'crystal@domain.com', 'MOV1004082C1', 'Y5499995107','20101026');
+INSERT INTO empresas(razon_social, domicilio_fiscal, correo_electronico, rfc, registro_patronal, fecha_inicio, id_administrador)
+VALUES('Crystal Soft Development S.A. de C.V.', 1, 'crystal@domain.com', 'MOV1004082C1', 'Y5499995107','20101026', 1);
 
 INSERT INTO administradores(correo_electronico, contrasena)
 VALUES('a@a.com', '123');
 
+select top 1 * from empresas;
+
+select*from departamentos;
+
+
+
+INSERT INTO Bancos (Nombre) VALUES ('Banorte');
+INSERT INTO Bancos (Nombre) VALUES ('Santander');
+INSERT INTO Bancos (Nombre) VALUES ('BBVA');
+INSERT INTO Bancos (Nombre) VALUES ('Citibanamex');
+INSERT INTO Bancos (Nombre) VALUES ('Afirme');

@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace Data_Access.Entidades
 {
-    class Bancos
+    public class Bancos
     {
+        private int idBanco;
+        private string nombre;
+
+        public int IdBanco { get => idBanco; set => idBanco = value; }
+        public string Nombre { get => nombre; set => nombre = value; }
     }
 }

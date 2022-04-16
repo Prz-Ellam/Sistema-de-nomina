@@ -30,8 +30,9 @@ namespace Presentation.Views
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lblTitle = new System.Windows.Forms.Label();
             this.txtNames = new System.Windows.Forms.TextBox();
             this.txtFatherLastName = new System.Windows.Forms.TextBox();
@@ -553,16 +554,16 @@ namespace Presentation.Views
             this.dtgEmployees.Location = new System.Drawing.Point(12, 435);
             this.dtgEmployees.Name = "dtgEmployees";
             this.dtgEmployees.ReadOnly = true;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dtgEmployees.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
-            this.dtgEmployees.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dtgEmployees.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
+            this.dtgEmployees.RowsDefaultCellStyle = dataGridViewCellStyle4;
             this.dtgEmployees.Size = new System.Drawing.Size(1040, 223);
             this.dtgEmployees.TabIndex = 47;
             this.dtgEmployees.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgEmployees_CellDoubleClick);
@@ -841,6 +842,8 @@ namespace Presentation.Views
             // sueldoDiario
             // 
             this.sueldoDiario.DataPropertyName = "sueldoDiario";
+            dataGridViewCellStyle2.Format = "c";
+            this.sueldoDiario.DefaultCellStyle = dataGridViewCellStyle2;
             this.sueldoDiario.HeaderText = "Sueldo diario";
             this.sueldoDiario.Name = "sueldoDiario";
             this.sueldoDiario.ReadOnly = true;

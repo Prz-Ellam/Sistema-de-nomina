@@ -8,18 +8,18 @@ namespace Data_Access.ViewModels
 {
     public class PayrollViewModel
     {
-        private int employeeNumber;
-        private string employeeName;
-        private DateTime date;
-        private decimal amount;
-        private string bank;
-        private string accountNumber;
+        private int numeroEmpleado;
+        private string nombreEmpleado;
+        private DateTime fecha;
+        private decimal cantidad;
+        private string banco;
+        private string numeroCuenta;
 
-        public int EmployeeNumber { get => employeeNumber; set => employeeNumber = value; }
-        public string EmployeeName { get => employeeName; set => employeeName = value; }
-        public DateTime Date { get => date; set => date = value; }
-        public decimal Amount { get => amount; set => amount = value; }
-        public string Bank { get => bank; set => bank = value; }
-        public string AccountNumber { get => accountNumber; set => accountNumber = value; }
+        public int NumeroEmpleado { get => numeroEmpleado; set => numeroEmpleado = value; }
+        public string NombreEmpleado { get => nombreEmpleado; set => nombreEmpleado = value; }
+        public DateTime Fecha { get => fecha; set => fecha = value; }
+        public decimal Cantidad { get => cantidad; set => cantidad = value; }
+        public string Banco { get => banco; set => banco = value; }
+        public string NumeroCuenta { get => numeroCuenta; set => numeroCuenta = value; }
     }
 }

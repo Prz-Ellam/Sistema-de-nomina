@@ -10,7 +10,7 @@ CREATE PROCEDURE sp_AgregarDepartamento
 	@id_empresa			INT
 AS
 
-	IF NOT EXISTS (SELECT id_empresa FROM empresas WHERE id_empresa = @id_empresa)
+	IF NOT EXISTS (SELECT id_empresa FROM empresas WHERE id_empresa = @id_empresa AND activo = 1)
 		BEGIN
 			RAISERROR('La empresa aún no existe', 11, 1);
 			RETURN;

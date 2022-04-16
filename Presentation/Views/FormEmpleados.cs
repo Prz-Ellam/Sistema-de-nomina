@@ -68,12 +68,17 @@ namespace Presentation.Views
             EmployeeState = EntityState.Add;
             ListEmployees();
 
-
-
+            List<Bancos> bancos = new RepositorioBancos().ReadAll();
+            List<ComboBoxItem> nombres = new List<ComboBoxItem>();
+            foreach(var banco in bancos)
+            {
+                nombres.Add(new ComboBoxItem(banco.Nombre, banco.IdBanco));
+            }
+            cbBank.DataSource = nombres;
 
 
             List<DepartmentsViewModel> departamentos = new RepositorioDepartamentos().Leer();
-            List<ComboBoxItem> nombres = new List<ComboBoxItem>();
+            nombres = new List<ComboBoxItem>();
             foreach(var departamento in departamentos)
             {
                 nombres.Add(new ComboBoxItem(departamento.Name, departamento.Id));
@@ -98,18 +103,11 @@ namespace Presentation.Views
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            try
-            {
-                FillEntity();
-                AddEntity();
-                MessageBox.Show("La operación se realizó exitosamente");
-                ListEmployees();
-                ClearForm();
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            FillEntity();
+            string message = AddEntity();
+            MessageBox.Show(message);
+            ListEmployees();
+            ClearForm();
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
@@ -149,36 +147,49 @@ namespace Presentation.Views
         }
 
 
-        public void AddEntity()
+        public string AddEntity()
         {
             if (EmployeeState == EntityState.Add)
             {
-                int id = addressesRepository.Create(address);
-
-                employee.Domicilio = id;
-
-                int rowsAffected = repository.Create(employee);
-                if (rowsAffected == 0)
+                try
                 {
-                    MessageBox.Show("Algo fallo");
+                    int rowsAffected = repository.Create(employee, address);
+                    if (rowsAffected > 0)
+                    {
+                        return "La operación se realizó éxitosamente";
+                    }
+                    else
+                    {
+                        return "No se pudo realizar la operación";
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    return ex.Message;
                 }
             }
+
+            return "";
         }
 
-        public void EditEntity()
+        public string EditEntity()
         {
             if (EmployeeState == EntityState.Modify)
             {
                 repository.Update(employee);
             }
+
+            return "";
         }
 
-        public void DeleteEntity()
+        public string DeleteEntity()
         {
             if (EmployeeState == EntityState.Modify)
             {
                 repository.Delete(entityID);
             }
+
+            return "";
         }
 
         public void FillEntity()
@@ -191,7 +202,7 @@ namespace Presentation.Views
             employee.Nss = txtNSS.Text;
             employee.Rfc = txtRFC.Text;
             //employee.Address = 1;
-            employee.Banco = 1;
+            employee.Banco = ((ComboBoxItem)cbBank.SelectedItem).HiddenValue;
             employee.NumeroCuenta = Convert.ToInt32(txtAccountNumber.Text);
             employee.CorreoElectronico = txtEmail.Text;
             employee.Contrasena = txtPassword.Text;

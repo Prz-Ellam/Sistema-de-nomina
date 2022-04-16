@@ -20,8 +20,10 @@ namespace Data_Access.Entidades
         [RegularExpression(@"^[a-zA-Z \u00C0-\u00FF]+$", ErrorMessage = "El nombre del puesto solo puede contener letras y espacios")]
         [MaxLength(30, ErrorMessage = "El nombre del puesto es muy largo")]
         public string Nombre { get => nombre; set => nombre = value; }
+        [Required]
         public decimal NivelSalarial { get => nivelSalarial; set => nivelSalarial = value; }
         public bool Activo { get => activo; set => activo = value; }
+        [Required]
         public int IdEmpresa { get => idEmpresa; set => idEmpresa = value; }
     }
 }

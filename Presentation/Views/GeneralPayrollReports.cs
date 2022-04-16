@@ -7,14 +7,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Data_Access.Repositorios;
 
 namespace Presentation.Views
 {
     public partial class GeneralPayrollReports : Form
     {
+        private RepositorioNominas payrollRepository = new RepositorioNominas();
         public GeneralPayrollReports()
         {
             InitializeComponent();
+        }
+
+        private void dtpDate_ValueChanged(object sender, EventArgs e)
+        {
+            DateTime date = dtpDate.Value;
+            try
+            {
+                dtgGeneralPayroll.DataSource = payrollRepository.GeneralPayrollReport(date);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
     }
 }

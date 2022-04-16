@@ -9,8 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using Presentation.Helpers;
-
 namespace Presentation.Views
 {
     public partial class Layout : Form
@@ -130,6 +128,14 @@ namespace Presentation.Views
         private void btnConceptsApply_Click(object sender, EventArgs e)
         {
             OpenFormChild(new FormAplicarConceptos());
+        }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            Session.LogOut();
+            Form form = new Login();
+            form.Show();
+            this.Close();
         }
     }
 }

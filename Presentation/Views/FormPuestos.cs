@@ -196,5 +196,17 @@ namespace Presentation.Views
             nudWageLevel.Value = 0.0m;
             PositionState = EntityState.Add;
         }
+
+        private void txtFilter_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                dtgPositions.DataSource = repository.ReadLike(txtFilter.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
     }
 }

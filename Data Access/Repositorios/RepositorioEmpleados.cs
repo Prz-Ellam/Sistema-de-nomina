@@ -27,7 +27,7 @@ namespace Data_Access.Repositorios
             getEmployeesId = "sp_ObtenerEmpleados";
         }
 
-        public int Create(Empleados employee)
+        public int Create(Empleados employee, Domicilios address)
         {
             sqlParams.Start();
             sqlParams.Add("@nombre", employee.Nombre);
@@ -37,7 +37,14 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@curp", employee.Curp);
             sqlParams.Add("@nss", employee.Nss);
             sqlParams.Add("@rfc", employee.Rfc);
-            sqlParams.Add("@domicilio", employee.Domicilio);
+
+            sqlParams.Add("@calle", address.Calle);
+            sqlParams.Add("@numero", address.Numero);
+            sqlParams.Add("@colonia", address.Colonia);
+            sqlParams.Add("@ciudad", address.Ciudad);
+            sqlParams.Add("@estado", address.Estado);
+            sqlParams.Add("@codigo_postal", address.CodigoPostal);
+
             sqlParams.Add("@banco", employee.Banco);
             sqlParams.Add("@numero_cuenta", employee.NumeroCuenta);
             sqlParams.Add("@correo_electronico", employee.CorreoElectronico);

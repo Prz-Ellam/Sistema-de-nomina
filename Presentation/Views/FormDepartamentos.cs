@@ -72,7 +72,8 @@ namespace Presentation.Views
             try
             {
                 FillDepartment();
-                AddDepartment();
+                string message = AddDepartment();
+                MessageBox.Show(message);
                 ListDepartments();
                 ClearForm();
             }
@@ -87,7 +88,8 @@ namespace Presentation.Views
             try
             {
                 FillDepartment();
-                UpdateDepartment();
+                string message = UpdateDepartment();
+                MessageBox.Show(message);
                 ListDepartments();
                 ClearForm();
             }
@@ -102,7 +104,8 @@ namespace Presentation.Views
             try
             {
                 FillDepartment();
-                DeleteDepartment();
+                string message = DeleteDepartment();
+                MessageBox.Show(message);
                 ListDepartments();
                 ClearForm();
             }
@@ -151,45 +154,93 @@ namespace Presentation.Views
 
 
 
-        public void AddDepartment()
+        public string AddDepartment()
         {
             if (departmentState == EntityState.Add)
             {
-                Tuple<bool, string> feedback = new DataValidation(department).Validate();
-                if (!feedback.Item1)
+                try
                 {
-                    MessageBox.Show(feedback.Item2, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+                    Tuple<bool, string> feedback = new DataValidation(department).Validate();
+                    if (!feedback.Item1)
+                    {
+                        return feedback.Item2;
+                    }
 
-                repository.Agregar(department);
-                MessageBox.Show("La operación se realizó exitosamente");
+                    int result = repository.Agregar(department);
+
+                    if (result > 0)
+                    {
+                        return "La operación se realizó éxitosamente";
+                    }
+                    else
+                    {
+                        return "No se pudo realizar la operación";
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    return ex.Message;
+                }
             }
+
+            return "";
         }
 
-        public void UpdateDepartment()
+        public string UpdateDepartment()
         {
             if (departmentState == EntityState.Modify)
             {
-                Tuple<bool, string> feedback = new DataValidation(department).Validate();
-                if (!feedback.Item1)
+                try
                 {
-                    MessageBox.Show(feedback.Item2, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+                    Tuple<bool, string> feedback = new DataValidation(department).Validate();
+                    if (!feedback.Item1)
+                    {
+                        return feedback.Item2;
+                    }
 
-                repository.Actualizar(department);
-                MessageBox.Show("La operación se realizó exitosamente");
+                    int result = repository.Actualizar(department);
+                    if (result > 0)
+                    {
+                        return "La operación se realizó éxitosamente";
+                    }
+                    else
+                    {
+                        return "No se pudo realizar la operación";
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    return ex.Message;
+                }
             }
+
+            return "";
         }
 
-        public void DeleteDepartment()
+        public string DeleteDepartment()
         {
             if (departmentState == EntityState.Modify)
             {
-                repository.Eliminar(entityID);
-                MessageBox.Show("La operación se realizó exitosamente");
+                try
+                {
+                    int result = repository.Eliminar(entityID);
+
+                    if (result > 0)
+                    {
+                        return "La operación se realizó éxitosamente";
+                    }
+                    else
+                    {
+                        return "No se pudo realizar la operación";
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    return ex.Message;
+                }
             }
+
+            return "";
         }
 
         public void ListDepartments()

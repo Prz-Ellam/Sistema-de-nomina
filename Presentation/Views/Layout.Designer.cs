@@ -37,6 +37,7 @@ namespace Presentation.Views
             this.btnConcepts = new System.Windows.Forms.Button();
             this.btnPayroll = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pbClose = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel10 = new System.Windows.Forms.Panel();
@@ -59,16 +60,15 @@ namespace Presentation.Views
             this.panel5 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.button8 = new System.Windows.Forms.Button();
+            this.btnLogout = new System.Windows.Forms.Button();
             this.btnReports = new System.Windows.Forms.Button();
             this.panelStorage = new System.Windows.Forms.Panel();
             this.fadeIn = new System.Windows.Forms.Timer(this.components);
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).BeginInit();
             this.panel2.SuspendLayout();
             this.panelSubmenuReports.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnEmployees
@@ -178,6 +178,17 @@ namespace Presentation.Views
             this.panel1.Size = new System.Drawing.Size(1280, 36);
             this.panel1.TabIndex = 7;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pictureBox1.Image = global::Presentation.Properties.Resources.Minimized_Button_Logo;
+            this.pictureBox1.Location = new System.Drawing.Point(1223, 8);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 10;
+            this.pictureBox1.TabStop = false;
+            // 
             // pbClose
             // 
             this.pbClose.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -207,7 +218,7 @@ namespace Presentation.Views
             this.panel2.Controls.Add(this.panel5);
             this.panel2.Controls.Add(this.panel4);
             this.panel2.Controls.Add(this.panel3);
-            this.panel2.Controls.Add(this.button8);
+            this.panel2.Controls.Add(this.btnLogout);
             this.panel2.Controls.Add(this.btnCompanies);
             this.panel2.Controls.Add(this.btnDepartments);
             this.panel2.Controls.Add(this.btnReports);
@@ -450,19 +461,20 @@ namespace Presentation.Views
             this.panel3.Size = new System.Drawing.Size(8, 41);
             this.panel3.TabIndex = 0;
             // 
-            // button8
+            // btnLogout
             // 
-            this.button8.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button8.FlatAppearance.BorderSize = 0;
-            this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button8.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.button8.ForeColor = System.Drawing.Color.White;
-            this.button8.Location = new System.Drawing.Point(0, 601);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(200, 41);
-            this.button8.TabIndex = 9;
-            this.button8.Text = "Cerrar sesión";
-            this.button8.UseVisualStyleBackColor = true;
+            this.btnLogout.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnLogout.FlatAppearance.BorderSize = 0;
+            this.btnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLogout.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.btnLogout.ForeColor = System.Drawing.Color.White;
+            this.btnLogout.Location = new System.Drawing.Point(0, 601);
+            this.btnLogout.Name = "btnLogout";
+            this.btnLogout.Size = new System.Drawing.Size(200, 41);
+            this.btnLogout.TabIndex = 9;
+            this.btnLogout.Text = "Cerrar sesión";
+            this.btnLogout.UseVisualStyleBackColor = true;
+            this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
             // 
             // btnReports
             // 
@@ -494,17 +506,6 @@ namespace Presentation.Views
             this.fadeIn.Enabled = true;
             this.fadeIn.Tick += new System.EventHandler(this.fadeIn_Tick);
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBox1.Image = global::Presentation.Properties.Resources.Minimized_Button_Logo;
-            this.pictureBox1.Location = new System.Drawing.Point(1223, 8);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(20, 20);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 10;
-            this.pictureBox1.TabStop = false;
-            // 
             // Layout
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -521,11 +522,11 @@ namespace Presentation.Views
             this.Text = "Layout";
             this.Load += new System.EventHandler(this.Layout_Load);
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panelSubmenuReports.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -541,7 +542,7 @@ namespace Presentation.Views
         private System.Windows.Forms.Button btnReports;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button btnLogout;
         private System.Windows.Forms.PictureBox pbClose;
         private System.Windows.Forms.Panel panelStorage;
         private System.Windows.Forms.Timer fadeIn;

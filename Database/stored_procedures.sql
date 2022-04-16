@@ -80,7 +80,6 @@ AS
 
 	INSERT INTO domicilios(calle, numero, colonia, ciudad, estado, codigo_postal)
 	VALUES(@calle, @numero, @colonia, @ciudad, @estado, @codigo_postal);
-	SELECT SCOPE_IDENTITY();
 
 GO
 
@@ -620,22 +619,39 @@ VALUES('Santander');
 
 
 
-
+SELECT * FROM percepciones_aplicadas;
 
 
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AplicarEmpleadoPercepcion')
-	DROP PROCEDURE sp_ApplyEmployeeDeduction;
+	DROP PROCEDURE sp_AplicarEmpleadoPercepcion;
 GO
 
-CREATE PROCEDURE sp_ApplyEmployeeDeduction(
+CREATE PROCEDURE sp_AplicarEmpleadoPercepcion(
 	@numero_empleado			INT,
 	@id_percepcion				INT,
 	@fecha						DATE
 )
 AS
 
-	INSERT INTO percepciones_aplicadas(numero_empleado, id_percepcion, fecha)
-	VALUES(@numero_empleado, @id_percepcion, @fecha);
+	IF (SELECT COUNT(0) FROM percepciones_aplicadas WHERE fecha = @fecha 
+	AND id_percepcion = @id_percepcion AND numero_empleado = @numero_empleado) > 0
+		BEGIN
+			RAISERROR('Ya fue aplicada una percepcion en esta fecha', 11, 1);
+			RETURN;
+		END
+
+	DECLARE @tipo_monto		CHAR;
+	DECLARE @cantidad		MONEY;
+	SET @tipo_monto = (SELECT tipo_monto FROM percepciones WHERE id_percepcion = @id_percepcion AND activo = 1);
+	
+	IF @tipo_monto = 'F'
+		SET @cantidad = (SELECT fijo FROM percepciones WHERE id_percepcion = @id_percepcion AND activo = 1)
+	ELSE IF @tipo_monto = 'P'
+		SET @cantidad = (SELECT sueldo_diario FROM empleados WHERE numero_empleado = @numero_empleado AND activo = 1) * 
+						(SELECT porcentual FROM percepciones WHERE id_percepcion = @id_percepcion AND activo = 1)
+
+	INSERT INTO percepciones_aplicadas(numero_empleado, id_percepcion, fecha, cantidad)
+	VALUES(@numero_empleado, @id_percepcion, @fecha, @cantidad);
 
 GO
 
@@ -658,12 +674,11 @@ AS
 GO
 
 
+select*From nominas;
 
 
 
-
-
-
+EXEC sp_GenerarNomina 2, '20220401';
 
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_GenerarNomina')
 	DROP PROCEDURE sp_GenerarNomina;
@@ -683,7 +698,40 @@ AS
 	SET @mes = MONTH(@fecha);
 	SET @dias =  dbo.GETMONTHLENGTH(@anio, @mes);
 
-	--SELECT @year, @month, @days;
+	--SELECT @anio, @mes, @dias, sueldo_diario FROM empleados WHERE numero_empleado = @numero_empleado;
+	DECLARE @total_percepciones MONEY;
+	DECLARE @total_deducciones MONEY;
+
+	SET @total_percepciones = (SELECT ISNULL(SUM(cantidad), 0) FROM percepciones_aplicadas WHERE YEAR(fecha) = @anio AND MONTH(fecha) = @mes AND numero_empleado = @numero_empleado);
+	SET @total_deducciones = (SELECT ISNULL(SUM(cantidad), 0) FROM deducciones_aplicadas WHERE YEAR(fecha) = @anio AND MONTH(fecha) = @mes AND numero_empleado = @numero_empleado);
+
+	DECLARE @sueldo_diario MONEY
+	SET @sueldo_diario = (SELECT sueldo_diario FROM empleados WHERE numero_empleado = @numero_empleado AND activo = 1);
+
+	DECLARE @sueldo_bruto MONEY;
+	SET @sueldo_bruto = @sueldo_diario * @dias;
+	SELECT @sueldo_bruto;
+
+	DECLARE @sueldo_neto MONEY;
+	SET @sueldo_neto = @sueldo_bruto + @total_percepciones - @total_deducciones;
+	SELECT @sueldo_neto;
+
+	INSERT INTO nominas(sueldo_diario, sueldo_bruto, sueldo_neto, banco, numero_cuenta, fecha, numero_empleado, id_departamento, id_puesto)
+	SELECT @sueldo_diario, @sueldo_bruto, @sueldo_neto, banco, numero_cuenta, @fecha, @numero_empleado, id_departamento, id_puesto
+	FROM empleados WHERE numero_empleado = @numero_empleado AND activo = 1;
+
+
+	UPDATE percepciones_aplicadas
+	SET
+	id_nomina = IDENT_CURRENT('nominas')
+	WHERE YEAR(fecha) = @anio AND MONTH(fecha) = @mes AND numero_empleado = @numero_empleado;
+
+	UPDATE deducciones_aplicadas
+	SET
+	id_nomina = IDENT_CURRENT('nominas')
+	WHERE YEAR(fecha) = @anio AND MONTH(fecha) = @mes AND numero_empleado = @numero_empleado;
+
+GO
 	/*
 	DECLARE @daily_salary	MONEY;
 	SET @daily_salary = (SELECT D.base_salary * P.wage_level 

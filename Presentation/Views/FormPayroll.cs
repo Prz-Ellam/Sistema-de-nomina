@@ -1,4 +1,5 @@
 ﻿using CsvHelper;
+using Data_Access.Repositorios;
 using Data_Access.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace Presentation.Views
 {
     public partial class FormPayroll : Form
     {
+        RepositorioNominas payrollRepository = new RepositorioNominas();
         public FormPayroll()
         {
             InitializeComponent();
@@ -31,6 +33,17 @@ namespace Presentation.Views
 
         private void btnGeneratePayroll_Click(object sender, EventArgs e)
         {
+            DateTime date = dtpDate.Value;
+
+            RepositorioEmpleados employeeRepository = new RepositorioEmpleados();
+            List<int> employeesNumber = employeeRepository.GetEmployeesId();
+            
+            foreach(int employeeNumber in employeesNumber)
+            {
+                payrollRepository.GeneratePayrolls(date, employeeNumber);
+            }
+            
+
             //GenerateCSV();
         }
 
@@ -45,18 +58,24 @@ namespace Presentation.Views
 
                 List<PayrollViewModel> payrolls = new List<PayrollViewModel>();
                 payrolls.Add(new PayrollViewModel { 
-                    EmployeeNumber = 1,
-                    EmployeeName = "Eduardo",
-                    Date = DateTime.Now,
-                    Amount = 5.0m,
-                    Bank = "Santander",
-                    AccountNumber = "11"
+                    NumeroEmpleado = 1,
+                    NombreEmpleado = "Eduardo",
+                    Fecha = DateTime.Now,
+                    Cantidad = 5.0m,
+                    Banco = "Santander",
+                    NumeroCuenta = "11"
                 });
 
                 csvWriter.WriteRecords(payrolls);
                 csvWriter.Dispose();
                 writer.Close();
             }
+        }
+
+        private void btnConsult_Click(object sender, EventArgs e)
+        {
+            List<PayrollViewModel> payrolls = payrollRepository.ReadByDate(dtpConsult.Value);
+            dtgPayrolls.DataSource = payrolls;
         }
     }
 }

@@ -29,22 +29,37 @@ namespace Data_Access.Entidades
         private int idPuesto;
 
         public int NumeroEmpleado { get => numeroEmpleado; set => numeroEmpleado = value; }
+        [Required]
         public string Nombre { get => nombre; set => nombre = value; }
+        [Required]
         public string ApellidoPaterno { get => apellidoPaterno; set => apellidoPaterno = value; }
+        [Required]
         public string ApellidoMaterno { get => apellidoMaterno; set => apellidoMaterno = value; }
+        [Required]
         public DateTime FechaNacimiento { get => fechaNacimiento; set => fechaNacimiento = value; }
+        [Required]
         public string Curp { get => curp; set => curp = value; }
+        [Required]
         public string Nss { get => nss; set => nss = value; }
+        [Required]
         public string Rfc { get => rfc; set => rfc = value; }
+        [Required]
         public int Domicilio { get => domicilio; set => domicilio = value; }
+        [Required]
         public int Banco { get => banco; set => banco = value; }
+        [Required]
         public int NumeroCuenta { get => numeroCuenta; set => numeroCuenta = value; }
+        [Required]
         public string CorreoElectronico { get => correoElectronico; set => correoElectronico = value; }
+        [Required]
         public string Contrasena { get => contrasena; set => contrasena = value; }
         public decimal SueldoDiario { get => sueldoDiario; set => sueldoDiario = value; }
+        [Required]
         public DateTime FechaContratacion { get => fechaContratacion; set => fechaContratacion = value; }
         public bool Activo { get => activo; set => activo = value; }
+        [Required]
         public int IdDepartamento { get => idDepartamento; set => idDepartamento = value; }
+        [Required]
         public int IdPuesto { get => idPuesto; set => idPuesto = value; }
     }
 }

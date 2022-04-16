@@ -43,11 +43,11 @@ namespace Presentation.Views
             this.lblDepartments = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.dtgDepartaments = new System.Windows.Forms.DataGridView();
+            this.txtFilter = new System.Windows.Forms.TextBox();
+            this.lblFilter = new System.Windows.Forms.Label();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.baseSalary = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.txtFilter = new System.Windows.Forms.TextBox();
-            this.lblFilter = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nudBaseSalary)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtgDepartaments)).BeginInit();
             this.SuspendLayout();
@@ -222,32 +222,6 @@ namespace Presentation.Views
             this.dtgDepartaments.TabIndex = 39;
             this.dtgDepartaments.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgDepartaments_CellDoubleClick);
             // 
-            // id
-            // 
-            this.id.DataPropertyName = "id";
-            this.id.HeaderText = "ID";
-            this.id.Name = "id";
-            this.id.ReadOnly = true;
-            this.id.Width = 200;
-            // 
-            // name
-            // 
-            this.name.DataPropertyName = "name";
-            this.name.HeaderText = "Nombre";
-            this.name.Name = "name";
-            this.name.ReadOnly = true;
-            this.name.Width = 310;
-            // 
-            // baseSalary
-            // 
-            this.baseSalary.DataPropertyName = "baseSalary";
-            dataGridViewCellStyle2.Format = "$0.00";
-            this.baseSalary.DefaultCellStyle = dataGridViewCellStyle2;
-            this.baseSalary.HeaderText = "Sueldo base";
-            this.baseSalary.Name = "baseSalary";
-            this.baseSalary.ReadOnly = true;
-            this.baseSalary.Width = 300;
-            // 
             // txtFilter
             // 
             this.txtFilter.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
@@ -270,6 +244,32 @@ namespace Presentation.Views
             this.lblFilter.TabIndex = 41;
             this.lblFilter.Text = "Filtrar:";
             this.lblFilter.Click += new System.EventHandler(this.lblFilter_Click);
+            // 
+            // id
+            // 
+            this.id.DataPropertyName = "id";
+            this.id.HeaderText = "ID";
+            this.id.Name = "id";
+            this.id.ReadOnly = true;
+            this.id.Width = 200;
+            // 
+            // name
+            // 
+            this.name.DataPropertyName = "name";
+            this.name.HeaderText = "Nombre";
+            this.name.Name = "name";
+            this.name.ReadOnly = true;
+            this.name.Width = 310;
+            // 
+            // baseSalary
+            // 
+            this.baseSalary.DataPropertyName = "baseSalary";
+            dataGridViewCellStyle2.Format = "c";
+            this.baseSalary.DefaultCellStyle = dataGridViewCellStyle2;
+            this.baseSalary.HeaderText = "Sueldo base";
+            this.baseSalary.Name = "baseSalary";
+            this.baseSalary.ReadOnly = true;
+            this.baseSalary.Width = 300;
             // 
             // FormDepartamentos
             // 

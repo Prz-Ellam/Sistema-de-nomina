@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -78,19 +79,21 @@ namespace Presentation.Views
         {
             if (!rbPerception.Checked && !rbDeduction.Checked)
             {
-                MessageBox.Show("No esta bien");
+                MessageBox.Show("No escogió un tipo de concepto", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else if (rbPerception.Checked)
             {
                 FillPerception();
-                AddPerception();
+                string message = AddPerception();
+                MessageBox.Show(message);
                 ListPerceptions();
                 ClearForm();
             }
             else if (rbDeduction.Checked)
             {
                 FillDeduction();
-                AddDeduction();
+                string message = AddDeduction();
+                MessageBox.Show(message);
                 ListDeductions();
                 ClearForm();
             }
@@ -152,19 +155,44 @@ namespace Presentation.Views
             }
         }
 
-        private void AddPerception()
+        private string AddPerception()
         {
             if (ConceptsState == EntityState.Add)
             {
-                perceptionRepository.Create(percepcion);
+                try
+                {
+                    int rowCount = perceptionRepository.Create(percepcion);
+
+                    if (rowCount > 0)
+                    {
+                        return "La operación se realizó éxitosamente";
+                    }
+                    else
+                    {
+                        return "No se pudo realizar la operación";
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    return ex.Message;
+                }
             }
+
+            return "";
         }
 
         public void UpdatePerception()
         {
             if (ConceptsState == EntityState.Modify)
             {
-                perceptionRepository.Update(percepcion);
+                try
+                {
+                    perceptionRepository.Update(percepcion);
+                }
+                catch (SqlException ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -172,23 +200,54 @@ namespace Presentation.Views
         {
             if (ConceptsState == EntityState.Modify)
             {
-                perceptionRepository.Delete(perceptionId);
+                try
+                {
+                    perceptionRepository.Delete(perceptionId);
+                }
+                catch (SqlException ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
-        private void AddDeduction()
+        private string AddDeduction()
         {
             if (ConceptsState == EntityState.Add)
             {
-                deductionRepository.Create(deduccion);
+                try
+                {
+                    int rowCount = deductionRepository.Create(deduccion);
+                    if (rowCount > 0)
+                    {
+                        return "La operación se realizó éxitosamente";
+                    }
+                    else
+                    {
+                        return "No se pudo realizar la operación";
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    return ex.Message;
+                }
             }
+
+            return "";
         }
 
         private void UpdateDeduction()
         {
             if (ConceptsState == EntityState.Modify)
             {
-                deductionRepository.Update(deduccion);
+                try
+                {
+                    deductionRepository.Update(deduccion);
+                }
+                catch (SqlException ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -196,7 +255,14 @@ namespace Presentation.Views
         {
             if (ConceptsState == EntityState.Modify)
             {
-                deductionRepository.Delete(deductionId);
+                try
+                {
+                    deductionRepository.Delete(deductionId);
+                }
+                catch (SqlException ex) 
+                { 
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); 
+                }
             }
         }
 
@@ -257,11 +323,13 @@ namespace Presentation.Views
         private void rbFijo_CheckedChanged(object sender, EventArgs e)
         {
             nudFijo.Enabled = rbFijo.Checked;
+            nudPorcentual.Value = 0.0m;
         }
 
         private void rbPorcentual_CheckedChanged(object sender, EventArgs e)
         {
             nudPorcentual.Enabled = rbPorcentual.Checked;
+            nudFijo.Value = 0.0m;
         }
 
 
@@ -299,10 +367,12 @@ namespace Presentation.Views
             if (type == 'F')
             {
                 rbFijo.Checked = true;
+                nudFijo.Value = Convert.ToDecimal(row.Cells[3].Value);
             }
             else
             {
                 rbPorcentual.Checked = true;
+                nudPorcentual.Value = Convert.ToDecimal(row.Cells[4].Value);
             }
         }
 
@@ -340,10 +410,12 @@ namespace Presentation.Views
             if (type == 'F')
             {
                 rbFijo.Checked = true;
+                nudFijo.Value = Convert.ToDecimal(row.Cells[3].Value);
             }
             else
             {
                 rbPorcentual.Checked = true;
+                nudPorcentual.Value = Convert.ToDecimal(row.Cells[4].Value);
             }
         }
     }
