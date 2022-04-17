@@ -107,14 +107,13 @@ namespace Presentation.Views
             {
                 FillForm(index);
             }
-
         }
 
         private void txtFilter_TextChanged(object sender, EventArgs e)
         {
             try
             {
-                dtgDepartaments.DataSource = repository.Filtrar(txtFilter.Text);
+                dtgDepartaments.DataSource = repository.ReadLike(txtFilter.Text);
             }
             catch (Exception ex)
             {
@@ -141,7 +140,7 @@ namespace Presentation.Views
 
         public string AddDepartment()
         {
-            if (departmentState != EntityState.Add)
+            if (DepartmentState != EntityState.Add)
             {
                 return "Operación incorrecta";
             }
@@ -154,9 +153,9 @@ namespace Presentation.Views
                     return feedback.Item2;
                 }
 
-                int result = repository.Agregar(department);
+                bool result = repository.Create(department);
 
-                if (result > 0)
+                if (result)
                 {
                     return "La operación se realizó éxitosamente";
                 }
@@ -173,7 +172,7 @@ namespace Presentation.Views
 
         public string UpdateDepartment()
         {
-            if (departmentState != EntityState.Modify)
+            if (DepartmentState != EntityState.Modify)
             {
                 return "Operación incorrecta";
             }
@@ -186,7 +185,7 @@ namespace Presentation.Views
                     return feedback.Item2;
                 }
 
-                int result = repository.Actualizar(department);
+                int result = repository.Update(department);
                 if (result > 0)
                 {
                     return "La operación se realizó éxitosamente";
@@ -204,14 +203,14 @@ namespace Presentation.Views
 
         public string DeleteDepartment()
         {
-            if (departmentState != EntityState.Modify)
+            if (DepartmentState != EntityState.Modify)
             {
                 return "Operación incorrecta";
             }
 
             try
             {
-                int result = repository.Eliminar(departmentId);
+                int result = repository.Delete(departmentId);
 
                 if (result > 0)
                 {
@@ -232,7 +231,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgDepartaments.DataSource = repository.Leer();
+                dtgDepartaments.DataSource = repository.ReadAll();
             }
             catch (Exception ex)
             {
@@ -258,20 +257,20 @@ namespace Presentation.Views
             dtgPrevIndex = -1;
         }
 
-        public void FillForm(int rowIndex)
+        public void FillForm(int index)
         {
-            if (rowIndex == -1)
+            if (index == -1)
             {
                 return;
             }
 
-            var row = dtgDepartaments.Rows[rowIndex];
+            var row = dtgDepartaments.Rows[index];
             departmentId = Convert.ToInt32(row.Cells[0].Value); // Podria tronar si la celda 0 no es numero
             txtName.Text = row.Cells[1].Value.ToString();
             nudBaseSalary.Value = Convert.ToDecimal(row.Cells[2].Value); // Lo mismo
 
             DepartmentState = EntityState.Modify;
-            dtgPrevIndex = rowIndex;
+            dtgPrevIndex = index;
         }
 
     }

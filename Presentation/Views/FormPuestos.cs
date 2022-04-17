@@ -140,7 +140,7 @@ namespace Presentation.Views
 
         public string AddPosition()
         {
-            if (positionState != EntityState.Add)
+            if (PositionState != EntityState.Add)
             {
                 return "Operación incorrecta";
             }
@@ -171,7 +171,7 @@ namespace Presentation.Views
 
         public string UpdatePosition()
         {
-            if (positionState != EntityState.Modify)
+            if (PositionState != EntityState.Modify)
             {
                 return "Operación incorrecta";
             }
@@ -202,7 +202,7 @@ namespace Presentation.Views
 
         public string DeletePosition()
         {
-            if (positionState != EntityState.Modify)
+            if (PositionState != EntityState.Modify)
             {
                 return "Operación incorrecta";
             }

@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Presentation.Helpers
 {
-    public class ComboBoxItem
+    public class KeyValueItem
     {
         string displayValue;
         int hiddenValue;
 
-        public ComboBoxItem(string display, int hidden)
+        public KeyValueItem(string display, int hidden)
         {
             displayValue = display;
             hiddenValue = hidden;

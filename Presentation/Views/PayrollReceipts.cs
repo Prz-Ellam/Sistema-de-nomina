@@ -16,5 +16,10 @@ namespace Presentation.Views
         {
             InitializeComponent();
         }
+
+        private void btnPDF_Click(object sender, EventArgs e)
+        {
+            DateTime date = dtpDate.Value;
+        }
     }
 }

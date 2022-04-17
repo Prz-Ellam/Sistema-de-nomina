@@ -35,10 +35,10 @@ namespace Presentation.Views
 
         private void Concepts_Load(object sender, EventArgs e)
         {
-            List<DepartmentsViewModel> departamentos = new RepositorioDepartamentos().Leer();
+            List<DepartmentsViewModel> departamentos = new RepositorioDepartamentos().ReadAll();
             dtgDepartaments.DataSource = departamentos;
 
-            List<EmployeesViewModel> employees = new RepositorioEmpleados().ReadAll();
+            List<EmployeePayrollsViewModel> employees = new RepositorioEmpleados().ReadEmployeePayrolls(dtpDate.Value);
             dtgEmployees.DataSource = employees;
 
             List<PerceptionViewModel> perceptions = new RepositorioPercepciones().Leer();
@@ -154,6 +154,12 @@ namespace Presentation.Views
         {
             dtgDepartaments.Enabled = rbDepartment.Checked;
             txtEntity.Text = string.Empty;
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+            
         }
     }
 }

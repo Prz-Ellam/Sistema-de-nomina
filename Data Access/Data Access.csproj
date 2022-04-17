@@ -87,6 +87,7 @@
     <Compile Include="Entidades\Puestos.cs" />
     <Compile Include="Entidades\States.cs" />
     <Compile Include="Entidades\Users.cs" />
+    <Compile Include="Helpers\PairItem.cs" />
     <Compile Include="Interfaces\ICompaniesRepository.cs" />
     <Compile Include="Interfaces\IDepartmentsRepository.cs" />
     <Compile Include="Interfaces\IGenericRepository.cs" />
@@ -108,10 +109,13 @@
     <Compile Include="Repositorios\StatesRepository.cs" />
     <Compile Include="Repositorios\UsersRepository.cs" />
     <Compile Include="ViewModels\CompaniesViewModel.cs" />
+    <Compile Include="ViewModels\ConceptViewModel.cs" />
     <Compile Include="ViewModels\DeductionViewModel.cs" />
     <Compile Include="ViewModels\DepartmentsViewModel.cs" />
+    <Compile Include="ViewModels\EmployeePayrollsViewModel.cs" />
     <Compile Include="ViewModels\EmployeesViewModel.cs" />
     <Compile Include="ViewModels\GeneralPayrollReportsViewModel.cs" />
+    <Compile Include="ViewModels\PayrollReceiptViewModel.cs" />
     <Compile Include="ViewModels\PayrollReportsViewModel.cs" />
     <Compile Include="ViewModels\PayrollViewModel.cs" />
     <Compile Include="ViewModels\PerceptionViewModel.cs" />

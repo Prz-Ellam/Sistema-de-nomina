@@ -46,6 +46,70 @@ GO
 
 
 
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ActualizarEmpleado')
+	DROP PROCEDURE sp_ActualizarEmpleado;
+GO
+
+CREATE PROCEDURE sp_ActualizarEmpleado(
+	@numero_empleado		INT,
+	@nombre					VARCHAR(30),
+	@apellido_paterno		VARCHAR(30),
+	@apellido_materno		VARCHAR(30),
+	@fecha_nacimiento		DATE,
+	@curp					VARCHAR(20),
+	@nss					VARCHAR(20),
+	@rfc					VARCHAR(20),
+	@calle					VARCHAR(30),
+	@numero					VARCHAR(10),
+	@colonia				VARCHAR(30),
+	@ciudad					VARCHAR(30),
+	@estado					VARCHAR(30),
+	@codigo_postal			VARCHAR(5),
+	@banco					INT,
+	@numero_cuenta			INT,
+	@correo_electronico		VARCHAR(60),
+	@contrasena				VARCHAR(30),
+	@id_departamento		INT,
+	@id_puesto				INT,
+	@fecha_contratacion		DATE
+)
+AS
+
+	DECLARE @id_domicilio INT;
+	SET @id_domicilio = (SELECT domicilio FROM empleados WHERE numero_empleado = @numero_empleado);
+
+	EXEC sp_ActualizarDomicilio @id_domicilio, @calle, @numero, @colonia, @ciudad, @estado, @codigo_postal
+
+	UPDATE empleados
+	SET
+	nombre					= ISNULL(@nombre, nombre),
+	apellido_paterno		= ISNULL(@apellido_paterno, apellido_paterno),
+	apellido_materno		= ISNULL(@apellido_materno, apellido_materno),
+	fecha_nacimiento		= ISNULL(@fecha_nacimiento, fecha_nacimiento),
+	curp					= ISNULL(@curp, curp),
+	nss						= ISNULL(@nss, nss),
+	rfc						= ISNULL(@rfc, rfc),
+	banco					= ISNULL(@banco, banco),
+	numero_cuenta			= ISNULL(@numero_cuenta, numero_cuenta),
+	correo_electronico		= ISNULL(@correo_electronico, correo_electronico),
+	contrasena				= ISNULL(@contrasena, contrasena),
+	id_departamento			= ISNULL(@id_departamento, id_departamento),
+	id_puesto				= ISNULL(@id_puesto, id_puesto),
+	fecha_contratacion		= ISNULL(@fecha_contratacion, fecha_contratacion)
+	WHERE numero_empleado = @numero_empleado AND activo = 1;
+
+GO
+
+
+
+select*From departamentos;
+
+select*from puestos;
+
+
+
+
+
 
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerEmpleados')
 	DROP PROCEDURE sp_LeerEmpleados;
@@ -70,12 +134,17 @@ AS
 			A.estado [Estado],
 			A.codigo_postal [Codigo postal],
 			B.nombre [Banco],
+			B.id_banco [ID Banco],
 			E.numero_cuenta [Numero de cuenta],
 			E.correo_electronico [Correo electronico],
 			D.nombre [Departamento],
+			D.id_departamento [ID Departamento],
 			P.nombre [Puesto],
+			P.id_puesto [ID Puesto],
 			E.fecha_contratacion [Fecha de contratacion],
-			E.sueldo_diario [Sueldo diario]
+			E.sueldo_diario [Sueldo diario],
+			D.sueldo_base [Sueldo base],
+			P.nivel_salarial [Nivel salarial]
 	FROM empleados AS E
 	JOIN domicilios AS A
 	ON A.id_domicilio = E.domicilio
@@ -100,4 +169,69 @@ AS
 	SELECT numero_empleado FROM empleados WHERE activo = 1;
 
 GO
+
+
+
+
+
+
+
+
+
+
+	SELECT 
+	e.numero_empleado [Numero de empleado],
+	CONCAT(e.nombre, ' ', e.apellido_paterno, ' ', e.apellido_materno) [Nombre de empleado],
+	d.nombre [Departamento],
+	p.nombre [Puesto],
+	e.sueldo_diario [Sueldo diario]
+	--SUM(pa.cantidad) [Si]
+	FROM empleados AS e
+	JOIN departamentos AS d
+	ON e.id_departamento = d.id_departamento
+	JOIN puestos AS p
+	ON e.id_puesto = p.id_puesto
+	LEFT JOIN percepciones_aplicadas AS pa
+	ON e.numero_empleado = pa.numero_empleado
+	WHERE e.activo = 1;
+
+
+
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerEmpleadosNominas')
+	DROP PROCEDURE sp_LeerEmpleadosNominas;
+GO
+
+CREATE PROCEDURE sp_LeerEmpleadosNominas(
+	@anio				INT,
+	@mes				INT
+)
+AS
+	SELECT 
+	e.numero_empleado, 
+	CONCAT(e.nombre, ' ', e.apellido_paterno, ' ', e.apellido_materno) AS Nombre, 
+	d.nombre [Departamento],
+	p.nombre [Puesto],
+	e.sueldo_diario [Sueldo diario],
+	dbo.GETMONTHLENGTH(@anio, @mes) [Dias trabajados],
+	e.sueldo_diario * dbo.GETMONTHLENGTH(@anio, @mes) [Sueldo bruto],
+	ISNULL(SUM(pa.cantidad), 0) [Total percepciones],
+	ISNULL(SUM(da.cantidad), 0) [Total deducciones],
+	(e.sueldo_diario * dbo.GETMONTHLENGTH(@anio, @mes)) + ISNULL(SUM(pa.cantidad), 0) - ISNULL(SUM(da.cantidad), 0) [Sueldo neto]
+	FROM empleados AS e
+	JOIN departamentos AS d
+	ON e.id_departamento = d.id_departamento
+	JOIN puestos AS p
+	ON e.id_puesto = p.id_puesto
+	LEFT JOIN percepciones_aplicadas AS pa
+	ON e.numero_empleado = pa.numero_empleado AND YEAR(pa.fecha) = @anio AND MONTH(pa.fecha) = @mes
+	LEFT JOIN deducciones_aplicadas AS da
+	ON e.numero_empleado = da.numero_empleado
+	GROUP BY e.numero_empleado, e.nombre, e.apellido_paterno, e.apellido_materno, d.nombre, p.nombre, e.sueldo_diario;
+GO
+
+
+EXEC sp_LeerEmpleadosNominas 2022, 5;
+
+
+
 

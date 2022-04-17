@@ -179,6 +179,7 @@ namespace Presentation.Views
             this.nudFijo.Name = "nudFijo";
             this.nudFijo.Size = new System.Drawing.Size(266, 29);
             this.nudFijo.TabIndex = 18;
+            this.nudFijo.ThousandsSeparator = true;
             // 
             // gbTipoConcepto
             // 

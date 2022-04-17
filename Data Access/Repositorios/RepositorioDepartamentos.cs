@@ -27,17 +27,25 @@ namespace Data_Access.Repositorios
             filtrar = "sp_FiltrarDepartmentos";
         }
 
-        public int Agregar(Departamentos departmento)
+        public bool Create(Departamentos departmento)
         {
             sqlParams.Start();
             sqlParams.Add("@nombre", departmento.Nombre);
             sqlParams.Add("@sueldo_base", departmento.SueldoBase);
             sqlParams.Add("@id_empresa", departmento.IdEmpresa);
 
-            return repositorio.ExecuteNonQuery(agregar, sqlParams);
+            int rowCount = repositorio.ExecuteNonQuery(agregar, sqlParams);
+            if (rowCount > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public int Actualizar(Departamentos department)
+        public int Update(Departamentos department)
         {
             sqlParams.Start();
             sqlParams.Add("@id_departamento", department.IdDepartamento);
@@ -47,7 +55,7 @@ namespace Data_Access.Repositorios
             return repositorio.ExecuteNonQuery(actualizar, sqlParams);
         }
 
-        public int Eliminar(int id)
+        public int Delete(int id)
         {
             sqlParams.Start();
             sqlParams.Add("@id_departamento", id);
@@ -55,7 +63,7 @@ namespace Data_Access.Repositorios
             return repositorio.ExecuteNonQuery(eliminar, sqlParams);
         }
 
-        public List<DepartmentsViewModel> Leer()
+        public List<DepartmentsViewModel> ReadAll()
         {
             sqlParams.Start();
 
@@ -74,7 +82,7 @@ namespace Data_Access.Repositorios
             return departments;
         }
 
-        public List<DepartmentsViewModel> Filtrar(string like)
+        public List<DepartmentsViewModel> ReadLike(string like)
         {
             sqlParams.Start();
             sqlParams.Add("@filtro", like);

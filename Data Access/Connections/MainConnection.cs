@@ -49,7 +49,6 @@ namespace Data_Access.Connections
                 }
 
             }
-            
         }
 
         public DataTable ExecuteReader(string query, RepositoryParameters parameters)

@@ -10,14 +10,14 @@ namespace Presentation.Helpers
     public class DataValidation
     {
         private ValidationContext context;
-        private List<ValidationResult> results;
+        private List<System.ComponentModel.DataAnnotations.ValidationResult> results;
         private bool valid;
         private string message;
 
         public DataValidation(object instance)
         {
             context = new ValidationContext(instance, null, null);
-            results = new List<ValidationResult>();
+            results = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
             valid = Validator.TryValidateObject(instance, context, results, true);
             message = "";
         }
@@ -27,7 +27,7 @@ namespace Presentation.Helpers
             if (!valid)
             {
                 message += "Revisar los siguientes errores:\n";
-                foreach(ValidationResult result in results)
+                foreach(System.ComponentModel.DataAnnotations.ValidationResult result in results)
                 {
                     message += "- " + result.ErrorMessage + "\n";
                 }

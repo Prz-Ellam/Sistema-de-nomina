@@ -30,9 +30,9 @@ namespace Presentation.Views
         private void InitializeComponent()
         {
             this.label3 = new System.Windows.Forms.Label();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.dtpDate = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnPDF = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.ofnPayroll = new System.Windows.Forms.SaveFileDialog();
             this.SuspendLayout();
@@ -49,17 +49,17 @@ namespace Presentation.Views
             this.label3.TabIndex = 12;
             this.label3.Text = "Recibos de nómina";
             // 
-            // dateTimePicker1
+            // dtpDate
             // 
-            this.dateTimePicker1.CustomFormat = "MMMM / yyyy";
-            this.dateTimePicker1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker1.Location = new System.Drawing.Point(29, 119);
-            this.dateTimePicker1.MaxDate = new System.DateTime(2038, 12, 31, 0, 0, 0, 0);
-            this.dateTimePicker1.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(200, 26);
-            this.dateTimePicker1.TabIndex = 13;
+            this.dtpDate.CustomFormat = "MMMM / yyyy";
+            this.dtpDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.dtpDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpDate.Location = new System.Drawing.Point(29, 119);
+            this.dtpDate.MaxDate = new System.DateTime(2038, 12, 31, 0, 0, 0, 0);
+            this.dtpDate.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
+            this.dtpDate.Name = "dtpDate";
+            this.dtpDate.Size = new System.Drawing.Size(200, 26);
+            this.dtpDate.TabIndex = 13;
             // 
             // label1
             // 
@@ -72,22 +72,23 @@ namespace Presentation.Views
             this.label1.TabIndex = 14;
             this.label1.Text = "Fecha";
             // 
-            // button2
+            // btnPDF
             // 
-            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
-            this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Image = global::Presentation.Properties.Resources.PDF_Logo;
-            this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button2.Location = new System.Drawing.Point(29, 282);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(212, 80);
-            this.button2.TabIndex = 15;
-            this.button2.Text = "Generar recibo PDF";
-            this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button2.UseVisualStyleBackColor = false;
+            this.btnPDF.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            this.btnPDF.FlatAppearance.BorderSize = 0;
+            this.btnPDF.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPDF.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPDF.ForeColor = System.Drawing.Color.White;
+            this.btnPDF.Image = global::Presentation.Properties.Resources.PDF_Logo;
+            this.btnPDF.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnPDF.Location = new System.Drawing.Point(29, 282);
+            this.btnPDF.Name = "btnPDF";
+            this.btnPDF.Size = new System.Drawing.Size(212, 80);
+            this.btnPDF.TabIndex = 15;
+            this.btnPDF.Text = "Generar recibo PDF";
+            this.btnPDF.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnPDF.UseVisualStyleBackColor = false;
+            this.btnPDF.Click += new System.EventHandler(this.btnPDF_Click);
             // 
             // button1
             // 
@@ -115,9 +116,9 @@ namespace Presentation.Views
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(1064, 670);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.btnPDF);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.dateTimePicker1);
+            this.Controls.Add(this.dtpDate);
             this.Controls.Add(this.label3);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "PayrollReceipts";
@@ -130,9 +131,9 @@ namespace Presentation.Views
         #endregion
 
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.DateTimePicker dtpDate;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnPDF;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.SaveFileDialog ofnPayroll;
     }

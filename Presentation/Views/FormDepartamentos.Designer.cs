@@ -143,13 +143,14 @@ namespace Presentation.Views
             this.nudBaseSalary.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.nudBaseSalary.Location = new System.Drawing.Point(43, 220);
             this.nudBaseSalary.Maximum = new decimal(new int[] {
-            1000000,
+            10000,
             0,
             0,
             0});
             this.nudBaseSalary.Name = "nudBaseSalary";
             this.nudBaseSalary.Size = new System.Drawing.Size(377, 29);
             this.nudBaseSalary.TabIndex = 8;
+            this.nudBaseSalary.ThousandsSeparator = true;
             // 
             // lblDepartments
             // 
@@ -248,7 +249,7 @@ namespace Presentation.Views
             // id
             // 
             this.id.DataPropertyName = "id";
-            this.id.HeaderText = "ID";
+            this.id.HeaderText = "ID Departamento";
             this.id.Name = "id";
             this.id.ReadOnly = true;
             this.id.Width = 200;

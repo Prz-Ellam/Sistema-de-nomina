@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Data_Access.Entidades;
 using Data_Access.Entities;
+using Data_Access.Helpers;
 using Data_Access.Repositorios;
 using Data_Access.ViewModels;
 using Presentation.Helpers;
@@ -70,28 +71,28 @@ namespace Presentation.Views
             ListEmployees();
 
             List<Bancos> bancos = new RepositorioBancos().ReadAll();
-            List<ComboBoxItem> nombres = new List<ComboBoxItem>();
+            List<PairItem> nombres = new List<PairItem>();
             foreach(var banco in bancos)
             {
-                nombres.Add(new ComboBoxItem(banco.Nombre, banco.IdBanco));
+                nombres.Add(new PairItem(banco.Nombre, banco.IdBanco));
             }
             cbBank.DataSource = nombres;
 
 
-            List<DepartmentsViewModel> departamentos = new RepositorioDepartamentos().Leer();
-            nombres = new List<ComboBoxItem>();
+            List<DepartmentsViewModel> departamentos = new RepositorioDepartamentos().ReadAll();
+            nombres = new List<PairItem>();
             foreach(var departamento in departamentos)
             {
-                nombres.Add(new ComboBoxItem(departamento.Name, departamento.Id));
+                nombres.Add(new PairItem(departamento.Name, departamento.Id));
             }
             cbDepartments.DataSource = nombres;
 
 
             List<PositionsViewModel> puestos = new RepositorioPuestos().ReadAll();
-            nombres = new List<ComboBoxItem>();
+            nombres = new List<PairItem>();
             foreach (var puesto in puestos)
             {
-                nombres.Add(new ComboBoxItem(puesto.Name, puesto.Id));
+                nombres.Add(new PairItem(puesto.Name, puesto.Id));
             }
             cbPositions.DataSource = nombres;
 
@@ -194,7 +195,7 @@ namespace Presentation.Views
                     return feedback.Item2;
                 }
 
-                int result =repository.Update(employee);
+                int result =repository.Update(employee, address);
                 if (result > 0)
                 {
                     return "La operación se realizó éxitosamente";
@@ -249,6 +250,7 @@ namespace Presentation.Views
 
         public void FillEmployee()
         {
+            employee.NumeroEmpleado = employeeId; 
             employee.Nombre = txtNames.Text;
             employee.ApellidoPaterno = txtFatherLastName.Text;
             employee.ApellidoMaterno = txtMotherLastName.Text;
@@ -257,12 +259,12 @@ namespace Presentation.Views
             employee.Nss = txtNSS.Text;
             employee.Rfc = txtRFC.Text;
             //employee.Address = 1;
-            employee.Banco = ((ComboBoxItem)cbBank.SelectedItem).HiddenValue;
+            employee.Banco = ((KeyValueItem)cbBank.SelectedItem).HiddenValue;
             employee.NumeroCuenta = Convert.ToInt32(txtAccountNumber.Text);
             employee.CorreoElectronico = txtEmail.Text;
             employee.Contrasena = txtPassword.Text;
-            employee.IdDepartamento = ((ComboBoxItem)cbDepartments.SelectedItem).HiddenValue;
-            employee.IdPuesto = ((ComboBoxItem)cbPositions.SelectedItem).HiddenValue;
+            employee.IdDepartamento = ((KeyValueItem)cbDepartments.SelectedItem).HiddenValue;
+            employee.IdPuesto = ((KeyValueItem)cbPositions.SelectedItem).HiddenValue;
             employee.FechaContratacion = dtpHiringDate.Value;
 
             address.Calle = txtStreet.Text;
@@ -293,10 +295,18 @@ namespace Presentation.Views
             cbBank.SelectedIndex = -1;
             txtAccountNumber.Clear();
             cbPhones.Items.Clear();
+
+            EmployeeState = EntityState.Add;
+            dtgPrevIndex = -1;
         }
 
         public void FillForm(int index)
         {
+            if (index == -1)
+            {
+                return;
+            }
+
             var row = dtgEmployees.Rows[index];
             employeeId = Convert.ToInt32(row.Cells[0].Value);
             txtNames.Text = row.Cells[1].Value.ToString();
@@ -309,13 +319,51 @@ namespace Presentation.Views
             txtStreet.Text = row.Cells[8].Value.ToString();
             txtNumber.Text = row.Cells[9].Value.ToString();
             txtSuburb.Text = row.Cells[10].Value.ToString();
+            cbState.SelectedIndex = cbState.FindString(row.Cells[12].Value.ToString());
+            cbCity.SelectedIndex = cbCity.FindString(row.Cells[11].Value.ToString());
             //txtCity.Text = row.Cells[11].Value.ToString();
             //txtState.Text = row.Cells[12].Value.ToString();
             txtPostalCode.Text = row.Cells[13].Value.ToString();
             //txtBank.Text = row.Cells[14].Value.ToString();
             txtAccountNumber.Text = row.Cells[15].Value.ToString();
             txtEmail.Text = row.Cells[16].Value.ToString();
-            txtBaseSalary.Text = row.Cells[20].Value.ToString();
+            nudDailySalary.Value = Convert.ToDecimal(row.Cells[20].Value);
+            nudBaseSalary.Value = Convert.ToDecimal( row.Cells[21].Value);
+            nudWageLevel.Value = Convert.ToDecimal(row.Cells[22].Value);
+
+            int bankId = ((PairItem)row.Cells[14].Value).HiddenValue;
+            foreach (var item in cbBank.Items)
+            {
+                if (((PairItem)item).HiddenValue == bankId)
+                {
+                    cbBank.SelectedItem = item;
+                    break;
+                }
+            }
+
+            int departmentId = ((PairItem)row.Cells[17].Value).HiddenValue;
+            foreach (var item in cbDepartments.Items)
+            {
+                if( ((PairItem)item).HiddenValue == departmentId)
+                {
+                    cbDepartments.SelectedItem = item;
+                    break;
+                }
+            }
+
+            int positionId = ((PairItem)row.Cells[18].Value).HiddenValue;
+            foreach (var item in cbPositions.Items)
+            {
+                if (((PairItem)item).HiddenValue == positionId)
+                {
+                    cbPositions.SelectedItem = item;
+                    break;
+                }
+            }
+
+
+            EmployeeState = EntityState.Modify;
+            dtgPrevIndex = index;
         }
 
       
@@ -327,7 +375,7 @@ namespace Presentation.Views
             StatesRepository repository = new StatesRepository();
             states = repository.GetAll();
 
-            cbState.Items.Add("Seleccionar");
+            //cbState.Items.Add("Seleccionar");
             foreach (var state in states)
             {
                 cbState.Items.Add(state.state);
@@ -343,9 +391,10 @@ namespace Presentation.Views
             {
                 return;
             }
-            cbCity.DataSource = states[cbState.SelectedIndex - 1].cities;
+            cbCity.DataSource = states[cbState.SelectedIndex].cities;
             cbCity.SelectedIndex = 0;
         }
+
 
         private void cbPhones_KeyDown(object sender, KeyEventArgs e)
         {

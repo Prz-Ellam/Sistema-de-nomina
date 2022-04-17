@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Data_Access.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,12 +23,14 @@ namespace Data_Access.ViewModels
         private string city;
         private string state;
         private string postalCode;
-        private string bank;
+        private PairItem bank;
         private int accountNumber;
         private string email;
         //private List<string> phones;
-        private string department;
-        private string position;
+        private PairItem department;
+        private PairItem position;
+        private decimal baseSalary;
+        private decimal wageLevel;
         private DateTime hiringDate;
         private decimal sueldoDiario;
 
@@ -45,12 +48,14 @@ namespace Data_Access.ViewModels
         public string City { get => city; set => city = value; }
         public string State { get => state; set => state = value; }
         public string PostalCode { get => postalCode; set => postalCode = value; }
-        public string Bank { get => bank; set => bank = value; }
+        public PairItem Bank { get => bank; set => bank = value; }
         public int AccountNumber { get => accountNumber; set => accountNumber = value; }
         public string Email { get => email; set => email = value; }
-        public string Department { get => department; set => department = value; }
-        public string Position { get => position; set => position = value; }
+        public PairItem Department { get => department; set => department = value; }
+        public PairItem Position { get => position; set => position = value; }
         public DateTime HiringDate { get => hiringDate; set => hiringDate = value; }
         public decimal SueldoDiario { get => sueldoDiario; set => sueldoDiario = value; }
+        public decimal BaseSalary { get => baseSalary; set => baseSalary = value; }
+        public decimal WageLevel { get => wageLevel; set => wageLevel = value; }
     }
 }

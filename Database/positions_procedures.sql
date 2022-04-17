@@ -6,7 +6,7 @@ IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AgregarPue
 GO
 
 CREATE PROCEDURE sp_AgregarPuesto
-	@nombre					VARCHAR(60),
+	@nombre					VARCHAR(30),
 	@nivel_salarial			FLOAT,
 	@id_empresa				INT
 AS
@@ -32,8 +32,8 @@ GO
 
 CREATE PROCEDURE sp_ActualizarPuesto
 	@id_puesto					INT,
-	@nombre				VARCHAR(60),
-	@nivel_salarial			FLOAT
+	@nombre						VARCHAR(30),
+	@nivel_salarial				FLOAT
 AS
 
 	UPDATE puestos

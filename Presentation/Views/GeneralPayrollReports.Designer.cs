@@ -79,7 +79,7 @@ namespace Presentation.Views
             this.dtgGeneralPayroll.Location = new System.Drawing.Point(26, 148);
             this.dtgGeneralPayroll.Name = "dtgGeneralPayroll";
             this.dtgGeneralPayroll.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            this.dtgGeneralPayroll.Size = new System.Drawing.Size(980, 379);
+            this.dtgGeneralPayroll.Size = new System.Drawing.Size(992, 379);
             this.dtgGeneralPayroll.TabIndex = 0;
             // 
             // departamento

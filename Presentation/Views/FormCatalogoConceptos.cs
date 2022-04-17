@@ -87,7 +87,7 @@ namespace Presentation.Views
             {
                 FillPerception();
                 string message = AddPerception();
-                MessageBox.Show(message);
+                MessageBox.Show(message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
                 ListPerceptions();
                 ClearForm();
             }
@@ -95,7 +95,7 @@ namespace Presentation.Views
             {
                 FillDeduction();
                 string message = AddDeduction();
-                MessageBox.Show(message);
+                MessageBox.Show(message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
                 ListDeductions();
                 ClearForm();
             }
@@ -114,14 +114,16 @@ namespace Presentation.Views
             else if (rbPerception.Checked)
             {
                 FillPerception();
-                UpdatePerception();
+                string message = UpdatePerception();
+                MessageBox.Show(message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
                 ListPerceptions();
                 ClearForm();
             }
             else if (rbDeduction.Checked)
             {
                 FillDeduction();
-                UpdateDeduction();
+                string message = UpdateDeduction();
+                MessageBox.Show(message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
                 ListDeductions();
                 ClearForm();
             }
@@ -140,14 +142,16 @@ namespace Presentation.Views
             else if (rbPerception.Checked)
             {
                 FillPerception();
-                DeletePerception();
+                string message = DeletePerception();
+                MessageBox.Show(message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
                 ListPerceptions();
                 ClearForm();
             }
             else if (rbDeduction.Checked)
             {
                 FillDeduction();
-                DeleteDeduction();
+                string message = DeleteDeduction();
+                MessageBox.Show(message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
                 ListDeductions();
                 ClearForm();
             }

@@ -87,12 +87,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\ComboBoxItem.cs" />
+    <Compile Include="Helpers\KeyValueItem.cs" />
     <Compile Include="Helpers\DataValidation.cs" />
     <Compile Include="Helpers\EntityState.cs" />
     <Compile Include="Helpers\ExtensionMethods.cs" />
     <Compile Include="Helpers\RegexUtilities.cs" />
     <Compile Include="Helpers\Session.cs" />
+    <Compile Include="Helpers\ValidationResult.cs" />
+    <Compile Include="Helpers\ValidationState.cs" />
     <Compile Include="Helpers\WinAPI.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

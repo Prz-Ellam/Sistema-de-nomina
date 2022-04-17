@@ -5,7 +5,7 @@ IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AgregarDep
 GO
 
 CREATE PROCEDURE sp_AgregarDepartamento
-	@nombre				VARCHAR(60),
+	@nombre				VARCHAR(30),
 	@sueldo_base		MONEY,
 	@id_empresa			INT
 AS
@@ -29,7 +29,7 @@ GO
 
 CREATE PROCEDURE sp_ActualizarDepartamento
 	@id_departamento			INT,
-	@nombre						VARCHAR(60),
+	@nombre						VARCHAR(30),
 	@sueldo_base				MONEY
 AS
 

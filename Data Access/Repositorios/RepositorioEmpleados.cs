@@ -7,13 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Data_Access.Connections;
 using Data_Access.Entidades;
+using Data_Access.Helpers;
 using Data_Access.ViewModels;
 
 namespace Data_Access.Repositorios
 {
     public class RepositorioEmpleados
     {
-        private readonly string create, update, delete, readAll, readLike, getEmployeesId;
+        private readonly string create, update, delete, readAll, readLike, getEmployeesId, readPayrolls;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams = new RepositoryParameters();
 
@@ -25,6 +26,7 @@ namespace Data_Access.Repositorios
             delete = "sp_EliminarEmpleado";
             readAll = "sp_LeerEmpleados";
             getEmployeesId = "sp_ObtenerEmpleados";
+            readPayrolls = "sp_LeerEmpleadosNominas";
         }
 
         public int Create(Empleados employee, Domicilios address)
@@ -56,24 +58,32 @@ namespace Data_Access.Repositorios
             return mainRepository.ExecuteNonQuery(create, sqlParams);
         }
 
-        public int Update(Empleados employee)
+        public int Update(Empleados employee, Domicilios address)
         {
             sqlParams.Start();
-            sqlParams.Add("@employee_number", employee.NumeroEmpleado);
-            sqlParams.Add("@name", employee.Nombre);
-            sqlParams.Add("@father_last_name", employee.ApellidoPaterno);
-            sqlParams.Add("@mother_last_name", employee.ApellidoMaterno);
-            sqlParams.Add("@date_of_birth", employee.FechaNacimiento);
+            sqlParams.Add("@numero_empleado", employee.NumeroEmpleado);
+            sqlParams.Add("@nombre", employee.Nombre);
+            sqlParams.Add("@apellido_paterno", employee.ApellidoPaterno);
+            sqlParams.Add("@apellido_materno", employee.ApellidoMaterno);
+            sqlParams.Add("@fecha_nacimiento", employee.FechaNacimiento);
             sqlParams.Add("@curp", employee.Curp);
             sqlParams.Add("@nss", employee.Nss);
             sqlParams.Add("@rfc", employee.Rfc);
-            sqlParams.Add("@address", employee.Domicilio);
-            sqlParams.Add("@bank", employee.Banco);
-            sqlParams.Add("@account_number", employee.NumeroCuenta);
-            sqlParams.Add("@email", employee.CorreoElectronico);
-            sqlParams.Add("@password", employee.Contrasena);
-            sqlParams.Add("@department_id", employee.IdDepartamento);
-            sqlParams.Add("@position_id", employee.IdPuesto);
+
+            sqlParams.Add("@calle", address.Calle);
+            sqlParams.Add("@numero", address.Numero);
+            sqlParams.Add("@colonia", address.Colonia);
+            sqlParams.Add("@ciudad", address.Ciudad);
+            sqlParams.Add("@estado", address.Estado);
+            sqlParams.Add("@codigo_postal", address.CodigoPostal);
+
+            sqlParams.Add("@banco", employee.Banco);
+            sqlParams.Add("@numero_cuenta", employee.NumeroCuenta);
+            sqlParams.Add("@correo_electronico", employee.CorreoElectronico);
+            sqlParams.Add("@contrasena", employee.Contrasena);
+            sqlParams.Add("@id_departamento", employee.IdDepartamento);
+            sqlParams.Add("@id_puesto", employee.IdPuesto);
+            sqlParams.Add("@fecha_contratacion", employee.FechaContratacion);
 
             return mainRepository.ExecuteNonQuery(update, sqlParams);
         }
@@ -110,13 +120,15 @@ namespace Data_Access.Repositorios
                     City = row["Municipio"].ToString(),
                     State = row["Estado"].ToString(),
                     PostalCode = row["Codigo postal"].ToString(),
-                    Bank = row["Banco"].ToString(),
+                    Bank = new PairItem(row["Banco"].ToString(), Convert.ToInt32(row["ID Banco"])),
                     AccountNumber = Convert.ToInt32(row["Numero de cuenta"]),
                     Email = row["Correo electronico"].ToString(),
-                    Department = row["Departamento"].ToString(),
-                    Position = row["Puesto"].ToString(),
+                    Department = new PairItem(row["Departamento"].ToString(), Convert.ToInt32(row["ID Departamento"])),
+                    Position = new PairItem(row["Puesto"].ToString(), Convert.ToInt32(row["ID Puesto"])),
                     HiringDate = Convert.ToDateTime(row["Fecha de contratacion"]),
-                    SueldoDiario = Convert.ToDecimal(row["Sueldo diario"])
+                    SueldoDiario = Convert.ToDecimal(row["Sueldo diario"]),
+                    BaseSalary = Convert.ToDecimal(row["Sueldo base"]),
+                    WageLevel = Convert.ToDecimal(row["Nivel salarial"])
                 });
             }
 
@@ -137,6 +149,33 @@ namespace Data_Access.Repositorios
             }
 
             return employeesId;
+        }
+
+        public List<EmployeePayrollsViewModel> ReadEmployeePayrolls(DateTime date)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@fecha", date);
+
+            DataTable table = mainRepository.ExecuteReader(readPayrolls, sqlParams);
+
+            List<EmployeePayrollsViewModel> employeePayrolls = new List<EmployeePayrollsViewModel>();
+            foreach(DataRow row in table.Rows)
+            {
+                employeePayrolls.Add(new EmployeePayrollsViewModel {
+                    NumeroEmpleado = Convert.ToInt32(row[0]),
+                    NombreEmpleado = row[1].ToString(),
+                    Departamento = row[2].ToString(),
+                    Puesto = row[3].ToString(),
+                    SueldoDiario = Convert.ToDecimal(row[4]),
+                    DiasTrabajados = Convert.ToUInt32(row[5]),
+                    SueldoBruto = Convert.ToDecimal(row[6]),
+                    TotalPercepciones = Convert.ToDecimal(row[7]),
+                    TotalDeducciones = Convert.ToDecimal(row[8]),
+                    SueldoNeto = Convert.ToDecimal(row[9])
+                });
+            }
+
+            return employeePayrolls;
         }
 
 

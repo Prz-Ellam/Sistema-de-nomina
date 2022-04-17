@@ -29,11 +29,13 @@ namespace Presentation.Views
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lblTitle = new System.Windows.Forms.Label();
             this.txtNames = new System.Windows.Forms.TextBox();
             this.txtFatherLastName = new System.Windows.Forms.TextBox();
@@ -74,6 +76,18 @@ namespace Presentation.Views
             this.cbPhones = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.dtgEmployees = new System.Windows.Forms.DataGridView();
+            this.cbDepartments = new System.Windows.Forms.ComboBox();
+            this.cbPositions = new System.Windows.Forms.ComboBox();
+            this.cbState = new System.Windows.Forms.ComboBox();
+            this.cbCity = new System.Windows.Forms.ComboBox();
+            this.cbBank = new System.Windows.Forms.ComboBox();
+            this.dtpHiringDate = new System.Windows.Forms.DateTimePicker();
+            this.label21 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
             this.employeeNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.empName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fatherLastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -95,18 +109,18 @@ namespace Presentation.Views
             this.position = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.hiringDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sueldoDiario = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cbDepartments = new System.Windows.Forms.ComboBox();
-            this.cbPositions = new System.Windows.Forms.ComboBox();
-            this.cbState = new System.Windows.Forms.ComboBox();
-            this.cbCity = new System.Windows.Forms.ComboBox();
-            this.cbBank = new System.Windows.Forms.ComboBox();
-            this.dtpHiringDate = new System.Windows.Forms.DateTimePicker();
-            this.label21 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label22 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.txtBaseSalary = new System.Windows.Forms.TextBox();
+            this.baseSalary = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.wageLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nudBaseSalary = new System.Windows.Forms.NumericUpDown();
+            this.nudWageLevel = new System.Windows.Forms.NumericUpDown();
+            this.label26 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.nudDailySalary = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.dtgEmployees)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudBaseSalary)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudWageLevel)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudDailySalary)).BeginInit();
             this.SuspendLayout();
             // 
             // lblTitle
@@ -123,7 +137,7 @@ namespace Presentation.Views
             // txtNames
             // 
             this.txtNames.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNames.Location = new System.Drawing.Point(160, 64);
+            this.txtNames.Location = new System.Drawing.Point(160, 70);
             this.txtNames.Name = "txtNames";
             this.txtNames.Size = new System.Drawing.Size(200, 25);
             this.txtNames.TabIndex = 1;
@@ -131,7 +145,7 @@ namespace Presentation.Views
             // txtFatherLastName
             // 
             this.txtFatherLastName.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtFatherLastName.Location = new System.Drawing.Point(160, 98);
+            this.txtFatherLastName.Location = new System.Drawing.Point(160, 105);
             this.txtFatherLastName.Name = "txtFatherLastName";
             this.txtFatherLastName.Size = new System.Drawing.Size(200, 25);
             this.txtFatherLastName.TabIndex = 2;
@@ -139,7 +153,7 @@ namespace Presentation.Views
             // txtMotherLastName
             // 
             this.txtMotherLastName.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMotherLastName.Location = new System.Drawing.Point(160, 134);
+            this.txtMotherLastName.Location = new System.Drawing.Point(160, 140);
             this.txtMotherLastName.Name = "txtMotherLastName";
             this.txtMotherLastName.Size = new System.Drawing.Size(200, 25);
             this.txtMotherLastName.TabIndex = 3;
@@ -147,7 +161,7 @@ namespace Presentation.Views
             // txtCURP
             // 
             this.txtCURP.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCURP.Location = new System.Drawing.Point(509, 64);
+            this.txtCURP.Location = new System.Drawing.Point(509, 70);
             this.txtCURP.Name = "txtCURP";
             this.txtCURP.Size = new System.Drawing.Size(200, 25);
             this.txtCURP.TabIndex = 4;
@@ -155,7 +169,7 @@ namespace Presentation.Views
             // txtRFC
             // 
             this.txtRFC.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtRFC.Location = new System.Drawing.Point(509, 100);
+            this.txtRFC.Location = new System.Drawing.Point(509, 105);
             this.txtRFC.Name = "txtRFC";
             this.txtRFC.Size = new System.Drawing.Size(200, 25);
             this.txtRFC.TabIndex = 5;
@@ -163,7 +177,7 @@ namespace Presentation.Views
             // txtNSS
             // 
             this.txtNSS.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNSS.Location = new System.Drawing.Point(509, 136);
+            this.txtNSS.Location = new System.Drawing.Point(509, 140);
             this.txtNSS.Name = "txtNSS";
             this.txtNSS.Size = new System.Drawing.Size(200, 25);
             this.txtNSS.TabIndex = 6;
@@ -173,7 +187,7 @@ namespace Presentation.Views
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label2.Location = new System.Drawing.Point(20, 67);
+            this.label2.Location = new System.Drawing.Point(10, 70);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(74, 19);
             this.label2.TabIndex = 7;
@@ -184,7 +198,7 @@ namespace Presentation.Views
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label3.Location = new System.Drawing.Point(20, 98);
+            this.label3.Location = new System.Drawing.Point(10, 108);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(110, 19);
             this.label3.TabIndex = 8;
@@ -195,7 +209,7 @@ namespace Presentation.Views
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label4.Location = new System.Drawing.Point(22, 137);
+            this.label4.Location = new System.Drawing.Point(10, 142);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(114, 19);
             this.label4.TabIndex = 9;
@@ -206,7 +220,7 @@ namespace Presentation.Views
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label5.Location = new System.Drawing.Point(459, 67);
+            this.label5.Location = new System.Drawing.Point(452, 73);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(44, 19);
             this.label5.TabIndex = 10;
@@ -217,7 +231,7 @@ namespace Presentation.Views
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label6.Location = new System.Drawing.Point(459, 103);
+            this.label6.Location = new System.Drawing.Point(461, 108);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(33, 19);
             this.label6.TabIndex = 11;
@@ -229,7 +243,7 @@ namespace Presentation.Views
             this.label7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label7.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label7.Location = new System.Drawing.Point(459, 139);
+            this.label7.Location = new System.Drawing.Point(459, 143);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(36, 19);
             this.label7.TabIndex = 12;
@@ -239,7 +253,7 @@ namespace Presentation.Views
             // 
             this.dtpDateOfBirth.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpDateOfBirth.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpDateOfBirth.Location = new System.Drawing.Point(160, 173);
+            this.dtpDateOfBirth.Location = new System.Drawing.Point(160, 175);
             this.dtpDateOfBirth.Name = "dtpDateOfBirth";
             this.dtpDateOfBirth.Size = new System.Drawing.Size(200, 25);
             this.dtpDateOfBirth.TabIndex = 13;
@@ -250,7 +264,7 @@ namespace Presentation.Views
             this.label8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label8.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label8.Location = new System.Drawing.Point(20, 175);
+            this.label8.Location = new System.Drawing.Point(10, 178);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(136, 19);
             this.label8.TabIndex = 14;
@@ -267,7 +281,7 @@ namespace Presentation.Views
             // txtNumber
             // 
             this.txtNumber.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNumber.Location = new System.Drawing.Point(837, 103);
+            this.txtNumber.Location = new System.Drawing.Point(837, 105);
             this.txtNumber.Name = "txtNumber";
             this.txtNumber.Size = new System.Drawing.Size(200, 25);
             this.txtNumber.TabIndex = 16;
@@ -296,7 +310,7 @@ namespace Presentation.Views
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label10.Location = new System.Drawing.Point(763, 106);
+            this.label10.Location = new System.Drawing.Point(763, 111);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(60, 19);
             this.label10.TabIndex = 21;
@@ -318,7 +332,7 @@ namespace Presentation.Views
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label12.Location = new System.Drawing.Point(751, 181);
+            this.label12.Location = new System.Drawing.Point(749, 178);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(70, 19);
             this.label12.TabIndex = 23;
@@ -329,7 +343,7 @@ namespace Presentation.Views
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label13.Location = new System.Drawing.Point(773, 218);
+            this.label13.Location = new System.Drawing.Point(773, 213);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(50, 19);
             this.label13.TabIndex = 24;
@@ -338,7 +352,7 @@ namespace Presentation.Views
             // txtPostalCode
             // 
             this.txtPostalCode.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPostalCode.Location = new System.Drawing.Point(837, 254);
+            this.txtPostalCode.Location = new System.Drawing.Point(837, 245);
             this.txtPostalCode.Name = "txtPostalCode";
             this.txtPostalCode.Size = new System.Drawing.Size(200, 25);
             this.txtPostalCode.TabIndex = 25;
@@ -348,7 +362,7 @@ namespace Presentation.Views
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label14.Location = new System.Drawing.Point(729, 257);
+            this.label14.Location = new System.Drawing.Point(729, 248);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(94, 19);
             this.label14.TabIndex = 26;
@@ -359,7 +373,7 @@ namespace Presentation.Views
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label15.Location = new System.Drawing.Point(370, 217);
+            this.label15.Location = new System.Drawing.Point(370, 213);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(125, 19);
             this.label15.TabIndex = 28;
@@ -368,7 +382,7 @@ namespace Presentation.Views
             // txtAccountNumber
             // 
             this.txtAccountNumber.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtAccountNumber.Location = new System.Drawing.Point(509, 214);
+            this.txtAccountNumber.Location = new System.Drawing.Point(509, 210);
             this.txtAccountNumber.Name = "txtAccountNumber";
             this.txtAccountNumber.Size = new System.Drawing.Size(200, 25);
             this.txtAccountNumber.TabIndex = 29;
@@ -378,7 +392,7 @@ namespace Presentation.Views
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label16.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label16.Location = new System.Drawing.Point(448, 183);
+            this.label16.Location = new System.Drawing.Point(448, 179);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(47, 19);
             this.label16.TabIndex = 30;
@@ -390,7 +404,7 @@ namespace Presentation.Views
             this.label17.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label17.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label17.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label17.Location = new System.Drawing.Point(22, 213);
+            this.label17.Location = new System.Drawing.Point(10, 212);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(123, 19);
             this.label17.TabIndex = 31;
@@ -399,7 +413,7 @@ namespace Presentation.Views
             // txtEmail
             // 
             this.txtEmail.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEmail.Location = new System.Drawing.Point(160, 213);
+            this.txtEmail.Location = new System.Drawing.Point(160, 210);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(200, 25);
             this.txtEmail.TabIndex = 32;
@@ -407,7 +421,7 @@ namespace Presentation.Views
             // txtPassword
             // 
             this.txtPassword.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPassword.Location = new System.Drawing.Point(160, 247);
+            this.txtPassword.Location = new System.Drawing.Point(160, 245);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(200, 25);
             this.txtPassword.TabIndex = 33;
@@ -419,7 +433,7 @@ namespace Presentation.Views
             this.label18.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label18.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label18.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label18.Location = new System.Drawing.Point(22, 247);
+            this.label18.Location = new System.Drawing.Point(10, 247);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(79, 19);
             this.label18.TabIndex = 34;
@@ -432,7 +446,7 @@ namespace Presentation.Views
             this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDelete.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.btnDelete.ForeColor = System.Drawing.Color.White;
-            this.btnDelete.Location = new System.Drawing.Point(345, 360);
+            this.btnDelete.Location = new System.Drawing.Point(345, 372);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(124, 39);
             this.btnDelete.TabIndex = 42;
@@ -447,7 +461,7 @@ namespace Presentation.Views
             this.btnEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEdit.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.btnEdit.ForeColor = System.Drawing.Color.White;
-            this.btnEdit.Location = new System.Drawing.Point(177, 360);
+            this.btnEdit.Location = new System.Drawing.Point(187, 372);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(124, 39);
             this.btnEdit.TabIndex = 41;
@@ -462,7 +476,7 @@ namespace Presentation.Views
             this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAdd.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.btnAdd.ForeColor = System.Drawing.Color.White;
-            this.btnAdd.Location = new System.Drawing.Point(26, 358);
+            this.btnAdd.Location = new System.Drawing.Point(26, 371);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(124, 41);
             this.btnAdd.TabIndex = 40;
@@ -476,7 +490,7 @@ namespace Presentation.Views
             this.label19.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label19.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
             this.label19.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label19.Location = new System.Drawing.Point(401, 295);
+            this.label19.Location = new System.Drawing.Point(401, 284);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(98, 19);
             this.label19.TabIndex = 43;
@@ -488,7 +502,7 @@ namespace Presentation.Views
             this.label20.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label20.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
             this.label20.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label20.Location = new System.Drawing.Point(769, 300);
+            this.label20.Location = new System.Drawing.Point(768, 280);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(51, 19);
             this.label20.TabIndex = 44;
@@ -498,7 +512,7 @@ namespace Presentation.Views
             // 
             this.cbPhones.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
             this.cbPhones.FormattingEnabled = true;
-            this.cbPhones.Location = new System.Drawing.Point(509, 248);
+            this.cbPhones.Location = new System.Drawing.Point(509, 245);
             this.cbPhones.Name = "cbPhones";
             this.cbPhones.Size = new System.Drawing.Size(200, 27);
             this.cbPhones.TabIndex = 45;
@@ -510,7 +524,7 @@ namespace Presentation.Views
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label1.Location = new System.Drawing.Point(427, 248);
+            this.label1.Location = new System.Drawing.Point(427, 249);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(68, 19);
             this.label1.TabIndex = 46;
@@ -521,14 +535,14 @@ namespace Presentation.Views
             this.dtgEmployees.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
             this.dtgEmployees.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dtgEmployees.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
-            dataGridViewCellStyle11.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dtgEmployees.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dtgEmployees.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dtgEmployees.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgEmployees.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.employeeNumber,
@@ -551,33 +565,159 @@ namespace Presentation.Views
             this.department,
             this.position,
             this.hiringDate,
-            this.sueldoDiario});
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle13.Font = new System.Drawing.Font("Microsoft YaHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dtgEmployees.DefaultCellStyle = dataGridViewCellStyle13;
+            this.sueldoDiario,
+            this.baseSalary,
+            this.wageLevel});
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft YaHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dtgEmployees.DefaultCellStyle = dataGridViewCellStyle5;
             this.dtgEmployees.EnableHeadersVisualStyles = false;
             this.dtgEmployees.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.dtgEmployees.Location = new System.Drawing.Point(12, 435);
             this.dtgEmployees.Name = "dtgEmployees";
             this.dtgEmployees.ReadOnly = true;
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle14.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
-            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dtgEmployees.RowHeadersDefaultCellStyle = dataGridViewCellStyle14;
-            dataGridViewCellStyle15.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
-            this.dtgEmployees.RowsDefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dtgEmployees.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
+            this.dtgEmployees.RowsDefaultCellStyle = dataGridViewCellStyle7;
             this.dtgEmployees.Size = new System.Drawing.Size(1040, 223);
             this.dtgEmployees.TabIndex = 47;
             this.dtgEmployees.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgEmployees_CellDoubleClick);
+            // 
+            // cbDepartments
+            // 
+            this.cbDepartments.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbDepartments.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
+            this.cbDepartments.FormattingEnabled = true;
+            this.cbDepartments.Location = new System.Drawing.Point(509, 280);
+            this.cbDepartments.Name = "cbDepartments";
+            this.cbDepartments.Size = new System.Drawing.Size(200, 27);
+            this.cbDepartments.TabIndex = 48;
+            // 
+            // cbPositions
+            // 
+            this.cbPositions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbPositions.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
+            this.cbPositions.FormattingEnabled = true;
+            this.cbPositions.Location = new System.Drawing.Point(837, 280);
+            this.cbPositions.Name = "cbPositions";
+            this.cbPositions.Size = new System.Drawing.Size(200, 27);
+            this.cbPositions.TabIndex = 49;
+            // 
+            // cbState
+            // 
+            this.cbState.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbState.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
+            this.cbState.FormattingEnabled = true;
+            this.cbState.Location = new System.Drawing.Point(837, 210);
+            this.cbState.Name = "cbState";
+            this.cbState.Size = new System.Drawing.Size(200, 27);
+            this.cbState.TabIndex = 50;
+            this.cbState.SelectedIndexChanged += new System.EventHandler(this.cbState_SelectedIndexChanged);
+            // 
+            // cbCity
+            // 
+            this.cbCity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbCity.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
+            this.cbCity.FormattingEnabled = true;
+            this.cbCity.Location = new System.Drawing.Point(837, 175);
+            this.cbCity.Name = "cbCity";
+            this.cbCity.Size = new System.Drawing.Size(200, 27);
+            this.cbCity.TabIndex = 51;
+            // 
+            // cbBank
+            // 
+            this.cbBank.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbBank.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
+            this.cbBank.FormattingEnabled = true;
+            this.cbBank.Location = new System.Drawing.Point(509, 175);
+            this.cbBank.Name = "cbBank";
+            this.cbBank.Size = new System.Drawing.Size(200, 27);
+            this.cbBank.TabIndex = 52;
+            // 
+            // dtpHiringDate
+            // 
+            this.dtpHiringDate.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
+            this.dtpHiringDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpHiringDate.Location = new System.Drawing.Point(160, 280);
+            this.dtpHiringDate.Name = "dtpHiringDate";
+            this.dtpHiringDate.Size = new System.Drawing.Size(200, 25);
+            this.dtpHiringDate.TabIndex = 53;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label21.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.label21.Location = new System.Drawing.Point(12, 283);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(146, 19);
+            this.label21.TabIndex = 54;
+            this.label21.Text = "Fecha de contratación";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox1.Location = new System.Drawing.Point(789, 395);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(263, 25);
+            this.textBox1.TabIndex = 56;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.label22.Location = new System.Drawing.Point(729, 398);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(44, 19);
+            this.label22.TabIndex = 55;
+            this.label22.Text = "Filtrar";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label23.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.label23.Location = new System.Drawing.Point(734, 350);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(89, 19);
+            this.label23.TabIndex = 58;
+            this.label23.Text = "Sueldo diario";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label24.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.label24.Location = new System.Drawing.Point(406, 318);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(83, 19);
+            this.label24.TabIndex = 61;
+            this.label24.Text = "Sueldo base";
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label25.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.label25.Location = new System.Drawing.Point(734, 318);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(85, 19);
+            this.label25.TabIndex = 62;
+            this.label25.Text = "Nivel salarial";
             // 
             // employeeNumber
             // 
@@ -742,122 +882,113 @@ namespace Presentation.Views
             // sueldoDiario
             // 
             this.sueldoDiario.DataPropertyName = "sueldoDiario";
-            dataGridViewCellStyle12.Format = "c";
-            this.sueldoDiario.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle2.Format = "c";
+            this.sueldoDiario.DefaultCellStyle = dataGridViewCellStyle2;
             this.sueldoDiario.HeaderText = "Sueldo diario";
             this.sueldoDiario.Name = "sueldoDiario";
             this.sueldoDiario.ReadOnly = true;
             // 
-            // cbDepartments
+            // baseSalary
             // 
-            this.cbDepartments.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbDepartments.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
-            this.cbDepartments.FormattingEnabled = true;
-            this.cbDepartments.Location = new System.Drawing.Point(509, 292);
-            this.cbDepartments.Name = "cbDepartments";
-            this.cbDepartments.Size = new System.Drawing.Size(200, 27);
-            this.cbDepartments.TabIndex = 48;
+            this.baseSalary.DataPropertyName = "baseSalary";
+            dataGridViewCellStyle3.Format = "c";
+            this.baseSalary.DefaultCellStyle = dataGridViewCellStyle3;
+            this.baseSalary.HeaderText = "Sueldo base";
+            this.baseSalary.Name = "baseSalary";
+            this.baseSalary.ReadOnly = true;
             // 
-            // cbPositions
+            // wageLevel
             // 
-            this.cbPositions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbPositions.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
-            this.cbPositions.FormattingEnabled = true;
-            this.cbPositions.Location = new System.Drawing.Point(837, 297);
-            this.cbPositions.Name = "cbPositions";
-            this.cbPositions.Size = new System.Drawing.Size(200, 27);
-            this.cbPositions.TabIndex = 49;
+            this.wageLevel.DataPropertyName = "wageLevel";
+            dataGridViewCellStyle4.Format = "0.00";
+            this.wageLevel.DefaultCellStyle = dataGridViewCellStyle4;
+            this.wageLevel.HeaderText = "Nivel salarial";
+            this.wageLevel.Name = "wageLevel";
+            this.wageLevel.ReadOnly = true;
             // 
-            // cbState
+            // nudBaseSalary
             // 
-            this.cbState.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbState.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
-            this.cbState.FormattingEnabled = true;
-            this.cbState.Location = new System.Drawing.Point(837, 216);
-            this.cbState.Name = "cbState";
-            this.cbState.Size = new System.Drawing.Size(200, 27);
-            this.cbState.TabIndex = 50;
-            this.cbState.SelectedIndexChanged += new System.EventHandler(this.cbState_SelectedIndexChanged);
+            this.nudBaseSalary.DecimalPlaces = 2;
+            this.nudBaseSalary.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
+            this.nudBaseSalary.Location = new System.Drawing.Point(524, 315);
+            this.nudBaseSalary.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.nudBaseSalary.Name = "nudBaseSalary";
+            this.nudBaseSalary.ReadOnly = true;
+            this.nudBaseSalary.Size = new System.Drawing.Size(185, 25);
+            this.nudBaseSalary.TabIndex = 63;
+            this.nudBaseSalary.ThousandsSeparator = true;
             // 
-            // cbCity
+            // nudWageLevel
             // 
-            this.cbCity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbCity.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
-            this.cbCity.FormattingEnabled = true;
-            this.cbCity.Location = new System.Drawing.Point(837, 180);
-            this.cbCity.Name = "cbCity";
-            this.cbCity.Size = new System.Drawing.Size(200, 27);
-            this.cbCity.TabIndex = 51;
+            this.nudWageLevel.DecimalPlaces = 2;
+            this.nudWageLevel.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
+            this.nudWageLevel.Location = new System.Drawing.Point(852, 315);
+            this.nudWageLevel.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.nudWageLevel.Name = "nudWageLevel";
+            this.nudWageLevel.ReadOnly = true;
+            this.nudWageLevel.Size = new System.Drawing.Size(185, 25);
+            this.nudWageLevel.TabIndex = 64;
+            this.nudWageLevel.ThousandsSeparator = true;
             // 
-            // cbBank
+            // label26
             // 
-            this.cbBank.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbBank.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
-            this.cbBank.FormattingEnabled = true;
-            this.cbBank.Location = new System.Drawing.Point(509, 175);
-            this.cbBank.Name = "cbBank";
-            this.cbBank.Size = new System.Drawing.Size(200, 27);
-            this.cbBank.TabIndex = 52;
+            this.label26.AutoSize = true;
+            this.label26.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label26.Font = new System.Drawing.Font("Microsoft YaHei", 10F);
+            this.label26.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.label26.Location = new System.Drawing.Point(505, 317);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(17, 20);
+            this.label26.TabIndex = 65;
+            this.label26.Text = "$";
             // 
-            // dtpHiringDate
+            // label27
             // 
-            this.dtpHiringDate.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
-            this.dtpHiringDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpHiringDate.Location = new System.Drawing.Point(160, 292);
-            this.dtpHiringDate.Name = "dtpHiringDate";
-            this.dtpHiringDate.Size = new System.Drawing.Size(200, 25);
-            this.dtpHiringDate.TabIndex = 53;
+            this.label27.AutoSize = true;
+            this.label27.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label27.Font = new System.Drawing.Font("Microsoft YaHei", 10F);
+            this.label27.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.label27.Location = new System.Drawing.Point(830, 317);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(21, 20);
+            this.label27.TabIndex = 66;
+            this.label27.Text = "%";
             // 
-            // label21
+            // label28
             // 
-            this.label21.AutoSize = true;
-            this.label21.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label21.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label21.Location = new System.Drawing.Point(12, 295);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(146, 19);
-            this.label21.TabIndex = 54;
-            this.label21.Text = "Fecha de contratación";
+            this.label28.AutoSize = true;
+            this.label28.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label28.Font = new System.Drawing.Font("Microsoft YaHei", 10F);
+            this.label28.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.label28.Location = new System.Drawing.Point(832, 352);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(17, 20);
+            this.label28.TabIndex = 67;
+            this.label28.Text = "$";
             // 
-            // textBox1
+            // nudDailySalary
             // 
-            this.textBox1.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(789, 395);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(263, 25);
-            this.textBox1.TabIndex = 56;
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label22.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label22.Location = new System.Drawing.Point(729, 398);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(44, 19);
-            this.label22.TabIndex = 55;
-            this.label22.Text = "Filtrar";
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label23.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label23.Location = new System.Drawing.Point(734, 347);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(89, 19);
-            this.label23.TabIndex = 58;
-            this.label23.Text = "Sueldo diario";
-            // 
-            // txtBaseSalary
-            // 
-            this.txtBaseSalary.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBaseSalary.Location = new System.Drawing.Point(837, 344);
-            this.txtBaseSalary.Name = "txtBaseSalary";
-            this.txtBaseSalary.ReadOnly = true;
-            this.txtBaseSalary.Size = new System.Drawing.Size(200, 25);
-            this.txtBaseSalary.TabIndex = 57;
+            this.nudDailySalary.DecimalPlaces = 2;
+            this.nudDailySalary.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
+            this.nudDailySalary.Location = new System.Drawing.Point(852, 350);
+            this.nudDailySalary.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.nudDailySalary.Name = "nudDailySalary";
+            this.nudDailySalary.ReadOnly = true;
+            this.nudDailySalary.Size = new System.Drawing.Size(185, 25);
+            this.nudDailySalary.TabIndex = 68;
+            this.nudDailySalary.ThousandsSeparator = true;
             // 
             // FormEmpleados
             // 
@@ -865,8 +996,15 @@ namespace Presentation.Views
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(1064, 670);
+            this.Controls.Add(this.nudDailySalary);
+            this.Controls.Add(this.label28);
+            this.Controls.Add(this.label27);
+            this.Controls.Add(this.label26);
+            this.Controls.Add(this.nudWageLevel);
+            this.Controls.Add(this.nudBaseSalary);
+            this.Controls.Add(this.label25);
+            this.Controls.Add(this.label24);
             this.Controls.Add(this.label23);
-            this.Controls.Add(this.txtBaseSalary);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label22);
             this.Controls.Add(this.label21);
@@ -921,6 +1059,9 @@ namespace Presentation.Views
             this.Text = "Employees";
             this.Load += new System.EventHandler(this.Employees_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dtgEmployees)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudBaseSalary)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudWageLevel)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudDailySalary)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -978,7 +1119,8 @@ namespace Presentation.Views
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.TextBox txtBaseSalary;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label25;
         private System.Windows.Forms.DataGridViewTextBoxColumn employeeNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn empName;
         private System.Windows.Forms.DataGridViewTextBoxColumn fatherLastName;
@@ -1000,5 +1142,13 @@ namespace Presentation.Views
         private System.Windows.Forms.DataGridViewTextBoxColumn position;
         private System.Windows.Forms.DataGridViewTextBoxColumn hiringDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn sueldoDiario;
+        private System.Windows.Forms.DataGridViewTextBoxColumn baseSalary;
+        private System.Windows.Forms.DataGridViewTextBoxColumn wageLevel;
+        private System.Windows.Forms.NumericUpDown nudBaseSalary;
+        private System.Windows.Forms.NumericUpDown nudWageLevel;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.NumericUpDown nudDailySalary;
     }
 }
