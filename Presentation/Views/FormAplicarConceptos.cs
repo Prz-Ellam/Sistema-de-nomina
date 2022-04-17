@@ -41,7 +41,7 @@ namespace Presentation.Views
             List<EmployeePayrollsViewModel> employees = new RepositorioEmpleados().ReadEmployeePayrolls(dtpDate.Value);
             dtgEmployees.DataSource = employees;
 
-            List<PerceptionViewModel> perceptions = new RepositorioPercepciones().Leer();
+            List<ApplyPerceptionViewModel> perceptions = new RepositorioPercepcionesAplicadas().ReadApplyPerceptions(2, dtpDate.Value);
             dtgPerceptions.DataSource = perceptions;
 
             List<DeductionViewModel> deductions = new RepositorioDeducciones().ReadAll();
@@ -160,6 +160,11 @@ namespace Presentation.Views
         {
 
             
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
