@@ -80,13 +80,14 @@ IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerPuesto
 	DROP PROCEDURE sp_LeerPuestos;
 GO
 
-CREATE PROCEDURE sp_LeerPuestos
-
+CREATE PROCEDURE sp_LeerPuestos(
+	@id_empresa					INT
+)
 AS
 
 	SELECT id_puesto, nombre, nivel_salarial
 	FROM puestos
-	WHERE activo = 1;
+	WHERE id_empresa = @id_empresa AND activo = 1;
 
 
 GO
@@ -98,11 +99,12 @@ IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_FiltrarPue
 GO
 
 CREATE PROCEDURE sp_FiltrarPuestos
-	@filtro						VARCHAR(100)
+	@filtro						VARCHAR(100),
+	@id_empresa					INT
 AS
 
 	SELECT id_puesto, nombre, nivel_salarial
 	FROM puestos
-	WHERE activo = 1 AND nombre LIKE CONCAT('%', @filtro, '%');
+	WHERE id_empresa = @id_empresa AND activo = 1 AND nombre LIKE CONCAT('%', @filtro, '%');
 
 GO

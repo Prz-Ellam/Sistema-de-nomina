@@ -79,7 +79,7 @@ namespace Presentation.Views
             cbBank.DataSource = nombres;
 
 
-            List<DepartmentsViewModel> departamentos = new RepositorioDepartamentos().ReadAll();
+            List<DepartmentsViewModel> departamentos = new RepositorioDepartamentos().ReadAll(Session.company_id);
             nombres = new List<PairItem>();
             foreach(var departamento in departamentos)
             {
@@ -88,7 +88,7 @@ namespace Presentation.Views
             cbDepartments.DataSource = nombres;
 
 
-            List<PositionsViewModel> puestos = new RepositorioPuestos().ReadAll();
+            List<PositionsViewModel> puestos = new RepositorioPuestos().ReadAll(Session.company_id);
             nombres = new List<PairItem>();
             foreach (var puesto in puestos)
             {
@@ -106,8 +106,15 @@ namespace Presentation.Views
         private void btnAdd_Click(object sender, EventArgs e)
         {
             FillEmployee();
-            string message = AddEmployee();
-            MessageBox.Show(message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+            ValidationResult result = AddEmployee();
+
+            if (result.State == ValidationState.Error)
+            {
+                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
             ListEmployees();
             ClearForm();
         }
@@ -115,17 +122,39 @@ namespace Presentation.Views
         private void btnEdit_Click(object sender, EventArgs e)
         {
             FillEmployee();
-            string message = UpdateEmployee();
-            MessageBox.Show(message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+            ValidationResult result = UpdateEmployee();
+
+            if (result.State == ValidationState.Error)
+            {
+                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
             ListEmployees();
             ClearForm();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?", "Advertencia",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (res == DialogResult.No)
+            {
+                return;
+            }
+
             FillEmployee();
-            string message = DeleteEmployee();
-            MessageBox.Show(message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+            ValidationResult result = DeleteEmployee();
+
+            if (result.State == ValidationState.Error)
+            {
+                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
             ListEmployees();
             ClearForm();
         }
@@ -149,11 +178,11 @@ namespace Presentation.Views
         }
 
 
-        public string AddEmployee()
+        public ValidationResult AddEmployee()
         {
             if (EmployeeState != EntityState.Add)
             {
-                return "Operación incorrecta";
+                return new ValidationResult("Operación incorrecta", ValidationState.Error);
             }
 
             try
@@ -161,30 +190,30 @@ namespace Presentation.Views
                 Tuple<bool, string> feedback = new DataValidation(employee).Validate();
                 if (!feedback.Item1)
                 {
-                    return feedback.Item2;
+                    return new ValidationResult(feedback.Item2, ValidationState.Error);
                 }
 
-                int result = repository.Create(employee, address);
+                int result = repository.Create(employee);
                 if (result > 0)
                 {
-                    return "La operación se realizó éxitosamente";
+                    return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
                 }
                 else
                 {
-                    return "No se pudo realizar la operación";
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
                 }
             }
             catch (SqlException ex)
             {
-                return ex.Message;
+                return new ValidationResult(ex.Message, ValidationState.Error);
             }
         }
 
-        public string UpdateEmployee()
+        public ValidationResult UpdateEmployee()
         {
             if (EmployeeState != EntityState.Modify)
             {
-                return "Operación incorrecta";
+                return new ValidationResult("Operación incorrecta", ValidationState.Error);
             }
 
             try
@@ -192,30 +221,30 @@ namespace Presentation.Views
                 Tuple<bool, string> feedback = new DataValidation(employee).Validate();
                 if (!feedback.Item1)
                 {
-                    return feedback.Item2;
+                    return new ValidationResult(feedback.Item2, ValidationState.Error);
                 }
 
                 int result =repository.Update(employee, address);
                 if (result > 0)
                 {
-                    return "La operación se realizó éxitosamente";
+                    return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
                 }
                 else
                 {
-                    return "No se pudo realizar la operación";
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
                 }
             }
             catch (SqlException ex)
             {
-                return ex.Message;
+                return new ValidationResult(ex.Message, ValidationState.Error);
             }
         }
 
-        public string DeleteEmployee()
+        public ValidationResult DeleteEmployee()
         {
             if (EmployeeState != EntityState.Modify)
             {
-                return "Operación incorrecta";
+                return new ValidationResult("Operación incorrecta", ValidationState.Error);
             }
 
             try
@@ -223,16 +252,16 @@ namespace Presentation.Views
                 int result = repository.Delete(employeeId);
                 if (result > 0)
                 {
-                    return "La operación se realizó éxitosamente";
+                    return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
                 }
                 else
                 {
-                    return "No se pudo realizar la operación";
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
                 }
             }
             catch (SqlException ex)
             {
-                return ex.Message;
+                return new ValidationResult(ex.Message, ValidationState.Error);
             }
         }
 
@@ -259,20 +288,20 @@ namespace Presentation.Views
             employee.Nss = txtNSS.Text;
             employee.Rfc = txtRFC.Text;
             //employee.Address = 1;
-            employee.Banco = ((KeyValueItem)cbBank.SelectedItem).HiddenValue;
-            employee.NumeroCuenta = Convert.ToInt32(txtAccountNumber.Text);
+            employee.Banco = ((PairItem)cbBank.SelectedItem).HiddenValue;
+            employee.NumeroCuenta = txtAccountNumber.Text;
             employee.CorreoElectronico = txtEmail.Text;
             employee.Contrasena = txtPassword.Text;
-            employee.IdDepartamento = ((KeyValueItem)cbDepartments.SelectedItem).HiddenValue;
-            employee.IdPuesto = ((KeyValueItem)cbPositions.SelectedItem).HiddenValue;
+            employee.IdDepartamento = ((PairItem)cbDepartments.SelectedItem).HiddenValue;
+            employee.IdPuesto = ((PairItem)cbPositions.SelectedItem).HiddenValue;
             employee.FechaContratacion = dtpHiringDate.Value;
 
-            address.Calle = txtStreet.Text;
-            address.Numero = txtNumber.Text;
-            address.Colonia = txtSuburb.Text;
-            address.Ciudad = cbCity.SelectedItem.ToString();
-            address.Estado = cbState.SelectedItem.ToString();
-            address.CodigoPostal = txtPostalCode.Text;
+            employee.Calle = txtStreet.Text;
+            employee.Numero = txtNumber.Text;
+            employee.Colonia = txtSuburb.Text;
+            employee.Ciudad = cbCity.SelectedItem.ToString();
+            employee.Estado = cbState.SelectedItem.ToString();
+            employee.CodigoPostal = txtPostalCode.Text;
         }
 
         public void ClearForm()
@@ -295,6 +324,13 @@ namespace Presentation.Views
             cbBank.SelectedIndex = -1;
             txtAccountNumber.Clear();
             cbPhones.Items.Clear();
+
+            nudBaseSalary.Value = 0.0m;
+            nudWageLevel.Value = 0.0m;
+            nudDailySalary.Value = 0.0m;
+            cbDepartments.SelectedIndex = -1;
+            cbPositions.SelectedIndex = -1;
+
 
             EmployeeState = EntityState.Add;
             dtgPrevIndex = -1;

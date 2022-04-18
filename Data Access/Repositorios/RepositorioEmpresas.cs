@@ -14,7 +14,7 @@ namespace Data_Access.Repositorios
 {
     public class CompaniesRepository : ICompaniesRepository
     {
-        private readonly string create, read, verify;
+        private readonly string create, update, read, verify;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams = new RepositoryParameters();
 
@@ -22,22 +22,63 @@ namespace Data_Access.Repositorios
         {
             mainRepository = MainConnection.GetInstance();
             create = "sp_AgregarEmpresa";
+            update = "sp_ActualizarEmpresa";
             read = "sp_LeerEmpresa";
             verify = "sp_ObtenerEmpresa";
         }
 
-        public int Create(Empresas company)
+        public bool Create(Empresas company)
         {
             sqlParams.Start();
             sqlParams.Add("@razon_social", company.RazonSocial);
-            sqlParams.Add("@domicilio_fiscal", company.Domicilio);
             sqlParams.Add("@correo_electronico", company.CorreoElectronico);
             sqlParams.Add("@rfc", company.Rfc);
             sqlParams.Add("@registro_patronal", company.RegistroPatronal);
             sqlParams.Add("@fecha_inicio", company.FechaInicio);
             sqlParams.Add("@id_administrador", company.IdAdministrador);
+            sqlParams.Add("@calle", company.Calle);
+            sqlParams.Add("@numero", company.Numero);
+            sqlParams.Add("@colonia", company.Colonia);
+            sqlParams.Add("@ciudad", company.Ciudad);
+            sqlParams.Add("@estado", company.Estado);
+            sqlParams.Add("@codigo_postal", company.CodigoPostal);
 
-            return mainRepository.ExecuteNonQuery(create, sqlParams);
+            int rowCount = mainRepository.ExecuteNonQuery(create, sqlParams);
+            if (rowCount > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool Update(Empresas company)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@id_empresa", company.IdEmpresa);
+            sqlParams.Add("@razon_social", company.RazonSocial);
+            sqlParams.Add("@correo_electronico", company.CorreoElectronico);
+            sqlParams.Add("@rfc", company.Rfc);
+            sqlParams.Add("@registro_patronal", company.RegistroPatronal);
+            sqlParams.Add("@fecha_inicio", company.FechaInicio);
+            sqlParams.Add("@calle", company.Calle);
+            sqlParams.Add("@numero", company.Numero);
+            sqlParams.Add("@colonia", company.Colonia);
+            sqlParams.Add("@ciudad", company.Ciudad);
+            sqlParams.Add("@estado", company.Estado);
+            sqlParams.Add("@codigo_postal", company.CodigoPostal);
+
+            int rowCount = mainRepository.ExecuteNonQuery(create, sqlParams);
+            if (rowCount > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public CompaniesViewModel Read(int id)

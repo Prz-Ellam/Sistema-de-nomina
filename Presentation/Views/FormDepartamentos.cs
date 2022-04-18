@@ -71,8 +71,15 @@ namespace Presentation.Views
         private void btnAdd_Click(object sender, EventArgs e)
         {
             FillDepartment();
-            string message = AddDepartment();
-            MessageBox.Show(message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+            ValidationResult result = AddDepartment();
+
+            if (result.State == ValidationState.Error)
+            {
+                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
             ListDepartments();
             ClearForm();
         }
@@ -80,17 +87,39 @@ namespace Presentation.Views
         private void btnEdit_Click(object sender, EventArgs e)
         {
             FillDepartment();
-            string message = UpdateDepartment();
-            MessageBox.Show(message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+            ValidationResult result = UpdateDepartment();
+
+            if (result.State == ValidationState.Error)
+            {
+                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
             ListDepartments();
             ClearForm();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?", "Advertencia",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (res == DialogResult.No)
+            {
+                return;
+            }
+
             FillDepartment();
-            string message = DeleteDepartment();
-            MessageBox.Show(message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+            ValidationResult result = DeleteDepartment();
+
+            if (result.State == ValidationState.Error)
+            {
+                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
             ListDepartments();
             ClearForm();
         }
@@ -113,7 +142,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgDepartaments.DataSource = repository.ReadLike(txtFilter.Text);
+                dtgDepartaments.DataSource = repository.ReadLike(txtFilter.Text, Session.company_id);
             }
             catch (Exception ex)
             {
@@ -138,11 +167,11 @@ namespace Presentation.Views
 
 
 
-        public string AddDepartment()
+        public ValidationResult AddDepartment()
         {
             if (DepartmentState != EntityState.Add)
             {
-                return "Operación incorrecta";
+                return new ValidationResult("Operación incorrecta", ValidationState.Error);
             }
 
             try
@@ -150,31 +179,30 @@ namespace Presentation.Views
                 Tuple<bool, string> feedback = new DataValidation(department).Validate();
                 if (!feedback.Item1)
                 {
-                    return feedback.Item2;
+                    return new ValidationResult(feedback.Item2, ValidationState.Error);
                 }
 
                 bool result = repository.Create(department);
-
                 if (result)
                 {
-                    return "La operación se realizó éxitosamente";
+                    return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
                 }
                 else
                 {
-                    return "No se pudo realizar la operación";
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
                 }
             }
             catch (SqlException ex)
             {
-                return ex.Message;
+                return new ValidationResult(ex.Message, ValidationState.Error);
             }
         }
 
-        public string UpdateDepartment()
+        public ValidationResult UpdateDepartment()
         {
             if (DepartmentState != EntityState.Modify)
             {
-                return "Operación incorrecta";
+                return new ValidationResult("Operación incorrecta", ValidationState.Error);
             }
 
             try
@@ -182,48 +210,47 @@ namespace Presentation.Views
                 Tuple<bool, string> feedback = new DataValidation(department).Validate();
                 if (!feedback.Item1)
                 {
-                    return feedback.Item2;
+                    return new ValidationResult(feedback.Item2, ValidationState.Error);
                 }
 
-                int result = repository.Update(department);
-                if (result > 0)
+                bool result = repository.Update(department);
+                if (result)
                 {
-                    return "La operación se realizó éxitosamente";
+                    return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
                 }
                 else
                 {
-                    return "No se pudo realizar la operación";
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
                 }
             }
             catch (SqlException ex)
             {
-                return ex.Message;
+                return new ValidationResult(ex.Message, ValidationState.Error);
             }
         }
 
-        public string DeleteDepartment()
+        public ValidationResult DeleteDepartment()
         {
             if (DepartmentState != EntityState.Modify)
             {
-                return "Operación incorrecta";
+                return new ValidationResult("Operación incorrecta", ValidationState.Error);
             }
 
             try
             {
-                int result = repository.Delete(departmentId);
-
-                if (result > 0)
+                bool result = repository.Delete(departmentId);
+                if (result)
                 {
-                    return "La operación se realizó éxitosamente";
+                    return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
                 }
                 else
                 {
-                    return "No se pudo realizar la operación";
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
                 }
             }
             catch (SqlException ex)
             {
-                return ex.Message;
+                return new ValidationResult(ex.Message, ValidationState.Error);
             }
         }
 
@@ -231,7 +258,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgDepartaments.DataSource = repository.ReadAll();
+                dtgDepartaments.DataSource = repository.ReadAll(Session.company_id);
             }
             catch (Exception ex)
             {
@@ -255,6 +282,8 @@ namespace Presentation.Views
 
             DepartmentState = EntityState.Add;
             dtgPrevIndex = -1;
+
+            txtFilter.Clear();
         }
 
         public void FillForm(int index)

@@ -339,7 +339,7 @@ ALTER TABLE telefonos_empleados
 ALTER TABLE empresas
 	DROP CONSTRAINT FK_Empresa_Domicilio;
 
-ALTER TABLE administradores
+ALTER TABLE empresas
 	DROP CONSTRAINT FK_Admin_Empresa;
 
 ALTER TABLE departamentos
@@ -410,8 +410,10 @@ VALUES('a@a.com', '123');
 
 select top 1 * from empresas;
 
-select*from departamentos;
-
+SELECT * FROM departamentos;
+SELECT * FROM puestos;
+select*from domicilios;
+select*from empresas;
 
 
 INSERT INTO Bancos (Nombre) VALUES ('Banorte');

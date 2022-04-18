@@ -102,10 +102,22 @@ GO
 
 
 
-select*From departamentos;
 
-select*from puestos;
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_EliminarEmpleado')
+	DROP PROCEDURE sp_ActualizarEmpleado;
+GO
 
+CREATE PROCEDURE sp_EliminarEmpleado(
+	@numero_empleado		INT
+)
+AS
+
+	UPDATE empleados
+	SET
+	activo = 0
+	WHERE numero_empleado = @numero_empleado;
+
+GO
 
 
 
@@ -179,22 +191,7 @@ GO
 
 
 
-	SELECT 
-	e.numero_empleado [Numero de empleado],
-	CONCAT(e.nombre, ' ', e.apellido_paterno, ' ', e.apellido_materno) [Nombre de empleado],
-	d.nombre [Departamento],
-	p.nombre [Puesto],
-	e.sueldo_diario [Sueldo diario]
-	--SUM(pa.cantidad) [Si]
-	FROM empleados AS e
-	JOIN departamentos AS d
-	ON e.id_departamento = d.id_departamento
-	JOIN puestos AS p
-	ON e.id_puesto = p.id_puesto
-	LEFT JOIN percepciones_aplicadas AS pa
-	ON e.numero_empleado = pa.numero_empleado
-	WHERE e.activo = 1;
-
+EXEC sp_LeerEmpleadosNominas '20220701';
 
 
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerEmpleadosNominas')
@@ -206,16 +203,16 @@ CREATE PROCEDURE sp_LeerEmpleadosNominas(
 )
 AS
 	SELECT 
-	e.numero_empleado, 
-	CONCAT(e.nombre, ' ', e.apellido_paterno, ' ', e.apellido_materno) AS Nombre, 
+	e.numero_empleado [Numero de Empleado], 
+	CONCAT(e.nombre, ' ', e.apellido_paterno, ' ', e.apellido_materno) AS [Nombre de Empleado], 
 	d.nombre [Departamento],
 	p.nombre [Puesto],
 	e.sueldo_diario [Sueldo diario],
-	dbo.GETMONTHLENGTH(YEAR(@fecha), MONTH(@fecha)) [Dias trabajados],
-	e.sueldo_diario * dbo.GETMONTHLENGTH(YEAR(@fecha), MONTH(@fecha)) [Sueldo bruto],
+	dbo.DIASTRABAJADOSEMPLEADO(@fecha, e.numero_empleado) [Dias trabajados],
+	e.sueldo_diario * dbo.DIASTRABAJADOSEMPLEADO(@fecha, e.numero_empleado) [Sueldo bruto],
 	ISNULL(SUM(pa.cantidad), 0) [Total percepciones],
 	ISNULL(SUM(da.cantidad), 0) [Total deducciones],
-	(e.sueldo_diario * dbo.GETMONTHLENGTH(YEAR(@fecha), MONTH(@fecha))) + ISNULL(SUM(pa.cantidad), 0) - ISNULL(SUM(da.cantidad), 0) [Sueldo neto]
+	(e.sueldo_diario * dbo.DIASTRABAJADOSEMPLEADO(@fecha, e.numero_empleado)) + ISNULL(SUM(pa.cantidad), 0) - ISNULL(SUM(da.cantidad), 0) [Sueldo neto]
 	FROM empleados AS e
 	JOIN departamentos AS d
 	ON e.id_departamento = d.id_departamento
@@ -225,58 +222,20 @@ AS
 	ON e.numero_empleado = pa.numero_empleado AND YEAR(pa.fecha) = YEAR(@fecha) AND MONTH(pa.fecha) = MONTH(@fecha)
 	LEFT JOIN deducciones_aplicadas AS da
 	ON e.numero_empleado = da.numero_empleado
-	GROUP BY e.numero_empleado, e.nombre, e.apellido_paterno, e.apellido_materno, d.nombre, p.nombre, e.sueldo_diario;
+	WHERE e.activo = 1 AND DATEADD(day, -DAY(e.fecha_contratacion) + 1, e.fecha_contratacion) <= @fecha
+	GROUP BY e.numero_empleado, e.nombre, e.apellido_paterno, e.apellido_materno, d.nombre, p.nombre, e.sueldo_diario, e.fecha_contratacion
 GO
 
 
-EXEC sp_LeerEmpleadosNominas '20220401';
-
-
-SELECT*FROM percepciones_aplicadas;
-
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerPercepcionesAplicadas')
-	DROP PROCEDURE sp_LeerPercepcionesAplicadas;
-GO
-
-CREATE PROCEDURE sp_LeerPercepcionesAplicadas(
-	@filtro						INT,
-	@numero_empleado			INT,
-	@fecha						DATE
-)
-AS
-
-	IF @filtro = 1
-		SELECT IIF(pa.id_percepcion_aplicada IS NULL, 'false', 'true') AS [Aplicada], 
-		p.id_percepcion, p.nombre, p.tipo_monto, p.fijo, p.porcentual 
-		FROM percepciones AS p
-		LEFT JOIN percepciones_aplicadas AS pa
-		ON p.id_percepcion = pa.id_percepcion AND YEAR(pa.fecha) = YEAR(@fecha) AND MONTH(pa.fecha) = MONTH(@fecha) AND pa.numero_empleado = @numero_empleado;
-	ELSE IF @filtro = 2
-		SELECT IIF(pa.id_percepcion_aplicada IS NULL, 'false', 'true') AS [Aplicada], 
-		p.id_percepcion, p.nombre, p.tipo_monto, p.fijo, p.porcentual 
-		FROM percepciones AS p
-		LEFT JOIN percepciones_aplicadas AS pa
-		ON p.id_percepcion = pa.id_percepcion AND YEAR(pa.fecha) = YEAR(@fecha) AND MONTH(pa.fecha) = MONTH(@fecha) AND pa.numero_empleado = @numero_empleado
-		WHERE IIF(pa.id_percepcion_aplicada IS NULL, 'false', 'true') = 'true';
-	ELSE IF @filtro = 3
-		SELECT IIF(pa.id_percepcion_aplicada IS NULL, 'false', 'true') AS [Aplicada], 
-		p.id_percepcion, p.nombre, p.tipo_monto, p.fijo, p.porcentual 
-		FROM percepciones AS p
-		LEFT JOIN percepciones_aplicadas AS pa
-		ON p.id_percepcion = pa.id_percepcion AND YEAR(pa.fecha) = YEAR(@fecha) AND MONTH(pa.fecha) = MONTH(@fecha) AND pa.numero_empleado = @numero_empleado
-		WHERE IIF(pa.id_percepcion_aplicada IS NULL, 'false', 'true') = 'false';
-	ELSE 
-		RAISERROR('Filtro inválido', 11, 1);
-
-GO
-
-EXEC sp_LeerPercepcionesAplicadas 4, 3, '20220301'
 
 
 
-SELECT da.id_deduccion_aplicada,d.id_deduccion, d.nombre, d.tipo_monto, d.fijo, d.porcentual 
-FROM deducciones_aplicadas AS da
-RIGHT JOIN deducciones AS d
-ON da.id_deduccion = d.id_deduccion
-WHERE da.numero_empleado = 3;
+
+
+
+
+
+
+
+
 

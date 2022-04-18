@@ -29,7 +29,7 @@ namespace Data_Access.Repositorios
 
         }
 
-        public int Create(Percepciones percepcion)
+        public bool Create(Percepciones percepcion)
         {
             sqlParams.Start();
             sqlParams.Add("@nombre", percepcion.Nombre);
@@ -37,10 +37,18 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@fijo", percepcion.Fijo);
             sqlParams.Add("@porcentual", percepcion.Porcentual);
 
-            return mainRepository.ExecuteNonQuery(create, sqlParams);
+            int rowCount = mainRepository.ExecuteNonQuery(create, sqlParams);
+            if (rowCount > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public int Update(Percepciones percepcion)
+        public bool Update(Percepciones percepcion)
         {
             sqlParams.Start();
             sqlParams.Add("@id_percepcion", percepcion.IdPercepcion);
@@ -49,15 +57,31 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@fijo", percepcion.Fijo);
             sqlParams.Add("@porcentual", percepcion.Porcentual);
 
-            return mainRepository.ExecuteNonQuery(update, sqlParams);
+            int rowCount = mainRepository.ExecuteNonQuery(update, sqlParams);
+            if (rowCount > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public int Delete(int id)
+        public bool Delete(int id)
         {
             sqlParams.Start();
             sqlParams.Add("@id_percepcion", id);
 
-            return mainRepository.ExecuteNonQuery(delete, sqlParams);
+            int rowCount = mainRepository.ExecuteNonQuery(delete, sqlParams);
+            if (rowCount > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public List<PerceptionViewModel> Leer()

@@ -54,9 +54,10 @@ namespace Data_Access.Repositorios
             return mainRepository.ExecuteNonQuery(delete, sqlParams);
         }
 
-        public List<PositionsViewModel> ReadAll()
+        public List<PositionsViewModel> ReadAll(int companyId)
         {
             sqlParams.Start();
+            sqlParams.Add("@id_empresa", companyId);
 
             DataTable table = mainRepository.ExecuteReader(readAll, sqlParams);
             List<PositionsViewModel> departments = new List<PositionsViewModel>();
@@ -74,10 +75,11 @@ namespace Data_Access.Repositorios
             return departments;
         }
 
-        public List<PositionsViewModel> ReadLike(string filter)
+        public List<PositionsViewModel> ReadLike(string filter, int companyId)
         {
             sqlParams.Start();
             sqlParams.Add("@filtro", filter);
+            sqlParams.Add("@id_empresa", companyId);
 
             DataTable table = mainRepository.ExecuteReader(readLike, sqlParams);
             List<PositionsViewModel> departments = new List<PositionsViewModel>();

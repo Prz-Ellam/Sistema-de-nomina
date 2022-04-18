@@ -71,8 +71,15 @@ namespace Presentation.Views
         private void btnAdd_Click(object sender, EventArgs e)
         {
             FillPosition();
-            string message = AddPosition();
-            MessageBox.Show(message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+            ValidationResult result = AddPosition();
+
+            if (result.State == ValidationState.Error)
+            {
+                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
             ListPositions();
             ClearForm();
         }
@@ -80,17 +87,39 @@ namespace Presentation.Views
         private void btnEdit_Click(object sender, EventArgs e)
         {
             FillPosition();
-            string message = UpdatePosition();
-            MessageBox.Show(message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+            ValidationResult result = UpdatePosition();
+
+            if (result.State == ValidationState.Error)
+            {
+                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
             ListPositions();
             ClearForm();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?", "Advertencia",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (res == DialogResult.No)
+            {
+                return;
+            }
+
             FillPosition();
-            string message = DeletePosition();
-            MessageBox.Show(message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+            ValidationResult result = DeletePosition();
+
+            if (result.State == ValidationState.Error)
+            {
+                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
             ListPositions();
             ClearForm();
         }
@@ -113,7 +142,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgPositions.DataSource = repository.ReadLike(txtFilter.Text);
+                dtgPositions.DataSource = repository.ReadLike(txtFilter.Text, Session.company_id);
             }
             catch (Exception ex)
             {
@@ -138,11 +167,11 @@ namespace Presentation.Views
 
         
 
-        public string AddPosition()
+        public ValidationResult AddPosition()
         {
             if (PositionState != EntityState.Add)
             {
-                return "Operación incorrecta";
+                return new ValidationResult("Operación incorrecta", ValidationState.Error);
             }
 
             try
@@ -150,30 +179,30 @@ namespace Presentation.Views
                 Tuple<bool, string> feedback = new DataValidation(position).Validate();
                 if (!feedback.Item1)
                 {
-                    return feedback.Item2;
+                    return new ValidationResult(feedback.Item2, ValidationState.Error);
                 }
 
                 int result = repository.Create(position);
                 if (result > 0)
                 {
-                    return "La operación se realizó éxitosamente";
+                    return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
                 }
                 else
                 {
-                    return "No se pudo realizar la operación";
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
                 }
             }
             catch (SqlException ex)
             {
-                return ex.Message;
+                return new ValidationResult(ex.Message, ValidationState.Error);
             }
         }
 
-        public string UpdatePosition()
+        public ValidationResult UpdatePosition()
         {
             if (PositionState != EntityState.Modify)
             {
-                return "Operación incorrecta";
+                return new ValidationResult("Operación incorrecta", ValidationState.Error);
             }
 
             try
@@ -181,30 +210,30 @@ namespace Presentation.Views
                 Tuple<bool, string> feedback = new DataValidation(position).Validate();
                 if (!feedback.Item1)
                 {
-                    return feedback.Item2;
+                    return new ValidationResult(feedback.Item2, ValidationState.Error);
                 }
 
                 int result = repository.Update(position);
                 if (result > 0)
                 {
-                    return "La operación se realizó éxitosamente";
+                    return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
                 }
                 else
                 {
-                    return "No se pudo realizar la operación";
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
                 }
             }
             catch (SqlException ex)
             {
-                return ex.Message;
+                return new ValidationResult(ex.Message, ValidationState.Error);
             }
         }
 
-        public string DeletePosition()
+        public ValidationResult DeletePosition()
         {
             if (PositionState != EntityState.Modify)
             {
-                return "Operación incorrecta";
+                return new ValidationResult("Operación incorrecta", ValidationState.Error);
             }
 
             try
@@ -213,16 +242,16 @@ namespace Presentation.Views
 
                 if (result > 0)
                 {
-                    return "La operación se realizó éxitosamente";
+                    return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
                 }
                 else
                 {
-                    return "No se pudo realizar la operación";
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
                 }
             }
             catch (SqlException ex)
             {
-                return ex.Message;
+                return new ValidationResult(ex.Message, ValidationState.Error);
             }
         }
 
@@ -230,7 +259,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgPositions.DataSource = repository.ReadAll();
+                dtgPositions.DataSource = repository.ReadAll(Session.company_id);
             }
             catch (Exception ex)
             {
@@ -254,6 +283,8 @@ namespace Presentation.Views
 
             PositionState = EntityState.Add;
             dtgPrevIndex = -1;
+
+            txtFilter.Clear();
         }
 
         public void FillForm(int index)

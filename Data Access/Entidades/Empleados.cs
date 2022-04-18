@@ -19,7 +19,7 @@ namespace Data_Access.Entidades
         private string rfc;
         private int domicilio;
         private int banco;
-        private int numeroCuenta;
+        private string numeroCuenta;
         private string correoElectronico;
         private string contrasena;
         private decimal sueldoDiario;
@@ -27,6 +27,14 @@ namespace Data_Access.Entidades
         private bool activo;
         private int idDepartamento;
         private int idPuesto;
+
+        // Domicilios
+        private string calle;
+        private string numero;
+        private string colonia;
+        private string ciudad;
+        private string estado;
+        private string codigoPostal;
 
         public int NumeroEmpleado { get => numeroEmpleado; set => numeroEmpleado = value; }
         [Required]
@@ -52,7 +60,7 @@ namespace Data_Access.Entidades
         [Required]
         public int Banco { get => banco; set => banco = value; }
         [Required]
-        public int NumeroCuenta { get => numeroCuenta; set => numeroCuenta = value; }
+        public string NumeroCuenta { get => numeroCuenta; set => numeroCuenta = value; }
         [Required]
         [EmailAddress(ErrorMessage = "El correo electrónico que ingresó no es válido")]
         public string CorreoElectronico { get => correoElectronico; set => correoElectronico = value; }
@@ -66,5 +74,18 @@ namespace Data_Access.Entidades
         public int IdDepartamento { get => idDepartamento; set => idDepartamento = value; }
         [Required]
         public int IdPuesto { get => idPuesto; set => idPuesto = value; }
+        [Required]
+        public string Calle { get => calle; set => calle = value; }
+        [Required]
+        public string Numero { get => numero; set => numero = value; }
+        [Required]
+        public string Colonia { get => colonia; set => colonia = value; }
+        [Required]
+        public string Ciudad { get => ciudad; set => ciudad = value; }
+        [Required]
+        public string Estado { get => estado; set => estado = value; }
+        [Required]
+        [RegularExpression(@"^\d{4,5}$", ErrorMessage = "El codigo postal no es válido")]
+        public string CodigoPostal { get => codigoPostal; set => codigoPostal = value; }
     }
 }

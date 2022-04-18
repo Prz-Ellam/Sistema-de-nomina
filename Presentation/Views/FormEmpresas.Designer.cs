@@ -1,7 +1,7 @@
 ﻿
 namespace Presentation.Views
 {
-    partial class FormCompanies
+    partial class FormEmpresas
     {
         /// <summary>
         /// Required designer variable.

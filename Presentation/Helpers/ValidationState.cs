@@ -8,7 +8,7 @@ namespace Presentation.Helpers
 {
     public enum ValidationState
     {
-        Ok,
+        Success,
         Error
     }
 }

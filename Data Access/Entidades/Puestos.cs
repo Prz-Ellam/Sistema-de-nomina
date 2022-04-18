@@ -21,6 +21,7 @@ namespace Data_Access.Entidades
         [MaxLength(30, ErrorMessage = "El nombre del puesto es muy largo")]
         public string Nombre { get => nombre; set => nombre = value; }
         [Required(ErrorMessage = "El nivel salarial del puesto es requerido")]
+        [Range(double.Epsilon, double.MaxValue, ErrorMessage = "El nivel salarial del puesto no puede ser 0")]
         public decimal NivelSalarial { get => nivelSalarial; set => nivelSalarial = value; }
         public bool Activo { get => activo; set => activo = value; }
         [Required]

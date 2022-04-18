@@ -25,7 +25,7 @@ namespace Data_Access.Repositorios
             readAll = "sp_LeerDeducciones";
         }
 
-        public int Create(Deducciones deduccion)
+        public bool Create(Deducciones deduccion)
         {
             sqlParams.Start();
             sqlParams.Add("@nombre", deduccion.Nombre);
@@ -33,10 +33,18 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@fijo", deduccion.Fijo);
             sqlParams.Add("@porcentual", deduccion.Porcentual);
 
-            return mainRepository.ExecuteNonQuery(create, sqlParams);
+            int rowCount = mainRepository.ExecuteNonQuery(create, sqlParams);
+            if (rowCount > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public int Update(Deducciones deduccion)
+        public bool Update(Deducciones deduccion)
         {
             sqlParams.Start();
             sqlParams.Add("@id_deduccion", deduccion.IdDeduccion);
@@ -45,15 +53,31 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@fijo", deduccion.Fijo);
             sqlParams.Add("@porcentual", deduccion.Porcentual);
 
-            return mainRepository.ExecuteNonQuery(update, sqlParams);
+            int rowCount = mainRepository.ExecuteNonQuery(update, sqlParams);
+            if (rowCount > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public int Delete(int idDeduccion)
+        public bool Delete(int idDeduccion)
         {
             sqlParams.Start();
             sqlParams.Add("@id_deduccion", idDeduccion);
 
-            return mainRepository.ExecuteNonQuery(delete, sqlParams);
+            int rowCount = mainRepository.ExecuteNonQuery(delete, sqlParams);
+            if (rowCount > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public List<DeductionViewModel> ReadAll()

@@ -108,6 +108,7 @@
     <Compile Include="Repositorios\RepositoryParameters.cs" />
     <Compile Include="Repositorios\StatesRepository.cs" />
     <Compile Include="Repositorios\UsersRepository.cs" />
+    <Compile Include="ViewModels\ApplyDeductionsViewModel.cs" />
     <Compile Include="ViewModels\ApplyPerceptionViewModel.cs" />
     <Compile Include="ViewModels\CompaniesViewModel.cs" />
     <Compile Include="ViewModels\ConceptViewModel.cs" />

@@ -104,11 +104,11 @@
     <Compile Include="Views\FormAplicarConceptos.Designer.cs">
       <DependentUpon>FormAplicarConceptos.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\FormCompanies.cs">
+    <Compile Include="Views\FormEmpresas.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\FormCompanies.Designer.cs">
-      <DependentUpon>FormCompanies.cs</DependentUpon>
+    <Compile Include="Views\FormEmpresas.Designer.cs">
+      <DependentUpon>FormEmpresas.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\FormCatalogoConceptos.cs">
       <SubType>Form</SubType>
@@ -202,8 +202,8 @@
     <EmbeddedResource Include="Views\FormAplicarConceptos.resx">
       <DependentUpon>FormAplicarConceptos.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\FormCompanies.resx">
-      <DependentUpon>FormCompanies.cs</DependentUpon>
+    <EmbeddedResource Include="Views\FormEmpresas.resx">
+      <DependentUpon>FormEmpresas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\FormCatalogoConceptos.resx">
       <DependentUpon>FormCatalogoConceptos.cs</DependentUpon>

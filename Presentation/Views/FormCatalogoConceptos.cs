@@ -81,27 +81,42 @@ namespace Presentation.Views
         {
             if (!rbPerception.Checked && !rbDeduction.Checked)
             {
-                MessageBox.Show("No escogió un tipo de concepto", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("No escogió un tipo de concepto", "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else if (rbPerception.Checked)
             {
                 FillPerception();
-                string message = AddPerception();
-                MessageBox.Show(message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+                ValidationResult result = AddPerception();
+
+                if (result.State == ValidationState.Error)
+                {
+                    MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
                 ListPerceptions();
                 ClearForm();
             }
             else if (rbDeduction.Checked)
             {
                 FillDeduction();
-                string message = AddDeduction();
-                MessageBox.Show(message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+                ValidationResult result = AddDeduction();
+
+                if (result.State == ValidationState.Error)
+                {
+                    MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
                 ListDeductions();
                 ClearForm();
             }
             else
             {
-                MessageBox.Show("Accion no soportada");
+                // Es imposible que esto suceda pero igualmente se deja la validacion
+                MessageBox.Show("Acción no soportada", "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -109,27 +124,41 @@ namespace Presentation.Views
         {
             if (!rbPerception.Checked && !rbDeduction.Checked)
             {
-                MessageBox.Show("No esta bien");
+                MessageBox.Show("No escogió un tipo de concepto", "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else if (rbPerception.Checked)
             {
                 FillPerception();
-                string message = UpdatePerception();
-                MessageBox.Show(message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+                ValidationResult result = UpdatePerception();
+
+                if (result.State == ValidationState.Error)
+                {
+                    MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
                 ListPerceptions();
                 ClearForm();
             }
             else if (rbDeduction.Checked)
             {
                 FillDeduction();
-                string message = UpdateDeduction();
-                MessageBox.Show(message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+                ValidationResult result = UpdateDeduction();
+
+                if (result.State == ValidationState.Error)
+                {
+                    MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
                 ListDeductions();
                 ClearForm();
             }
             else
             {
-                MessageBox.Show("Accion no soportada");
+                MessageBox.Show("Acción no soportada", "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -137,35 +166,65 @@ namespace Presentation.Views
         {
             if (!rbPerception.Checked && !rbDeduction.Checked)
             {
-                MessageBox.Show("No esta bien");
+                MessageBox.Show("No escogió un tipo de concepto", "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else if (rbPerception.Checked)
             {
+                DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?", "Advertencia",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                if (res == DialogResult.No)
+                {
+                    return;
+                }
+
                 FillPerception();
-                string message = DeletePerception();
-                MessageBox.Show(message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+                ValidationResult result = DeletePerception();
+
+                if (result.State == ValidationState.Error)
+                {
+                    MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
                 ListPerceptions();
                 ClearForm();
             }
             else if (rbDeduction.Checked)
             {
+                DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?", "Advertencia",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                if (res == DialogResult.No)
+                {
+                    return;
+                }
+
                 FillDeduction();
-                string message = DeleteDeduction();
-                MessageBox.Show(message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+                ValidationResult result = DeleteDeduction();
+
+                if (result.State == ValidationState.Error)
+                {
+                    MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
                 ListDeductions();
                 ClearForm();
             }
             else
             {
-                MessageBox.Show("Accion no soportada");
+                MessageBox.Show("Acción no soportada", "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private string AddPerception()
+        private ValidationResult AddPerception()
         {
             if (ConceptsState != EntityState.Add)
             {
-                return "Operación incorrecta";
+                return new ValidationResult("Operación incorrecta", ValidationState.Error);
             }
 
             try
@@ -173,31 +232,30 @@ namespace Presentation.Views
                 Tuple<bool, string> feedback = new DataValidation(percepcion).Validate();
                 if (!feedback.Item1)
                 {
-                    return feedback.Item2;
+                    return new ValidationResult(feedback.Item2, ValidationState.Error);
                 }
 
-                int rowCount = perceptionRepository.Create(percepcion);
-
-                if (rowCount > 0)
+                bool result = perceptionRepository.Create(percepcion);
+                if (result)
                 {
-                    return "La operación se realizó éxitosamente";
+                    return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
                 }
                 else
                 {
-                    return "No se pudo realizar la operación";
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
                 }
             }
             catch (SqlException ex)
             {
-                return ex.Message;
+                return new ValidationResult(ex.Message, ValidationState.Error);
             }
         }
 
-        public string UpdatePerception()
+        public ValidationResult UpdatePerception()
         {
             if (ConceptsState != EntityState.Modify)
             {
-                return "Operación incorrecta";
+                return new ValidationResult("Operación incorrecta", ValidationState.Error);
             }
 
             try
@@ -205,73 +263,55 @@ namespace Presentation.Views
                 Tuple<bool, string> feedback = new DataValidation(percepcion).Validate();
                 if (!feedback.Item1)
                 {
-                    return feedback.Item2;
+                    return new ValidationResult(feedback.Item2, ValidationState.Error);
                 }
 
-                perceptionRepository.Update(percepcion);
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            return "";
-        }
-
-        public string DeletePerception()
-        {
-            if (ConceptsState != EntityState.Modify)
-            {
-                return "Operación incorrecta";
-            }
-
-            try
-            {
-                perceptionRepository.Delete(perceptionId);
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            
-            return "";
-        }
-
-        private string AddDeduction()
-        {
-            if (ConceptsState != EntityState.Add)
-            {
-                return "Operación incorrecta";
-            }
-
-            try
-            {
-                Tuple<bool, string> feedback = new DataValidation(deduccion).Validate();
-                if (!feedback.Item1)
+                bool result = perceptionRepository.Update(percepcion);
+                if (result)
                 {
-                    return feedback.Item2;
-                }
-
-                int rowCount = deductionRepository.Create(deduccion);
-                if (rowCount > 0)
-                {
-                    return "La operación se realizó éxitosamente";
+                    return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
                 }
                 else
                 {
-                    return "No se pudo realizar la operación";
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
                 }
             }
             catch (SqlException ex)
             {
-                return ex.Message;
+                return new ValidationResult(ex.Message, ValidationState.Error);
             }
         }
 
-        private string UpdateDeduction()
+        public ValidationResult DeletePerception()
         {
             if (ConceptsState != EntityState.Modify)
             {
-                return "Operación incorrecta";
+                return new ValidationResult("Operación incorrecta", ValidationState.Error);
+            }
+
+            try
+            {
+                bool result = perceptionRepository.Delete(perceptionId);
+                if (result)
+                {
+                    return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
+                }
+                else
+                {
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
+                }
+            }
+            catch (SqlException ex)
+            {
+                return new ValidationResult(ex.Message, ValidationState.Error);
+            }
+        }
+
+        private ValidationResult AddDeduction()
+        {
+            if (ConceptsState != EntityState.Add)
+            {
+                return new ValidationResult("Operación incorrecta", ValidationState.Error);
             }
 
             try
@@ -279,34 +319,79 @@ namespace Presentation.Views
                 Tuple<bool, string> feedback = new DataValidation(deduccion).Validate();
                 if (!feedback.Item1)
                 {
-                    return feedback.Item2;
+                    return new ValidationResult(feedback.Item2, ValidationState.Error);
                 }
 
-                deductionRepository.Update(deduccion);
+                bool result = deductionRepository.Create(deduccion);
+                if (result)
+                {
+                    return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
+                }
+                else
+                {
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
+                }
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return new ValidationResult(ex.Message, ValidationState.Error);
             }
-            return "";
         }
 
-        private string DeleteDeduction()
+        private ValidationResult UpdateDeduction()
         {
             if (ConceptsState != EntityState.Modify)
             {
-                return "Operación incorrecta";
+                return new ValidationResult("Operación incorrecta", ValidationState.Error);
             }
 
             try
             {
-                deductionRepository.Delete(deductionId);
+                Tuple<bool, string> feedback = new DataValidation(deduccion).Validate();
+                if (!feedback.Item1)
+                {
+                    return new ValidationResult(feedback.Item2, ValidationState.Error);
+                }
+
+                bool result = deductionRepository.Update(deduccion);
+                if (result)
+                {
+                    return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
+                }
+                else
+                {
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
+                }
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return new ValidationResult(ex.Message, ValidationState.Error);
             }
-            return "";
+        }
+
+        private ValidationResult DeleteDeduction()
+        {
+            if (ConceptsState != EntityState.Modify)
+            {
+                return new ValidationResult("Operación incorrecta", ValidationState.Error);
+            }
+
+            try
+            {
+                bool result = deductionRepository.Delete(deductionId);
+                if (result)
+                {
+                    return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
+                }
+                else
+                {
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
+                }
+            }
+            catch (SqlException ex)
+            {
+                return new ValidationResult(ex.Message, ValidationState.Error);
+            }
         }
 
         private void ListPerceptions()
@@ -338,7 +423,7 @@ namespace Presentation.Views
         {
             percepcion.IdPercepcion = perceptionId;
             percepcion.Nombre = txtName.Text;
-            percepcion.TipoMonto = (rbFijo.Checked ? 'F' : 'P');
+            percepcion.TipoMonto = rbFijo.Checked ? 'F' : (rbPorcentual.Checked ? 'P' : ' ');
             percepcion.Fijo = nudFijo.Value;
             percepcion.Porcentual = nudPorcentual.Value;
         }
@@ -347,7 +432,7 @@ namespace Presentation.Views
         {
             deduccion.IdDeduccion = deductionId;
             deduccion.Nombre = txtName.Text;
-            deduccion.TipoMonto = (rbFijo.Checked ? 'F' : 'P');
+            deduccion.TipoMonto = rbFijo.Checked ? 'F' : (rbPorcentual.Checked ? 'P' : ' ');
             deduccion.Fijo = nudFijo.Value;
             deduccion.Porcentual = nudPorcentual.Value;
         }
@@ -363,6 +448,8 @@ namespace Presentation.Views
             rbDeduction.Checked = false;
             rbFijo.Checked = false;
             rbPorcentual.Checked = false;
+
+            ConceptsState = EntityState.Add;
         }
 
         private void rbFijo_CheckedChanged(object sender, EventArgs e)

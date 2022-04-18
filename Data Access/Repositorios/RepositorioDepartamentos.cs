@@ -24,7 +24,7 @@ namespace Data_Access.Repositorios
             actualizar = "sp_ActualizarDepartamento";
             eliminar = "sp_EliminarDepartamento";
             leer = "sp_LeerDepartamentos";
-            filtrar = "sp_FiltrarDepartmentos";
+            filtrar = "sp_FiltrarDepartamentos";
         }
 
         public bool Create(Departamentos departmento)
@@ -45,27 +45,44 @@ namespace Data_Access.Repositorios
             }
         }
 
-        public int Update(Departamentos department)
+        public bool Update(Departamentos department)
         {
             sqlParams.Start();
             sqlParams.Add("@id_departamento", department.IdDepartamento);
             sqlParams.Add("@nombre", department.Nombre);
             sqlParams.Add("@sueldo_base", department.SueldoBase);
 
-            return repositorio.ExecuteNonQuery(actualizar, sqlParams);
+            int rowCount = repositorio.ExecuteNonQuery(actualizar, sqlParams);
+            if (rowCount > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public int Delete(int id)
+        public bool Delete(int id)
         {
             sqlParams.Start();
             sqlParams.Add("@id_departamento", id);
 
-            return repositorio.ExecuteNonQuery(eliminar, sqlParams);
+            int rowCount = repositorio.ExecuteNonQuery(eliminar, sqlParams);
+            if (rowCount > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public List<DepartmentsViewModel> ReadAll()
+        public List<DepartmentsViewModel> ReadAll(int companyId)
         {
             sqlParams.Start();
+            sqlParams.Add("@id_empresa", companyId);
 
             DataTable table = repositorio.ExecuteReader(leer, sqlParams);
             List<DepartmentsViewModel> departments = new List<DepartmentsViewModel>();
@@ -82,10 +99,11 @@ namespace Data_Access.Repositorios
             return departments;
         }
 
-        public List<DepartmentsViewModel> ReadLike(string like)
+        public List<DepartmentsViewModel> ReadLike(string like, int companyId)
         {
             sqlParams.Start();
             sqlParams.Add("@filtro", like);
+            sqlParams.Add("@id_empresa", companyId);
 
             DataTable table = repositorio.ExecuteReader(filtrar, sqlParams);
             List<DepartmentsViewModel> departments = new List<DepartmentsViewModel>();

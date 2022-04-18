@@ -85,7 +85,7 @@ GO
 
 
 
-
+USE sistema_de_nomina;
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ActualizarDomicilio')
 	DROP PROCEDURE sp_ActualizarDomicilio;
 GO

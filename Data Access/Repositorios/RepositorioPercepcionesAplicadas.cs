@@ -25,19 +25,28 @@ namespace Data_Access.Repositorios
             sqlParams = new RepositoryParameters();
         }
 
-        public int ApplyEmployeePerception(int employeeNumber, int perceptionId, DateTime date)
+        public bool ApplyEmployeePerception(int employeeNumber, int perceptionId, DateTime date)
         {
             sqlParams.Start();
             sqlParams.Add("@numero_empleado", employeeNumber);
             sqlParams.Add("@id_percepcion", perceptionId);
             sqlParams.Add("@fecha", date);
 
-            return mainRepository.ExecuteNonQuery(applyEmployee, sqlParams);
+            int rowCount = mainRepository.ExecuteNonQuery(applyEmployee, sqlParams);
+            if (rowCount > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public List<ApplyPerceptionViewModel> ReadApplyPerceptions(int employeeNumber, DateTime date)
+        public List<ApplyPerceptionViewModel> ReadApplyPerceptions(int filter, int employeeNumber, DateTime date)
         {
             sqlParams.Start();
+            sqlParams.Add("@filtro", filter);
             sqlParams.Add("@numero_empleado", employeeNumber);
             sqlParams.Add("@fecha", date);
 

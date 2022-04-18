@@ -41,18 +41,7 @@ AS
 
 GO
 
-/*
-exec sp_EliminarDepartamento 1;
 
-SELECT * FROM master.dbo.sysmessages;
-
-
-sys.sp_addmessage
-@msgnum = 50001,
-@severity = 11,
-@msgtext = 'No se puede eliminar Departamento porque un empleado lo usa'
-GO
-*/
 
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_EliminarDepartamento')
 	DROP PROCEDURE sp_EliminarDepartamento;
@@ -62,7 +51,7 @@ CREATE PROCEDURE sp_EliminarDepartamento
 	@id_departamento					INT
 AS
 
-	IF (SELECT COUNT(0) FROM empleados WHERE id_departamento = @id_departamento AND activo = 1) > 0
+	IF (EXISTS (SELECT numero_empleado FROM empleados WHERE id_departamento = @id_departamento AND activo = 1))
 		BEGIN
 			RAISERROR ('No se puede eliminar el departamento porque un empleado pertenece a el', 11, 1)
 			RETURN;
@@ -81,28 +70,43 @@ IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerDepart
 	DROP PROCEDURE sp_LeerDepartamentos;
 GO
 
-CREATE PROCEDURE sp_LeerDepartamentos
+CREATE PROCEDURE sp_LeerDepartamentos(
+	@id_empresa					INT
+)
 AS
 
 	SELECT id_departamento, nombre, sueldo_base
 	FROM departamentos
-	WHERE activo = 1;
+	WHERE id_empresa = @id_empresa AND activo = 1;
 
 GO
-
 
 
 
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_FiltrarDepartamentos')
-	DROP PROCEDURE sp_FiltrarDepartmentos;
+	DROP PROCEDURE sp_FiltrarDepartamentos;
 GO
 
-CREATE PROCEDURE sp_FiltrarDepartmentos
-	@filtro						VARCHAR(100)
+CREATE PROCEDURE sp_FiltrarDepartamentos
+	@filtro						VARCHAR(100),
+	@id_empresa					INT
 AS
 
 	SELECT id_departamento, nombre, sueldo_base
 	FROM departamentos
-	WHERE activo = 1 AND nombre LIKE CONCAT('%', @filtro, '%');
+	WHERE id_empresa = @id_empresa AND activo = 1 AND nombre LIKE CONCAT('%', @filtro, '%');
 
 GO
+
+/*
+exec sp_EliminarDepartamento 1;
+
+SELECT * FROM master.dbo.sysmessages;
+
+
+sys.sp_addmessage
+@msgnum = 50001,
+@severity = 11,
+@msgtext = 'No se puede eliminar Departamento porque un empleado lo usa'
+GO
+*/
