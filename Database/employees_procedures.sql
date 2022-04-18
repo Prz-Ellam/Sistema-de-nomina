@@ -191,7 +191,7 @@ GO
 
 
 
-EXEC sp_LeerEmpleadosNominas '20220701';
+EXEC sp_LeerEmpleadosNominas '20220401';
 
 
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerEmpleadosNominas')
@@ -202,7 +202,7 @@ CREATE PROCEDURE sp_LeerEmpleadosNominas(
 	@fecha				DATE
 )
 AS
-	SELECT 
+	SELECT
 	e.numero_empleado [Numero de Empleado], 
 	CONCAT(e.nombre, ' ', e.apellido_paterno, ' ', e.apellido_materno) AS [Nombre de Empleado], 
 	d.nombre [Departamento],
@@ -210,21 +210,23 @@ AS
 	e.sueldo_diario [Sueldo diario],
 	dbo.DIASTRABAJADOSEMPLEADO(@fecha, e.numero_empleado) [Dias trabajados],
 	e.sueldo_diario * dbo.DIASTRABAJADOSEMPLEADO(@fecha, e.numero_empleado) [Sueldo bruto],
-	ISNULL(SUM(pa.cantidad), 0) [Total percepciones],
-	ISNULL(SUM(da.cantidad), 0) [Total deducciones],
-	(e.sueldo_diario * dbo.DIASTRABAJADOSEMPLEADO(@fecha, e.numero_empleado)) + ISNULL(SUM(pa.cantidad), 0) - ISNULL(SUM(da.cantidad), 0) [Sueldo neto]
+	dbo.TOTALPERCEPCIONES(@fecha, e.numero_empleado) [Total percepciones],
+	dbo.TOTALDEDUCCIONES(@fecha, e.numero_empleado) [Total deducciones],
+	(e.sueldo_diario * dbo.DIASTRABAJADOSEMPLEADO(@fecha, e.numero_empleado)) + dbo.TOTALPERCEPCIONES(@fecha, e.numero_empleado) - dbo.TOTALDEDUCCIONES(@fecha, e.numero_empleado) [Sueldo neto]
 	FROM empleados AS e
 	JOIN departamentos AS d
 	ON e.id_departamento = d.id_departamento
 	JOIN puestos AS p
 	ON e.id_puesto = p.id_puesto
-	LEFT JOIN percepciones_aplicadas AS pa
-	ON e.numero_empleado = pa.numero_empleado AND YEAR(pa.fecha) = YEAR(@fecha) AND MONTH(pa.fecha) = MONTH(@fecha)
-	LEFT JOIN deducciones_aplicadas AS da
-	ON e.numero_empleado = da.numero_empleado
 	WHERE e.activo = 1 AND DATEADD(day, -DAY(e.fecha_contratacion) + 1, e.fecha_contratacion) <= @fecha
 	GROUP BY e.numero_empleado, e.nombre, e.apellido_paterno, e.apellido_materno, d.nombre, p.nombre, e.sueldo_diario, e.fecha_contratacion
+	
 GO
+
+
+
+
+SELECT ISNULL(SUM(cantidad), 0) FROM deducciones_aplicadas;
 
 
 

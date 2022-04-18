@@ -19,7 +19,7 @@ namespace Data_Access.Repositorios
         {
             mainRepository = MainConnection.GetInstance();
             applyEmployee = "sp_AplicarEmpleadoPercepcion";
-            undoEmployee = "sp_UndoEmployee";
+            undoEmployee = "sp_EliminarEmpleadoPercepcion";
             readApplyEmployee = "sp_LeerPercepcionesAplicadas";
 
             sqlParams = new RepositoryParameters();
@@ -33,6 +33,24 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@fecha", date);
 
             int rowCount = mainRepository.ExecuteNonQuery(applyEmployee, sqlParams);
+            if (rowCount > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool UndoEmployeePerception(int employeeNumber, int perceptionId, DateTime date)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@numero_empleado", employeeNumber);
+            sqlParams.Add("@id_percepcion", perceptionId);
+            sqlParams.Add("@fecha", date);
+
+            int rowCount = mainRepository.ExecuteNonQuery(undoEmployee, sqlParams);
             if (rowCount > 0)
             {
                 return true;

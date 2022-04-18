@@ -19,20 +19,46 @@ namespace Data_Access.Repositorios
         {
             mainRepository = MainConnection.GetInstance();
             applyEmployee = "sp_AplicarEmpleadoDeduccion";
-            undoEmployee = "sp_UndoEmployee";
+            undoEmployee = "sp_EliminarEmpleadoDeduccion";
             readApplyEmployee = "sp_LeerDeduccionesAplicadas";
 
             sqlParams = new RepositoryParameters();
         }
 
-        public int ApplyEmployeePerception()
+        public bool ApplyEmployeeDeduction(int employeeNumber, int deductionId, DateTime date)
         {
             sqlParams.Start();
-            sqlParams.Add("@numero_empleado", 1);
-            sqlParams.Add("@id_deduccion", 1);
-            sqlParams.Add("@fecha", null);
+            sqlParams.Add("@numero_empleado", employeeNumber);
+            sqlParams.Add("@id_deduccion", deductionId);
+            sqlParams.Add("@fecha", date);
 
-            return mainRepository.ExecuteNonQuery(applyEmployee, sqlParams);
+            int rowCount = mainRepository.ExecuteNonQuery(applyEmployee, sqlParams);
+            if (rowCount > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool UndoEmployeeDeduction(int employeeNumber, int deductionId, DateTime date)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@numero_empleado", employeeNumber);
+            sqlParams.Add("@id_deduccion", deductionId);
+            sqlParams.Add("@fecha", date);
+
+            int rowCount = mainRepository.ExecuteNonQuery(undoEmployee, sqlParams);
+            if (rowCount > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public List<ApplyDeductionsViewModel> ReadApplyDeductions(int filter, int employeeNumber, DateTime date)

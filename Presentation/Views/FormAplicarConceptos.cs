@@ -23,6 +23,9 @@ namespace Presentation.Views
         private int perceptionId = -1;
         private int deductionId = -1;
 
+        private int perceptionRadioId = -1;
+        private int deductionRadioId = -1;
+
         private int dtgPerceptionPrevIndex = -1;
         private int dtgDeductionPrevIndex = -1;
         private int dtgDepartmentPrevIndex = -1;
@@ -36,8 +39,9 @@ namespace Presentation.Views
         private void Concepts_Load(object sender, EventArgs e)
         {
             rbPerceptionsFilterAll.Checked = true;
+            perceptionRadioId = 1;
             rbDeductionsFilterAll.Checked = true;
-
+            deductionRadioId = 1;
 
             List<DepartmentsViewModel> departamentos = new RepositorioDepartamentos().ReadAll(Session.company_id);
             dtgDepartaments.DataSource = departamentos;
@@ -108,6 +112,7 @@ namespace Presentation.Views
             if (index == dtgPerceptionPrevIndex || index == -1)
             {
                 perceptionId = -1;
+                deductionId = -1;
                 txtConcept.Text = string.Empty;
                 dtgPerceptionPrevIndex = -1;
                 dtgDeductionPrevIndex = -1;
@@ -116,6 +121,7 @@ namespace Presentation.Views
             {
                 var row = dtgPerceptions.Rows[e.RowIndex];
                 perceptionId = Convert.ToInt32(row.Cells[1].Value);
+                deductionId = -1;
                 txtConcept.Text = row.Cells[2].Value.ToString();
                 dtgPerceptionPrevIndex = index;
                 dtgDeductionPrevIndex = -1;
@@ -128,6 +134,7 @@ namespace Presentation.Views
 
             if (index == dtgDeductionPrevIndex || index == -1)
             {
+                perceptionId = -1;
                 deductionId = -1;
                 txtConcept.Text = string.Empty;
                 dtgPerceptionPrevIndex = -1;
@@ -136,6 +143,7 @@ namespace Presentation.Views
             else
             {
                 var row = dtgDeductions.Rows[e.RowIndex];
+                perceptionId = -1;
                 deductionId = Convert.ToInt32(row.Cells[1].Value);
                 txtConcept.Text = row.Cells[2].Value.ToString();
                 dtgPerceptionPrevIndex = -1;
@@ -144,7 +152,47 @@ namespace Presentation.Views
         }
         private void btnApply_Click(object sender, EventArgs e)
         {
-            bool result = applyPerceptionsRepository.ApplyEmployeePerception(employeeId, perceptionId, dtpDate.Value);
+            if (perceptionId != -1)
+            {
+                bool result = applyPerceptionsRepository.ApplyEmployeePerception(employeeId, perceptionId, dtpDate.Value);
+            }
+            else if (deductionId != -1)
+            {
+                bool result = applyDeductionsRepository.ApplyEmployeeDeduction(employeeId, deductionId, dtpDate.Value);
+            }
+            else
+            {
+                // ?
+                return;
+            }
+
+            List<EmployeePayrollsViewModel> employees = new RepositorioEmpleados().ReadEmployeePayrolls(dtpDate.Value);
+            dtgEmployees.DataSource = employees;
+            dtgPerceptions.DataSource = applyPerceptionsRepository.ReadApplyPerceptions(perceptionRadioId, employeeId, dtpDate.Value);
+            dtgDeductions.DataSource = applyDeductionsRepository.ReadApplyDeductions(deductionRadioId, employeeId, dtpDate.Value);
+            ClearForm();
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (perceptionId != -1)
+            {
+                bool result = applyPerceptionsRepository.UndoEmployeePerception(employeeId, perceptionId, dtpDate.Value);
+            }
+            else if (deductionId != -1)
+            {
+                bool result = applyDeductionsRepository.UndoEmployeeDeduction(employeeId, deductionId, dtpDate.Value);
+            }
+            else
+            {
+                // ?
+                return;
+            }
+
+            List<EmployeePayrollsViewModel> employees = new RepositorioEmpleados().ReadEmployeePayrolls(dtpDate.Value);
+            dtgEmployees.DataSource = employees;
+            dtgPerceptions.DataSource = applyPerceptionsRepository.ReadApplyPerceptions(perceptionRadioId, employeeId, dtpDate.Value);
+            dtgDeductions.DataSource = applyDeductionsRepository.ReadApplyDeductions(deductionRadioId, employeeId, dtpDate.Value);
             ClearForm();
         }
 
@@ -178,17 +226,17 @@ namespace Presentation.Views
         {
             if (rbPerceptionsFilterAll.Checked)
             {
-                List<ApplyPerceptionViewModel> perceptions = new RepositorioPercepcionesAplicadas().ReadApplyPerceptions(1, employeeId, dtpDate.Value);
-                dtgPerceptions.DataSource = perceptions;
+                perceptionRadioId = 1;
+                dtgPerceptions.DataSource = applyPerceptionsRepository.ReadApplyPerceptions(perceptionRadioId, employeeId, dtpDate.Value);
             }
         }
 
         private void rbPerceptionsFilterApply_CheckedChanged(object sender, EventArgs e)
-        {
+        { 
             if (rbPerceptionsFilterApply.Checked)
             {
-                List<ApplyPerceptionViewModel> perceptions = new RepositorioPercepcionesAplicadas().ReadApplyPerceptions(2, employeeId, dtpDate.Value);
-                dtgPerceptions.DataSource = perceptions;
+                perceptionRadioId = 2;
+                dtgPerceptions.DataSource = applyPerceptionsRepository.ReadApplyPerceptions(perceptionRadioId, employeeId, dtpDate.Value);
             }
         }
 
@@ -196,8 +244,8 @@ namespace Presentation.Views
         {
             if (rbPerceptionsFilterNotApply.Checked)
             {
-                List<ApplyPerceptionViewModel> perceptions = new RepositorioPercepcionesAplicadas().ReadApplyPerceptions(3, employeeId, dtpDate.Value);
-                dtgPerceptions.DataSource = perceptions;
+                perceptionRadioId = 3;
+                dtgPerceptions.DataSource = applyPerceptionsRepository.ReadApplyPerceptions(perceptionRadioId, employeeId, dtpDate.Value);
             }
         }
 
@@ -205,7 +253,8 @@ namespace Presentation.Views
         {
             if (rbDeductionsFilterAll.Checked)
             {
-                dtgDeductions.DataSource = new RepositorioDeduccionesAplicadas().ReadApplyDeductions(1, employeeId, dtpDate.Value);
+                deductionRadioId = 1;
+                dtgDeductions.DataSource = applyDeductionsRepository.ReadApplyDeductions(deductionRadioId, employeeId, dtpDate.Value);
             }
         }
 
@@ -213,7 +262,8 @@ namespace Presentation.Views
         {
             if (rbDeductionsFilterApply.Checked)
             {
-                dtgDeductions.DataSource = new RepositorioDeduccionesAplicadas().ReadApplyDeductions(2, employeeId, dtpDate.Value);
+                deductionRadioId = 2;
+                dtgDeductions.DataSource = applyDeductionsRepository.ReadApplyDeductions(deductionRadioId, employeeId, dtpDate.Value);
             }
         }
 
@@ -221,7 +271,20 @@ namespace Presentation.Views
         {
             if (rbDeductionsFilterNotApply.Checked)
             {
-                dtgDeductions.DataSource = new RepositorioDeduccionesAplicadas().ReadApplyDeductions(3, employeeId, dtpDate.Value);
+                deductionRadioId = 3;
+                dtgDeductions.DataSource = applyDeductionsRepository.ReadApplyDeductions(deductionRadioId, employeeId, dtpDate.Value);
+            }
+        }
+
+        private void dtgEmployees_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            foreach (DataGridViewRow row in dtgEmployees.Rows)
+            { 
+                if (Convert.ToDecimal(row.Cells[9].Value) < 0.0m) 
+                {
+                    row.DefaultCellStyle.BackColor = Color.FromArgb(255, 220, 53, 69);
+                    row.DefaultCellStyle.ForeColor = Color.White;
+                }
             }
         }
     }

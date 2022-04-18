@@ -1,5 +1,63 @@
 USE sistema_de_nomina;
 
+
+
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AplicarEmpleadoDeduccion')
+	DROP PROCEDURE sp_AplicarEmpleadoDeduccion;
+GO
+
+CREATE PROCEDURE sp_AplicarEmpleadoDeduccion(
+	@numero_empleado			INT,
+	@id_deduccion				INT,
+	@fecha						DATE
+)
+AS
+
+	IF (EXISTS (SELECT id_deduccion_aplicada FROM deducciones_aplicadas WHERE fecha = @fecha 
+	AND id_deduccion = @id_deduccion AND numero_empleado = @numero_empleado))
+		BEGIN
+			RAISERROR('Ya fue aplicada una deducción en esta fecha', 11, 1);
+			RETURN;
+		END
+
+	DECLARE @tipo_monto		CHAR;
+	DECLARE @cantidad		MONEY;
+	SET @tipo_monto = (SELECT tipo_monto FROM deducciones WHERE id_deduccion = @id_deduccion AND activo = 1);
+	
+	IF @tipo_monto = 'F'
+		SET @cantidad = (SELECT fijo FROM deducciones WHERE id_deduccion = @id_deduccion AND activo = 1)
+	ELSE IF @tipo_monto = 'P'
+		SET @cantidad = (SELECT sueldo_diario FROM empleados WHERE numero_empleado = @numero_empleado AND activo = 1) *
+						 dbo.DIASTRABAJADOSEMPLEADO(@fecha, @numero_empleado) *
+						(SELECT porcentual FROM deducciones WHERE id_deduccion = @id_deduccion AND activo = 1)
+
+
+	INSERT INTO deducciones_aplicadas(numero_empleado, id_deduccion, fecha, cantidad)
+	VALUES(@numero_empleado, @id_deduccion, @fecha, @cantidad);
+
+GO
+
+
+
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_EliminarEmpleadoDeduccion')
+	DROP PROCEDURE sp_EliminarEmpleadoDeduccion;
+GO
+
+CREATE PROCEDURE sp_EliminarEmpleadoDeduccion(
+	@numero_empleado			INT,
+	@id_deduccion				INT,
+	@fecha						DATE
+)
+AS
+
+	DELETE FROM deducciones_aplicadas
+	WHERE numero_empleado = @numero_empleado AND id_deduccion = @id_deduccion AND YEAR(fecha) = YEAR(@fecha) AND MONTH(fecha) = MONTH(@fecha)
+
+GO
+
+
+
+
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerDeduccionesAplicadas')
 	DROP PROCEDURE sp_LeerDeduccionesAplicadas;
 GO

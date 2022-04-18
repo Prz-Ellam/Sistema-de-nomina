@@ -41,4 +41,38 @@ AS
 	END
 GO
 
-SELECT dbo.DIASTRABAJADOSEMPLEADO('20220701', 1);
+
+
+GO
+CREATE FUNCTION TOTALPERCEPCIONES(
+	@fecha					DATE,
+	@numero_empleado		INT
+)
+RETURNS MONEY
+AS
+	BEGIN
+		DECLARE @total MONEY;
+		SET @total = (SELECT ISNULL(SUM(cantidad), 0) FROM percepciones_aplicadas 
+		WHERE numero_empleado = @numero_empleado AND YEAR(fecha) = YEAR(@fecha) AND MONTH(fecha) = MONTH(@fecha));
+
+		RETURN @total;
+	END
+GO
+
+
+
+GO
+CREATE FUNCTION TOTALDEDUCCIONES(
+	@fecha					DATE,
+	@numero_empleado		INT
+)
+RETURNS MONEY
+AS
+	BEGIN
+		DECLARE @total MONEY;
+		SET @total = (SELECT ISNULL(SUM(cantidad), 0) FROM deducciones_aplicadas 
+		WHERE numero_empleado = @numero_empleado AND YEAR(fecha) = YEAR(@fecha) AND MONTH(fecha) = MONTH(@fecha));
+
+		RETURN @total;
+	END
+GO

@@ -198,6 +198,7 @@ namespace Presentation.Views
             this.btnDelete.TabIndex = 46;
             this.btnDelete.Text = "Eliminar";
             this.btnDelete.UseVisualStyleBackColor = false;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnApply
             // 
@@ -584,6 +585,7 @@ namespace Presentation.Views
             this.dtgEmployees.Size = new System.Drawing.Size(787, 185);
             this.dtgEmployees.TabIndex = 52;
             this.dtgEmployees.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgEmployees_CellDoubleClick);
+            this.dtgEmployees.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dtgEmployees_CellFormatting);
             // 
             // employeeNumber
             // 

@@ -76,18 +76,6 @@ namespace Presentation.Views
             this.cbPhones = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.dtgEmployees = new System.Windows.Forms.DataGridView();
-            this.cbDepartments = new System.Windows.Forms.ComboBox();
-            this.cbPositions = new System.Windows.Forms.ComboBox();
-            this.cbState = new System.Windows.Forms.ComboBox();
-            this.cbCity = new System.Windows.Forms.ComboBox();
-            this.cbBank = new System.Windows.Forms.ComboBox();
-            this.dtpHiringDate = new System.Windows.Forms.DateTimePicker();
-            this.label21 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label22 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
-            this.label25 = new System.Windows.Forms.Label();
             this.employeeNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.empName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fatherLastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -111,6 +99,18 @@ namespace Presentation.Views
             this.sueldoDiario = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.baseSalary = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.wageLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cbDepartments = new System.Windows.Forms.ComboBox();
+            this.cbPositions = new System.Windows.Forms.ComboBox();
+            this.cbState = new System.Windows.Forms.ComboBox();
+            this.cbCity = new System.Windows.Forms.ComboBox();
+            this.cbBank = new System.Windows.Forms.ComboBox();
+            this.dtpHiringDate = new System.Windows.Forms.DateTimePicker();
+            this.label21 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
             this.nudBaseSalary = new System.Windows.Forms.NumericUpDown();
             this.nudWageLevel = new System.Windows.Forms.NumericUpDown();
             this.label26 = new System.Windows.Forms.Label();
@@ -442,6 +442,7 @@ namespace Presentation.Views
             // btnDelete
             // 
             this.btnDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(53)))), ((int)(((byte)(69)))));
+            this.btnDelete.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnDelete.FlatAppearance.BorderSize = 0;
             this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDelete.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
@@ -457,6 +458,7 @@ namespace Presentation.Views
             // btnEdit
             // 
             this.btnEdit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            this.btnEdit.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnEdit.FlatAppearance.BorderSize = 0;
             this.btnEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEdit.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
@@ -472,6 +474,7 @@ namespace Presentation.Views
             // btnAdd
             // 
             this.btnAdd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(167)))), ((int)(((byte)(69)))));
+            this.btnAdd.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnAdd.FlatAppearance.BorderSize = 0;
             this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAdd.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
@@ -594,130 +597,6 @@ namespace Presentation.Views
             this.dtgEmployees.Size = new System.Drawing.Size(1040, 223);
             this.dtgEmployees.TabIndex = 47;
             this.dtgEmployees.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgEmployees_CellDoubleClick);
-            // 
-            // cbDepartments
-            // 
-            this.cbDepartments.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbDepartments.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
-            this.cbDepartments.FormattingEnabled = true;
-            this.cbDepartments.Location = new System.Drawing.Point(509, 280);
-            this.cbDepartments.Name = "cbDepartments";
-            this.cbDepartments.Size = new System.Drawing.Size(200, 27);
-            this.cbDepartments.TabIndex = 48;
-            // 
-            // cbPositions
-            // 
-            this.cbPositions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbPositions.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
-            this.cbPositions.FormattingEnabled = true;
-            this.cbPositions.Location = new System.Drawing.Point(837, 280);
-            this.cbPositions.Name = "cbPositions";
-            this.cbPositions.Size = new System.Drawing.Size(200, 27);
-            this.cbPositions.TabIndex = 49;
-            // 
-            // cbState
-            // 
-            this.cbState.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbState.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
-            this.cbState.FormattingEnabled = true;
-            this.cbState.Location = new System.Drawing.Point(837, 210);
-            this.cbState.Name = "cbState";
-            this.cbState.Size = new System.Drawing.Size(200, 27);
-            this.cbState.TabIndex = 50;
-            this.cbState.SelectedIndexChanged += new System.EventHandler(this.cbState_SelectedIndexChanged);
-            // 
-            // cbCity
-            // 
-            this.cbCity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbCity.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
-            this.cbCity.FormattingEnabled = true;
-            this.cbCity.Location = new System.Drawing.Point(837, 175);
-            this.cbCity.Name = "cbCity";
-            this.cbCity.Size = new System.Drawing.Size(200, 27);
-            this.cbCity.TabIndex = 51;
-            // 
-            // cbBank
-            // 
-            this.cbBank.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbBank.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
-            this.cbBank.FormattingEnabled = true;
-            this.cbBank.Location = new System.Drawing.Point(509, 175);
-            this.cbBank.Name = "cbBank";
-            this.cbBank.Size = new System.Drawing.Size(200, 27);
-            this.cbBank.TabIndex = 52;
-            // 
-            // dtpHiringDate
-            // 
-            this.dtpHiringDate.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
-            this.dtpHiringDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpHiringDate.Location = new System.Drawing.Point(160, 280);
-            this.dtpHiringDate.Name = "dtpHiringDate";
-            this.dtpHiringDate.Size = new System.Drawing.Size(200, 25);
-            this.dtpHiringDate.TabIndex = 53;
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label21.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label21.Location = new System.Drawing.Point(12, 283);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(146, 19);
-            this.label21.TabIndex = 54;
-            this.label21.Text = "Fecha de contratación";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(789, 395);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(263, 25);
-            this.textBox1.TabIndex = 56;
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label22.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label22.Location = new System.Drawing.Point(729, 398);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(44, 19);
-            this.label22.TabIndex = 55;
-            this.label22.Text = "Filtrar";
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label23.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label23.Location = new System.Drawing.Point(734, 350);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(89, 19);
-            this.label23.TabIndex = 58;
-            this.label23.Text = "Sueldo diario";
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label24.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label24.Location = new System.Drawing.Point(406, 318);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(83, 19);
-            this.label24.TabIndex = 61;
-            this.label24.Text = "Sueldo base";
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label25.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label25.Location = new System.Drawing.Point(734, 318);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(85, 19);
-            this.label25.TabIndex = 62;
-            this.label25.Text = "Nivel salarial";
             // 
             // employeeNumber
             // 
@@ -905,6 +784,130 @@ namespace Presentation.Views
             this.wageLevel.HeaderText = "Nivel salarial";
             this.wageLevel.Name = "wageLevel";
             this.wageLevel.ReadOnly = true;
+            // 
+            // cbDepartments
+            // 
+            this.cbDepartments.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbDepartments.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
+            this.cbDepartments.FormattingEnabled = true;
+            this.cbDepartments.Location = new System.Drawing.Point(509, 280);
+            this.cbDepartments.Name = "cbDepartments";
+            this.cbDepartments.Size = new System.Drawing.Size(200, 27);
+            this.cbDepartments.TabIndex = 48;
+            // 
+            // cbPositions
+            // 
+            this.cbPositions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbPositions.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
+            this.cbPositions.FormattingEnabled = true;
+            this.cbPositions.Location = new System.Drawing.Point(837, 280);
+            this.cbPositions.Name = "cbPositions";
+            this.cbPositions.Size = new System.Drawing.Size(200, 27);
+            this.cbPositions.TabIndex = 49;
+            // 
+            // cbState
+            // 
+            this.cbState.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbState.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
+            this.cbState.FormattingEnabled = true;
+            this.cbState.Location = new System.Drawing.Point(837, 210);
+            this.cbState.Name = "cbState";
+            this.cbState.Size = new System.Drawing.Size(200, 27);
+            this.cbState.TabIndex = 50;
+            this.cbState.SelectedIndexChanged += new System.EventHandler(this.cbState_SelectedIndexChanged);
+            // 
+            // cbCity
+            // 
+            this.cbCity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbCity.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
+            this.cbCity.FormattingEnabled = true;
+            this.cbCity.Location = new System.Drawing.Point(837, 175);
+            this.cbCity.Name = "cbCity";
+            this.cbCity.Size = new System.Drawing.Size(200, 27);
+            this.cbCity.TabIndex = 51;
+            // 
+            // cbBank
+            // 
+            this.cbBank.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbBank.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
+            this.cbBank.FormattingEnabled = true;
+            this.cbBank.Location = new System.Drawing.Point(509, 175);
+            this.cbBank.Name = "cbBank";
+            this.cbBank.Size = new System.Drawing.Size(200, 27);
+            this.cbBank.TabIndex = 52;
+            // 
+            // dtpHiringDate
+            // 
+            this.dtpHiringDate.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
+            this.dtpHiringDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpHiringDate.Location = new System.Drawing.Point(160, 280);
+            this.dtpHiringDate.Name = "dtpHiringDate";
+            this.dtpHiringDate.Size = new System.Drawing.Size(200, 25);
+            this.dtpHiringDate.TabIndex = 53;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label21.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.label21.Location = new System.Drawing.Point(12, 283);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(146, 19);
+            this.label21.TabIndex = 54;
+            this.label21.Text = "Fecha de contratación";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox1.Location = new System.Drawing.Point(789, 395);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(263, 25);
+            this.textBox1.TabIndex = 56;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.label22.Location = new System.Drawing.Point(729, 398);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(44, 19);
+            this.label22.TabIndex = 55;
+            this.label22.Text = "Filtrar";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label23.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.label23.Location = new System.Drawing.Point(734, 350);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(89, 19);
+            this.label23.TabIndex = 58;
+            this.label23.Text = "Sueldo diario";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label24.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.label24.Location = new System.Drawing.Point(406, 318);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(83, 19);
+            this.label24.TabIndex = 61;
+            this.label24.Text = "Sueldo base";
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label25.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.label25.Location = new System.Drawing.Point(734, 318);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(85, 19);
+            this.label25.TabIndex = 62;
+            this.label25.Text = "Nivel salarial";
             // 
             // nudBaseSalary
             // 
