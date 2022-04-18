@@ -38,6 +38,24 @@ GO
 
 
 
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_EliminarEmpleadoPercepcion')
+	DROP PROCEDURE sp_EliminarEmpleadoPercepcion;
+GO
+
+CREATE PROCEDURE sp_EliminarEmpleadoPercepcion(
+	@numero_empleado			INT,
+	@id_percepcion				INT,
+	@fecha						DATE
+)
+AS
+
+	DELETE FROM percepciones_aplicadas
+	WHERE numero_empleado = @numero_empleado AND id_percepcion = @id_percepcion AND YEAR(fecha) = YEAR(@fecha) AND MONTH(fecha) = MONTH(@fecha)
+
+GO
+
+
+
 
 
 

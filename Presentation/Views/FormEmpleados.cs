@@ -21,11 +21,11 @@ namespace Presentation.Views
     {
         private RepositorioEmpleados repository = new RepositorioEmpleados();
         private Empleados employee = new Empleados();
-        private Domicilios address = new Domicilios();
-
         int dtgPrevIndex = -1;
-        int cbPhonesPrevIndex = -1;
         int employeeId = -1;
+
+        int cbPhonesPrevIndex = -1;
+        
         private List<States> states;
 
         private EntityState employeeState;
@@ -70,6 +70,8 @@ namespace Presentation.Views
             EmployeeState = EntityState.Add;
             ListEmployees();
 
+
+            // Inicializar bancos, departamentos y puestos
             List<Bancos> bancos = new RepositorioBancos().ReadAll();
             List<PairItem> nombres = new List<PairItem>();
             foreach(var banco in bancos)
@@ -114,7 +116,7 @@ namespace Presentation.Views
                 return;
             }
 
-            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ListEmployees();
             ClearForm();
         }
@@ -130,15 +132,15 @@ namespace Presentation.Views
                 return;
             }
 
-            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ListEmployees();
             ClearForm();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?", "Advertencia",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?",
+                "Sistema de nómina dice: ", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             if (res == DialogResult.No)
             {
@@ -154,7 +156,7 @@ namespace Presentation.Views
                 return;
             }
 
-            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ListEmployees();
             ClearForm();
         }
@@ -166,14 +168,10 @@ namespace Presentation.Views
             if (index == dtgPrevIndex || index == -1)
             {
                 ClearForm();
-                EmployeeState = EntityState.Add;
-                dtgPrevIndex = -1;
             }
             else
             {
                 FillForm(index);
-                EmployeeState = EntityState.Modify;
-                dtgPrevIndex = index;
             }
         }
 
@@ -224,7 +222,7 @@ namespace Presentation.Views
                     return new ValidationResult(feedback.Item2, ValidationState.Error);
                 }
 
-                int result =repository.Update(employee, address);
+                int result =repository.Update(employee);
                 if (result > 0)
                 {
                     return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
@@ -283,11 +281,15 @@ namespace Presentation.Views
             employee.Nombre = txtNames.Text;
             employee.ApellidoPaterno = txtFatherLastName.Text;
             employee.ApellidoMaterno = txtMotherLastName.Text;
+
             employee.FechaNacimiento = dtpDateOfBirth.Value;
             employee.Curp = txtCURP.Text;
             employee.Nss = txtNSS.Text;
             employee.Rfc = txtRFC.Text;
+
             //employee.Address = 1;
+
+            // Estos PairItem pueden tronar si no hay registros
             employee.Banco = ((PairItem)cbBank.SelectedItem).HiddenValue;
             employee.NumeroCuenta = txtAccountNumber.Text;
             employee.CorreoElectronico = txtEmail.Text;
@@ -306,6 +308,8 @@ namespace Presentation.Views
 
         public void ClearForm()
         {
+            employeeId = -1;
+
             txtNames.Clear();
             txtFatherLastName.Clear();
             txtMotherLastName.Clear();
@@ -334,6 +338,8 @@ namespace Presentation.Views
 
             EmployeeState = EntityState.Add;
             dtgPrevIndex = -1;
+
+            txtFilter.Clear();
         }
 
         public void FillForm(int index)

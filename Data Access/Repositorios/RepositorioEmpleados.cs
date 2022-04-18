@@ -58,7 +58,7 @@ namespace Data_Access.Repositorios
             return mainRepository.ExecuteNonQuery(create, sqlParams);
         }
 
-        public int Update(Empleados employee, Domicilios address)
+        public int Update(Empleados employee)
         {
             sqlParams.Start();
             sqlParams.Add("@numero_empleado", employee.NumeroEmpleado);
@@ -70,12 +70,12 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@nss", employee.Nss);
             sqlParams.Add("@rfc", employee.Rfc);
 
-            sqlParams.Add("@calle", address.Calle);
-            sqlParams.Add("@numero", address.Numero);
-            sqlParams.Add("@colonia", address.Colonia);
-            sqlParams.Add("@ciudad", address.Ciudad);
-            sqlParams.Add("@estado", address.Estado);
-            sqlParams.Add("@codigo_postal", address.CodigoPostal);
+            sqlParams.Add("@calle", employee.Calle);
+            sqlParams.Add("@numero", employee.Numero);
+            sqlParams.Add("@colonia", employee.Colonia);
+            sqlParams.Add("@ciudad", employee.Ciudad);
+            sqlParams.Add("@estado", employee.Estado);
+            sqlParams.Add("@codigo_postal", employee.CodigoPostal);
 
             sqlParams.Add("@banco", employee.Banco);
             sqlParams.Add("@numero_cuenta", employee.NumeroCuenta);

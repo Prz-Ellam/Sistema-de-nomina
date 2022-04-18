@@ -170,8 +170,8 @@ namespace Presentation.Views
             }
             else if (rbPerception.Checked)
             {
-                DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?", "Advertencia",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?",
+                    "Sistema de nómina dice: ", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                 if (res == DialogResult.No)
                 {
@@ -193,8 +193,8 @@ namespace Presentation.Views
             }
             else if (rbDeduction.Checked)
             {
-                DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?", "Advertencia",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?",
+                    "Sistema de nómina dice: ", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                 if (res == DialogResult.No)
                 {
@@ -210,7 +210,7 @@ namespace Presentation.Views
                     return;
                 }
 
-                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ListDeductions();
                 ClearForm();
             }
@@ -450,6 +450,8 @@ namespace Presentation.Views
             rbPorcentual.Checked = false;
 
             ConceptsState = EntityState.Add;
+            dtgPerceptionPrevIndex = -1;
+            dtgDeductionPrevIndex = -1;
         }
 
         private void rbFijo_CheckedChanged(object sender, EventArgs e)
@@ -483,14 +485,14 @@ namespace Presentation.Views
             }
         }
 
-        private void FillPerceptionForm(int rowIndex)
+        private void FillPerceptionForm(int index)
         {
-            if (rowIndex == -1)
+            if (index == -1)
             {
                 return;
             }
 
-            var row = dtgPerceptions.Rows[rowIndex];
+            var row = dtgPerceptions.Rows[index];
 
             rbPerception.Checked = true;
             perceptionId = Convert.ToInt32(row.Cells[0].Value);
@@ -526,14 +528,14 @@ namespace Presentation.Views
             }
         }
 
-        private void FillDeductionForm(int rowIndex)
+        private void FillDeductionForm(int index)
         {
-            if (rowIndex == -1)
+            if (index == -1)
             {
                 return;
             }
 
-            var row = dtgDeductions.Rows[rowIndex];
+            var row = dtgDeductions.Rows[index];
 
             rbDeduction.Checked = true;
             deductionId = Convert.ToInt32(row.Cells[0].Value);

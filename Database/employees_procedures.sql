@@ -231,9 +231,24 @@ SELECT ISNULL(SUM(cantidad), 0) FROM deducciones_aplicadas;
 
 
 
+SELECT d.nombre [Departamento], 
+		p.nombre [Puesto], 
+		COUNT(e.numero_empleado) [Cantidad de empleados]
+FROM departamentos AS d
+FULL OUTER JOIN puestos AS p
+ON d.id_empresa = p.id_empresa
+LEFT JOIN empleados AS e
+ON e.id_departamento = d.id_departamento AND e.id_puesto = p.id_puesto AND 
+DATEADD(day, -DAY(e.fecha_contratacion) + 1, e.fecha_contratacion) <= '20220401'
+GROUP BY d.nombre, p.nombre;
 
 
-
+SELECT d.nombre [Departamento], 
+		COUNT(e.numero_empleado) [Cantidad de empleados] 
+FROM departamentos AS d
+LEFT JOIN empleados AS e
+ON d.id_departamento = e.id_departamento
+GROUP BY d.nombre;
 
 
 
