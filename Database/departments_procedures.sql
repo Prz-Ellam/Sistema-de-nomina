@@ -65,6 +65,8 @@ AS
 GO
 
 
+EXEC sp_LeerDepartamentos 1
+USE sistema_de_nomina;
 
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerDepartamentos')
 	DROP PROCEDURE sp_LeerDepartamentos;
@@ -75,7 +77,9 @@ CREATE PROCEDURE sp_LeerDepartamentos(
 )
 AS
 
-	SELECT id_departamento, nombre, sueldo_base
+	SELECT id_departamento [ID Departamento], 
+			nombre [Nombre], 
+			sueldo_base [Sueldo base]
 	FROM departamentos
 	WHERE id_empresa = @id_empresa AND activo = 1;
 
@@ -92,7 +96,9 @@ CREATE PROCEDURE sp_FiltrarDepartamentos
 	@id_empresa					INT
 AS
 
-	SELECT id_departamento, nombre, sueldo_base
+	SELECT id_departamento [ID Departamento], 
+			nombre [Nombre], 
+			sueldo_base [Sueldo base]
 	FROM departamentos
 	WHERE id_empresa = @id_empresa AND activo = 1 AND nombre LIKE CONCAT('%', @filtro, '%');
 

@@ -90,9 +90,9 @@ namespace Data_Access.Repositorios
             {
                 departments.Add(new DepartmentsViewModel
                 {
-                    Id = Convert.ToInt32(row["id_departamento"]),
-                    Name = row["nombre"].ToString(),
-                    BaseSalary = Convert.ToDecimal(row["sueldo_base"])
+                    Id = Convert.ToInt32(row["ID Departamento"]),
+                    Name = row["Nombre"].ToString(),
+                    BaseSalary = Convert.ToDecimal(row["Sueldo Base"])
                 });
             }
 
@@ -111,9 +111,9 @@ namespace Data_Access.Repositorios
             {
                 departments.Add(new DepartmentsViewModel
                 {
-                    Id = Convert.ToInt32(row["id_departamento"]),
-                    Name = row["nombre"].ToString(),
-                    BaseSalary = Convert.ToDecimal(row["sueldo_base"])
+                    Id = Convert.ToInt32(row["ID Departamento"]),
+                    Name = row["Nombre"].ToString(),
+                    BaseSalary = Convert.ToDecimal(row["Sueldo Base"])
 
                 });
             }

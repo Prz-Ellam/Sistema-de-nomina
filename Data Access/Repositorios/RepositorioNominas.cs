@@ -11,7 +11,7 @@ namespace Data_Access.Repositorios
 {
     public class RepositorioNominas
     {
-        private readonly string generate, readByDate, generalPayrollReport;
+        private readonly string generate, readByDate, generalPayrollReport, getDate;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams = new RepositoryParameters();
 
@@ -21,6 +21,7 @@ namespace Data_Access.Repositorios
             generate = "sp_GenerarNomina";
             readByDate = "sp_ObtenerNominasPorFecha";
             generalPayrollReport = "sp_ReporteGeneralNomina";
+            getDate = "sp_ObtenerFechaActual";
         }
 
         public int GeneratePayrolls(DateTime date, int employeeNumber)
@@ -81,6 +82,20 @@ namespace Data_Access.Repositorios
 
         }
 
+        public DateTime GetDate(int companyId)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@id_empresa", companyId);
+
+            DataTable table = mainRepository.ExecuteReader(getDate, sqlParams);
+
+            foreach (DataRow row in table.Rows)
+            {
+                return Convert.ToDateTime(row["Fecha"]);
+            }
+
+            return DateTime.MinValue; // ? 
+        }
 
     }
 }

@@ -29,25 +29,25 @@ namespace Presentation.Views
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dtpDate = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.btnGeneratePayroll = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnCSV = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.dtgPayrolls = new System.Windows.Forms.DataGridView();
-            this.dtpConsult = new System.Windows.Forms.DateTimePicker();
-            this.label3 = new System.Windows.Forms.Label();
-            this.btnConsult = new System.Windows.Forms.Button();
-            this.ofnPayrollCSV = new System.Windows.Forms.SaveFileDialog();
             this.number = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.empName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.amountemp = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bank = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.accountNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dtpConsult = new System.Windows.Forms.DateTimePicker();
+            this.label3 = new System.Windows.Forms.Label();
+            this.btnConsult = new System.Windows.Forms.Button();
+            this.ofnPayrollCSV = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.dtgPayrolls)).BeginInit();
             this.SuspendLayout();
             // 
@@ -92,23 +92,24 @@ namespace Presentation.Views
             this.btnGeneratePayroll.UseVisualStyleBackColor = false;
             this.btnGeneratePayroll.Click += new System.EventHandler(this.btnGeneratePayroll_Click);
             // 
-            // button1
+            // btnCSV
             // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.Enabled = false;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Image = global::Presentation.Properties.Resources.CSV_Logo;
-            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(828, 251);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(224, 81);
-            this.button1.TabIndex = 10;
-            this.button1.Text = "       Generar CSV";
-            this.button1.UseVisualStyleBackColor = false;
+            this.btnCSV.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            this.btnCSV.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCSV.Enabled = false;
+            this.btnCSV.FlatAppearance.BorderSize = 0;
+            this.btnCSV.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCSV.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.btnCSV.ForeColor = System.Drawing.Color.White;
+            this.btnCSV.Image = global::Presentation.Properties.Resources.CSV_Logo;
+            this.btnCSV.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnCSV.Location = new System.Drawing.Point(828, 251);
+            this.btnCSV.Name = "btnCSV";
+            this.btnCSV.Size = new System.Drawing.Size(224, 81);
+            this.btnCSV.TabIndex = 10;
+            this.btnCSV.Text = "       Generar CSV";
+            this.btnCSV.UseVisualStyleBackColor = false;
+            this.btnCSV.Click += new System.EventHandler(this.btnCSV_Click);
             // 
             // label2
             // 
@@ -126,14 +127,14 @@ namespace Presentation.Views
             this.dtgPayrolls.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
             this.dtgPayrolls.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dtgPayrolls.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dtgPayrolls.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dtgPayrolls.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dtgPayrolls.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgPayrolls.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.number,
@@ -142,14 +143,14 @@ namespace Presentation.Views
             this.amountemp,
             this.bank,
             this.accountNumber});
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dtgPayrolls.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dtgPayrolls.DefaultCellStyle = dataGridViewCellStyle6;
             this.dtgPayrolls.EnableHeadersVisualStyles = false;
             this.dtgPayrolls.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.dtgPayrolls.Location = new System.Drawing.Point(12, 349);
@@ -157,6 +158,50 @@ namespace Presentation.Views
             this.dtgPayrolls.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dtgPayrolls.Size = new System.Drawing.Size(1040, 309);
             this.dtgPayrolls.TabIndex = 12;
+            // 
+            // number
+            // 
+            this.number.DataPropertyName = "numeroEmpleado";
+            this.number.HeaderText = "Número de empleado";
+            this.number.Name = "number";
+            this.number.Width = 200;
+            // 
+            // empName
+            // 
+            this.empName.DataPropertyName = "nombreEmpleado";
+            this.empName.HeaderText = "Nombre del empleado";
+            this.empName.Name = "empName";
+            this.empName.Width = 200;
+            // 
+            // date
+            // 
+            this.date.DataPropertyName = "fecha";
+            this.date.HeaderText = "Fecha";
+            this.date.Name = "date";
+            this.date.Width = 200;
+            // 
+            // amountemp
+            // 
+            this.amountemp.DataPropertyName = "cantidad";
+            dataGridViewCellStyle5.Format = "c";
+            this.amountemp.DefaultCellStyle = dataGridViewCellStyle5;
+            this.amountemp.HeaderText = "Cantidad";
+            this.amountemp.Name = "amountemp";
+            this.amountemp.Width = 200;
+            // 
+            // bank
+            // 
+            this.bank.DataPropertyName = "banco";
+            this.bank.HeaderText = "Banco";
+            this.bank.Name = "bank";
+            this.bank.Width = 200;
+            // 
+            // accountNumber
+            // 
+            this.accountNumber.DataPropertyName = "numeroCuenta";
+            this.accountNumber.HeaderText = "Número de cuenta";
+            this.accountNumber.Name = "accountNumber";
+            this.accountNumber.Width = 200;
             // 
             // dtpConsult
             // 
@@ -203,50 +248,6 @@ namespace Presentation.Views
             // 
             this.ofnPayrollCSV.Filter = "CSV (*.csv)|.csv";
             // 
-            // number
-            // 
-            this.number.DataPropertyName = "numeroEmpleado";
-            this.number.HeaderText = "Número de empleado";
-            this.number.Name = "number";
-            this.number.Width = 200;
-            // 
-            // empName
-            // 
-            this.empName.DataPropertyName = "nombreEmpleado";
-            this.empName.HeaderText = "Nombre del empleado";
-            this.empName.Name = "empName";
-            this.empName.Width = 200;
-            // 
-            // date
-            // 
-            this.date.DataPropertyName = "fecha";
-            this.date.HeaderText = "Fecha";
-            this.date.Name = "date";
-            this.date.Width = 200;
-            // 
-            // amountemp
-            // 
-            this.amountemp.DataPropertyName = "cantidad";
-            dataGridViewCellStyle2.Format = "c";
-            this.amountemp.DefaultCellStyle = dataGridViewCellStyle2;
-            this.amountemp.HeaderText = "Cantidad";
-            this.amountemp.Name = "amountemp";
-            this.amountemp.Width = 200;
-            // 
-            // bank
-            // 
-            this.bank.DataPropertyName = "banco";
-            this.bank.HeaderText = "Banco";
-            this.bank.Name = "bank";
-            this.bank.Width = 200;
-            // 
-            // accountNumber
-            // 
-            this.accountNumber.DataPropertyName = "numeroCuenta";
-            this.accountNumber.HeaderText = "Número de cuenta";
-            this.accountNumber.Name = "accountNumber";
-            this.accountNumber.Width = 200;
-            // 
             // FormPayroll
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -258,7 +259,7 @@ namespace Presentation.Views
             this.Controls.Add(this.dtpConsult);
             this.Controls.Add(this.dtgPayrolls);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnCSV);
             this.Controls.Add(this.btnGeneratePayroll);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dtpDate);
@@ -277,7 +278,7 @@ namespace Presentation.Views
         private System.Windows.Forms.DateTimePicker dtpDate;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnGeneratePayroll;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnCSV;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridView dtgPayrolls;
         private System.Windows.Forms.DateTimePicker dtpConsult;

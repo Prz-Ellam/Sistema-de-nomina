@@ -45,7 +45,6 @@ GO
 
 
 
-
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ActualizarEmpleado')
 	DROP PROCEDURE sp_ActualizarEmpleado;
 GO
@@ -78,7 +77,11 @@ AS
 	DECLARE @id_domicilio INT;
 	SET @id_domicilio = (SELECT domicilio FROM empleados WHERE numero_empleado = @numero_empleado);
 
-	EXEC sp_ActualizarDomicilio @id_domicilio, @calle, @numero, @colonia, @ciudad, @estado, @codigo_postal
+	EXEC sp_ActualizarDomicilio @id_domicilio, @calle, @numero, @colonia, @ciudad, @estado, @codigo_postal;
+
+	DECLARE @sueldo_diario	MONEY
+	SET @sueldo_diario = (SELECT sueldo_base FROM departamentos WHERE id_departamento = @id_departamento) *
+						(SELECT nivel_salarial FROM puestos WHERE id_puesto = @id_puesto);
 
 	UPDATE empleados
 	SET
@@ -95,7 +98,8 @@ AS
 	contrasena				= ISNULL(@contrasena, contrasena),
 	id_departamento			= ISNULL(@id_departamento, id_departamento),
 	id_puesto				= ISNULL(@id_puesto, id_puesto),
-	fecha_contratacion		= ISNULL(@fecha_contratacion, fecha_contratacion)
+	fecha_contratacion		= ISNULL(@fecha_contratacion, fecha_contratacion),
+	sueldo_diario			= ISNULL(@sueldo_diario, sueldo_diario)
 	WHERE numero_empleado = @numero_empleado AND activo = 1;
 
 GO
@@ -239,7 +243,8 @@ FULL OUTER JOIN puestos AS p
 ON d.id_empresa = p.id_empresa
 LEFT JOIN empleados AS e
 ON e.id_departamento = d.id_departamento AND e.id_puesto = p.id_puesto AND 
-DATEADD(day, -DAY(e.fecha_contratacion) + 1, e.fecha_contratacion) <= '20220401'
+DATEADD(day, -DAY(e.fecha_contratacion) + 1, e.fecha_contratacion) <= '20220401' AND
+e.activo = 1
 GROUP BY d.nombre, p.nombre;
 
 

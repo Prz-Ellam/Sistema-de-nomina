@@ -1,6 +1,7 @@
 ﻿using CsvHelper;
 using Data_Access.Repositorios;
 using Data_Access.ViewModels;
+using Presentation.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,6 +19,7 @@ namespace Presentation.Views
     public partial class FormPayroll : Form
     {
         RepositorioNominas payrollRepository = new RepositorioNominas();
+        DateTime payrollDate;
         public FormPayroll()
         {
             InitializeComponent();
@@ -25,6 +27,11 @@ namespace Presentation.Views
 
         private void Payroll_Load(object sender, EventArgs e)
         {
+            payrollDate = payrollRepository.GetDate(Session.company_id);
+
+            dtpDate.Value = payrollDate;
+            dtpDate.MinDate = payrollDate;
+
             /*
             Form modal = new ModalPayroll();
             modal.ShowDialog();
@@ -56,15 +63,12 @@ namespace Presentation.Views
                 var writer = new StreamWriter(ofnPayrollCSV.FileName);
                 var csvWriter = new CsvWriter(writer, CultureInfo.InvariantCulture);
 
-                List<PayrollViewModel> payrolls = new List<PayrollViewModel>();
-                payrolls.Add(new PayrollViewModel { 
-                    NumeroEmpleado = 1,
-                    NombreEmpleado = "Eduardo",
-                    Fecha = DateTime.Now,
-                    Cantidad = 5.0m,
-                    Banco = "Santander",
-                    NumeroCuenta = "11"
-                });
+                List<PayrollViewModel> payrolls = dtgPayrolls.DataSource as List<PayrollViewModel>;
+                if (payrolls == null)
+                {
+                    MessageBox.Show("Error inesperado", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
                 csvWriter.WriteRecords(payrolls);
                 csvWriter.Dispose();
@@ -74,8 +78,21 @@ namespace Presentation.Views
 
         private void btnConsult_Click(object sender, EventArgs e)
         {
-            List<PayrollViewModel> payrolls = payrollRepository.ReadByDate(dtpConsult.Value);
-            dtgPayrolls.DataSource = payrolls;
+            try
+            {
+                dtgPayrolls.DataSource = payrollRepository.ReadByDate(dtpConsult.Value);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            btnCSV.Enabled = true;
+        }
+
+        private void btnCSV_Click(object sender, EventArgs e)
+        {
+            GenerateCSV();
         }
     }
 }

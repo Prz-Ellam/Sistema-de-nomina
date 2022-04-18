@@ -87,6 +87,7 @@
     <Compile Include="Entidades\Puestos.cs" />
     <Compile Include="Entidades\States.cs" />
     <Compile Include="Entidades\Users.cs" />
+    <Compile Include="Helpers\CURP.cs" />
     <Compile Include="Helpers\PairItem.cs" />
     <Compile Include="Interfaces\ICompaniesRepository.cs" />
     <Compile Include="Interfaces\IDepartmentsRepository.cs" />

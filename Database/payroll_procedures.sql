@@ -16,14 +16,14 @@ AS
 
 	SET @anio = YEAR(@fecha);
 	SET @mes = MONTH(@fecha);
-	SET @dias =  dbo.GETMONTHLENGTH(@anio, @mes);
+	SET @dias =  dbo.DIASTRABAJADOSEMPLEADO(DATEFROMPARTS(@anio, @mes, 1), @numero_empleado);
 
 	--SELECT @anio, @mes, @dias, sueldo_diario FROM empleados WHERE numero_empleado = @numero_empleado;
 	DECLARE @total_percepciones MONEY;
 	DECLARE @total_deducciones MONEY;
 
-	SET @total_percepciones = (SELECT ISNULL(SUM(cantidad), 0) FROM percepciones_aplicadas WHERE YEAR(fecha) = @anio AND MONTH(fecha) = @mes AND numero_empleado = @numero_empleado);
-	SET @total_deducciones = (SELECT ISNULL(SUM(cantidad), 0) FROM deducciones_aplicadas WHERE YEAR(fecha) = @anio AND MONTH(fecha) = @mes AND numero_empleado = @numero_empleado);
+	SET @total_percepciones = dbo.TOTALPERCEPCIONES(DATEFROMPARTS(@anio, @mes, 1), @numero_empleado);
+	SET @total_deducciones = dbo.TOTALDEDUCCIONES(DATEFROMPARTS(@anio, @mes, 1), @numero_empleado);
 
 	DECLARE @sueldo_diario MONEY
 	SET @sueldo_diario = (SELECT sueldo_diario FROM empleados WHERE numero_empleado = @numero_empleado AND activo = 1);
@@ -83,4 +83,52 @@ GO
 
 
 
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ObtenerFechaActual')
+	DROP PROCEDURE sp_ObtenerFechaActual;
+GO
 
+CREATE PROCEDURE sp_ObtenerFechaActual
+	@id_empresa				INT
+AS
+
+	IF (EXISTS(SELECT id_nomina FROM nominas))	
+		SELECT DISTINCT TOP 1 DATEADD(MONTH, 1, DATEFROMPARTS(YEAR(fecha), MONTH(fecha), 1)) [Fecha]
+		FROM nominas AS n
+		JOIN empleados AS e
+		ON n.numero_empleado = e.numero_empleado
+		JOIN departamentos AS d
+		ON d.id_departamento = e.id_departamento
+		WHERE d.id_empresa = @id_empresa
+		ORDER BY [Fecha] DESC;
+	ELSE IF (EXISTS(SELECT id_empresa FROM empresas WHERE id_empresa = @id_empresa))
+		SELECT DATEFROMPARTS(YEAR(fecha_inicio), MONTH(fecha_inicio), 1) [Fecha]
+		FROM empresas
+		WHERE id_empresa = @id_empresa;
+	ELSE
+		RAISERROR('La empresa aun no existe', 11, 1);
+
+GO
+
+
+
+
+/*
+CREATE DATABASE pruebas;
+USE pruebas;
+
+CREATE TABLE fechas(
+	id		INT IDENTITY(1,1) PRIMARY KEY,
+	fecha	DATE
+)
+
+DROP TABLE fechas;
+INSERT INTO fechas(fecha) VALUES('20220401');
+INSERT INTO fechas(fecha) VALUES('20220501');
+INSERT INTO fechas(fecha) VALUES('20220501');
+INSERT INTO fechas(fecha) VALUES('20220601');
+INSERT INTO fechas(fecha) VALUES('20220601');
+--INSERT INTO(fechas) VALUES('20220601');
+
+SELECT DISTINCT TOP 1 fecha FROM fechas
+ORDER BY fecha DESC;
+*/

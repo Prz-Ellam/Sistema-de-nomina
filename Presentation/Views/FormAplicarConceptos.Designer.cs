@@ -289,7 +289,7 @@ namespace Presentation.Views
             this.dtgDepartaments.DefaultCellStyle = dataGridViewCellStyle3;
             this.dtgDepartaments.EnableHeadersVisualStyles = false;
             this.dtgDepartaments.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.dtgDepartaments.Location = new System.Drawing.Point(12, 526);
+            this.dtgDepartaments.Location = new System.Drawing.Point(26, 595);
             this.dtgDepartaments.Name = "dtgDepartaments";
             this.dtgDepartaments.ReadOnly = true;
             this.dtgDepartaments.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
@@ -302,7 +302,7 @@ namespace Presentation.Views
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dtgDepartaments.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dtgDepartaments.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.dtgDepartaments.Size = new System.Drawing.Size(236, 132);
+            this.dtgDepartaments.Size = new System.Drawing.Size(236, 63);
             this.dtgDepartaments.TabIndex = 53;
             this.dtgDepartaments.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgDepartaments_CellDoubleClick);
             // 
@@ -339,7 +339,7 @@ namespace Presentation.Views
             this.label2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label2.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label2.Location = new System.Drawing.Point(12, 502);
+            this.label2.Location = new System.Drawing.Point(26, 572);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(128, 21);
             this.label2.TabIndex = 54;
@@ -493,7 +493,7 @@ namespace Presentation.Views
             // textBox3
             // 
             this.textBox3.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.Location = new System.Drawing.Point(203, 498);
+            this.textBox3.Location = new System.Drawing.Point(217, 568);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(45, 25);
             this.textBox3.TabIndex = 64;
@@ -503,7 +503,7 @@ namespace Presentation.Views
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label6.Location = new System.Drawing.Point(153, 504);
+            this.label6.Location = new System.Drawing.Point(167, 574);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(44, 19);
             this.label6.TabIndex = 63;

@@ -103,7 +103,7 @@ namespace Presentation.Views
                 return;
             }
 
-            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
             InitCompanyId(); // Carga en el Session el id de la empresa recien creada
             ListCompany();
         }
@@ -111,15 +111,16 @@ namespace Presentation.Views
         private void btnEdit_Click(object sender, EventArgs e)
         {
             FillCompany();
-            /*
-            company.BusinessName = txtBusinessName.Text;
-            company.Employer_registration = txtEmployerRegistration.Text;
-            company.Email = txtEmail.Text;
-            company.Start_date = dtpStartDate.Value;
-            company.Address = 0;
-            company.Rfc = txtRFC.Text;
-            repository.Create(company);
-            */
+            ValidationResult result = UpdateCompany();
+
+            if (result.State == ValidationState.Error)
+            {
+                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            ListCompany();
         }
 
         private ValidationResult AddCompany()

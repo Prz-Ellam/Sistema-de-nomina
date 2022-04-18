@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Data_Access.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -37,23 +38,26 @@ namespace Data_Access.Entidades
         private string codigoPostal;
 
         public int NumeroEmpleado { get => numeroEmpleado; set => numeroEmpleado = value; }
-        [Required]
+        [Required(ErrorMessage = "El nombre del empleado es requerido")]
         [RegularExpression(@"^[a-zA-Z \u00C0-\u00FF]+$", ErrorMessage = "El nombre del puesto solo puede contener letras y espacios")]
         public string Nombre { get => nombre; set => nombre = value; }
-        [Required]
+        [Required(ErrorMessage = "El apellido paterno del empleado es requerido")]
         [RegularExpression(@"^[a-zA-Z \u00C0-\u00FF]+$", ErrorMessage = "El nombre del puesto solo puede contener letras y espacios")]
         public string ApellidoPaterno { get => apellidoPaterno; set => apellidoPaterno = value; }
-        [Required]
+        [Required(ErrorMessage = "El apellido materno del empleado es requerido")]
         [RegularExpression(@"^[a-zA-Z \u00C0-\u00FF]+$", ErrorMessage = "El nombre del puesto solo puede contener letras y espacios")]
         public string ApellidoMaterno { get => apellidoMaterno; set => apellidoMaterno = value; }
-        [Required]
+        [Required(ErrorMessage = "La fecha de nacimiento es requerida")]
         public DateTime FechaNacimiento { get => fechaNacimiento; set => fechaNacimiento = value; }
-        [Required]
+        [Required(ErrorMessage = "El CURP del empleado es requerido")]
+        //[CURP]
+        [RegularExpression(@"^([A-Z][AEIOUX][A-Z]{2}\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\d])(\d)$", ErrorMessage = "El CURP que ingresó no es válido")]
         public string Curp { get => curp; set => curp = value; }
-        [Required]
+        [Required(ErrorMessage = "El NSS del empleado es requerido")]
+        [RegularExpression(@"/^(\d{2})(\d{2})(\d{2})\d{5}$/", ErrorMessage = "El NSS que ingresó no es válido")]
         public string Nss { get => nss; set => nss = value; }
-        [Required]
-        //[RegularExpression(@"^(([A-ZÑ&]{4})([0-9]{2})([0][13578]|[1][02])(([0][1-9]|[12][\\d])|[3][01])([A-Z0-9]{3}))|(([A-ZÑ&]{4})([0-9]{2})([0][13456789]|[1][012])(([0][1-9]|[12][\\d])|[3][0])([A-Z0-9]{3}))|(([A-ZÑ&]{4})([02468][048]|[13579][26])[0][2]([0][1-9]|[12][\\d])([A-Z0-9]{3}))|(([A-ZÑ&]{4})([0-9]{2})[0][2]([0][1-9]|[1][0-9]|[2][0-8])([A-Z0-9]{3}))$", ErrorMessage = "RFC no válido")]
+        [Required(ErrorMessage = "El RFC del empleado es requerido")]
+        [RegularExpression(@"^([A-ZÑ&]{3,4}) ?(?:- ?)?(\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])) ?(?:- ?)?([A-Z\d]{2})([A\d])$", ErrorMessage = "El RFC que ingresó no válido")]
         public string Rfc { get => rfc; set => rfc = value; }
         [Required]
         public int Domicilio { get => domicilio; set => domicilio = value; }
@@ -61,10 +65,10 @@ namespace Data_Access.Entidades
         public int Banco { get => banco; set => banco = value; }
         [Required]
         public string NumeroCuenta { get => numeroCuenta; set => numeroCuenta = value; }
-        [Required]
+        [Required(ErrorMessage = "El correo electrónico del empleado es requerido")]
         [EmailAddress(ErrorMessage = "El correo electrónico que ingresó no es válido")]
         public string CorreoElectronico { get => correoElectronico; set => correoElectronico = value; }
-        [Required]
+        [Required(ErrorMessage = "La contraseña del empleado es requerida")]
         public string Contrasena { get => contrasena; set => contrasena = value; }
         public decimal SueldoDiario { get => sueldoDiario; set => sueldoDiario = value; }
         [Required]

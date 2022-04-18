@@ -29,7 +29,7 @@ namespace Data_Access.Repositorios
             readPayrolls = "sp_LeerEmpleadosNominas";
         }
 
-        public int Create(Empleados employee)
+        public bool Create(Empleados employee)
         {
             sqlParams.Start();
             sqlParams.Add("@nombre", employee.Nombre);
@@ -55,10 +55,18 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@id_puesto", employee.IdPuesto);
             sqlParams.Add("@fecha_contratacion", employee.FechaContratacion);
 
-            return mainRepository.ExecuteNonQuery(create, sqlParams);
+            int rowCount = mainRepository.ExecuteNonQuery(create, sqlParams);
+            if (rowCount > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public int Update(Empleados employee)
+        public bool Update(Empleados employee)
         {
             sqlParams.Start();
             sqlParams.Add("@numero_empleado", employee.NumeroEmpleado);
@@ -85,15 +93,31 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@id_puesto", employee.IdPuesto);
             sqlParams.Add("@fecha_contratacion", employee.FechaContratacion);
 
-            return mainRepository.ExecuteNonQuery(update, sqlParams);
+            int rowCount = mainRepository.ExecuteNonQuery(update, sqlParams);
+            if (rowCount > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public int Delete(int employeeNumber)
+        public bool Delete(int employeeNumber)
         {
             sqlParams.Start();
             sqlParams.Add("@numero_empleado", employeeNumber);
 
-            return mainRepository.ExecuteNonQuery(delete, sqlParams);
+            int rowCount = mainRepository.ExecuteNonQuery(delete, sqlParams);
+            if (rowCount > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public List<EmployeesViewModel> ReadAll()

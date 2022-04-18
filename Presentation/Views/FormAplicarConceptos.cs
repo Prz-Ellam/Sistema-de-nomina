@@ -31,6 +31,8 @@ namespace Presentation.Views
         private int dtgDepartmentPrevIndex = -1;
         private int dtgEmployeePrevIndex = -1;
 
+        private DateTime payrollDate;
+
         public FormAplicarConceptos()
         {
             InitializeComponent();
@@ -39,15 +41,24 @@ namespace Presentation.Views
         private void Concepts_Load(object sender, EventArgs e)
         {
             rbPerceptionsFilterAll.Checked = true;
-            perceptionRadioId = 1;
             rbDeductionsFilterAll.Checked = true;
+            perceptionRadioId = 1;
             deductionRadioId = 1;
+
+            btnApply.Enabled = false;
+            btnDelete.Enabled = false;
+
+            payrollDate = new RepositorioNominas().GetDate(Session.company_id);
+
+            dtpDate.MinDate = payrollDate;
+            dtpDate.Value = payrollDate;
 
             List<DepartmentsViewModel> departamentos = new RepositorioDepartamentos().ReadAll(Session.company_id);
             dtgDepartaments.DataSource = departamentos;
 
-            List<EmployeePayrollsViewModel> employees = new RepositorioEmpleados().ReadEmployeePayrolls(dtpDate.Value);
-            dtgEmployees.DataSource = employees;
+            ListEmployees();
+
+            
 
             
             /*
@@ -67,9 +78,13 @@ namespace Presentation.Views
             if (index == dtgEmployeePrevIndex || index == -1)
             {
                 employeeId = -1;
-                txtEntity.Text = string.Empty;
+                txtEntity.Clear();
+                txtConcept.Clear();
                 dtgEmployeePrevIndex = -1;
                 dtgDepartmentPrevIndex = -1;
+
+                dtgPerceptions.DataSource = new List<ApplyPerceptionViewModel>();
+                dtgDeductions.DataSource = new List<ApplyDeductionsViewModel>();
             }
             else
             {
@@ -116,6 +131,9 @@ namespace Presentation.Views
                 txtConcept.Text = string.Empty;
                 dtgPerceptionPrevIndex = -1;
                 dtgDeductionPrevIndex = -1;
+
+                btnApply.Enabled = false;
+                btnDelete.Enabled = false;
             }
             else
             {
@@ -125,6 +143,19 @@ namespace Presentation.Views
                 txtConcept.Text = row.Cells[2].Value.ToString();
                 dtgPerceptionPrevIndex = index;
                 dtgDeductionPrevIndex = -1;
+
+                bool apply = Convert.ToBoolean(row.Cells[0].Value);
+                if (apply)
+                {
+                    btnApply.Enabled = false;
+                    btnDelete.Enabled = true;
+                }
+                else
+                {
+                    btnApply.Enabled = true;
+                    btnDelete.Enabled = false;
+                }
+
             }
         }
 
@@ -139,6 +170,9 @@ namespace Presentation.Views
                 txtConcept.Text = string.Empty;
                 dtgPerceptionPrevIndex = -1;
                 dtgDeductionPrevIndex = -1;
+
+                btnApply.Enabled = false;
+                btnDelete.Enabled = false;
             }
             else
             {
@@ -148,6 +182,18 @@ namespace Presentation.Views
                 txtConcept.Text = row.Cells[2].Value.ToString();
                 dtgPerceptionPrevIndex = -1;
                 dtgDeductionPrevIndex = index;
+
+                bool apply = Convert.ToBoolean(row.Cells[0].Value);
+                if (apply)
+                {
+                    btnApply.Enabled = false;
+                    btnDelete.Enabled = true;
+                }
+                else
+                {
+                    btnApply.Enabled = true;
+                    btnDelete.Enabled = false;
+                }
             }
         }
         private void btnApply_Click(object sender, EventArgs e)
@@ -166,11 +212,10 @@ namespace Presentation.Views
                 return;
             }
 
-            List<EmployeePayrollsViewModel> employees = new RepositorioEmpleados().ReadEmployeePayrolls(dtpDate.Value);
-            dtgEmployees.DataSource = employees;
+            ListEmployees();
             dtgPerceptions.DataSource = applyPerceptionsRepository.ReadApplyPerceptions(perceptionRadioId, employeeId, dtpDate.Value);
             dtgDeductions.DataSource = applyDeductionsRepository.ReadApplyDeductions(deductionRadioId, employeeId, dtpDate.Value);
-            ClearForm();
+            ClearConcept();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -193,7 +238,7 @@ namespace Presentation.Views
             dtgEmployees.DataSource = employees;
             dtgPerceptions.DataSource = applyPerceptionsRepository.ReadApplyPerceptions(perceptionRadioId, employeeId, dtpDate.Value);
             dtgDeductions.DataSource = applyDeductionsRepository.ReadApplyDeductions(deductionRadioId, employeeId, dtpDate.Value);
-            ClearForm();
+            ClearConcept();
         }
 
         private void ClearForm()
@@ -202,6 +247,28 @@ namespace Presentation.Views
             txtConcept.Clear();
             rbPerceptionsFilterAll.Checked = true;
             rbDeductionsFilterAll.Checked = true;
+        }
+
+        private void ClearConcept()
+        {
+            txtConcept.Clear();
+            rbPerceptionsFilterAll.Checked = true;
+            rbDeductionsFilterAll.Checked = true;
+
+            btnApply.Enabled = false;
+            btnDelete.Enabled = false;
+        }
+
+        private void ListEmployees()
+        {
+            try
+            {
+                dtgEmployees.DataSource = new RepositorioEmpleados().ReadEmployeePayrolls(dtpDate.Value);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void rbEmployee_CheckedChanged(object sender, EventArgs e)
@@ -214,12 +281,6 @@ namespace Presentation.Views
         {
             dtgDepartaments.Enabled = rbDepartment.Checked;
             txtEntity.Text = string.Empty;
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-            
         }
 
         private void rbPerceptionsFilterAll_CheckedChanged(object sender, EventArgs e)

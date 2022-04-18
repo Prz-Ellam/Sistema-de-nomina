@@ -191,8 +191,8 @@ namespace Presentation.Views
                     return new ValidationResult(feedback.Item2, ValidationState.Error);
                 }
 
-                int result = repository.Create(employee);
-                if (result > 0)
+                bool result = repository.Create(employee);
+                if (result)
                 {
                     return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
                 }
@@ -222,8 +222,8 @@ namespace Presentation.Views
                     return new ValidationResult(feedback.Item2, ValidationState.Error);
                 }
 
-                int result =repository.Update(employee);
-                if (result > 0)
+                bool result = repository.Update(employee);
+                if (result)
                 {
                     return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
                 }
@@ -247,8 +247,8 @@ namespace Presentation.Views
 
             try
             {
-                int result = repository.Delete(employeeId);
-                if (result > 0)
+                bool result = repository.Delete(employeeId);
+                if (result)
                 {
                     return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
                 }
@@ -301,8 +301,8 @@ namespace Presentation.Views
             employee.Calle = txtStreet.Text;
             employee.Numero = txtNumber.Text;
             employee.Colonia = txtSuburb.Text;
-            employee.Ciudad = cbCity.SelectedItem.ToString();
-            employee.Estado = cbState.SelectedItem.ToString();
+            employee.Ciudad = cbCity.Text;
+            employee.Estado = cbState.Text;
             employee.CodigoPostal = txtPostalCode.Text;
         }
 
