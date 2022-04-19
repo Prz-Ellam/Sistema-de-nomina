@@ -11,7 +11,7 @@ namespace Data_Access.Repositorios
 {
     public class RepositorioPercepcionesAplicadas
     {
-        private readonly string applyEmployee, undoEmployee, readApplyEmployee;
+        private readonly string applyEmployee, undoEmployee, readApplyEmployee, readPayrollPerception;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams;
 
@@ -21,6 +21,8 @@ namespace Data_Access.Repositorios
             applyEmployee = "sp_AplicarEmpleadoPercepcion";
             undoEmployee = "sp_EliminarEmpleadoPercepcion";
             readApplyEmployee = "sp_LeerPercepcionesAplicadas";
+
+            readPayrollPerception = "sp_LeerPercepcionesNomina";
 
             sqlParams = new RepositoryParameters();
         }
@@ -85,6 +87,27 @@ namespace Data_Access.Repositorios
             }
 
             return applyPerceptions;
+        }
+
+        public List<PayrollPerceptionViewModel> ReadPayrollPerceptions(int payrollId)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@id_nomina", payrollId);
+
+            DataTable table = mainRepository.ExecuteReader(readPayrollPerception, sqlParams);
+            List<PayrollPerceptionViewModel> perceptions = new List<PayrollPerceptionViewModel>();
+
+            foreach (DataRow row in table.Rows)
+            {
+                perceptions.Add(new PayrollPerceptionViewModel
+                {
+                    IdPercepcion = Convert.ToInt32(row["Clave"]),
+                    Concepto = row["Concepto"].ToString(),
+                    Importe = Convert.ToDecimal(row["Importe"]),
+                });
+            }
+
+            return perceptions;
         }
 
     }

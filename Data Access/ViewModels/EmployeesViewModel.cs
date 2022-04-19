@@ -24,7 +24,7 @@ namespace Data_Access.ViewModels
         private string state;
         private string postalCode;
         private PairItem bank;
-        private int accountNumber;
+        private string accountNumber;
         private string email;
         //private List<string> phones;
         private PairItem department;
@@ -49,7 +49,7 @@ namespace Data_Access.ViewModels
         public string State { get => state; set => state = value; }
         public string PostalCode { get => postalCode; set => postalCode = value; }
         public PairItem Bank { get => bank; set => bank = value; }
-        public int AccountNumber { get => accountNumber; set => accountNumber = value; }
+        public string AccountNumber { get => accountNumber; set => accountNumber = value; }
         public string Email { get => email; set => email = value; }
         public PairItem Department { get => department; set => department = value; }
         public PairItem Position { get => position; set => position = value; }

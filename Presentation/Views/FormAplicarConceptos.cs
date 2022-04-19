@@ -32,6 +32,7 @@ namespace Presentation.Views
         private int dtgEmployeePrevIndex = -1;
 
         private DateTime payrollDate;
+        private bool isPayrollDate;
 
         public FormAplicarConceptos()
         {
@@ -48,15 +49,13 @@ namespace Presentation.Views
             btnApply.Enabled = false;
             btnDelete.Enabled = false;
 
-            payrollDate = new RepositorioNominas().GetDate(Session.company_id);
-
-            dtpDate.MinDate = payrollDate;
+            RepositorioNominas payrollRepository = new RepositorioNominas();
+            payrollDate = payrollRepository.GetDate(Session.company_id);
             dtpDate.Value = payrollDate;
 
             List<DepartmentsViewModel> departamentos = new RepositorioDepartamentos().ReadAll(Session.company_id);
             dtgDepartaments.DataSource = departamentos;
 
-            ListEmployees();
 
             
 
@@ -68,13 +67,11 @@ namespace Presentation.Views
             dtgEmployees.DoubleBuffered(true);
             dtgPerceptions.DoubleBuffered(true);
             dtgDeductions.DoubleBuffered(true);
-
         }
 
         private void dtgEmployees_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             int index = e.RowIndex;
-
             if (index == dtgEmployeePrevIndex || index == -1)
             {
                 employeeId = -1;
@@ -122,6 +119,12 @@ namespace Presentation.Views
 
         private void dtgPerceptions_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (!isPayrollDate)
+            {
+                MessageBox.Show("No se pueden cargar conceptos debido a que no es el periodo actual de nómina", "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             int index = e.RowIndex;
 
             if (index == dtgPerceptionPrevIndex || index == -1)
@@ -161,6 +164,12 @@ namespace Presentation.Views
 
         private void dtgDeductions_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (!isPayrollDate)
+            {
+                MessageBox.Show("No se pueden cargar conceptos debido a que no es el periodo actual de nómina", "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             int index = e.RowIndex;
 
             if (index == dtgDeductionPrevIndex || index == -1)
@@ -347,6 +356,29 @@ namespace Presentation.Views
                     row.DefaultCellStyle.ForeColor = Color.White;
                 }
             }
+        }
+
+        private void btnConsult_Click(object sender, EventArgs e)
+        {
+            DateTime requestDate = new DateTime(dtpDate.Value.Year, dtpDate.Value.Month, 1);
+            DateTime actualDate = new DateTime(payrollDate.Year, payrollDate.Month, 1);
+
+            if (requestDate.CompareTo(actualDate) < 0)
+            {
+                MessageBox.Show("No se pueden cargar conceptos debido a que ya fue cerrada la nómina de este periodo");
+                isPayrollDate = false;
+            }
+            else if (requestDate.CompareTo(actualDate) > 0)
+            {
+                MessageBox.Show("No se pueden cargar conceptos antes del periodo de actual nómina");
+                isPayrollDate = false;
+            }
+            else
+            {
+                isPayrollDate = true;
+            }
+
+            ListEmployees();
         }
     }
 }

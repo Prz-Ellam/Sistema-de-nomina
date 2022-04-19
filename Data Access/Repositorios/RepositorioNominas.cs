@@ -11,7 +11,7 @@ namespace Data_Access.Repositorios
 {
     public class RepositorioNominas
     {
-        private readonly string generate, readByDate, generalPayrollReport, getDate;
+        private readonly string generate, readByDate, generalPayrollReport, getDate, getPayrollReceipt;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams = new RepositoryParameters();
 
@@ -22,11 +22,13 @@ namespace Data_Access.Repositorios
             readByDate = "sp_ObtenerNominasPorFecha";
             generalPayrollReport = "sp_ReporteGeneralNomina";
             getDate = "sp_ObtenerFechaActual";
+            getPayrollReceipt = "sp_ObtenerReciboNomina";
         }
 
-        public int GeneratePayrolls(DateTime date, int employeeNumber)
+        public int GeneratePayrolls(DateTime date, int employeeNumber, int companyId)
         {
             sqlParams.Start();
+            sqlParams.Add("@id_empresa", companyId);
             sqlParams.Add("@numero_empleado", employeeNumber);
             sqlParams.Add("@fecha", date);
 
@@ -95,6 +97,41 @@ namespace Data_Access.Repositorios
             }
 
             return DateTime.MinValue; // ? 
+        }
+
+        public PayrollReceiptViewModel GetPayrollReceipt(DateTime date)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@fecha", date);
+
+            DataTable table = mainRepository.ExecuteReader(getPayrollReceipt, sqlParams);
+
+            foreach (DataRow row in table.Rows)
+            {
+                return new PayrollReceiptViewModel
+                {
+                    NombreEmpresa = row["Nombre de empresa"].ToString(),
+                    RfcEmpresa = row["RFC de empresa"].ToString(),
+                    RegistroPatronal = row["Registro patronal"].ToString(),
+                    DomicilioFiscalParte1 = row["Domicilio fiscal parte 1"].ToString(),
+                    DomicilioFiscalParte2 = row["Domicilio fiscal parte 2"].ToString(),
+                    NumeroEmpleado = Convert.ToInt32(row["Numero de empleado"]),
+                    NombreEmpleado = row["Nombre de empleado"].ToString(),
+                    NssEmpleado = row["Numero de seguro social"].ToString(),
+                    CurpEmpleado = row["CURP"].ToString(),
+                    RfcEmpleado = row["RFC de empleado"].ToString(),
+                    FechaIngreso = Convert.ToDateTime(row["Fecha de ingreso"]),
+                    Departamento = row["Departamento"].ToString(),
+                    Puesto = row["Puesto"].ToString(),
+                    SueldoDiario = Convert.ToDecimal(row["Sueldo diario"]),
+                    SueldoBruto = Convert.ToDecimal(row["Sueldo bruto"]),
+                    SueldoNeto = Convert.ToDecimal(row["Sueldo neto"]),
+                    Periodo = Convert.ToDateTime(row["Periodo"]),
+                    IdNomina = Convert.ToInt32(row["ID de nomina"]),
+                };
+            }
+
+            return null;
         }
 
     }

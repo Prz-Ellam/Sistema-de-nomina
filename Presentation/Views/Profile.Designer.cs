@@ -152,6 +152,7 @@ namespace Presentation.Views
             this.btnEdit.TabIndex = 86;
             this.btnEdit.Text = "Editar";
             this.btnEdit.UseVisualStyleBackColor = false;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // label18
             // 
@@ -571,6 +572,7 @@ namespace Presentation.Views
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Profile";
             this.Text = "Profile";
+            this.Load += new System.EventHandler(this.Profile_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

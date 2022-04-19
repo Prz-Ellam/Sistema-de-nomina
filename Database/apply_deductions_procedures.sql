@@ -96,3 +96,28 @@ AS
 		RAISERROR('Filtro inválido', 11, 1);
 
 GO
+
+
+
+
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerDeduccionesNomina')
+	DROP PROCEDURE sp_LeerDeduccionesNomina;
+GO
+
+CREATE PROCEDURE sp_LeerDeduccionesNomina(
+	@id_nomina			INT
+)
+AS
+
+	SELECT 
+			d.id_deduccion		[Clave], 
+			d.nombre			[Concepto], 
+			da.cantidad			[Importe]
+	FROM 
+			deducciones_aplicadas AS da
+			JOIN deducciones AS d
+			ON da.id_deduccion = d.id_deduccion
+	WHERE 
+			id_nomina = @id_nomina;
+
+GO

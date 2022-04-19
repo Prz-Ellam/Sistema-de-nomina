@@ -29,9 +29,9 @@ namespace Presentation.Views
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dtpDate = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.btnGeneratePayroll = new System.Windows.Forms.Button();
@@ -88,7 +88,7 @@ namespace Presentation.Views
             this.btnGeneratePayroll.Name = "btnGeneratePayroll";
             this.btnGeneratePayroll.Size = new System.Drawing.Size(175, 54);
             this.btnGeneratePayroll.TabIndex = 9;
-            this.btnGeneratePayroll.Text = "Generar nómina";
+            this.btnGeneratePayroll.Text = "Cerrar nómina";
             this.btnGeneratePayroll.UseVisualStyleBackColor = false;
             this.btnGeneratePayroll.Click += new System.EventHandler(this.btnGeneratePayroll_Click);
             // 
@@ -127,14 +127,14 @@ namespace Presentation.Views
             this.dtgPayrolls.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
             this.dtgPayrolls.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dtgPayrolls.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dtgPayrolls.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dtgPayrolls.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dtgPayrolls.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgPayrolls.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.number,
@@ -143,14 +143,14 @@ namespace Presentation.Views
             this.amountemp,
             this.bank,
             this.accountNumber});
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dtgPayrolls.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dtgPayrolls.DefaultCellStyle = dataGridViewCellStyle3;
             this.dtgPayrolls.EnableHeadersVisualStyles = false;
             this.dtgPayrolls.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.dtgPayrolls.Location = new System.Drawing.Point(12, 349);
@@ -183,8 +183,8 @@ namespace Presentation.Views
             // amountemp
             // 
             this.amountemp.DataPropertyName = "cantidad";
-            dataGridViewCellStyle5.Format = "c";
-            this.amountemp.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Format = "c";
+            this.amountemp.DefaultCellStyle = dataGridViewCellStyle2;
             this.amountemp.HeaderText = "Cantidad";
             this.amountemp.Name = "amountemp";
             this.amountemp.Width = 200;

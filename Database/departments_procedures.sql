@@ -77,11 +77,14 @@ CREATE PROCEDURE sp_LeerDepartamentos(
 )
 AS
 
-	SELECT id_departamento [ID Departamento], 
+	SELECT 
+			id_departamento [ID Departamento], 
 			nombre [Nombre], 
 			sueldo_base [Sueldo base]
-	FROM departamentos
-	WHERE id_empresa = @id_empresa AND activo = 1;
+	FROM 
+			departamentos
+	WHERE 
+			id_empresa = @id_empresa AND activo = 1;
 
 GO
 
@@ -96,11 +99,14 @@ CREATE PROCEDURE sp_FiltrarDepartamentos
 	@id_empresa					INT
 AS
 
-	SELECT id_departamento [ID Departamento], 
+	SELECT
+			id_departamento [ID Departamento], 
 			nombre [Nombre], 
 			sueldo_base [Sueldo base]
-	FROM departamentos
-	WHERE id_empresa = @id_empresa AND activo = 1 AND nombre LIKE CONCAT('%', @filtro, '%');
+	FROM 
+			departamentos
+	WHERE 
+			id_empresa = @id_empresa AND activo = 1 AND nombre LIKE CONCAT('%', @filtro, '%');
 
 GO
 

@@ -46,8 +46,6 @@ namespace Presentation.Views
                         btnActualizar.Enabled = false;
                         btnEliminar.Enabled = false;
                         gbTipoConcepto.Enabled = true;
-                        perceptionId = -1;
-                        deductionId = -1;
                         break;
                     }
                     case EntityState.Modify:
@@ -94,7 +92,7 @@ namespace Presentation.Views
                     return;
                 }
 
-                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ListPerceptions();
                 ClearForm();
             }
@@ -109,7 +107,7 @@ namespace Presentation.Views
                     return;
                 }
 
-                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ListDeductions();
                 ClearForm();
             }
@@ -137,7 +135,7 @@ namespace Presentation.Views
                     return;
                 }
 
-                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ListPerceptions();
                 ClearForm();
             }
@@ -152,7 +150,7 @@ namespace Presentation.Views
                     return;
                 }
 
-                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ListDeductions();
                 ClearForm();
             }
@@ -187,7 +185,7 @@ namespace Presentation.Views
                     return;
                 }
 
-                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ListPerceptions();
                 ClearForm();
             }
@@ -247,7 +245,14 @@ namespace Presentation.Views
             }
             catch (SqlException ex)
             {
-                return new ValidationResult(ex.Message, ValidationState.Error);
+                if (ex.Number == 50000)
+                {
+                    return new ValidationResult(ex.Message, ValidationState.Error);
+                }
+                else
+                {
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
+                }
             }
         }
 
@@ -278,7 +283,14 @@ namespace Presentation.Views
             }
             catch (SqlException ex)
             {
-                return new ValidationResult(ex.Message, ValidationState.Error);
+                if (ex.Number == 50000)
+                {
+                    return new ValidationResult(ex.Message, ValidationState.Error);
+                }
+                else
+                {
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
+                }
             }
         }
 
@@ -303,7 +315,14 @@ namespace Presentation.Views
             }
             catch (SqlException ex)
             {
-                return new ValidationResult(ex.Message, ValidationState.Error);
+                if (ex.Number == 50000)
+                {
+                    return new ValidationResult(ex.Message, ValidationState.Error);
+                }
+                else
+                {
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
+                }
             }
         }
 
@@ -334,7 +353,14 @@ namespace Presentation.Views
             }
             catch (SqlException ex)
             {
-                return new ValidationResult(ex.Message, ValidationState.Error);
+                if (ex.Number == 50000)
+                {
+                    return new ValidationResult(ex.Message, ValidationState.Error);
+                }
+                else
+                {
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
+                }
             }
         }
 
@@ -365,7 +391,14 @@ namespace Presentation.Views
             }
             catch (SqlException ex)
             {
-                return new ValidationResult(ex.Message, ValidationState.Error);
+                if (ex.Number == 50000)
+                {
+                    return new ValidationResult(ex.Message, ValidationState.Error);
+                }
+                else
+                {
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
+                }
             }
         }
 
@@ -390,7 +423,14 @@ namespace Presentation.Views
             }
             catch (SqlException ex)
             {
-                return new ValidationResult(ex.Message, ValidationState.Error);
+                if (ex.Number == 50000)
+                {
+                    return new ValidationResult(ex.Message, ValidationState.Error);
+                }
+                else
+                {
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
+                }
             }
         }
 
@@ -470,18 +510,14 @@ namespace Presentation.Views
         private void dtgPerceptions_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             int index = e.RowIndex;
-
             if (index == dtgPerceptionPrevIndex || index == -1)
             {
                 ClearForm();
-                ConceptsState = EntityState.Add;
-                dtgPerceptionPrevIndex = -1;
             }
             else
             {
                 FillPerceptionForm(index);
-                ConceptsState = EntityState.Modify;
-                dtgPerceptionPrevIndex = index;
+                
             }
         }
 
@@ -508,23 +544,21 @@ namespace Presentation.Views
                 rbPorcentual.Checked = true;
                 nudPorcentual.Value = Convert.ToDecimal(row.Cells[4].Value);
             }
+
+            ConceptsState = EntityState.Modify;
+            dtgPerceptionPrevIndex = index;
         }
 
         private void dtgDeductions_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             int index = e.RowIndex;
-
             if (index == dtgDeductionPrevIndex || index == -1)
             {
                 ClearForm();
-                ConceptsState = EntityState.Add;
-                dtgDeductionPrevIndex = -1;
             }
             else
             {
                 FillDeductionForm(index);
-                ConceptsState = EntityState.Modify;
-                dtgDeductionPrevIndex = index;
             }
         }
 
@@ -551,6 +585,9 @@ namespace Presentation.Views
                 rbPorcentual.Checked = true;
                 nudPorcentual.Value = Convert.ToDecimal(row.Cells[4].Value);
             }
+
+            ConceptsState = EntityState.Modify;
+            dtgDeductionPrevIndex = index;
         }
     }
 }

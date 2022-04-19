@@ -24,6 +24,9 @@ namespace Presentation.Views
         int dtgPrevIndex = -1;
         int employeeId = -1;
 
+        // Esto podría tronar si entra y aun no tiene ninguna empresa
+        DateTime payrollDate = new RepositorioNominas().GetDate(Session.company_id); 
+
         int cbPhonesPrevIndex = -1;
         
         private List<States> states;
@@ -47,6 +50,8 @@ namespace Presentation.Views
                         btnAdd.Enabled = true;
                         btnEdit.Enabled = false;
                         btnDelete.Enabled = false;
+                        dtpHiringDate.MinDate = payrollDate;
+                        dtpHiringDate.Value = payrollDate;
                         break;
                     }
                     case EntityState.Modify:
@@ -54,6 +59,7 @@ namespace Presentation.Views
                         btnAdd.Enabled = false;
                         btnEdit.Enabled = true;
                         btnDelete.Enabled = true;
+                        dtpHiringDate.MinDate = new DateTime(1753, 1, 1);
                         break;
                     }
                 }
@@ -99,6 +105,8 @@ namespace Presentation.Views
             cbPositions.DataSource = nombres;
 
             InitStates();
+
+            
 
 
             // Esto es para evitar el molesto flickering que tienen los data grid view
@@ -203,6 +211,22 @@ namespace Presentation.Views
             }
             catch (SqlException ex)
             {
+                if (ex.Number == 2627) // Unique Constraint
+                {
+                    if (ex.Message.Contains("Unique_Rfc"))
+                    {
+                        return new ValidationResult("El RFC que ingresó ya está siendo utilizado por otro usuario", ValidationState.Error);
+                    }
+                    else if (ex.Message.Contains("Unique_Curp"))
+                    {
+                        return new ValidationResult("El CURP que ingresó ya está siendo utilizado por otro usuario", ValidationState.Error);
+                    }
+                    else
+                    {
+                        return new ValidationResult(ex.Message, ValidationState.Error);
+                    }
+                }
+
                 return new ValidationResult(ex.Message, ValidationState.Error);
             }
         }
@@ -289,14 +313,41 @@ namespace Presentation.Views
 
             //employee.Address = 1;
 
-            // Estos PairItem pueden tronar si no hay registros
-            employee.Banco = ((PairItem)cbBank.SelectedItem).HiddenValue;
+            // Estos PairItem pueden provocar excepcion si no hay registros, asi que hay que validar
+            // que los haya
+            if (cbBank.Items.Count > 0)
+            {
+                employee.Banco = ((PairItem)cbBank.SelectedItem).HiddenValue;
+            }
+            else
+            {
+                employee.Banco = -1;
+            }
+
             employee.NumeroCuenta = txtAccountNumber.Text;
             employee.CorreoElectronico = txtEmail.Text;
             employee.Contrasena = txtPassword.Text;
-            employee.IdDepartamento = ((PairItem)cbDepartments.SelectedItem).HiddenValue;
-            employee.IdPuesto = ((PairItem)cbPositions.SelectedItem).HiddenValue;
+
+            if (cbDepartments.Items.Count > 0)
+            {
+                employee.IdDepartamento = ((PairItem)cbDepartments.SelectedItem).HiddenValue;
+            }
+            else
+            {
+                employee.IdDepartamento = -1;
+            }
+
+            if (cbPositions.Items.Count > 0)
+            {
+                employee.IdPuesto = ((PairItem)cbPositions.SelectedItem).HiddenValue;
+            }
+            else
+            {
+                employee.IdPuesto = -1;
+            }
+
             employee.FechaContratacion = dtpHiringDate.Value;
+
 
             employee.Calle = txtStreet.Text;
             employee.Numero = txtNumber.Text;
@@ -405,6 +456,9 @@ namespace Presentation.Views
 
 
             EmployeeState = EntityState.Modify;
+
+            dtpHiringDate.Value = Convert.ToDateTime(row.Cells[19].Value);
+
             dtgPrevIndex = index;
         }
 

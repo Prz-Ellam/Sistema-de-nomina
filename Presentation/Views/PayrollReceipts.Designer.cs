@@ -107,7 +107,7 @@ namespace Presentation.Views
             // 
             // ofnPayroll
             // 
-            this.ofnPayroll.Filter = "CSV (*.csv)|.csv";
+            this.ofnPayroll.Filter = "PDF (*.pdf)|.pdf";
             // 
             // PayrollReceipts
             // 

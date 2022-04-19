@@ -42,7 +42,7 @@ AS
 
 GO
 
-select*from empleados;
+select*from domicilios;
 
 
 
@@ -52,3 +52,47 @@ select*from empleados;
 
 
 
+
+
+IF EXISTS(SELECT name FROM sys.all_views WHERE name = 'vw_ReciboNomina')
+	DROP VIEW vw_ReciboNomina;
+GO
+
+CREATE VIEW vw_ReciboNomina
+AS
+
+	SELECT
+			c.razon_social AS 'Nombre de empresa',
+			c.rfc AS 'RFC de empresa',
+			c.registro_patronal AS 'Registro patronal',
+			CONCAT(do.calle, ' ', do.numero, ' ', do.colonia) AS 'Domicilio fiscal parte 1',
+			CONCAT(do.codigo_postal, ' ', do.ciudad, ' ', do.estado) AS 'Domicilio fiscal parte 2',
+			e.numero_empleado AS 'Numero de empleado',
+			CONCAT(e.apellido_paterno, ' ', e.apellido_materno, ', ', e.nombre) AS 'Nombre de empleado',
+			e.nss AS 'Numero de seguro social',
+			e.curp AS 'CURP',
+			e.rfc AS 'RFC de empleado',
+			e.fecha_contratacion AS 'Fecha de ingreso',
+			d.nombre AS 'Departamento',
+			p.nombre AS 'Puesto',
+			n.sueldo_diario AS 'Sueldo diario',
+			n.sueldo_bruto AS 'Sueldo bruto',
+			n.sueldo_neto AS 'Sueldo neto',
+			DATEFROMPARTS(YEAR(n.fecha), MONTH(n.fecha), 1) AS 'Periodo',
+			n.id_nomina AS 'ID de nomina'
+	FROM
+			empleados AS e
+			JOIN departamentos AS d 
+			ON e.id_departamento = d.id_departamento
+			JOIN puestos AS p
+			ON e.id_puesto = p.id_puesto 
+			JOIN empresas AS c
+			ON d.id_empresa = c.id_empresa
+			JOIN domicilios AS do
+			ON c.domicilio_fiscal = do.id_domicilio
+			JOIN nominas AS n
+			ON e.numero_empleado = n.numero_empleado
+	WHERE
+			e.activo = 1;
+
+GO

@@ -94,11 +94,11 @@ namespace Data_Access.Repositorios
             {
                 perceptions.Add(new PerceptionViewModel
                 {
-                    IdPercepcion = Convert.ToInt32(row[0]),
-                    Nombre = row[1].ToString(),
-                    TipoMonto = Convert.ToChar(row[2]),
-                    Fijo = Convert.ToDecimal(row[3]),
-                    Porcentual = Convert.ToDecimal(row[4])
+                    IdPercepcion = Convert.ToInt32(row["ID Percepcion"]),
+                    Nombre = row["Nombre"].ToString(),
+                    TipoMonto = Convert.ToChar(row["Tipo de monto"]),
+                    Fijo = Convert.ToDecimal(row["Fijo"]),
+                    Porcentual = Convert.ToDecimal(row["Porcentual"])
                 });
             }
 

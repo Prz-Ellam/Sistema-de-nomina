@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Data_Access.Repositorios;
+using Presentation.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,6 +14,8 @@ namespace Presentation.Views
 {
     public partial class PayrollReceipts : Form
     {
+        private RepositorioNominas repository = new RepositorioNominas();
+
         public PayrollReceipts()
         {
             InitializeComponent();
@@ -19,7 +23,20 @@ namespace Presentation.Views
 
         private void btnPDF_Click(object sender, EventArgs e)
         {
-            DateTime date = dtpDate.Value;
+            ofnPayroll.FileName = string.Format("{0}-{1} {2}", dtpDate.Value.Year, dtpDate.Value.Month, DateTime.Now.ToString("yyyy-MM-dd HH.mm.ss"));
+
+            if (ofnPayroll.ShowDialog() == DialogResult.OK)
+            {
+                var report = repository.GetPayrollReceipt(dtpDate.Value);
+
+
+                var per = new RepositorioPercepcionesAplicadas().ReadPayrollPerceptions(report.IdNomina);
+                var ded = new RepositorioDeduccionesAplicadas().ReadPayrollDeductions(report.IdNomina);
+
+
+                bool result = PDFReceipt.GeneratePDFReceipt(report, per, ded,  ofnPayroll.FileName);
+
+            }
         }
     }
 }

@@ -65,9 +65,9 @@ namespace Data_Access.Repositorios
             {
                 departments.Add(new PositionsViewModel
                 {
-                    Id = Convert.ToInt32(row[0]),
-                    Name = row[1].ToString(),
-                    WageLevel = Convert.ToDecimal(row[2])
+                    Id = Convert.ToInt32(row["ID Puesto"]),
+                    Name = row["Nombre"].ToString(),
+                    WageLevel = Convert.ToDecimal(row["Nivel salarial"])
 
                 });
             }
@@ -87,9 +87,9 @@ namespace Data_Access.Repositorios
             {
                 departments.Add(new PositionsViewModel
                 {
-                    Id = Convert.ToInt32(row[0]),
-                    Name = row[1].ToString(),
-                    WageLevel = Convert.ToDecimal(row[2])
+                    Id = Convert.ToInt32(row["ID Puesto"]),
+                    Name = row["Nombre"].ToString(),
+                    WageLevel = Convert.ToDecimal(row["Nivel salarial"])
 
                 });
             }

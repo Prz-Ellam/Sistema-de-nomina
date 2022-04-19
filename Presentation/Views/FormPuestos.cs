@@ -79,7 +79,7 @@ namespace Presentation.Views
                 return;
             }
 
-            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ListPositions();
             ClearForm();
         }
@@ -95,7 +95,7 @@ namespace Presentation.Views
                 return;
             }
 
-            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ListPositions();
             ClearForm();
         }
@@ -119,7 +119,7 @@ namespace Presentation.Views
                 return;
             }
 
-            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK);
+            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ListPositions();
             ClearForm();
         }
@@ -194,7 +194,14 @@ namespace Presentation.Views
             }
             catch (SqlException ex)
             {
-                return new ValidationResult(ex.Message, ValidationState.Error);
+                if (ex.Number == 50000)
+                {
+                    return new ValidationResult(ex.Message, ValidationState.Error);
+                }
+                else
+                {
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
+                }
             }
         }
 
@@ -225,7 +232,14 @@ namespace Presentation.Views
             }
             catch (SqlException ex)
             {
-                return new ValidationResult(ex.Message, ValidationState.Error);
+                if (ex.Number == 50000)
+                {
+                    return new ValidationResult(ex.Message, ValidationState.Error);
+                }
+                else
+                {
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
+                }
             }
         }
 
@@ -251,7 +265,14 @@ namespace Presentation.Views
             }
             catch (SqlException ex)
             {
-                return new ValidationResult(ex.Message, ValidationState.Error);
+                if (ex.Number == 50000)
+                {
+                    return new ValidationResult(ex.Message, ValidationState.Error);
+                }
+                else
+                {
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
+                }
             }
         }
 

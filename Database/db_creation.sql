@@ -98,6 +98,10 @@ CREATE TABLE empleados(
 		UNIQUE (correo_electronico)
 );
 
+
+SELECT * FROM empleados;
+
+
 IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'percepciones' AND type = 'u')
 	DROP TABLE percepciones;
 

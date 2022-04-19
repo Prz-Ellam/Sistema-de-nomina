@@ -97,3 +97,34 @@ AS
 		RAISERROR('Filtro inválido', 11, 1);
 
 GO
+
+
+
+
+
+
+
+
+
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerPercepcionesNomina')
+	DROP PROCEDURE sp_LeerPercepcionesNomina;
+GO
+
+CREATE PROCEDURE sp_LeerPercepcionesNomina(
+	@id_nomina			INT
+)
+AS
+
+	SELECT 
+			p.id_percepcion		[Clave], 
+			p.nombre			[Concepto], 
+			pa.cantidad			[Importe]
+	FROM 
+			percepciones_aplicadas AS pa
+			JOIN percepciones AS p
+			ON pa.id_percepcion = p.id_percepcion
+	WHERE 
+			id_nomina = @id_nomina;
+
+GO
+

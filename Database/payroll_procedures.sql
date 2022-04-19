@@ -4,11 +4,23 @@ IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_GenerarNom
 	DROP PROCEDURE sp_GenerarNomina;
 GO
 
+-- La empresa a la que pertenecen
 CREATE PROCEDURE sp_GenerarNomina(
-	@numero_empleado	INT,
-	@fecha			DATE
+	@id_empresa				INT,
+	@numero_empleado		INT,
+	@fecha					DATE
 )
 AS
+
+	DECLARE @fecha_nomina DATE;
+	SET @fecha_nomina = dbo.OBTENERFECHAACTUAL(@id_empresa);
+
+	IF (DATEFROMPARTS(YEAR(@fecha_nomina), MONTH(@fecha_nomina), 1) <> DATEFROMPARTS(YEAR(@fecha), MONTH(@fecha), 1))
+		BEGIN
+			RAISERROR('No se puede generar la nómina fuera del periodo actual de nómina', 11, 1);
+			RETURN;
+		END
+
 
 	DECLARE @anio		INT;
 	DECLARE @mes		INT;
@@ -52,6 +64,9 @@ AS
 	WHERE YEAR(fecha) = @anio AND MONTH(fecha) = @mes AND numero_empleado = @numero_empleado;
 
 GO
+
+
+
 
 
 EXEC sp_ObtenerNominasPorFecha '20220401';
@@ -101,12 +116,42 @@ AS
 		WHERE d.id_empresa = @id_empresa
 		ORDER BY [Fecha] DESC;
 	ELSE IF (EXISTS(SELECT id_empresa FROM empresas WHERE id_empresa = @id_empresa))
-		SELECT DATEFROMPARTS(YEAR(fecha_inicio), MONTH(fecha_inicio), 1) [Fecha]
+		SELECT fecha_inicio [Fecha]
 		FROM empresas
 		WHERE id_empresa = @id_empresa;
 	ELSE
 		RAISERROR('La empresa aun no existe', 11, 1);
 
+GO
+
+
+CREATE FUNCTION OBTENERFECHAACTUAL(
+	@id_empresa				INT
+)
+RETURNS DATE
+AS
+	BEGIN
+
+	DECLARE @fecha		DATE;
+
+	IF (EXISTS(SELECT id_nomina FROM nominas))	
+		SET @fecha = (SELECT DISTINCT TOP 1 DATEADD(MONTH, 1, DATEFROMPARTS(YEAR(fecha), MONTH(fecha), 1)) [Fecha]
+		FROM nominas AS n
+		JOIN empleados AS e
+		ON n.numero_empleado = e.numero_empleado
+		JOIN departamentos AS d
+		ON d.id_departamento = e.id_departamento
+		WHERE d.id_empresa = @id_empresa
+		ORDER BY [Fecha] DESC);
+	ELSE IF (EXISTS(SELECT id_empresa FROM empresas WHERE id_empresa = @id_empresa))
+		SET @fecha = (SELECT fecha_inicio [Fecha]
+		FROM empresas
+		WHERE id_empresa = @id_empresa);
+	ELSE
+		SET @fecha = NULL;
+
+	RETURN @fecha;
+	END
 GO
 
 
@@ -132,3 +177,43 @@ INSERT INTO fechas(fecha) VALUES('20220601');
 SELECT DISTINCT TOP 1 fecha FROM fechas
 ORDER BY fecha DESC;
 */
+
+
+
+
+
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ObtenerReciboNomina')
+	DROP PROCEDURE sp_ObtenerReciboNomina;
+GO
+
+CREATE PROCEDURE sp_ObtenerReciboNomina(
+	@fecha				DATE
+)
+AS
+
+SELECT 
+		[Nombre de empresa], 
+		[RFC de empresa], 
+		[Registro patronal], 
+		[Domicilio fiscal parte 1], 
+		[Domicilio fiscal parte 2], 
+		[Numero de empleado], 
+		[Nombre de empleado], 
+		[Numero de seguro social], 
+		[CURP], 
+		[RFC de empleado],
+		[Fecha de ingreso],
+		[Departamento], 
+		[Puesto], 
+		[Sueldo diario],
+		[Sueldo bruto], 
+		[Sueldo neto], 
+		[Periodo], 
+		[ID de nomina] 
+FROM 
+		vw_ReciboNomina
+WHERE
+		[Periodo] = DATEFROMPARTS(YEAR(@fecha), MONTH(@fecha), 1);
+
+GO
+

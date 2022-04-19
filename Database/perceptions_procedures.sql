@@ -69,8 +69,15 @@ GO
 CREATE PROCEDURE sp_LeerPercepciones
 AS
 
-	SELECT id_percepcion, nombre, tipo_monto, ISNULL(fijo, 0), ISNULL(porcentual, 0)
-	FROM percepciones
-	WHERE activo = 1;
+	SELECT
+			id_percepcion [ID Percepcion], 
+			nombre [Nombre], 
+			tipo_monto [Tipo de monto], 
+			ISNULL(fijo, 0) [Fijo], 
+			ISNULL(porcentual, 0) [Porcentual]
+	FROM
+			percepciones
+	WHERE
+			activo = 1;
 
 GO

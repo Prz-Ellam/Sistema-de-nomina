@@ -58,7 +58,7 @@ CREATE PROCEDURE sp_EliminarPuesto
 	@id_puesto					INT
 AS
 
-	IF (SELECT COUNT(0) FROM empleados WHERE id_puesto = @id_puesto AND activo = 1) > 0
+	IF (EXISTS (SELECT numero_empleado FROM empleados WHERE id_puesto = @id_puesto AND activo = 1))
 		BEGIN
 			RAISERROR ('No se puede eliminar el puesto porque un empleado pertenece a el', 11, 1)
 			RETURN;
@@ -85,10 +85,14 @@ CREATE PROCEDURE sp_LeerPuestos(
 )
 AS
 
-	SELECT id_puesto, nombre, nivel_salarial
-	FROM puestos
-	WHERE id_empresa = @id_empresa AND activo = 1;
-
+	SELECT 
+			id_puesto [ID Puesto], 
+			nombre [Nombre], 
+			nivel_salarial [Nivel salarial]
+	FROM 
+			puestos
+	WHERE 
+			id_empresa = @id_empresa AND activo = 1;
 
 GO
 
@@ -103,8 +107,13 @@ CREATE PROCEDURE sp_FiltrarPuestos
 	@id_empresa					INT
 AS
 
-	SELECT id_puesto, nombre, nivel_salarial
-	FROM puestos
-	WHERE id_empresa = @id_empresa AND activo = 1 AND nombre LIKE CONCAT('%', @filtro, '%');
+	SELECT 
+			id_puesto [ID Puesto], 
+			nombre [Nombre], 
+			nivel_salarial [Nivel salarial]
+	FROM 
+			puestos
+	WHERE 
+			id_empresa = @id_empresa AND activo = 1 AND nombre LIKE CONCAT('%', @filtro, '%');
 
 GO

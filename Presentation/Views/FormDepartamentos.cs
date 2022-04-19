@@ -127,7 +127,6 @@ namespace Presentation.Views
         private void dtgDepartaments_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             int index = e.RowIndex;
-
             if (index == dtgPrevIndex || index == -1)
             {
                 ClearForm();
@@ -194,7 +193,14 @@ namespace Presentation.Views
             }
             catch (SqlException ex)
             {
-                return new ValidationResult(ex.Message, ValidationState.Error);
+                if (ex.Number == 50000)
+                {
+                    return new ValidationResult(ex.Message, ValidationState.Error);
+                }
+                else
+                {
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
+                }
             }
         }
 
@@ -225,7 +231,14 @@ namespace Presentation.Views
             }
             catch (SqlException ex)
             {
-                return new ValidationResult(ex.Message, ValidationState.Error);
+                if (ex.Number == 50000)
+                {
+                    return new ValidationResult(ex.Message, ValidationState.Error);
+                }
+                else
+                {
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
+                }
             }
         }
 
@@ -250,7 +263,14 @@ namespace Presentation.Views
             }
             catch (SqlException ex)
             {
-                return new ValidationResult(ex.Message, ValidationState.Error);
+                if (ex.Number == 50000)
+                {
+                    return new ValidationResult(ex.Message, ValidationState.Error);
+                }
+                else
+                {
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
+                }
             }
         }
 

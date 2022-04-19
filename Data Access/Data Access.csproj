@@ -118,6 +118,8 @@
     <Compile Include="ViewModels\EmployeePayrollsViewModel.cs" />
     <Compile Include="ViewModels\EmployeesViewModel.cs" />
     <Compile Include="ViewModels\GeneralPayrollReportsViewModel.cs" />
+    <Compile Include="ViewModels\PayrollDeductionViewModel.cs" />
+    <Compile Include="ViewModels\PayrollPerceptionViewModel.cs" />
     <Compile Include="ViewModels\PayrollReceiptViewModel.cs" />
     <Compile Include="ViewModels\PayrollReportsViewModel.cs" />
     <Compile Include="ViewModels\PayrollViewModel.cs" />

@@ -44,6 +44,12 @@
     <Reference Include="Microsoft.Bcl.HashCode, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.HashCode.1.0.0\lib\net461\Microsoft.Bcl.HashCode.dll</HintPath>
     </Reference>
+    <Reference Include="PdfSharp, Version=1.50.5147.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.1.50.5147\lib\net20\PdfSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp.Charting, Version=1.50.5147.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.1.50.5147\lib\net20\PdfSharp.Charting.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
@@ -91,6 +97,8 @@
     <Compile Include="Helpers\DataValidation.cs" />
     <Compile Include="Helpers\EntityState.cs" />
     <Compile Include="Helpers\ExtensionMethods.cs" />
+    <Compile Include="Helpers\NumericUtils.cs" />
+    <Compile Include="Helpers\PDFReceipt.cs" />
     <Compile Include="Helpers\RegexUtilities.cs" />
     <Compile Include="Helpers\Session.cs" />
     <Compile Include="Helpers\ValidationResult.cs" />

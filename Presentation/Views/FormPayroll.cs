@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -31,25 +32,53 @@ namespace Presentation.Views
 
             dtpDate.Value = payrollDate;
             dtpDate.MinDate = payrollDate;
+            dtpConsult.Value = payrollDate;
 
-            /*
-            Form modal = new ModalPayroll();
-            modal.ShowDialog();
-            */
+            dtgPayrolls.DoubleBuffered(true);
         }
 
         private void btnGeneratePayroll_Click(object sender, EventArgs e)
         {
+            if (dtpDate.Value.Month != payrollDate.Month || dtpDate.Value.Year != payrollDate.Year)
+            {
+                MessageBox.Show("No se puede generar la nómina fuera del periodo actual de nómina",
+               "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+
+            DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?\nAl cerrarse la nómina, está no podrá volver a ser editada",
+               "Sistema de nómina dice: ", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (res == DialogResult.No)
+            {
+                return;
+            }
+
+
             DateTime date = dtpDate.Value;
 
             RepositorioEmpleados employeeRepository = new RepositorioEmpleados();
             List<int> employeesNumber = employeeRepository.GetEmployeesId();
-            
-            foreach(int employeeNumber in employeesNumber)
+
+            if (employeesNumber.Count < 1)
             {
-                payrollRepository.GeneratePayrolls(date, employeeNumber);
+                MessageBox.Show("No hay empleados actualmente");
             }
-            
+
+            try
+            {
+
+                foreach (int employeeNumber in employeesNumber)
+                {
+                    payrollRepository.GeneratePayrolls(date, employeeNumber, Session.company_id);
+                }
+
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
             //GenerateCSV();
         }

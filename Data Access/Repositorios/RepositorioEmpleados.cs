@@ -14,7 +14,7 @@ namespace Data_Access.Repositorios
 {
     public class RepositorioEmpleados
     {
-        private readonly string create, update, delete, readAll, readLike, getEmployeesId, readPayrolls;
+        private readonly string create, update, delete, readAll, readLike, getEmployeesId, readPayrolls, getById;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams = new RepositoryParameters();
 
@@ -27,6 +27,7 @@ namespace Data_Access.Repositorios
             readAll = "sp_LeerEmpleados";
             getEmployeesId = "sp_ObtenerEmpleados";
             readPayrolls = "sp_LeerEmpleadosNominas";
+            getById = "sp_ObtenerEmpleadoPorId";
         }
 
         public bool Create(Empleados employee)
@@ -145,7 +146,7 @@ namespace Data_Access.Repositorios
                     State = row["Estado"].ToString(),
                     PostalCode = row["Codigo postal"].ToString(),
                     Bank = new PairItem(row["Banco"].ToString(), Convert.ToInt32(row["ID Banco"])),
-                    AccountNumber = Convert.ToInt32(row["Numero de cuenta"]),
+                    AccountNumber = row["Numero de cuenta"].ToString(),
                     Email = row["Correo electronico"].ToString(),
                     Department = new PairItem(row["Departamento"].ToString(), Convert.ToInt32(row["ID Departamento"])),
                     Position = new PairItem(row["Puesto"].ToString(), Convert.ToInt32(row["ID Puesto"])),
@@ -183,9 +184,10 @@ namespace Data_Access.Repositorios
             DataTable table = mainRepository.ExecuteReader(readPayrolls, sqlParams);
 
             List<EmployeePayrollsViewModel> employeePayrolls = new List<EmployeePayrollsViewModel>();
-            foreach(DataRow row in table.Rows)
+            foreach (DataRow row in table.Rows)
             {
-                employeePayrolls.Add(new EmployeePayrollsViewModel {
+                employeePayrolls.Add(new EmployeePayrollsViewModel
+                {
                     NumeroEmpleado = Convert.ToInt32(row[0]),
                     NombreEmpleado = row[1].ToString(),
                     Departamento = row[2].ToString(),
@@ -202,6 +204,43 @@ namespace Data_Access.Repositorios
             return employeePayrolls;
         }
 
+        public EmployeesViewModel GetEmployeeById(int employeeId)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@numero_empleado", employeeId);
 
+            DataTable table = mainRepository.ExecuteReader(getById, sqlParams);
+            foreach (DataRow row in table.Rows)
+            {
+                return new EmployeesViewModel
+                {
+                    EmployeeNumber = Convert.ToInt32(row["ID"]),
+                    Name = row["Nombre"].ToString(),
+                    FatherLastName = row["Apellido Paterno"].ToString(),
+                    MotherLastName = row["Apellido Materno"].ToString(),
+                    DateOfBirth = Convert.ToDateTime(row["Fecha de nacimiento"]),
+                    Curp = row["CURP"].ToString(),
+                    Nss = row["NSS"].ToString(),
+                    Rfc = row["RFC"].ToString(),
+                    Street = row["Calle"].ToString(),
+                    Number = row["Numero"].ToString(),
+                    Suburb = row["Colonia"].ToString(),
+                    City = row["Municipio"].ToString(),
+                    State = row["Estado"].ToString(),
+                    PostalCode = row["Codigo postal"].ToString(),
+                    Bank = new PairItem(row["Banco"].ToString(), Convert.ToInt32(row["ID Banco"])),
+                    AccountNumber = row["Numero de cuenta"].ToString(),
+                    Email = row["Correo electronico"].ToString(),
+                    Department = new PairItem(row["Departamento"].ToString(), Convert.ToInt32(row["ID Departamento"])),
+                    Position = new PairItem(row["Puesto"].ToString(), Convert.ToInt32(row["ID Puesto"])),
+                    HiringDate = Convert.ToDateTime(row["Fecha de contratacion"]),
+                    SueldoDiario = Convert.ToDecimal(row["Sueldo diario"]),
+                    BaseSalary = Convert.ToDecimal(row["Sueldo base"]),
+                    WageLevel = Convert.ToDecimal(row["Nivel salarial"])
+                };
+            }
+
+            return null;
+        }
     }
 }

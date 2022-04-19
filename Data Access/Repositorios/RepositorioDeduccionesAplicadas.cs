@@ -11,7 +11,7 @@ namespace Data_Access.Repositorios
 {
     public class RepositorioDeduccionesAplicadas
     {
-        private readonly string applyEmployee, undoEmployee, readApplyEmployee;
+        private readonly string applyEmployee, undoEmployee, readApplyEmployee, readPayrollDeduction;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams;
 
@@ -21,6 +21,8 @@ namespace Data_Access.Repositorios
             applyEmployee = "sp_AplicarEmpleadoDeduccion";
             undoEmployee = "sp_EliminarEmpleadoDeduccion";
             readApplyEmployee = "sp_LeerDeduccionesAplicadas";
+
+            readPayrollDeduction = "sp_LeerDeduccionesNomina";
 
             sqlParams = new RepositoryParameters();
         }
@@ -85,7 +87,27 @@ namespace Data_Access.Repositorios
             }
 
             return applyDeductions;
+        }
 
+        public List<PayrollDeductionViewModel> ReadPayrollDeductions(int payrollId)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@id_nomina", payrollId);
+
+            DataTable table = mainRepository.ExecuteReader(readPayrollDeduction, sqlParams);
+            List<PayrollDeductionViewModel> deductions = new List<PayrollDeductionViewModel>();
+
+            foreach (DataRow row in table.Rows)
+            {
+                deductions.Add(new PayrollDeductionViewModel
+                {
+                    IdDeduccion = Convert.ToInt32(row["Clave"]),
+                    Concepto = row["Concepto"].ToString(),
+                    Importe = Convert.ToDecimal(row["Importe"]),
+                });
+            }
+
+            return deductions;
         }
 
     }
