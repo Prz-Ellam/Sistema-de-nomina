@@ -86,6 +86,7 @@
     <Compile Include="Entidades\Percepciones.cs" />
     <Compile Include="Entidades\Puestos.cs" />
     <Compile Include="Entidades\States.cs" />
+    <Compile Include="Entidades\Telefonos.cs" />
     <Compile Include="Entidades\Users.cs" />
     <Compile Include="Helpers\CURP.cs" />
     <Compile Include="Helpers\PairItem.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="Repositorios\RepositorioPuestos.cs" />
     <Compile Include="Connections\MainConnection.cs" />
     <Compile Include="Repositorios\RepositorioPercepcionesAplicadas.cs" />
+    <Compile Include="Repositorios\RepositorioTelefonos.cs" />
     <Compile Include="Repositorios\RepositoryParameters.cs" />
     <Compile Include="Repositorios\StatesRepository.cs" />
     <Compile Include="Repositorios\UsersRepository.cs" />

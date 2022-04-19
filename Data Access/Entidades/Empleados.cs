@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,7 @@ namespace Data_Access.Entidades
         private bool activo;
         private int idDepartamento;
         private int idPuesto;
+        private DataTable telefonos = new DataTable();
 
         // Domicilios
         private string calle;
@@ -91,5 +93,6 @@ namespace Data_Access.Entidades
         [Required]
         [RegularExpression(@"^\d{4,5}$", ErrorMessage = "El codigo postal no es válido")]
         public string CodigoPostal { get => codigoPostal; set => codigoPostal = value; }
+        public DataTable Telefonos { get => telefonos; set => telefonos = value; }
     }
 }

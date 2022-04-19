@@ -35,14 +35,7 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@id_empresa", departmento.IdEmpresa);
 
             int rowCount = repositorio.ExecuteNonQuery(agregar, sqlParams);
-            if (rowCount > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (rowCount > 0) ? true : false;
         }
 
         public bool Update(Departamentos department)
@@ -53,14 +46,7 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@sueldo_base", department.SueldoBase);
 
             int rowCount = repositorio.ExecuteNonQuery(actualizar, sqlParams);
-            if (rowCount > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (rowCount > 0) ? true : false;
         }
 
         public bool Delete(int id)
@@ -69,14 +55,7 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@id_departamento", id);
 
             int rowCount = repositorio.ExecuteNonQuery(eliminar, sqlParams);
-            if (rowCount > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (rowCount > 0) ? true : false;
         }
 
         public List<DepartmentsViewModel> ReadAll(int companyId)

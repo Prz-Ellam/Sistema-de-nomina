@@ -20,7 +20,9 @@ namespace Presentation.Views
     public partial class FormEmpleados : Form
     {
         private RepositorioEmpleados repository = new RepositorioEmpleados();
+        private RepositorioTelefonos phonesRepository = new RepositorioTelefonos();
         private Empleados employee = new Empleados();
+        private List<Telefonos> phones = new List<Telefonos>();
         int dtgPrevIndex = -1;
         int employeeId = -1;
 
@@ -73,9 +75,12 @@ namespace Presentation.Views
 
         private void Employees_Load(object sender, EventArgs e)
         {
+            employee.Telefonos = new DataTable();
+            employee.Telefonos.Columns.Add("row_count");
+            employee.Telefonos.Columns.Add("telefono");
+
             EmployeeState = EntityState.Add;
             ListEmployees();
-
 
             // Inicializar bancos, departamentos y puestos
             List<Bancos> bancos = new RepositorioBancos().ReadAll();
@@ -355,6 +360,23 @@ namespace Presentation.Views
             employee.Ciudad = cbCity.Text;
             employee.Estado = cbState.Text;
             employee.CodigoPostal = txtPostalCode.Text;
+
+            for(int i = 0; i < cbPhones.Items.Count; i++)
+            {
+                phones.Add(new Telefonos 
+                { 
+                    IdPropietario = Session.id,
+                    Nombre = cbPhones.Items[i].ToString() 
+                });
+            }
+
+            employee.Telefonos.Rows.Clear();
+            for(int i = 0; i < cbPhones.Items.Count; i++)
+            {
+                employee.Telefonos.Rows.Add(i.ToString(), cbPhones.Items[i].ToString());
+            }
+
+
         }
 
         public void ClearForm()

@@ -1,5 +1,7 @@
 USE sistema_de_nomina;
 
+select*from telefonos_empleados;
+
 
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AgregarEmpleado')
 	DROP PROCEDURE sp_AgregarEmpleado;
@@ -25,12 +27,12 @@ CREATE PROCEDURE sp_AgregarEmpleado(
 	@contrasena				VARCHAR(30),
 	@id_departamento		INT,
 	@id_puesto				INT,
-	@fecha_contratacion		DATE
+	@fecha_contratacion		DATE,
+	@telefonos				dbo.Telefonos READONLY
 )
 AS
 
 	EXEC sp_AgregarDomicilio @calle, @numero, @colonia, @ciudad, @estado, @codigo_postal;
-	
 
 	DECLARE @sueldo_diario	MONEY
 	SET @sueldo_diario = (SELECT sueldo_base FROM departamentos WHERE id_departamento = @id_departamento) *
@@ -41,8 +43,23 @@ AS
 	VALUES (@nombre, @apellido_paterno, @apellido_materno, @fecha_nacimiento, @curp, @nss, @rfc, IDENT_CURRENT('Domicilios'), 
 		@banco, @numero_cuenta, @correo_electronico, @contrasena, @id_departamento, @id_puesto, @sueldo_diario, @fecha_contratacion);
 
-GO
 
+	DECLARE @min INT = (SELECT MIN(row_count) FROM @telefonos);
+	DECLARE @max INT = (SELECT MAX(row_count) FROM @telefonos)
+	DECLARE @count INT = @min;
+
+	WHILE (@count <= @max)
+	BEGIN
+
+		INSERT INTO telefonos_empleados(telefono, numero_empleado)
+		SELECT telefono, IDENT_CURRENT('empleados')
+		FROM @telefonos 
+		WHERE row_count = @count;
+
+		SET @count = @count + 1;
+	END
+
+GO
 
 
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ActualizarEmpleado')
@@ -185,6 +202,64 @@ AS
 	SELECT numero_empleado FROM empleados WHERE activo = 1;
 
 GO
+
+
+
+
+
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ObtenerEmpleadoPorId')
+	DROP PROCEDURE sp_ObtenerEmpleadoPorId;
+GO
+
+CREATE PROCEDURE sp_ObtenerEmpleadoPorId(
+	@numero_empleado				INT
+)
+AS
+
+	SELECT	E.numero_empleado [ID], 
+			E.nombre [Nombre], 
+			E.apellido_paterno [Apellido paterno],
+			E.apellido_materno [Apellido materno],
+			E.fecha_nacimiento [Fecha de nacimiento],
+			E.curp [CURP],
+			E.nss [NSS],
+			E.rfc [RFC],
+			A.calle [Calle],
+			A.numero [Numero],
+			A.colonia [Colonia],
+			A.ciudad [Municipio],
+			A.estado [Estado],
+			A.codigo_postal [Codigo postal],
+			B.nombre [Banco],
+			B.id_banco [ID Banco],
+			E.numero_cuenta [Numero de cuenta],
+			E.correo_electronico [Correo electronico],
+			D.nombre [Departamento],
+			D.id_departamento [ID Departamento],
+			P.nombre [Puesto],
+			P.id_puesto [ID Puesto],
+			E.fecha_contratacion [Fecha de contratacion],
+			E.sueldo_diario [Sueldo diario],
+			D.sueldo_base [Sueldo base],
+			P.nivel_salarial [Nivel salarial]
+	FROM empleados AS E
+	JOIN domicilios AS A
+	ON A.id_domicilio = E.domicilio
+	JOIN bancos AS B
+	ON B.id_banco = E.banco
+	JOIN departamentos AS D
+	ON D.id_departamento = E.id_departamento
+	JOIN puestos AS P
+	ON P.id_puesto = E.id_puesto
+	WHERE E.activo = 1 AND numero_empleado = @numero_empleado;
+
+GO
+
+
+
+
+
+
 
 
 

@@ -26,32 +26,35 @@ namespace Data_Access.Repositorios
             readLike = "sp_FiltrarPuestos";
         }
 
-        public int Create(Puestos position)
+        public bool Create(Puestos position)
         {
             sqlParams.Start();
             sqlParams.Add("@nombre", position.Nombre);
             sqlParams.Add("@nivel_salarial", position.NivelSalarial);
             sqlParams.Add("@id_empresa", position.IdEmpresa);
 
-            return mainRepository.ExecuteNonQuery(create, sqlParams);
+            int rowCount = mainRepository.ExecuteNonQuery(create, sqlParams);
+            return (rowCount > 0) ? true : false;
         }
 
-        public int Update(Puestos position)
+        public bool Update(Puestos position)
         {
             sqlParams.Start();
             sqlParams.Add("@id_puesto", position.IdPuesto);
             sqlParams.Add("@nombre", position.Nombre);
             sqlParams.Add("@nivel_salarial", position.NivelSalarial);
 
-            return mainRepository.ExecuteNonQuery(update, sqlParams);
+            int rowCount = mainRepository.ExecuteNonQuery(update, sqlParams);
+            return (rowCount > 0) ? true : false;
         }
 
-        public int Delete(int id)
+        public bool Delete(int id)
         {
             sqlParams.Start();
             sqlParams.Add("@id_puesto", id);
 
-            return mainRepository.ExecuteNonQuery(delete, sqlParams);
+            int rowCount = mainRepository.ExecuteNonQuery(delete, sqlParams);
+            return (rowCount > 0) ? true : false;
         }
 
         public List<PositionsViewModel> ReadAll(int companyId)

@@ -182,8 +182,8 @@ namespace Presentation.Views
                     return new ValidationResult(feedback.Item2, ValidationState.Error);
                 }
 
-                int result = repository.Create(position);
-                if (result > 0)
+                bool result = repository.Create(position);
+                if (result)
                 {
                     return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
                 }
@@ -220,8 +220,8 @@ namespace Presentation.Views
                     return new ValidationResult(feedback.Item2, ValidationState.Error);
                 }
 
-                int result = repository.Update(position);
-                if (result > 0)
+                bool result = repository.Update(position);
+                if (result)
                 {
                     return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
                 }
@@ -252,9 +252,8 @@ namespace Presentation.Views
 
             try
             {
-                int result = repository.Delete(positionId);
-
-                if (result > 0)
+                bool result = repository.Delete(positionId);
+                if (result)
                 {
                     return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
                 }

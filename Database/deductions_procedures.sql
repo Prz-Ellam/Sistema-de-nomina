@@ -71,8 +71,15 @@ GO
 CREATE PROCEDURE sp_LeerDeducciones
 AS
 
-	SELECT id_deduccion [ID], nombre [Nombre], tipo_monto [Tipo de monto], fijo [Fijo], porcentual [Porcentual]
-	FROM deducciones
-	WHERE activo = 1;
+	SELECT 
+			id_deduccion [ID Deduccion], 
+			nombre [Nombre],
+			tipo_monto [Tipo de monto], 
+			fijo [Fijo], 
+			porcentual [Porcentual]
+	FROM 
+			deducciones
+	WHERE 
+			activo = 1;
 
 GO

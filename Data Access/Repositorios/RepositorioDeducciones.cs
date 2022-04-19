@@ -34,14 +34,7 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@porcentual", deduccion.Porcentual);
 
             int rowCount = mainRepository.ExecuteNonQuery(create, sqlParams);
-            if (rowCount > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (rowCount > 0) ? true : false;
         }
 
         public bool Update(Deducciones deduccion)
@@ -54,14 +47,7 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@porcentual", deduccion.Porcentual);
 
             int rowCount = mainRepository.ExecuteNonQuery(update, sqlParams);
-            if (rowCount > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (rowCount > 0) ? true : false;
         }
 
         public bool Delete(int idDeduccion)
@@ -70,14 +56,7 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@id_deduccion", idDeduccion);
 
             int rowCount = mainRepository.ExecuteNonQuery(delete, sqlParams);
-            if (rowCount > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (rowCount > 0) ? true : false;
         }
 
         public List<DeductionViewModel> ReadAll()
@@ -90,11 +69,11 @@ namespace Data_Access.Repositorios
             {
                 deductions.Add(new DeductionViewModel
                 {
-                    IdDeduccion = Convert.ToInt32(row[0]),
-                    Nombre = row[1].ToString(),
-                    TipoMonto = Convert.ToChar(row[2]),
-                    Fijo = Convert.ToDecimal(row[3]),
-                    Porcentual = Convert.ToDecimal(row[4])
+                    IdDeduccion = Convert.ToInt32(row["ID Deduccion"]),
+                    Nombre = row["Nombre"].ToString(),
+                    TipoMonto = Convert.ToChar(row["Tipo de monto"]),
+                    Fijo = Convert.ToDecimal(row["Fijo"]),
+                    Porcentual = Convert.ToDecimal(row["Porcentual"])
                 });
             }
 

@@ -55,16 +55,10 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@id_departamento", employee.IdDepartamento);
             sqlParams.Add("@id_puesto", employee.IdPuesto);
             sqlParams.Add("@fecha_contratacion", employee.FechaContratacion);
+            sqlParams.Add("@telefonos", employee.Telefonos);
 
             int rowCount = mainRepository.ExecuteNonQuery(create, sqlParams);
-            if (rowCount > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (rowCount > 0) ? true : false;
         }
 
         public bool Update(Empleados employee)
@@ -95,14 +89,7 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@fecha_contratacion", employee.FechaContratacion);
 
             int rowCount = mainRepository.ExecuteNonQuery(update, sqlParams);
-            if (rowCount > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (rowCount > 0) ? true : false;
         }
 
         public bool Delete(int employeeNumber)
@@ -111,14 +98,7 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@numero_empleado", employeeNumber);
 
             int rowCount = mainRepository.ExecuteNonQuery(delete, sqlParams);
-            if (rowCount > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (rowCount > 0) ? true : false;
         }
 
         public List<EmployeesViewModel> ReadAll()
