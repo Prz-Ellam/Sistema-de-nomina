@@ -78,6 +78,6 @@ AS
 	FROM
 			percepciones
 	WHERE
-			activo = 1;
+			activo = 1 AND tipo_duracion = 'S';
 
 GO

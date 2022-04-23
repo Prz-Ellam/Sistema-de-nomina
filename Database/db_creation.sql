@@ -99,8 +99,6 @@ CREATE TABLE empleados(
 );
 
 
-SELECT * FROM empleados;
-
 
 IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'percepciones' AND type = 'u')
 	DROP TABLE percepciones;
@@ -121,6 +119,7 @@ CREATE TABLE percepciones(
 	CONSTRAINT Chk_Percepcion_Duracion
 		CHECK (tipo_duracion in ('S', 'B'))
 );
+
 
 IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'deducciones' AND type = 'u')
 	DROP TABLE deducciones;
@@ -401,15 +400,11 @@ ORDER BY TableName ASC;
 */
 
 
-
 INSERT INTO domicilios(calle, numero, colonia, ciudad, estado, codigo_postal)
 VALUES('Montes de Leon', '935', 'Las Puentes 6to Sector', 'San Nicolas de los Garza', 'Nuevo Leon', '66460');
 
 INSERT INTO empresas(razon_social, domicilio_fiscal, correo_electronico, rfc, registro_patronal, fecha_inicio, id_administrador)
 VALUES('Crystal Soft Development S.A. de C.V.', 1, 'crystal@domain.com', 'MOV1004082C1', 'Y5499995107','20101026', 1);
-
-INSERT INTO administradores(correo_electronico, contrasena)
-VALUES('a@a.com', '123');
 
 select top 1 * from empresas;
 
@@ -418,9 +413,21 @@ SELECT * FROM puestos;
 select*from domicilios;
 select*from empresas;
 
+INSERT INTO administradores(correo_electronico, contrasena)
+VALUES('a@a.com', '123');
 
 INSERT INTO Bancos (Nombre) VALUES ('Banorte');
 INSERT INTO Bancos (Nombre) VALUES ('Santander');
 INSERT INTO Bancos (Nombre) VALUES ('BBVA');
 INSERT INTO Bancos (Nombre) VALUES ('Citibanamex');
 INSERT INTO Bancos (Nombre) VALUES ('Afirme');
+
+
+INSERT INTO percepciones(nombre, tipo_monto, fijo, porcentual, tipo_duracion)
+VALUES('Salario', 'P', 0, 1.0, 'B');
+INSERT INTO deducciones(nombre, tipo_monto, fijo, porcentual, tipo_duracion)
+VALUES('ISR', 'P', 0, 0.2, 'B');
+INSERT INTO deducciones(nombre, tipo_monto, fijo, porcentual, tipo_duracion)
+VALUES('IMSS', 'F', 100.0, 0, 'B');
+
+SELECT*FROM deducciones;

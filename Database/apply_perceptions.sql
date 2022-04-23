@@ -54,9 +54,7 @@ AS
 
 GO
 
-
-
-
+EXEC sp_LeerDeduccionesAplicadas 1, 1, '20100210';
 
 
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerPercepcionesAplicadas')

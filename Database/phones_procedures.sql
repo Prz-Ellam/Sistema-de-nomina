@@ -34,7 +34,6 @@ CREATE TYPE dbo.Telefonos
 AS TABLE
 (
 	row_count	INT,
-	id_telefono INT,
 	telefono VARCHAR(12)
 );
 

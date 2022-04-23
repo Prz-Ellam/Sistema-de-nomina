@@ -51,10 +51,11 @@ AS
 	WHILE (@count <= @max)
 	BEGIN
 
+		DECLARE @numtel VARCHAR(12) = (SELECT telefono FROM @telefonos WHERE row_count = @count);
+
 		INSERT INTO telefonos_empleados(telefono, numero_empleado)
-		SELECT telefono, IDENT_CURRENT('empleados')
-		FROM @telefonos 
-		WHERE row_count = @count;
+		VALUES(@numtel, IDENT_CURRENT('empleados'));
+		
 
 		SET @count = @count + 1;
 	END
@@ -291,7 +292,7 @@ AS
 	e.sueldo_diario * dbo.DIASTRABAJADOSEMPLEADO(@fecha, e.numero_empleado) [Sueldo bruto],
 	dbo.TOTALPERCEPCIONES(@fecha, e.numero_empleado) [Total percepciones],
 	dbo.TOTALDEDUCCIONES(@fecha, e.numero_empleado) [Total deducciones],
-	(e.sueldo_diario * dbo.DIASTRABAJADOSEMPLEADO(@fecha, e.numero_empleado)) + dbo.TOTALPERCEPCIONES(@fecha, e.numero_empleado) - dbo.TOTALDEDUCCIONES(@fecha, e.numero_empleado) [Sueldo neto]
+	(dbo.TOTALPERCEPCIONES(@fecha, e.numero_empleado) - dbo.TOTALDEDUCCIONES(@fecha, e.numero_empleado)) [Sueldo neto]
 	FROM empleados AS e
 	JOIN departamentos AS d
 	ON e.id_departamento = d.id_departamento
@@ -336,3 +337,25 @@ GROUP BY d.nombre;
 
 
 
+CREATE DATABASE a;
+USE a;
+
+CREATE TABLE b(
+	id		INT IDENTITY(1,1),
+	b		INT UNIQUE
+);
+
+INSERT INTO b(b) VALUES(1);
+INSERT INTO b(b) VALUES(95);
+INSERT INTO b(b) VALUES(34);
+INSERT INTO b(b) VALUES(95);
+INSERT INTO b(b) VALUES(84);
+
+SELECT * FROM b;
+
+
+BEGIN TRAN;
+	INSERT INTO b(b) VALUES(54);
+
+	IF @@ERROR = 1
+		ROLLBACK;

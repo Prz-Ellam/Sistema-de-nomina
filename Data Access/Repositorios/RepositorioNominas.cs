@@ -12,6 +12,7 @@ namespace Data_Access.Repositorios
     public class RepositorioNominas
     {
         private readonly string generate, readByDate, generalPayrollReport, getDate, getPayrollReceipt;
+        private readonly string startPayroll;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams = new RepositoryParameters();
 
@@ -23,6 +24,7 @@ namespace Data_Access.Repositorios
             generalPayrollReport = "sp_ReporteGeneralNomina";
             getDate = "sp_ObtenerFechaActual";
             getPayrollReceipt = "sp_ObtenerReciboNomina";
+            startPayroll = "sp_CrearNomina";
         }
 
         public int GeneratePayrolls(DateTime date, int employeeNumber, int companyId)
@@ -132,6 +134,16 @@ namespace Data_Access.Repositorios
             }
 
             return null;
+        }
+
+        public bool StartPayroll(int companyId, DateTime date)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@id_empresa", companyId);
+            sqlParams.Add("@fecha", date);
+
+            int rowCount = mainRepository.ExecuteNonQuery(startPayroll, sqlParams);
+            return (rowCount > 0) ? true : false;
         }
 
     }

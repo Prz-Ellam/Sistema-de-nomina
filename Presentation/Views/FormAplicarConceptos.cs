@@ -380,5 +380,12 @@ namespace Presentation.Views
 
             ListEmployees();
         }
+
+        private void btnStartPayroll_Click(object sender, EventArgs e)
+        {
+            RepositorioNominas payrollRepository = new RepositorioNominas();
+            bool result = payrollRepository.StartPayroll(Session.company_id, dtpDate.Value);
+
+        }
     }
 }

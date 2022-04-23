@@ -27,7 +27,7 @@ namespace Presentation.Views
         int employeeId = -1;
 
         // Esto podría tronar si entra y aun no tiene ninguna empresa
-        DateTime payrollDate = new RepositorioNominas().GetDate(Session.company_id); 
+        DateTime payrollDate; 
 
         int cbPhonesPrevIndex = -1;
         
@@ -79,6 +79,18 @@ namespace Presentation.Views
             employee.Telefonos.Columns.Add("row_count");
             employee.Telefonos.Columns.Add("telefono");
 
+            try
+            {
+                payrollDate = new RepositorioNominas().GetDate(Session.company_id);
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 50000)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+
             EmployeeState = EntityState.Add;
             ListEmployees();
 
@@ -110,9 +122,6 @@ namespace Presentation.Views
             cbPositions.DataSource = nombres;
 
             InitStates();
-
-            
-
 
             // Esto es para evitar el molesto flickering que tienen los data grid view
             dtgEmployees.DoubleBuffered(true);

@@ -1,5 +1,64 @@
 USE sistema_de_nomina;
 
+EXEC sp_CrearNomina 1, '20010901';
+SELECT * FROM percepciones_aplicadas;
+SELECT * FROM empleados;
+TRUNCATE TABLE percepciones_aplicadas;
+
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_CrearNomina')
+	DROP PROCEDURE sp_CrearNomina;
+GO
+
+CREATE PROCEDURE sp_CrearNomina(
+	@id_empresa				INT,
+	@fecha					DATE
+)
+AS
+
+	DECLARE @fecha_nomina DATE;
+	SET @fecha_nomina = dbo.OBTENERFECHAACTUAL(@id_empresa);
+	
+	IF (DATEFROMPARTS(YEAR(@fecha_nomina), MONTH(@fecha_nomina), 1) <> DATEFROMPARTS(YEAR(@fecha), MONTH(@fecha), 1))
+		BEGIN
+			RAISERROR('No se puede iniciar una nómina fuera del periodo actual de nómina', 11, 1);
+			RETURN;
+		END
+
+
+	
+	INSERT INTO 
+			percepciones_aplicadas(numero_empleado, id_percepcion, cantidad, fecha)
+	SELECT 
+			e.numero_empleado, 
+			p.id_percepcion, 
+			IIF(p.tipo_monto = 'F', p.fijo, p.porcentual * e.sueldo_diario * dbo.DIASTRABAJADOSEMPLEADO(@fecha, e.numero_empleado)),
+			@fecha
+	FROM 
+			empleados AS e
+			CROSS JOIN percepciones AS p
+	WHERE 
+			e.fecha_contratacion <= @fecha AND e.activo = 1 AND p.tipo_duracion = 'B';
+
+
+
+	INSERT INTO 
+			deducciones_aplicadas(numero_empleado, id_deduccion, cantidad, fecha)
+	SELECT 
+			e.numero_empleado, 
+			d.id_deduccion, 
+			IIF(d.tipo_monto = 'F', d.fijo, d.porcentual * e.sueldo_diario * dbo.DIASTRABAJADOSEMPLEADO(@fecha, e.numero_empleado)),
+			@fecha
+	FROM 
+			empleados AS e
+			CROSS JOIN deducciones AS d
+	WHERE 
+			e.fecha_contratacion <= @fecha AND e.activo = 1 AND d.tipo_duracion = 'B';
+
+GO
+
+
+
+
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_GenerarNomina')
 	DROP PROCEDURE sp_GenerarNomina;
 GO

@@ -75,11 +75,11 @@ AS
 			id_deduccion [ID Deduccion], 
 			nombre [Nombre],
 			tipo_monto [Tipo de monto], 
-			fijo [Fijo], 
-			porcentual [Porcentual]
+			ISNULL(fijo, 0) [Fijo], 
+			ISNULL(porcentual, 0) [Porcentual]
 	FROM 
 			deducciones
 	WHERE 
-			activo = 1;
+			activo = 1 AND tipo_duracion = 'S';
 
 GO

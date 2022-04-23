@@ -1,4 +1,6 @@
 ﻿using Data_Access.Entidades;
+using Data_Access.Entities;
+using Data_Access.Helpers;
 using Data_Access.Repositorios;
 using Data_Access.ViewModels;
 using Presentation.Helpers;
@@ -19,6 +21,8 @@ namespace Presentation.Views
     {
         private RepositorioEmpleados employeeRepository = new RepositorioEmpleados();
         private Empleados employee = new Empleados();
+        private List<States> states;
+
         public Profile()
         {
             InitializeComponent();
@@ -41,7 +45,18 @@ namespace Presentation.Views
         }
 
         private void Profile_Load(object sender, EventArgs e)
-        { 
+        {
+            InitStates();
+
+            // Inicializar bancos, departamentos y puestos
+            List<Bancos> bancos = new RepositorioBancos().ReadAll();
+            List<PairItem> nombres = new List<PairItem>();
+            foreach (var banco in bancos)
+            {
+                nombres.Add(new PairItem(banco.Nombre, banco.IdBanco));
+            }
+            cbBank.DataSource = nombres;
+
             ListProfile();
         }
 
@@ -56,14 +71,25 @@ namespace Presentation.Views
             txtCURP.Text = employee.Curp;
             txtNSS.Text = employee.Nss;
             txtRFC.Text = employee.Rfc;
-
+            
             txtEmail.Text = employee.Email;
             txtAccountNumber.Text = employee.AccountNumber;
+
+            cbBank.SelectedIndex = cbBank.FindString(employee.Bank.ToString());
 
             txtStreet.Text = employee.Street;
             txtNumber.Text = employee.Number;
             txtSuburb.Text = employee.Suburb;
+            cbState.SelectedIndex = cbState.FindString(employee.State);
+            cbCity.SelectedIndex = cbCity.FindString(employee.City);
             txtPostalCode.Text = employee.PostalCode;
+
+            txtDepartment.Text = employee.Department.ToString();
+            txtPosition.Text = employee.Position.ToString();
+
+            nudDailySalary.Value = employee.SueldoDiario;
+            nudBaseSalary.Value = employee.BaseSalary;
+            nudWageLevel.Value = employee.WageLevel;
         }
 
         private void FillProfile()
@@ -82,7 +108,7 @@ namespace Presentation.Views
 
             // Estos PairItem pueden provocar excepcion si no hay registros, asi que hay que validar
             // que los haya
-            /*
+            
             if (cbBank.Items.Count > 0)
             {
                 employee.Banco = ((PairItem)cbBank.SelectedItem).HiddenValue;
@@ -91,11 +117,11 @@ namespace Presentation.Views
             {
                 employee.Banco = -1;
             }
-            */
-
+            
             employee.NumeroCuenta = txtAccountNumber.Text;
             employee.CorreoElectronico = txtEmail.Text;
             employee.Contrasena = txtPassword.Text;
+
             /*
             if (cbDepartments.Items.Count > 0)
             {
@@ -152,5 +178,29 @@ namespace Presentation.Views
             }
         }
 
+        private void InitStates()
+        {
+            StatesRepository repository = new StatesRepository();
+            states = repository.GetAll();
+
+            //cbState.Items.Add("Seleccionar");
+            foreach (var state in states)
+            {
+                cbState.Items.Add(state.state);
+            }
+
+            cbState.SelectedIndex = 0;
+        }
+
+        private void cbState_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cbCity.DataSource = null;
+            if (cbState.SelectedIndex <= 0)
+            {
+                return;
+            }
+            cbCity.DataSource = states[cbState.SelectedIndex].cities;
+            cbCity.SelectedIndex = 0;
+        }
     }
 }

@@ -29,8 +29,8 @@ namespace Presentation.Views
         /// </summary>
         private void InitializeComponent()
         {
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.cbCity = new System.Windows.Forms.ComboBox();
+            this.cbState = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.cbPhones = new System.Windows.Forms.ComboBox();
             this.label20 = new System.Windows.Forms.Label();
@@ -43,7 +43,6 @@ namespace Presentation.Views
             this.label16 = new System.Windows.Forms.Label();
             this.txtAccountNumber = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.txtBank = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.txtPostalCode = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
@@ -69,31 +68,43 @@ namespace Presentation.Views
             this.txtFatherLastName = new System.Windows.Forms.TextBox();
             this.txtNames = new System.Windows.Forms.TextBox();
             this.lblTitle = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.txtDepartment = new System.Windows.Forms.TextBox();
+            this.txtPosition = new System.Windows.Forms.TextBox();
+            this.cbBank = new System.Windows.Forms.ComboBox();
+            this.nudDailySalary = new System.Windows.Forms.NumericUpDown();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.label26 = new System.Windows.Forms.Label();
+            this.nudWageLevel = new System.Windows.Forms.NumericUpDown();
+            this.nudBaseSalary = new System.Windows.Forms.NumericUpDown();
+            this.label25 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.nudDailySalary)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudWageLevel)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudBaseSalary)).BeginInit();
             this.SuspendLayout();
             // 
-            // comboBox4
+            // cbCity
             // 
-            this.comboBox4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox4.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Location = new System.Drawing.Point(829, 184);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(200, 27);
-            this.comboBox4.TabIndex = 95;
+            this.cbCity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbCity.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
+            this.cbCity.FormattingEnabled = true;
+            this.cbCity.Location = new System.Drawing.Point(829, 184);
+            this.cbCity.Name = "cbCity";
+            this.cbCity.Size = new System.Drawing.Size(200, 27);
+            this.cbCity.TabIndex = 95;
             // 
-            // comboBox3
+            // cbState
             // 
-            this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox3.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(829, 220);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(200, 27);
-            this.comboBox3.TabIndex = 94;
+            this.cbState.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbState.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
+            this.cbState.FormattingEnabled = true;
+            this.cbState.Location = new System.Drawing.Point(829, 220);
+            this.cbState.Name = "cbState";
+            this.cbState.Size = new System.Drawing.Size(200, 27);
+            this.cbState.TabIndex = 94;
+            this.cbState.SelectedIndexChanged += new System.EventHandler(this.cbState_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -225,14 +236,6 @@ namespace Presentation.Views
             this.label15.Size = new System.Drawing.Size(125, 19);
             this.label15.TabIndex = 78;
             this.label15.Text = "Número de cuenta";
-            // 
-            // txtBank
-            // 
-            this.txtBank.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBank.Location = new System.Drawing.Point(501, 184);
-            this.txtBank.Name = "txtBank";
-            this.txtBank.Size = new System.Drawing.Size(200, 25);
-            this.txtBank.TabIndex = 77;
             // 
             // label14
             // 
@@ -482,55 +485,170 @@ namespace Presentation.Views
             this.lblTitle.TabIndex = 52;
             this.lblTitle.Text = "Empleados";
             // 
-            // label23
+            // txtDepartment
             // 
-            this.label23.AutoSize = true;
-            this.label23.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label23.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label23.Location = new System.Drawing.Point(726, 380);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(89, 19);
-            this.label23.TabIndex = 97;
-            this.label23.Text = "Sueldo diario";
+            this.txtDepartment.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtDepartment.Location = new System.Drawing.Point(501, 301);
+            this.txtDepartment.Name = "txtDepartment";
+            this.txtDepartment.ReadOnly = true;
+            this.txtDepartment.Size = new System.Drawing.Size(200, 25);
+            this.txtDepartment.TabIndex = 98;
             // 
-            // textBox2
+            // txtPosition
             // 
-            this.textBox2.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(829, 377);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(200, 25);
-            this.textBox2.TabIndex = 96;
+            this.txtPosition.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPosition.Location = new System.Drawing.Point(829, 296);
+            this.txtPosition.Name = "txtPosition";
+            this.txtPosition.ReadOnly = true;
+            this.txtPosition.Size = new System.Drawing.Size(200, 25);
+            this.txtPosition.TabIndex = 99;
             // 
-            // textBox1
+            // cbBank
             // 
-            this.textBox1.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(501, 301);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(200, 25);
-            this.textBox1.TabIndex = 98;
+            this.cbBank.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbBank.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
+            this.cbBank.FormattingEnabled = true;
+            this.cbBank.Location = new System.Drawing.Point(501, 182);
+            this.cbBank.Name = "cbBank";
+            this.cbBank.Size = new System.Drawing.Size(200, 27);
+            this.cbBank.TabIndex = 100;
             // 
-            // textBox3
+            // nudDailySalary
             // 
-            this.textBox3.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.Location = new System.Drawing.Point(829, 296);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(200, 25);
-            this.textBox3.TabIndex = 99;
+            this.nudDailySalary.DecimalPlaces = 2;
+            this.nudDailySalary.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
+            this.nudDailySalary.Location = new System.Drawing.Point(495, 415);
+            this.nudDailySalary.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.nudDailySalary.Name = "nudDailySalary";
+            this.nudDailySalary.ReadOnly = true;
+            this.nudDailySalary.Size = new System.Drawing.Size(185, 25);
+            this.nudDailySalary.TabIndex = 109;
+            this.nudDailySalary.ThousandsSeparator = true;
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label28.Font = new System.Drawing.Font("Microsoft YaHei", 10F);
+            this.label28.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.label28.Location = new System.Drawing.Point(475, 417);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(17, 20);
+            this.label28.TabIndex = 108;
+            this.label28.Text = "$";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label27.Font = new System.Drawing.Font("Microsoft YaHei", 10F);
+            this.label27.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.label27.Location = new System.Drawing.Point(473, 382);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(21, 20);
+            this.label27.TabIndex = 107;
+            this.label27.Text = "%";
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label26.Font = new System.Drawing.Font("Microsoft YaHei", 10F);
+            this.label26.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.label26.Location = new System.Drawing.Point(148, 382);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(17, 20);
+            this.label26.TabIndex = 106;
+            this.label26.Text = "$";
+            // 
+            // nudWageLevel
+            // 
+            this.nudWageLevel.DecimalPlaces = 2;
+            this.nudWageLevel.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
+            this.nudWageLevel.Location = new System.Drawing.Point(495, 380);
+            this.nudWageLevel.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.nudWageLevel.Name = "nudWageLevel";
+            this.nudWageLevel.ReadOnly = true;
+            this.nudWageLevel.Size = new System.Drawing.Size(185, 25);
+            this.nudWageLevel.TabIndex = 105;
+            this.nudWageLevel.ThousandsSeparator = true;
+            // 
+            // nudBaseSalary
+            // 
+            this.nudBaseSalary.DecimalPlaces = 2;
+            this.nudBaseSalary.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
+            this.nudBaseSalary.Location = new System.Drawing.Point(167, 380);
+            this.nudBaseSalary.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.nudBaseSalary.Name = "nudBaseSalary";
+            this.nudBaseSalary.ReadOnly = true;
+            this.nudBaseSalary.Size = new System.Drawing.Size(185, 25);
+            this.nudBaseSalary.TabIndex = 104;
+            this.nudBaseSalary.ThousandsSeparator = true;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label25.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.label25.Location = new System.Drawing.Point(377, 383);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(85, 19);
+            this.label25.TabIndex = 103;
+            this.label25.Text = "Nivel salarial";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label24.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.label24.Location = new System.Drawing.Point(49, 383);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(83, 19);
+            this.label24.TabIndex = 102;
+            this.label24.Text = "Sueldo base";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.label21.Location = new System.Drawing.Point(377, 415);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(89, 19);
+            this.label21.TabIndex = 101;
+            this.label21.Text = "Sueldo diario";
             // 
             // Profile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1064, 670);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.label23);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.comboBox4);
-            this.Controls.Add(this.comboBox3);
+            this.Controls.Add(this.nudDailySalary);
+            this.Controls.Add(this.label28);
+            this.Controls.Add(this.label27);
+            this.Controls.Add(this.label26);
+            this.Controls.Add(this.nudWageLevel);
+            this.Controls.Add(this.nudBaseSalary);
+            this.Controls.Add(this.label25);
+            this.Controls.Add(this.label24);
+            this.Controls.Add(this.label21);
+            this.Controls.Add(this.cbBank);
+            this.Controls.Add(this.txtPosition);
+            this.Controls.Add(this.txtDepartment);
+            this.Controls.Add(this.cbCity);
+            this.Controls.Add(this.cbState);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cbPhones);
             this.Controls.Add(this.label20);
@@ -543,7 +661,6 @@ namespace Presentation.Views
             this.Controls.Add(this.label16);
             this.Controls.Add(this.txtAccountNumber);
             this.Controls.Add(this.label15);
-            this.Controls.Add(this.txtBank);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.txtPostalCode);
             this.Controls.Add(this.label13);
@@ -573,6 +690,9 @@ namespace Presentation.Views
             this.Name = "Profile";
             this.Text = "Profile";
             this.Load += new System.EventHandler(this.Profile_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.nudDailySalary)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudWageLevel)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudBaseSalary)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -580,8 +700,8 @@ namespace Presentation.Views
 
         #endregion
 
-        private System.Windows.Forms.ComboBox comboBox4;
-        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.ComboBox cbCity;
+        private System.Windows.Forms.ComboBox cbState;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cbPhones;
         private System.Windows.Forms.Label label20;
@@ -594,7 +714,6 @@ namespace Presentation.Views
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox txtAccountNumber;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.TextBox txtBank;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox txtPostalCode;
         private System.Windows.Forms.Label label13;
@@ -620,9 +739,17 @@ namespace Presentation.Views
         private System.Windows.Forms.TextBox txtFatherLastName;
         private System.Windows.Forms.TextBox txtNames;
         private System.Windows.Forms.Label lblTitle;
-        private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox txtDepartment;
+        private System.Windows.Forms.TextBox txtPosition;
+        private System.Windows.Forms.ComboBox cbBank;
+        private System.Windows.Forms.NumericUpDown nudDailySalary;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.NumericUpDown nudWageLevel;
+        private System.Windows.Forms.NumericUpDown nudBaseSalary;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label21;
     }
 }
