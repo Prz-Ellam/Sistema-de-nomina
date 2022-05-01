@@ -243,7 +243,8 @@ namespace Presentation.Views
                 return;
             }
 
-            List<EmployeePayrollsViewModel> employees = new RepositorioEmpleados().ReadEmployeePayrolls(dtpDate.Value);
+            RepositorioEmpleados employeeRepository = new RepositorioEmpleados();
+            List<EmployeePayrollsViewModel> employees = employeeRepository.ReadEmployeePayrolls(Session.company_id, dtpDate.Value);
             dtgEmployees.DataSource = employees;
             dtgPerceptions.DataSource = applyPerceptionsRepository.ReadApplyPerceptions(perceptionRadioId, employeeId, dtpDate.Value);
             dtgDeductions.DataSource = applyDeductionsRepository.ReadApplyDeductions(deductionRadioId, employeeId, dtpDate.Value);
@@ -272,7 +273,8 @@ namespace Presentation.Views
         {
             try
             {
-                dtgEmployees.DataSource = new RepositorioEmpleados().ReadEmployeePayrolls(dtpDate.Value);
+                RepositorioEmpleados employeeRepository = new RepositorioEmpleados();
+                dtgEmployees.DataSource = employeeRepository.ReadEmployeePayrolls(Session.company_id, dtpDate.Value);
             }
             catch (Exception ex)
             {
@@ -384,7 +386,27 @@ namespace Presentation.Views
         private void btnStartPayroll_Click(object sender, EventArgs e)
         {
             RepositorioNominas payrollRepository = new RepositorioNominas();
-            bool result = payrollRepository.StartPayroll(Session.company_id, dtpDate.Value);
+            DateTime requestDate = dtpDate.Value;
+
+            // Tal vez indicar si es antes o despues, si es antes un error distinto del tipo ya se realizo
+
+            if (payrollDate.Year != requestDate.Year || payrollDate.Month != requestDate.Month)
+            {
+                MessageBox.Show("No se puede iniciar una nómina fuera del periodo actual de nómina", 
+                    "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            bool status = payrollRepository.IsPayrollProcess(Session.company_id);
+
+            if (status)
+            {
+                MessageBox.Show("Ya hay una nómina en proceso", "Sistema de nómina dice: ", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            bool result = payrollRepository.StartPayroll(Session.company_id, requestDate);
 
         }
     }

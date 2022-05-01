@@ -30,24 +30,27 @@ namespace Presentation.Views
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.dtgPayrollReport = new System.Windows.Forms.DataGridView();
+            this.label1 = new System.Windows.Forms.Label();
+            this.nudYear = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
             this.departamento = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.anio = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mes = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sueldoBruto = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sueldoNeto = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label1 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtgPayrollReport)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudYear)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // dtgPayrollReport
             // 
-            this.dataGridView1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
-            this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dataGridView1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.dtgPayrollReport.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
+            this.dtgPayrollReport.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dtgPayrollReport.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
@@ -55,50 +58,29 @@ namespace Presentation.Views
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dtgPayrollReport.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dtgPayrollReport.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtgPayrollReport.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.departamento,
             this.anio,
             this.mes,
             this.sueldoBruto,
             this.sueldoNeto});
-            this.dataGridView1.EnableHeadersVisualStyles = false;
-            this.dataGridView1.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.dataGridView1.Location = new System.Drawing.Point(35, 156);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.dataGridView1.Size = new System.Drawing.Size(846, 352);
-            this.dataGridView1.TabIndex = 0;
-            // 
-            // departamento
-            // 
-            this.departamento.HeaderText = "Departamento";
-            this.departamento.Name = "departamento";
-            this.departamento.Width = 150;
-            // 
-            // anio
-            // 
-            this.anio.HeaderText = "Año";
-            this.anio.Name = "anio";
-            // 
-            // mes
-            // 
-            this.mes.HeaderText = "Mes";
-            this.mes.Name = "mes";
-            this.mes.Width = 150;
-            // 
-            // sueldoBruto
-            // 
-            this.sueldoBruto.HeaderText = " ∑ Sueldo bruto";
-            this.sueldoBruto.Name = "sueldoBruto";
-            this.sueldoBruto.Width = 200;
-            // 
-            // sueldoNeto
-            // 
-            this.sueldoNeto.HeaderText = " ∑ Sueldo neto";
-            this.sueldoNeto.Name = "sueldoNeto";
-            this.sueldoNeto.Width = 200;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dtgPayrollReport.DefaultCellStyle = dataGridViewCellStyle4;
+            this.dtgPayrollReport.EnableHeadersVisualStyles = false;
+            this.dtgPayrollReport.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.dtgPayrollReport.Location = new System.Drawing.Point(35, 156);
+            this.dtgPayrollReport.Name = "dtgPayrollReport";
+            this.dtgPayrollReport.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.dtgPayrollReport.Size = new System.Drawing.Size(843, 352);
+            this.dtgPayrollReport.TabIndex = 0;
             // 
             // label1
             // 
@@ -112,23 +94,29 @@ namespace Presentation.Views
             this.label1.TabIndex = 1;
             this.label1.Text = "Reportes de nómina";
             // 
-            // numericUpDown1
+            // nudYear
             // 
-            this.numericUpDown1.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.numericUpDown1.Location = new System.Drawing.Point(49, 111);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
+            this.nudYear.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.nudYear.Location = new System.Drawing.Point(49, 111);
+            this.nudYear.Maximum = new decimal(new int[] {
             2999,
             0,
             0,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(151, 29);
-            this.numericUpDown1.TabIndex = 8;
-            this.numericUpDown1.Value = new decimal(new int[] {
+            this.nudYear.Minimum = new decimal(new int[] {
+            1753,
+            0,
+            0,
+            0});
+            this.nudYear.Name = "nudYear";
+            this.nudYear.Size = new System.Drawing.Size(151, 29);
+            this.nudYear.TabIndex = 8;
+            this.nudYear.Value = new decimal(new int[] {
             2022,
             0,
             0,
             0});
+            this.nudYear.ValueChanged += new System.EventHandler(this.nudYear_ValueChanged);
             // 
             // label2
             // 
@@ -141,21 +129,60 @@ namespace Presentation.Views
             this.label2.TabIndex = 7;
             this.label2.Text = "Año";
             // 
+            // departamento
+            // 
+            this.departamento.DataPropertyName = "departamento";
+            this.departamento.HeaderText = "Departamento";
+            this.departamento.Name = "departamento";
+            this.departamento.Width = 150;
+            // 
+            // anio
+            // 
+            this.anio.DataPropertyName = "anio";
+            this.anio.HeaderText = "Año";
+            this.anio.Name = "anio";
+            // 
+            // mes
+            // 
+            this.mes.DataPropertyName = "mes";
+            this.mes.HeaderText = "Mes";
+            this.mes.Name = "mes";
+            this.mes.Width = 150;
+            // 
+            // sueldoBruto
+            // 
+            this.sueldoBruto.DataPropertyName = "sueldoBruto";
+            dataGridViewCellStyle2.Format = "c";
+            this.sueldoBruto.DefaultCellStyle = dataGridViewCellStyle2;
+            this.sueldoBruto.HeaderText = " ∑ Sueldo bruto";
+            this.sueldoBruto.Name = "sueldoBruto";
+            this.sueldoBruto.Width = 200;
+            // 
+            // sueldoNeto
+            // 
+            this.sueldoNeto.DataPropertyName = "sueldoNeto";
+            dataGridViewCellStyle3.Format = "c";
+            this.sueldoNeto.DefaultCellStyle = dataGridViewCellStyle3;
+            this.sueldoNeto.HeaderText = " ∑ Sueldo neto";
+            this.sueldoNeto.Name = "sueldoNeto";
+            this.sueldoNeto.Width = 200;
+            // 
             // PayrollReports
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(1064, 670);
-            this.Controls.Add(this.numericUpDown1);
+            this.Controls.Add(this.nudYear);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dtgPayrollReport);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "PayrollReports";
             this.Text = "PayrollReports";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            this.Load += new System.EventHandler(this.PayrollReports_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dtgPayrollReport)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudYear)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -163,9 +190,9 @@ namespace Presentation.Views
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dtgPayrollReport;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown nudYear;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridViewTextBoxColumn departamento;
         private System.Windows.Forms.DataGridViewTextBoxColumn anio;

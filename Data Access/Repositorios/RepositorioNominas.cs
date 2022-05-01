@@ -12,7 +12,8 @@ namespace Data_Access.Repositorios
     public class RepositorioNominas
     {
         private readonly string generate, readByDate, generalPayrollReport, getDate, getPayrollReceipt;
-        private readonly string startPayroll;
+        private readonly string startPayroll, payrollReport, headcounter1, headcounter2;
+        private readonly string payrollProcess;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams = new RepositoryParameters();
 
@@ -25,13 +26,16 @@ namespace Data_Access.Repositorios
             getDate = "sp_ObtenerFechaActual";
             getPayrollReceipt = "sp_ObtenerReciboNomina";
             startPayroll = "sp_CrearNomina";
+            payrollReport = "sp_ReporteNomina";
+            headcounter1 = "sp_Headcounter1";
+            headcounter2 = "sp_Headcounter2";
+            payrollProcess = "sp_NominaEnProceso";
         }
 
-        public int GeneratePayrolls(DateTime date, int employeeNumber, int companyId)
+        public int GeneratePayrolls(DateTime date, int companyId)
         {
             sqlParams.Start();
             sqlParams.Add("@id_empresa", companyId);
-            sqlParams.Add("@numero_empleado", employeeNumber);
             sqlParams.Add("@fecha", date);
 
             return mainRepository.ExecuteNonQuery(generate, sqlParams);
@@ -83,7 +87,75 @@ namespace Data_Access.Repositorios
             }
 
             return report;
+        }
 
+        public List<Headcounter1ViewModel> Headcounter1(int companyId, int departmentId, DateTime date)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@id_empresa", companyId);
+            sqlParams.Add("@id_departamento", departmentId);
+            sqlParams.Add("@fecha", date);
+
+            DataTable table = mainRepository.ExecuteReader(headcounter1, sqlParams);
+            List<Headcounter1ViewModel> report = new List<Headcounter1ViewModel>();
+
+            foreach (DataRow row in table.Rows)
+            {
+                report.Add(new Headcounter1ViewModel
+                {
+                    Departamento = row[0].ToString(),
+                    Puesto = row[1].ToString(),
+                    CantidadEmpleados = Convert.ToUInt32(row[2])
+                });
+            }
+
+            return report;
+        }
+
+        public List<Headcounter2ViewModel> Headcounter2(int companyId, int departmentId, DateTime date)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@id_empresa", companyId);
+            sqlParams.Add("@id_departamento", departmentId);
+            sqlParams.Add("@fecha", date);
+
+            DataTable table = mainRepository.ExecuteReader(headcounter2, sqlParams);
+            List<Headcounter2ViewModel> report = new List<Headcounter2ViewModel>();
+
+            foreach (DataRow row in table.Rows)
+            {
+                report.Add(new Headcounter2ViewModel
+                {
+                    Departamento = row[0].ToString(),
+                    CantidadEmpleados = Convert.ToUInt32(row[1])
+                });
+            }
+
+            return report;
+        }
+
+
+        public List<PayrollReportsViewModel> PayrollReport(int year)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@anio", year);
+
+            DataTable table = mainRepository.ExecuteReader(payrollReport, sqlParams);
+            List<PayrollReportsViewModel> report = new List<PayrollReportsViewModel>();
+
+            foreach (DataRow row in table.Rows)
+            {
+                report.Add(new PayrollReportsViewModel
+                {
+                    Departamento = row[0].ToString(),
+                    Anio = row[1].ToString(),
+                    Mes = row[2].ToString(),
+                    SueldoBruto = Convert.ToDecimal(row[3]),
+                    SueldoNeto = Convert.ToDecimal(row[4])
+                });
+            }
+
+            return report;
         }
 
         public DateTime GetDate(int companyId)
@@ -99,6 +171,20 @@ namespace Data_Access.Repositorios
             }
 
             return DateTime.MinValue; // ? 
+        }
+
+        public bool IsPayrollProcess(int companyId)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@id_empresa", companyId);
+
+            DataTable table = mainRepository.ExecuteReader(payrollProcess, sqlParams);
+            foreach (DataRow row in table.Rows)
+            {
+                return Convert.ToBoolean(row[0]);
+            }
+
+            return false;
         }
 
         public PayrollReceiptViewModel GetPayrollReceipt(DateTime date)

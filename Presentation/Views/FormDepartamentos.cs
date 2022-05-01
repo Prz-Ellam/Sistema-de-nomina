@@ -314,9 +314,9 @@ namespace Presentation.Views
             }
 
             var row = dtgDepartaments.Rows[index];
-            departmentId = Convert.ToInt32(row.Cells[0].Value); // Podria tronar si la celda 0 no es numero
-            txtName.Text = row.Cells[1].Value.ToString();
-            nudBaseSalary.Value = Convert.ToDecimal(row.Cells[2].Value); // Lo mismo
+            departmentId = Convert.ToInt32(row.Cells["id"].Value); // Podria tronar si la celda 0 no es numero
+            txtName.Text = row.Cells["name"].Value.ToString();
+            nudBaseSalary.Value = Convert.ToDecimal(row.Cells["baseSalary"].Value); // Lo mismo
 
             DepartmentState = EntityState.Modify;
             dtgPrevIndex = index;

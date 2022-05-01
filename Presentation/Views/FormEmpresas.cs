@@ -22,8 +22,10 @@ namespace Presentation.Views
     public partial class FormEmpresas : Form
     {
         private CompaniesRepository repository = new CompaniesRepository();
+        private RepositorioTelefonos phonesRepository = new RepositorioTelefonos();
         private Empresas company = new Empresas();
         private List<States> states;
+        int cbPhonesPrevIndex = -1;
 
         private EntityState companyState;
 
@@ -89,7 +91,6 @@ namespace Presentation.Views
             {
                 cbStates.Items.Add(state.state);
             }
-
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -206,10 +207,16 @@ namespace Presentation.Views
 
             company.Calle = txtStreet.Text;
             company.Numero = txtNumber.Text;
-            company.Colonia = txtStreet.Text;
+            company.Colonia = txtSuburb.Text;
             company.Ciudad = cbCities.Text;
             company.Estado = cbStates.Text;
             company.CodigoPostal = txtPostalCode.Text;
+
+            company.Telefonos.Clear();
+            for (int i = 0; i < cbPhones.Items.Count; i++)
+            {
+                company.Telefonos.Add(cbPhones.Items[i].ToString());
+            }
         }
 
         private void InitCompanyData()
@@ -226,12 +233,55 @@ namespace Presentation.Views
             txtPostalCode.Text = company.CodigoPostal;
             cbStates.SelectedIndex = cbStates.FindString(company.Estado);
             cbCities.SelectedIndex = cbCities.FindString(company.Ciudad);
+
+            cbPhones.Items.Clear();
+            cbPhones.SelectedIndex = -1;
+            List<string> phones = phonesRepository.ReadCompanyPhones(Session.company_id);
+            foreach (string phone in phones)
+            {
+                cbPhones.Items.Add(phone);
+            }
+
         }
 
         private void InitCompanyId()
         {
             if (Session.position == "Administrador")
                 Session.company_id = new CompaniesRepository().Verify(Session.id);
+        }
+
+        private void cbPhones_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (cbPhonesPrevIndex != -1)
+                {
+                    // Si dejo vacio se borra, si escribio un telefono que ya existe, igual se borra para
+                    // que quede el que ya estaba
+                    if (cbPhones.Text == string.Empty || cbPhones.FindString(cbPhones.Text) != -1)
+                    {
+                        cbPhones.Items.RemoveAt(cbPhonesPrevIndex);
+                    }
+                    else
+                    {
+                        cbPhones.Items[cbPhonesPrevIndex] = cbPhones.Text;
+                    }
+                    cbPhonesPrevIndex = -1;
+                }
+                else
+                {
+                    if (cbPhones.FindString(cbPhones.Text) == -1 && cbPhones.Text != string.Empty)
+                    {
+                        cbPhones.Items.Add(cbPhones.Text);
+                    }
+                }
+                cbPhones.Text = "";
+            }
+        }
+
+        private void cbPhones_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cbPhonesPrevIndex = cbPhones.SelectedIndex;
         }
     }
 }

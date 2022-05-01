@@ -151,7 +151,7 @@ namespace Presentation.Views
             this.groupBox2.Controls.Add(this.rbEmployee);
             this.groupBox2.Controls.Add(this.rbDepartment);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft YaHei", 10F);
-            this.groupBox2.Location = new System.Drawing.Point(347, 549);
+            this.groupBox2.Location = new System.Drawing.Point(47, 460);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(200, 109);
             this.groupBox2.TabIndex = 28;
@@ -291,7 +291,7 @@ namespace Presentation.Views
             this.dtgDepartaments.DefaultCellStyle = dataGridViewCellStyle3;
             this.dtgDepartaments.EnableHeadersVisualStyles = false;
             this.dtgDepartaments.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.dtgDepartaments.Location = new System.Drawing.Point(26, 595);
+            this.dtgDepartaments.Location = new System.Drawing.Point(298, 526);
             this.dtgDepartaments.Name = "dtgDepartaments";
             this.dtgDepartaments.ReadOnly = true;
             this.dtgDepartaments.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
@@ -304,7 +304,7 @@ namespace Presentation.Views
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dtgDepartaments.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dtgDepartaments.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.dtgDepartaments.Size = new System.Drawing.Size(236, 63);
+            this.dtgDepartaments.Size = new System.Drawing.Size(384, 123);
             this.dtgDepartaments.TabIndex = 53;
             this.dtgDepartaments.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgDepartaments_CellDoubleClick);
             // 

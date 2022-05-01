@@ -21,8 +21,8 @@ namespace Data_Access.Repositorios
             create = "sp_AgregarTelefono";
             update = "sp_ActualizarTelefono";
             delete = "sp_EliminarTelefono";
-            readEmployeePhones = "sp_LeerTelefonosEmpleado";
-            readCompanyPhones = "sp_LeerTelefonosEmpresa";
+            readEmployeePhones = "sp_LeerTelefonosEmpleados";
+            readCompanyPhones = "sp_LeerTelefonosEmpresas";
         }
 
         public bool Create(Telefonos phone, char owner)
@@ -75,7 +75,7 @@ namespace Data_Access.Repositorios
                 return false;
             }
         }
-
+        /*
         public List<Telefonos> ReadEmployeePhones(int employeeNumber)
         {
             sqlParams.Start();
@@ -95,7 +95,41 @@ namespace Data_Access.Repositorios
 
             return phones;
         }
+        */
 
+        public List<string> ReadEmployeePhones(int employeeNumber)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@numero_empleado", employeeNumber);
+
+            DataTable table = mainRepository.ExecuteReader(readEmployeePhones, sqlParams);
+            List<string> phones = new List<string>();
+
+            foreach (DataRow row in table.Rows)
+            {
+                phones.Add(row["Telefono"].ToString());
+            }
+
+            return phones;
+        }
+
+        public List<string> ReadCompanyPhones(int companyId)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@id_empresa", companyId);
+
+            DataTable table = mainRepository.ExecuteReader(readCompanyPhones, sqlParams);
+            List<string> phones = new List<string>();
+
+            foreach (DataRow row in table.Rows)
+            {
+                phones.Add(row["Telefono"].ToString());
+            }
+
+            return phones;
+        }
+
+        /*
         public List<Telefonos> ReadCompanyPhones(int companyId)
         {
             sqlParams.Start();
@@ -115,6 +149,6 @@ namespace Data_Access.Repositorios
 
             return phones;
         }
-
+        */
     }
 }

@@ -43,15 +43,19 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@estado", company.Estado);
             sqlParams.Add("@codigo_postal", company.CodigoPostal);
 
+            DataTable telefonos = new DataTable();
+            telefonos.Columns.Add("row_count");
+            telefonos.Columns.Add("telefono");
+
+            for (int i = 0; i < company.Telefonos.Count; i++)
+            {
+                telefonos.Rows.Add(i.ToString(), company.Telefonos[i]);
+            }
+
+            sqlParams.Add("@telefonos", telefonos);
+
             int rowCount = mainRepository.ExecuteNonQuery(create, sqlParams);
-            if (rowCount > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (rowCount > 0) ? true : false;
         }
 
         public bool Update(Empresas company)
@@ -70,15 +74,19 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@estado", company.Estado);
             sqlParams.Add("@codigo_postal", company.CodigoPostal);
 
-            int rowCount = mainRepository.ExecuteNonQuery(create, sqlParams);
-            if (rowCount > 0)
+            DataTable telefonos = new DataTable();
+            telefonos.Columns.Add("row_count");
+            telefonos.Columns.Add("telefono");
+
+            for (int i = 0; i < company.Telefonos.Count; i++)
             {
-                return true;
+                telefonos.Rows.Add(i.ToString(), company.Telefonos[i]);
             }
-            else
-            {
-                return false;
-            }
+
+            sqlParams.Add("@telefonos", telefonos);
+
+            int rowCount = mainRepository.ExecuteNonQuery(update, sqlParams);
+            return (rowCount > 0) ? true : false;
         }
 
         public CompaniesViewModel Read(int id)

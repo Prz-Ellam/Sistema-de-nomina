@@ -54,7 +54,7 @@ namespace Presentation.Views
             this.cbCities = new System.Windows.Forms.ComboBox();
             this.cbStates = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.cbPhones = new System.Windows.Forms.ComboBox();
             this.btnAdd = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -345,14 +345,16 @@ namespace Presentation.Views
             this.label1.TabIndex = 46;
             this.label1.Text = "Teléfonos";
             // 
-            // comboBox1
+            // cbPhones
             // 
-            this.comboBox1.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(31, 434);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(400, 29);
-            this.comboBox1.TabIndex = 47;
+            this.cbPhones.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.cbPhones.FormattingEnabled = true;
+            this.cbPhones.Location = new System.Drawing.Point(31, 434);
+            this.cbPhones.Name = "cbPhones";
+            this.cbPhones.Size = new System.Drawing.Size(400, 29);
+            this.cbPhones.TabIndex = 47;
+            this.cbPhones.SelectedIndexChanged += new System.EventHandler(this.cbPhones_SelectedIndexChanged);
+            this.cbPhones.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cbPhones_KeyDown);
             // 
             // btnAdd
             // 
@@ -370,14 +372,14 @@ namespace Presentation.Views
             this.btnAdd.UseVisualStyleBackColor = false;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
-            // FormCompanies
+            // FormEmpresas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(1064, 670);
             this.Controls.Add(this.btnAdd);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.cbPhones);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cbStates);
             this.Controls.Add(this.cbCities);
@@ -404,7 +406,7 @@ namespace Presentation.Views
             this.Controls.Add(this.txtEmployerRegistration);
             this.Controls.Add(this.txtBusinessName);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "FormCompanies";
+            this.Name = "FormEmpresas";
             this.Text = "Companies";
             this.Load += new System.EventHandler(this.Companies_Load);
             this.ResumeLayout(false);
@@ -439,7 +441,7 @@ namespace Presentation.Views
         private System.Windows.Forms.ComboBox cbCities;
         private System.Windows.Forms.ComboBox cbStates;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cbPhones;
         private System.Windows.Forms.Button btnAdd;
     }
 }

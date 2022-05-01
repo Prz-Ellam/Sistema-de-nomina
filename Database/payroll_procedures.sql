@@ -1,10 +1,5 @@
 USE sistema_de_nomina;
 
-EXEC sp_CrearNomina 1, '20010901';
-SELECT * FROM percepciones_aplicadas;
-SELECT * FROM empleados;
-TRUNCATE TABLE percepciones_aplicadas;
-
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_CrearNomina')
 	DROP PROCEDURE sp_CrearNomina;
 GO
@@ -24,10 +19,12 @@ AS
 			RETURN;
 		END
 
-
-	
-	INSERT INTO 
-			percepciones_aplicadas(numero_empleado, id_percepcion, cantidad, fecha)
+	INSERT INTO percepciones_aplicadas(
+			numero_empleado,
+			id_percepcion,
+			cantidad, 
+			fecha
+	)
 	SELECT 
 			e.numero_empleado, 
 			p.id_percepcion, 
@@ -37,12 +34,16 @@ AS
 			empleados AS e
 			CROSS JOIN percepciones AS p
 	WHERE 
-			e.fecha_contratacion <= @fecha AND e.activo = 1 AND p.tipo_duracion = 'B';
+			DATEFROMPARTS(YEAR(e.fecha_contratacion), MONTH(e.fecha_contratacion), 1) <= @fecha AND e.activo = 1 AND p.tipo_duracion = 'B';
 
 
 
-	INSERT INTO 
-			deducciones_aplicadas(numero_empleado, id_deduccion, cantidad, fecha)
+	INSERT INTO deducciones_aplicadas(
+			numero_empleado, 
+			id_deduccion,
+			cantidad,
+			fecha
+	)
 	SELECT 
 			e.numero_empleado, 
 			d.id_deduccion, 
@@ -52,9 +53,19 @@ AS
 			empleados AS e
 			CROSS JOIN deducciones AS d
 	WHERE 
-			e.fecha_contratacion <= @fecha AND e.activo = 1 AND d.tipo_duracion = 'B';
+			DATEFROMPARTS(YEAR(e.fecha_contratacion), MONTH(e.fecha_contratacion), 1) <= @fecha AND e.activo = 1 AND d.tipo_duracion = 'B';
 
 GO
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -66,7 +77,6 @@ GO
 -- La empresa a la que pertenecen
 CREATE PROCEDURE sp_GenerarNomina(
 	@id_empresa				INT,
-	@numero_empleado		INT,
 	@fecha					DATE
 )
 AS
@@ -81,6 +91,39 @@ AS
 		END
 
 
+	INSERT INTO nominas(
+			sueldo_diario, 
+			sueldo_bruto, 
+			sueldo_neto, 
+			banco, 
+			numero_cuenta, 
+			fecha, 
+			numero_empleado, 
+			id_departamento, 
+			id_puesto)
+	SELECT
+			e.sueldo_diario,
+			e.sueldo_diario * dbo.DIASTRABAJADOSEMPLEADO(@fecha, e.numero_empleado),
+			dbo.TOTALPERCEPCIONES(@fecha, e.numero_empleado) - dbo.TOTALDEDUCCIONES(@fecha, e.numero_empleado),
+			e.banco,
+			e.numero_cuenta,
+			@fecha,
+			e.numero_empleado,
+			e.id_departamento,
+			e.id_puesto
+	FROM
+			empleados AS e
+			JOIN departamentos AS d
+			ON d.id_departamento = e.id_departamento
+	WHERE
+			d.id_empresa = @id_empresa 
+			AND dbo.PRIMERDIAFECHA(e.fecha_contratacion) <= dbo.PRIMERDIAFECHA(@fecha) 
+			AND e.activo = 1;
+	
+	
+
+
+	/*
 	DECLARE @anio		INT;
 	DECLARE @mes		INT;
 	DECLARE @dias		INT;
@@ -104,7 +147,7 @@ AS
 	SELECT @sueldo_bruto;
 
 	DECLARE @sueldo_neto MONEY;
-	SET @sueldo_neto = @sueldo_bruto + @total_percepciones - @total_deducciones;
+	SET @sueldo_neto = @total_percepciones - @total_deducciones;
 	SELECT @sueldo_neto;
 
 	INSERT INTO nominas(sueldo_diario, sueldo_bruto, sueldo_neto, banco, numero_cuenta, fecha, numero_empleado, id_departamento, id_puesto)
@@ -121,7 +164,7 @@ AS
 	SET
 	id_nomina = IDENT_CURRENT('nominas')
 	WHERE YEAR(fecha) = @anio AND MONTH(fecha) = @mes AND numero_empleado = @numero_empleado;
-
+	*/
 GO
 
 
@@ -180,6 +223,7 @@ AS
 		WHERE id_empresa = @id_empresa;
 	ELSE
 		RAISERROR('La empresa aun no existe', 11, 1);
+		RETURN;
 
 GO
 
@@ -213,32 +257,37 @@ AS
 	END
 GO
 
+DECLARE @a BIT;
+SET @a = sp_NominaEnProceso;
 
 
+-- Si han sido creadas percepciones y deducciones (las basicas que son obligatorias) significa que una nomina está en proceso, caso contrario
+-- si no hay ninguna creada se debe tomar como que la nomina no esta en proceso
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_NominaEnProceso')
+	DROP PROCEDURE sp_NominaEnProceso;
+GO
 
-/*
-CREATE DATABASE pruebas;
-USE pruebas;
-
-CREATE TABLE fechas(
-	id		INT IDENTITY(1,1) PRIMARY KEY,
-	fecha	DATE
+CREATE PROCEDURE sp_NominaEnProceso(
+	@id_empresa				INT
 )
+AS
+BEGIN
 
-DROP TABLE fechas;
-INSERT INTO fechas(fecha) VALUES('20220401');
-INSERT INTO fechas(fecha) VALUES('20220501');
-INSERT INTO fechas(fecha) VALUES('20220501');
-INSERT INTO fechas(fecha) VALUES('20220601');
-INSERT INTO fechas(fecha) VALUES('20220601');
---INSERT INTO(fechas) VALUES('20220601');
+	SELECT 
+			COUNT(0) 
+	FROM
+			(SELECT fecha FROM percepciones_aplicadas
+					UNION
+			SELECT fecha FROM deducciones_aplicadas) AS U
+	WHERE
+			fecha = dbo.OBTENERFECHAACTUAL(@id_empresa);
 
-SELECT DISTINCT TOP 1 fecha FROM fechas
-ORDER BY fecha DESC;
-*/
+END
+GO
 
 
-
+EXEC sp_NominaEnProceso 1;
+SELECT dbo.OBTENERFECHAACTUAL(1);
 
 
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ObtenerReciboNomina')
@@ -276,3 +325,27 @@ WHERE
 
 GO
 
+
+
+
+
+/*
+CREATE DATABASE pruebas;
+USE pruebas;
+
+CREATE TABLE fechas(
+	id		INT IDENTITY(1,1) PRIMARY KEY,
+	fecha	DATE
+)
+
+DROP TABLE fechas;
+INSERT INTO fechas(fecha) VALUES('20220401');
+INSERT INTO fechas(fecha) VALUES('20220501');
+INSERT INTO fechas(fecha) VALUES('20220501');
+INSERT INTO fechas(fecha) VALUES('20220601');
+INSERT INTO fechas(fecha) VALUES('20220601');
+--INSERT INTO(fechas) VALUES('20220601');
+
+SELECT DISTINCT TOP 1 fecha FROM fechas
+ORDER BY fecha DESC;
+*/

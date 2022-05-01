@@ -6,13 +6,18 @@ using System.Threading.Tasks;
 
 namespace Data_Access.ViewModels
 {
-    class PayrollReportsViewModel
+    public class PayrollReportsViewModel
     {
-        string department;
-        uint year;
-        string month;
-        decimal grossSalary;
-        decimal salary;
+        string departamento;
+        string anio;
+        string mes;
+        decimal sueldoBruto;
+        decimal sueldoNeto;
 
+        public string Departamento { get => departamento; set => departamento = value; }
+        public string Anio { get => anio; set => anio = value; }
+        public string Mes { get => mes; set => mes = value; }
+        public decimal SueldoBruto { get => sueldoBruto; set => sueldoBruto = value; }
+        public decimal SueldoNeto { get => sueldoNeto; set => sueldoNeto = value; }
     }
 }

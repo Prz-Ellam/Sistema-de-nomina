@@ -26,7 +26,7 @@ namespace Data_Access.ViewModels
         private PairItem bank;
         private string accountNumber;
         private string email;
-        //private List<string> phones;
+        private List<string> phones = new List<string>();
         private PairItem department;
         private PairItem position;
         private decimal baseSalary;
@@ -57,5 +57,6 @@ namespace Data_Access.ViewModels
         public decimal SueldoDiario { get => sueldoDiario; set => sueldoDiario = value; }
         public decimal BaseSalary { get => baseSalary; set => baseSalary = value; }
         public decimal WageLevel { get => wageLevel; set => wageLevel = value; }
+        public List<string> Phones { get => phones; set => phones = value; }
     }
 }

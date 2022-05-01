@@ -16,8 +16,25 @@ AS
 			RETURN;
 		END;
 
-	INSERT INTO departamentos(nombre, sueldo_base, id_empresa)
-	VALUES (@nombre, @sueldo_base, @id_empresa);
+	DECLARE @status_nomina BIT = dbo.NOMINAENPROCESO(@id_empresa);
+
+	IF @status_nomina = 1
+		BEGIN
+			RAISERROR('No se puede editar el departamento debido a que hay una nómina en proceso', 11, 1);
+			RETURN;
+		END
+
+
+	INSERT INTO departamentos(
+			nombre, 
+			sueldo_base, 
+			id_empresa
+	)
+	VALUES (
+			@nombre, 
+			@sueldo_base,
+			@id_empresa
+	);
 
 GO
 
@@ -33,11 +50,22 @@ CREATE PROCEDURE sp_ActualizarDepartamento
 	@sueldo_base				MONEY
 AS
 
-	UPDATE departamentos
+	DECLARE @status_nomina BIT = dbo.NOMINAENPROCESO((SELECT id_empresa FROM departamentos 
+													WHERE id_departamento = @id_departamento AND activo = 1));
+
+	IF @status_nomina = 1
+		BEGIN
+			RAISERROR('No se puede editar el departamento debido a que hay una nómina en proceso', 11, 1);
+			RETURN;
+		END
+
+	UPDATE
+			departamentos
 	SET
-	nombre					= ISNULL(@nombre, nombre),
-	sueldo_base				= ISNULL(@sueldo_base, sueldo_base)
-	WHERE id_departamento	= @id_departamento;
+			nombre			= ISNULL(@nombre, nombre),
+			sueldo_base		= ISNULL(@sueldo_base, sueldo_base)
+	WHERE 
+			id_departamento	= @id_departamento AND activo = 1;
 
 GO
 
@@ -56,17 +84,26 @@ AS
 			RAISERROR ('No se puede eliminar el departamento porque un empleado pertenece a el', 11, 1)
 			RETURN;
 		END
+
+	DECLARE @status_nomina BIT = dbo.NOMINAENPROCESO((SELECT id_empresa FROM departamentos 
+													WHERE id_departamento = @id_departamento AND activo = 1));
+
+	IF @status_nomina = 1
+		BEGIN
+			RAISERROR('No se puede editar el departamento debido a que hay una nómina en proceso', 11, 1);
+			RETURN;
+		END
 	
-	UPDATE departamentos
+	UPDATE
+			departamentos
 	SET
-	activo = 0
-	WHERE id_departamento = @id_departamento;
+			activo = 0
+	WHERE 
+			id_departamento = @id_departamento;
 
 GO
 
 
-EXEC sp_LeerDepartamentos 1
-USE sistema_de_nomina;
 
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerDepartamentos')
 	DROP PROCEDURE sp_LeerDepartamentos;
@@ -79,8 +116,8 @@ AS
 
 	SELECT 
 			id_departamento [ID Departamento], 
-			nombre [Nombre], 
-			sueldo_base [Sueldo base]
+			nombre			[Nombre], 
+			sueldo_base		[Sueldo base]
 	FROM 
 			departamentos
 	WHERE 
@@ -101,24 +138,11 @@ AS
 
 	SELECT
 			id_departamento [ID Departamento], 
-			nombre [Nombre], 
-			sueldo_base [Sueldo base]
+			nombre			[Nombre], 
+			sueldo_base		[Sueldo base]
 	FROM 
 			departamentos
 	WHERE 
 			id_empresa = @id_empresa AND activo = 1 AND nombre LIKE CONCAT('%', @filtro, '%');
 
 GO
-
-/*
-exec sp_EliminarDepartamento 1;
-
-SELECT * FROM master.dbo.sysmessages;
-
-
-sys.sp_addmessage
-@msgnum = 50001,
-@severity = 11,
-@msgtext = 'No se puede eliminar Departamento porque un empleado lo usa'
-GO
-*/

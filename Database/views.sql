@@ -24,6 +24,89 @@ GO
 
 
 
+IF EXISTS(SELECT name FROM sys.all_views WHERE name = 'vw_Headcounter1')
+	DROP VIEW vw_Headcounter1;
+GO
+
+CREATE VIEW vw_Headcounter1
+AS
+	SELECT 
+			d.nombre AS [Departamento],
+			d.id_departamento AS [idd],
+			p.nombre AS [Puesto],
+			n.fecha AS [Fecha],
+			COUNT(n.numero_empleado) AS [Cantidad de empleados]
+	FROM 
+			nominas AS n
+			LEFT JOIN departamentos AS d
+			ON n.id_departamento = d.id_departamento
+			LEFT JOIN puestos AS p
+			ON n.id_puesto = p.id_puesto
+	GROUP BY
+			d.id_departamento, d.nombre, p.id_puesto, p.nombre, n.fecha
+GO
+
+
+
+IF EXISTS(SELECT name FROM sys.all_views WHERE name = 'vw_Headcounter2')
+	DROP VIEW vw_Headcounter2;
+GO
+
+CREATE VIEW vw_Headcounter2
+AS
+	SELECT 
+			d.nombre AS [Departamento],
+			d.id_departamento AS [id departamento],
+			n.fecha AS [Fecha],
+			COUNT(n.numero_empleado) AS [Cantidad de empleados]
+	FROM 
+			nominas AS n
+			LEFT JOIN departamentos AS d
+			ON n.id_departamento = d.id_departamento
+	GROUP BY
+			d.id_departamento, d.nombre, n.fecha
+GO
+
+
+
+
+
+
+
+
+
+
+
+
+
+IF EXISTS(SELECT name FROM sys.all_views WHERE name = 'vw_ReporteNomina')
+	DROP VIEW vw_ReporteNomina;
+GO
+
+CREATE VIEW vw_ReporteNomina
+AS 
+	SELECT 
+		d.nombre AS [Departamento], 
+		YEAR(n.fecha) AS [Año], 
+		ISNULL(DATENAME(month, n.fecha), '') AS [Mes],
+		SUM(n.sueldo_bruto) AS [Sueldo bruto], 
+		SUM(n.sueldo_neto) AS [Sueldo neto]
+	FROM 
+		nominas AS n
+		JOIN departamentos AS d
+		ON n.id_departamento = d.id_departamento
+	GROUP BY 
+		d.nombre, n.fecha;
+GO
+
+
+
+
+
+
+
+
+
 
 
 
@@ -42,7 +125,6 @@ AS
 
 GO
 
-select*from domicilios;
 
 
 

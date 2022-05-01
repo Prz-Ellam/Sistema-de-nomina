@@ -18,7 +18,6 @@ AS
 GO
 
 
-SELECT dbo.GETMONTHLENGTH(2021, 10);
 
 
 GO
@@ -78,3 +77,37 @@ AS
 GO
 
 
+
+CREATE FUNCTION PRIMERDIAFECHA(
+	@fecha					DATE
+)
+RETURNS DATE
+AS
+	BEGIN
+		RETURN DATEFROMPARTS(YEAR(@fecha), MONTH(@fecha), 1);
+	END
+GO
+
+
+
+
+CREATE FUNCTION NOMINAENPROCESO(
+	@id_empresa				INT
+)
+RETURNS BIT
+AS
+BEGIN
+	
+	RETURN (
+	SELECT 
+			COUNT(0) 
+	FROM
+			(SELECT fecha FROM percepciones_aplicadas
+					UNION
+			SELECT fecha FROM deducciones_aplicadas) AS U
+	WHERE
+			fecha = dbo.OBTENERFECHAACTUAL(@id_empresa)
+	);
+
+END
+GO

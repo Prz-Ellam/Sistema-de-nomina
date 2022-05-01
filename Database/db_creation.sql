@@ -1,6 +1,8 @@
 --CREATE DATABASE sistema_de_nomina;
 USE sistema_de_nomina;
 
+SELECT*FROM empresas;
+
 -- Tablas primas
 IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'empresas' AND type = 'u')
 	DROP TABLE empresas;
@@ -150,7 +152,7 @@ CREATE TABLE nominas(
 	sueldo_bruto				MONEY NOT NULL,
 	sueldo_neto					MONEY NOT NULL,
 	banco						INT NOT NULL,
-	numero_cuenta				INT NOT NULL,
+	numero_cuenta				VARCHAR(11) NOT NULL,
 	fecha						DATE NOT NULL,
 	numero_empleado				INT NOT NULL,
 	id_departamento				INT NOT NULL,
@@ -159,7 +161,6 @@ CREATE TABLE nominas(
 	CONSTRAINT PK_Payrolls
 		PRIMARY KEY (id_nomina)
 );
-
 
 
 -- Tablas asociativas

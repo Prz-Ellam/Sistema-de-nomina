@@ -47,6 +47,16 @@ namespace Presentation.Views
             }
 
 
+            bool payrollStatus = payrollRepository.IsPayrollProcess(Session.company_id);
+
+            if (!payrollStatus)
+            {
+                MessageBox.Show("No se puede realizar esta acción, no hay una nómina en proceso", 
+                    "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+
             DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?\nAl cerrarse la nómina, está no podrá volver a ser editada",
                "Sistema de nómina dice: ", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
@@ -58,21 +68,21 @@ namespace Presentation.Views
 
             DateTime date = dtpDate.Value;
 
-            RepositorioEmpleados employeeRepository = new RepositorioEmpleados();
-            List<int> employeesNumber = employeeRepository.GetEmployeesId();
+            //RepositorioEmpleados employeeRepository = new RepositorioEmpleados();
+            //List<int> employeesNumber = employeeRepository.GetEmployeesId();
 
-            if (employeesNumber.Count < 1)
-            {
-                MessageBox.Show("No hay empleados actualmente");
-            }
+            //if (employeesNumber.Count < 1)
+            //{
+            //    MessageBox.Show("No hay empleados actualmente");
+            //}
 
             try
             {
 
-                foreach (int employeeNumber in employeesNumber)
-                {
-                    payrollRepository.GeneratePayrolls(date, employeeNumber, Session.company_id);
-                }
+                //foreach (int employeeNumber in employeesNumber)
+                //{
+                    payrollRepository.GeneratePayrolls(date, Session.company_id);
+                //}
 
             }
             catch (SqlException ex)

@@ -17,8 +17,23 @@ AS
 			RETURN;
 		END;
 
-	INSERT INTO puestos(nombre, nivel_salarial, id_empresa)
-	VALUES (@nombre, @nivel_salarial, @id_empresa);
+	DECLARE @status_nomina BIT = dbo.NOMINAENPROCESO(@id_empresa);
+
+	IF @status_nomina = 1
+		BEGIN
+			RAISERROR('No se puede añadir el puesto debido a que hay una nómina en proceso', 11, 1);
+			RETURN;
+		END
+
+	INSERT INTO puestos(
+			nombre,
+			nivel_salarial,
+			id_empresa)
+	VALUES (
+			@nombre,
+			@nivel_salarial,
+			@id_empresa
+	);
 
 GO
 
@@ -36,11 +51,13 @@ CREATE PROCEDURE sp_ActualizarPuesto
 	@nivel_salarial				FLOAT
 AS
 
-	UPDATE puestos
+	UPDATE 
+			puestos
 	SET
-	nombre =			ISNULL(@nombre, nombre),
-	nivel_salarial =	ISNULL(@nivel_salarial, nivel_salarial)
-	WHERE id_puesto = @id_puesto;
+			nombre				= ISNULL(@nombre, nombre),
+			nivel_salarial		= ISNULL(@nivel_salarial, nivel_salarial)
+	WHERE 
+			id_puesto = @id_puesto;
 
 GO
 
@@ -64,10 +81,12 @@ AS
 			RETURN;
 		END
 	
-	UPDATE puestos
+	UPDATE
+			puestos
 	SET
-	activo = 0
-	WHERE id_puesto = @id_puesto;
+			activo = 0
+	WHERE
+			id_puesto = @id_puesto AND activo = 1;
 
 GO
 

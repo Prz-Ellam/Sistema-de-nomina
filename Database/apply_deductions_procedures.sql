@@ -77,21 +77,22 @@ AS
 		d.id_deduccion, d.nombre, d.tipo_monto, d.fijo, d.porcentual 
 		FROM deducciones AS d
 		LEFT JOIN deducciones_aplicadas AS da
-		ON d.id_deduccion = da.id_deduccion AND YEAR(da.fecha) = YEAR(@fecha) AND MONTH(da.fecha) = MONTH(@fecha) AND da.numero_empleado = @numero_empleado;
+		ON d.id_deduccion = da.id_deduccion AND YEAR(da.fecha) = YEAR(@fecha) AND MONTH(da.fecha) = MONTH(@fecha) AND da.numero_empleado = @numero_empleado
+		WHERE d.tipo_duracion = 'S';
 	ELSE IF @filtro = 2
 		SELECT IIF(da.id_deduccion_aplicada IS NULL, 'false', 'true') AS [Aplicada], 
 		d.id_deduccion, d.nombre, d.tipo_monto, d.fijo, d.porcentual 
 		FROM deducciones AS d
 		LEFT JOIN deducciones_aplicadas AS da
 		ON d.id_deduccion = da.id_deduccion AND YEAR(da.fecha) = YEAR(@fecha) AND MONTH(da.fecha) = MONTH(@fecha) AND da.numero_empleado = @numero_empleado
-		WHERE IIF(da.id_deduccion_aplicada IS NULL, 'false', 'true') = 'true';
+		WHERE IIF(da.id_deduccion_aplicada IS NULL, 'false', 'true') = 'true' AND d.tipo_duracion = 'S';
 	ELSE IF @filtro = 3
 		SELECT IIF(da.id_deduccion_aplicada IS NULL, 'false', 'true') AS [Aplicada], 
 		d.id_deduccion, d.nombre, d.tipo_monto, d.fijo, d.porcentual 
 		FROM deducciones AS d
 		LEFT JOIN deducciones_aplicadas AS da
 		ON d.id_deduccion = da.id_deduccion AND YEAR(da.fecha) = YEAR(@fecha) AND MONTH(da.fecha) = MONTH(@fecha) AND da.numero_empleado = @numero_empleado
-		WHERE IIF(da.id_deduccion_aplicada IS NULL, 'false', 'true') = 'false';
+		WHERE IIF(da.id_deduccion_aplicada IS NULL, 'false', 'true') = 'false' AND d.tipo_duracion = 'S';
 	ELSE 
 		RAISERROR('Filtro inválido', 11, 1);
 

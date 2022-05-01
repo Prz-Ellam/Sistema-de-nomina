@@ -55,7 +55,17 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@id_departamento", employee.IdDepartamento);
             sqlParams.Add("@id_puesto", employee.IdPuesto);
             sqlParams.Add("@fecha_contratacion", employee.FechaContratacion);
-            sqlParams.Add("@telefonos", employee.Telefonos);
+
+            DataTable telefonos = new DataTable();
+            telefonos.Columns.Add("row_count");
+            telefonos.Columns.Add("telefono");
+
+            for(int i = 0; i < employee.Telefonos.Count; i++)
+            {
+                telefonos.Rows.Add(i.ToString(), employee.Telefonos[i]);
+            }
+
+            sqlParams.Add("@telefonos", telefonos);
 
             int rowCount = mainRepository.ExecuteNonQuery(create, sqlParams);
             return (rowCount > 0) ? true : false;
@@ -87,6 +97,17 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@id_departamento", employee.IdDepartamento);
             sqlParams.Add("@id_puesto", employee.IdPuesto);
             sqlParams.Add("@fecha_contratacion", employee.FechaContratacion);
+
+            DataTable telefonos = new DataTable();
+            telefonos.Columns.Add("row_count");
+            telefonos.Columns.Add("telefono");
+
+            for (int i = 0; i < employee.Telefonos.Count; i++)
+            {
+                telefonos.Rows.Add(i.ToString(), employee.Telefonos[i]);
+            }
+
+            sqlParams.Add("@telefonos", telefonos);
 
             int rowCount = mainRepository.ExecuteNonQuery(update, sqlParams);
             return (rowCount > 0) ? true : false;
@@ -156,10 +177,11 @@ namespace Data_Access.Repositorios
             return employeesId;
         }
 
-        public List<EmployeePayrollsViewModel> ReadEmployeePayrolls(DateTime date)
+        public List<EmployeePayrollsViewModel> ReadEmployeePayrolls(int companyId, DateTime date)
         {
             sqlParams.Start();
             sqlParams.Add("@fecha", date);
+            sqlParams.Add("@id_empresa", companyId);
 
             DataTable table = mainRepository.ExecuteReader(readPayrolls, sqlParams);
 

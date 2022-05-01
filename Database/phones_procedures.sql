@@ -28,6 +28,65 @@ AS
 GO
 
 
+
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerTelefonosEmpleados')
+	DROP PROCEDURE sp_LeerTelefonosEmpleados;
+GO
+
+CREATE PROCEDURE sp_LeerTelefonosEmpleados(
+	@numero_empleado			INT
+)
+AS
+BEGIN
+
+	SELECT 
+			id_telefono_empleado [ID],
+			telefono [Telefono],
+			numero_empleado [Numero de empleado]
+	FROM 
+			telefonos_empleados
+	WHERE 
+			numero_empleado = @numero_empleado
+
+END
+GO
+
+SELECT * FROM telefonos_empresas;
+
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerTelefonosEmpresas')
+	DROP PROCEDURE sp_LeerTelefonosEmpresas;
+GO
+
+CREATE PROCEDURE sp_LeerTelefonosEmpresas(
+	@id_empresa				INT
+)
+AS
+BEGIN
+
+	SELECT 
+			id_telefono_empresa [ID],
+			telefono [Telefono],
+			id_empresa [ID Empresa]
+	FROM 
+			telefonos_empresas
+	WHERE 
+			id_empresa = @id_empresa
+
+END
+GO
+
+
+
+
+
+
+
+
+
+
+
+
+
 DROP TYPE dbo.Telefonos;
 
 CREATE TYPE dbo.Telefonos

@@ -75,10 +75,6 @@ namespace Presentation.Views
 
         private void Employees_Load(object sender, EventArgs e)
         {
-            employee.Telefonos = new DataTable();
-            employee.Telefonos.Columns.Add("row_count");
-            employee.Telefonos.Columns.Add("telefono");
-
             try
             {
                 payrollDate = new RepositorioNominas().GetDate(Session.company_id);
@@ -93,34 +89,9 @@ namespace Presentation.Views
 
             EmployeeState = EntityState.Add;
             ListEmployees();
-
-            // Inicializar bancos, departamentos y puestos
-            List<Bancos> bancos = new RepositorioBancos().ReadAll();
-            List<PairItem> nombres = new List<PairItem>();
-            foreach(var banco in bancos)
-            {
-                nombres.Add(new PairItem(banco.Nombre, banco.IdBanco));
-            }
-            cbBank.DataSource = nombres;
-
-
-            List<DepartmentsViewModel> departamentos = new RepositorioDepartamentos().ReadAll(Session.company_id);
-            nombres = new List<PairItem>();
-            foreach(var departamento in departamentos)
-            {
-                nombres.Add(new PairItem(departamento.Name, departamento.Id));
-            }
-            cbDepartments.DataSource = nombres;
-
-
-            List<PositionsViewModel> puestos = new RepositorioPuestos().ReadAll(Session.company_id);
-            nombres = new List<PairItem>();
-            foreach (var puesto in puestos)
-            {
-                nombres.Add(new PairItem(puesto.Name, puesto.Id));
-            }
-            cbPositions.DataSource = nombres;
-
+            ListBanks();
+            ListDepartments();
+            ListPositions();
             InitStates();
 
             // Esto es para evitar el molesto flickering que tienen los data grid view
@@ -305,7 +276,8 @@ namespace Presentation.Views
         {
             try
             {
-                dtgEmployees.DataSource = repository.ReadAll();
+                List<EmployeesViewModel> employees = repository.ReadAll();
+                dtgEmployees.DataSource = employees;
             }
             catch (Exception ex)
             {
@@ -379,12 +351,11 @@ namespace Presentation.Views
                 });
             }
 
-            employee.Telefonos.Rows.Clear();
-            for(int i = 0; i < cbPhones.Items.Count; i++)
+            employee.Telefonos.Clear();
+            for (int i = 0; i < cbPhones.Items.Count; i++)
             {
-                employee.Telefonos.Rows.Add(i.ToString(), cbPhones.Items[i].ToString());
+                employee.Telefonos.Add(cbPhones.Items[i].ToString());
             }
-
 
         }
 
@@ -407,15 +378,15 @@ namespace Presentation.Views
             cbCity.SelectedIndex = -1;
             cbState.SelectedIndex = 0;
             txtPostalCode.Clear();
-            cbBank.SelectedIndex = -1;
+            cbBank.SelectedIndex = 0;
             txtAccountNumber.Clear();
             cbPhones.Items.Clear();
 
             nudBaseSalary.Value = 0.0m;
             nudWageLevel.Value = 0.0m;
             nudDailySalary.Value = 0.0m;
-            cbDepartments.SelectedIndex = -1;
-            cbPositions.SelectedIndex = -1;
+            cbDepartments.SelectedIndex = 0;
+            cbPositions.SelectedIndex = 0;
 
 
             EmployeeState = EntityState.Add;
@@ -432,30 +403,27 @@ namespace Presentation.Views
             }
 
             var row = dtgEmployees.Rows[index];
-            employeeId = Convert.ToInt32(row.Cells[0].Value);
-            txtNames.Text = row.Cells[1].Value.ToString();
-            txtFatherLastName.Text = row.Cells[2].Value.ToString();
-            txtMotherLastName.Text = row.Cells[3].Value.ToString();
-            dtpDateOfBirth.Value = Convert.ToDateTime(row.Cells[4].Value);
-            txtCURP.Text = row.Cells[5].Value.ToString();
-            txtNSS.Text = row.Cells[6].Value.ToString();
-            txtRFC.Text = row.Cells[7].Value.ToString();
-            txtStreet.Text = row.Cells[8].Value.ToString();
-            txtNumber.Text = row.Cells[9].Value.ToString();
-            txtSuburb.Text = row.Cells[10].Value.ToString();
-            cbState.SelectedIndex = cbState.FindString(row.Cells[12].Value.ToString());
-            cbCity.SelectedIndex = cbCity.FindString(row.Cells[11].Value.ToString());
-            //txtCity.Text = row.Cells[11].Value.ToString();
-            //txtState.Text = row.Cells[12].Value.ToString();
-            txtPostalCode.Text = row.Cells[13].Value.ToString();
-            //txtBank.Text = row.Cells[14].Value.ToString();
-            txtAccountNumber.Text = row.Cells[15].Value.ToString();
-            txtEmail.Text = row.Cells[16].Value.ToString();
-            nudDailySalary.Value = Convert.ToDecimal(row.Cells[20].Value);
-            nudBaseSalary.Value = Convert.ToDecimal( row.Cells[21].Value);
-            nudWageLevel.Value = Convert.ToDecimal(row.Cells[22].Value);
+            employeeId = Convert.ToInt32(row.Cells["employeeNumber"].Value);
+            txtNames.Text = row.Cells["name"].Value.ToString();
+            txtFatherLastName.Text = row.Cells["fatherLastName"].Value.ToString();
+            txtMotherLastName.Text = row.Cells["motherLastName"].Value.ToString();
+            dtpDateOfBirth.Value = Convert.ToDateTime(row.Cells["dateOfBirth"].Value);
+            txtCURP.Text = row.Cells["curp"].Value.ToString();
+            txtNSS.Text = row.Cells["nss"].Value.ToString();
+            txtRFC.Text = row.Cells["rfc"].Value.ToString();
+            txtStreet.Text = row.Cells["street"].Value.ToString();
+            txtNumber.Text = row.Cells["number"].Value.ToString();
+            txtSuburb.Text = row.Cells["suburb"].Value.ToString();
+            cbState.SelectedIndex = cbState.FindString(row.Cells["state"].Value.ToString());
+            cbCity.SelectedIndex = cbCity.FindString(row.Cells["city"].Value.ToString());
+            txtPostalCode.Text = row.Cells["postalCode"].Value.ToString();
+            txtAccountNumber.Text = row.Cells["accountNumber"].Value.ToString();
+            txtEmail.Text = row.Cells["email"].Value.ToString();
+            nudDailySalary.Value = Convert.ToDecimal(row.Cells["sueldoDiario"].Value);
+            nudBaseSalary.Value = Convert.ToDecimal( row.Cells["baseSalary"].Value);
+            nudWageLevel.Value = Convert.ToDecimal(row.Cells["wageLevel"].Value);
 
-            int bankId = ((PairItem)row.Cells[14].Value).HiddenValue;
+            int bankId = ((PairItem)row.Cells["bank"].Value).HiddenValue;
             foreach (var item in cbBank.Items)
             {
                 if (((PairItem)item).HiddenValue == bankId)
@@ -465,7 +433,7 @@ namespace Presentation.Views
                 }
             }
 
-            int departmentId = ((PairItem)row.Cells[17].Value).HiddenValue;
+            int departmentId = ((PairItem)row.Cells["department"].Value).HiddenValue;
             foreach (var item in cbDepartments.Items)
             {
                 if( ((PairItem)item).HiddenValue == departmentId)
@@ -475,7 +443,7 @@ namespace Presentation.Views
                 }
             }
 
-            int positionId = ((PairItem)row.Cells[18].Value).HiddenValue;
+            int positionId = ((PairItem)row.Cells["position"].Value).HiddenValue;
             foreach (var item in cbPositions.Items)
             {
                 if (((PairItem)item).HiddenValue == positionId)
@@ -485,10 +453,16 @@ namespace Presentation.Views
                 }
             }
 
+            cbPhones.SelectedIndex = -1;
+            List<string> phones = phonesRepository.ReadEmployeePhones(employeeId);
+            foreach(string phone in phones)
+            {
+                cbPhones.Items.Add(phone);
+            }
 
             EmployeeState = EntityState.Modify;
 
-            dtpHiringDate.Value = Convert.ToDateTime(row.Cells[19].Value);
+            dtpHiringDate.Value = Convert.ToDateTime(row.Cells["hiringDate"].Value);
 
             dtgPrevIndex = index;
         }
@@ -555,6 +529,45 @@ namespace Presentation.Views
         private void cbPhones_SelectedIndexChanged(object sender, EventArgs e)
         {
             cbPhonesPrevIndex = cbPhones.SelectedIndex;
+        }
+
+        private void ListBanks()
+        {
+            RepositorioBancos repository = new RepositorioBancos();
+            List<Bancos> bancos = repository.ReadAll();
+            List<PairItem> nombres = new List<PairItem>();
+            nombres.Add(new PairItem("Seleccionar", -1));
+            foreach (var banco in bancos)
+            {
+                nombres.Add(new PairItem(banco.Nombre, banco.IdBanco));
+            }
+            cbBank.DataSource = nombres;
+        }
+
+        private void ListDepartments()
+        {
+            RepositorioDepartamentos repository = new RepositorioDepartamentos();
+            List<DepartmentsViewModel> departamentos = repository.ReadAll(Session.company_id);
+            List<PairItem>  nombres = new List<PairItem>();
+            nombres.Add(new PairItem("Seleccionar", -1));
+            foreach (var departamento in departamentos)
+            {
+                nombres.Add(new PairItem(departamento.Name, departamento.Id));
+            }
+            cbDepartments.DataSource = nombres;
+        }
+
+        private void ListPositions()
+        {
+            RepositorioPuestos repository = new RepositorioPuestos();
+            List<PositionsViewModel> puestos = repository.ReadAll(Session.company_id);
+            List<PairItem> nombres = new List<PairItem>();
+            nombres.Add(new PairItem("Seleccionar", -1));
+            foreach (var puesto in puestos)
+            {
+                nombres.Add(new PairItem(puesto.Name, puesto.Id));
+            }
+            cbPositions.DataSource = nombres;
         }
     }
 }
