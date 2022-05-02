@@ -8,12 +8,25 @@ CREATE PROCEDURE sp_AgregarPercepcion(
 	@nombre				VARCHAR(30),
 	@tipo_monto			CHAR(1),
 	@fijo				MONEY,
-	@porcentual			FLOAT
+	@porcentual			FLOAT,
+	@id_empresa			INT
 ) 
 AS
 
-	INSERT INTO percepciones(nombre, tipo_monto, fijo, porcentual)
-	VALUES(@nombre, @tipo_monto, @fijo, @porcentual);
+	INSERT INTO percepciones(
+			nombre,
+			tipo_monto,
+			fijo,
+			porcentual,
+			fecha_creacion
+	)
+	VALUES(
+			@nombre,
+			@tipo_monto,
+			@fijo,
+			@porcentual,
+			dbo.OBTENERFECHAACTUAL(@id_empresa)
+	);
 
 GO
 
@@ -32,13 +45,15 @@ CREATE PROCEDURE sp_ActualizarPercepcion(
 )
 AS
 
-	UPDATE percepciones
+	UPDATE 
+			percepciones
 	SET
-	nombre = ISNULL(@nombre, nombre),
-	tipo_monto = ISNULL(@tipo_monto, tipo_monto),
-	fijo = ISNULL(@fijo, fijo),
-	porcentual = ISNULL(@porcentual, porcentual)
-	WHERE id_percepcion = @id_percepcion;
+			nombre		= ISNULL(@nombre, nombre),
+			tipo_monto	= ISNULL(@tipo_monto, tipo_monto),
+			fijo		= ISNULL(@fijo, fijo),
+			porcentual	= ISNULL(@porcentual, porcentual)
+	WHERE
+			id_percepcion = @id_percepcion;
 
 GO
 
@@ -53,10 +68,14 @@ CREATE PROCEDURE sp_EliminarPercepcion(
 )
 AS
 
-	UPDATE percepciones
+	UPDATE 
+			percepciones
 	SET
-	activo = 0
-	WHERE id_percepcion = @id_percepcion;
+			activo = 0,
+			fecha_eliminacion = dbo.OBTENERFECHAACTUAL(id_empresa),
+			id_eliminado = NEWID()
+	WHERE
+			id_percepcion = @id_percepcion;
 
 GO
 

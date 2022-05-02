@@ -66,10 +66,6 @@ GO
 
 
 
-
-
-
-
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_GenerarNomina')
 	DROP PROCEDURE sp_GenerarNomina;
 GO
@@ -119,7 +115,7 @@ AS
 			d.id_empresa = @id_empresa 
 			AND dbo.PRIMERDIAFECHA(e.fecha_contratacion) <= dbo.PRIMERDIAFECHA(@fecha) 
 			AND e.activo = 1;
-	
+GO
 	
 
 
@@ -165,7 +161,7 @@ AS
 	id_nomina = IDENT_CURRENT('nominas')
 	WHERE YEAR(fecha) = @anio AND MONTH(fecha) = @mes AND numero_empleado = @numero_empleado;
 	*/
-GO
+
 
 
 

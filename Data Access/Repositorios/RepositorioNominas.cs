@@ -164,13 +164,17 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@id_empresa", companyId);
 
             DataTable table = mainRepository.ExecuteReader(getDate, sqlParams);
+            if (table == null)
+            {
+                return new DateTime(1970, 1, 1);
+            }
 
             foreach (DataRow row in table.Rows)
             {
                 return Convert.ToDateTime(row["Fecha"]);
             }
 
-            return DateTime.MinValue; // ? 
+            return new DateTime(1970, 1, 1); // ? 
         }
 
         public bool IsPayrollProcess(int companyId)

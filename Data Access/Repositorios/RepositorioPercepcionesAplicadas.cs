@@ -12,6 +12,7 @@ namespace Data_Access.Repositorios
     public class RepositorioPercepcionesAplicadas
     {
         private readonly string applyEmployee, undoEmployee, readApplyEmployee, readPayrollPerception;
+        private readonly string applyDepartment, undoDepartment;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams;
 
@@ -21,6 +22,9 @@ namespace Data_Access.Repositorios
             applyEmployee = "sp_AplicarEmpleadoPercepcion";
             undoEmployee = "sp_EliminarEmpleadoPercepcion";
             readApplyEmployee = "sp_LeerPercepcionesAplicadas";
+
+            applyDepartment = "sp_AplicarDepartamentoPercepcion";
+            undoDepartment = "sp_EliminarDepartamentoPercepcion";
 
             readPayrollPerception = "sp_LeerPercepcionesNomina";
 
@@ -35,14 +39,18 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@fecha", date);
 
             int rowCount = mainRepository.ExecuteNonQuery(applyEmployee, sqlParams);
-            if (rowCount > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (rowCount > 0) ? true : false;
+        }
+
+        public bool ApplyDepartmentPerception(int departmentId, int perceptionId, DateTime date)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@id_departamento", departmentId);
+            sqlParams.Add("@id_percepcion", perceptionId);
+            sqlParams.Add("@fecha", date);
+
+            int rowCount = mainRepository.ExecuteNonQuery(applyDepartment, sqlParams);
+            return (rowCount > 0) ? true : false;
         }
 
         public bool UndoEmployeePerception(int employeeNumber, int perceptionId, DateTime date)
@@ -53,14 +61,18 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@fecha", date);
 
             int rowCount = mainRepository.ExecuteNonQuery(undoEmployee, sqlParams);
-            if (rowCount > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (rowCount > 0) ? true : false;
+        }
+
+        public bool UndoDepartmentPerception(int departmentId, int perceptionId, DateTime date)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@id_departamento", departmentId);
+            sqlParams.Add("@id_percepcion", perceptionId);
+            sqlParams.Add("@fecha", date);
+
+            int rowCount = mainRepository.ExecuteNonQuery(undoDepartment, sqlParams);
+            return (rowCount > 0) ? true : false;
         }
 
         public List<ApplyPerceptionViewModel> ReadApplyPerceptions(int filter, int employeeNumber, DateTime date)

@@ -33,6 +33,7 @@ namespace Presentation.Views
 
         private DateTime payrollDate;
         private bool isPayrollDate;
+        private ApplyConceptType conceptType;
 
         public FormAplicarConceptos()
         {
@@ -53,8 +54,8 @@ namespace Presentation.Views
             payrollDate = payrollRepository.GetDate(Session.company_id);
             dtpDate.Value = payrollDate;
 
-            List<DepartmentsViewModel> departamentos = new RepositorioDepartamentos().ReadAll(Session.company_id);
-            dtgDepartaments.DataSource = departamentos;
+            //List<DepartmentsViewModel> departamentos = new RepositorioDepartamentos().ReadAll(Session.company_id);
+            //dtgDepartaments.DataSource = departamentos;
 
 
             
@@ -91,6 +92,8 @@ namespace Presentation.Views
                 dtgEmployeePrevIndex = index;
                 dtgDepartmentPrevIndex = -1;
 
+                conceptType = ApplyConceptType.Employee;
+
                 dtgPerceptions.DataSource = new RepositorioPercepcionesAplicadas().ReadApplyPerceptions(1, employeeId, dtpDate.Value);
                 dtgDeductions.DataSource = new RepositorioDeduccionesAplicadas().ReadApplyDeductions(1, employeeId, dtpDate.Value);
             }
@@ -114,6 +117,8 @@ namespace Presentation.Views
                 txtEntity.Text = row.Cells[1].Value.ToString();
                 dtgEmployeePrevIndex = -1;
                 dtgDepartmentPrevIndex = index;
+
+                conceptType = ApplyConceptType.Department;
             }
         }
 
@@ -209,7 +214,24 @@ namespace Presentation.Views
         {
             if (perceptionId != -1)
             {
-                bool result = applyPerceptionsRepository.ApplyEmployeePerception(employeeId, perceptionId, dtpDate.Value);
+                switch (conceptType)
+                {
+                    case ApplyConceptType.Employee:
+                    {
+                        bool result = applyPerceptionsRepository.ApplyEmployeePerception(
+                            employeeId, perceptionId, dtpDate.Value);
+                        break;
+                    }
+                    case ApplyConceptType.Department:
+                    {
+                        bool result =applyPerceptionsRepository.ApplyDepartmentPerception(
+                            departmentId, perceptionId, dtpDate.Value);
+                        break;
+                    }
+                }
+
+
+                
             }
             else if (deductionId != -1)
             {
@@ -275,6 +297,19 @@ namespace Presentation.Views
             {
                 RepositorioEmpleados employeeRepository = new RepositorioEmpleados();
                 dtgEmployees.DataSource = employeeRepository.ReadEmployeePayrolls(Session.company_id, dtpDate.Value);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void ListDepartments()
+        {
+            try
+            {
+                RepositorioDepartamentos departmentRepository = new RepositorioDepartamentos();
+                dtgDepartaments.DataSource = departmentRepository.ReadPayrolls(Session.company_id, dtpDate.Value);
             }
             catch (Exception ex)
             {
@@ -381,6 +416,7 @@ namespace Presentation.Views
             }
 
             ListEmployees();
+            ListDepartments();
         }
 
         private void btnStartPayroll_Click(object sender, EventArgs e)

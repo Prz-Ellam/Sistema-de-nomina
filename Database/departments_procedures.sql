@@ -28,12 +28,14 @@ AS
 	INSERT INTO departamentos(
 			nombre, 
 			sueldo_base, 
-			id_empresa
+			id_empresa,
+			fecha_creacion
 	)
 	VALUES (
 			@nombre, 
 			@sueldo_base,
-			@id_empresa
+			@id_empresa,
+			dbo.OBTENERFECHAACTUAL(@id_empresa)
 	);
 
 GO
@@ -50,8 +52,9 @@ CREATE PROCEDURE sp_ActualizarDepartamento
 	@sueldo_base				MONEY
 AS
 
-	DECLARE @status_nomina BIT = dbo.NOMINAENPROCESO((SELECT id_empresa FROM departamentos 
-													WHERE id_departamento = @id_departamento AND activo = 1));
+	DECLARE @status_nomina BIT;
+	SET @status_nomina = dbo.NOMINAENPROCESO((SELECT id_empresa FROM departamentos 
+												WHERE id_departamento = @id_departamento AND activo = 1));
 
 	IF @status_nomina = 1
 		BEGIN
@@ -66,6 +69,20 @@ AS
 			sueldo_base		= ISNULL(@sueldo_base, sueldo_base)
 	WHERE 
 			id_departamento	= @id_departamento AND activo = 1;
+
+
+	UPDATE
+			empleados
+	SET
+			sueldo_diario	= d.sueldo_base * p.nivel_salarial
+	FROM
+			empleados AS e
+			JOIN departamentos AS d
+			ON e.id_departamento = d.id_departamento 
+			JOIN puestos AS p
+			ON e.id_puesto = p.id_puesto
+	WHERE
+			e.id_departamento = @id_departamento;
 
 GO
 
@@ -85,8 +102,9 @@ AS
 			RETURN;
 		END
 
-	DECLARE @status_nomina BIT = dbo.NOMINAENPROCESO((SELECT id_empresa FROM departamentos 
-													WHERE id_departamento = @id_departamento AND activo = 1));
+	DECLARE @status_nomina BIT;
+	SET @status_nomina = dbo.NOMINAENPROCESO((SELECT id_empresa FROM departamentos 
+												WHERE id_departamento = @id_departamento AND activo = 1));
 
 	IF @status_nomina = 1
 		BEGIN
@@ -97,7 +115,11 @@ AS
 	UPDATE
 			departamentos
 	SET
-			activo = 0
+			activo = 0,
+			fecha_eliminacion = dbo.OBTENERFECHAACTUAL((SELECT id_empresa FROM departamentos 
+												WHERE id_departamento = @id_departamento AND activo = 1)),
+			id_eliminado = NEWID()
+			
 	WHERE 
 			id_departamento = @id_departamento;
 
@@ -122,6 +144,30 @@ AS
 			departamentos
 	WHERE 
 			id_empresa = @id_empresa AND activo = 1;
+
+GO
+
+EXEC sp_LeerDepartamentosNominas 1, '20220301';
+
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerDepartamentosNominas')
+	DROP PROCEDURE sp_LeerDepartamentosNominas;
+GO
+
+CREATE PROCEDURE sp_LeerDepartamentosNominas(
+	@id_empresa						INT,
+	@fecha							DATE
+)
+AS
+
+	SELECT
+			id_departamento [ID Departamento], 
+			nombre			[Nombre], 
+			sueldo_base		[Sueldo base]
+	FROM
+			departamentos
+	WHERE
+			id_empresa = @id_empresa AND
+			fecha_creacion <= dbo.PRIMERDIAFECHA(@fecha) AND (fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR fecha_eliminacion IS NULL);	
 
 GO
 

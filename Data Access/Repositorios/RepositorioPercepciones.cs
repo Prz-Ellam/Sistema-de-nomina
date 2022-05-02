@@ -36,16 +36,10 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@tipo_monto", percepcion.TipoMonto);
             sqlParams.Add("@fijo", percepcion.Fijo);
             sqlParams.Add("@porcentual", percepcion.Porcentual);
+            sqlParams.Add("@id_empresa", percepcion.IdEmpresa);
 
             int rowCount = mainRepository.ExecuteNonQuery(create, sqlParams);
-            if (rowCount > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (rowCount > 0) ? true : false;
         }
 
         public bool Update(Percepciones percepcion)
@@ -56,16 +50,10 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@tipo_monto", percepcion.TipoMonto);
             sqlParams.Add("@fijo", percepcion.Fijo);
             sqlParams.Add("@porcentual", percepcion.Porcentual);
+            sqlParams.Add("@id_empresa", percepcion.IdEmpresa);
 
             int rowCount = mainRepository.ExecuteNonQuery(update, sqlParams);
-            if (rowCount > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (rowCount > 0) ? true : false;
         }
 
         public bool Delete(int id)
@@ -74,14 +62,7 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@id_percepcion", id);
 
             int rowCount = mainRepository.ExecuteNonQuery(delete, sqlParams);
-            if (rowCount > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (rowCount > 0) ? true : false;
         }
 
         public List<PerceptionViewModel> Leer()

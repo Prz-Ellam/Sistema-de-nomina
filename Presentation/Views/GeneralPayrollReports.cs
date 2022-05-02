@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Data_Access.Repositorios;
+using Presentation.Helpers;
 
 namespace Presentation.Views
 {
@@ -43,6 +44,9 @@ namespace Presentation.Views
             {
 
             }
+
+
+            dtgGeneralPayroll.DoubleBuffered(true);
         }
     }
 }

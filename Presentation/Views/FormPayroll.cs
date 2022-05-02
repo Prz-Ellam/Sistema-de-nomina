@@ -78,19 +78,25 @@ namespace Presentation.Views
 
             try
             {
-
-                //foreach (int employeeNumber in employeesNumber)
-                //{
-                    payrollRepository.GeneratePayrolls(date, Session.company_id);
-                //}
-
+                payrollRepository.GeneratePayrolls(date, Session.company_id);
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(ex.Message);
+                if (ex.Number == 547)
+                {
+                    if (ex.Message.Contains("chk_nomina_sueldo"))
+                    {
+                        MessageBox.Show("La nómina no puede ser cerrada debido a que un registro es inválido, favor de revisar y realizar correcciones las necesarias");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
 
-            //GenerateCSV();
+            ListPayrolls(date);
+            GenerateCSV();
         }
 
         private void GenerateCSV()
@@ -117,21 +123,29 @@ namespace Presentation.Views
 
         private void btnConsult_Click(object sender, EventArgs e)
         {
+            ListPayrolls(dtpConsult.Value);
+        }
+
+        private void btnCSV_Click(object sender, EventArgs e)
+        {
+            GenerateCSV();
+        }
+
+        private void ListPayrolls(DateTime request)
+        {
             try
             {
-                dtgPayrolls.DataSource = payrollRepository.ReadByDate(dtpConsult.Value);
+                dtgPayrolls.DataSource = payrollRepository.ReadByDate(request);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
 
-            btnCSV.Enabled = true;
-        }
-
-        private void btnCSV_Click(object sender, EventArgs e)
-        {
-            GenerateCSV();
+            if (dtgPayrolls.RowCount > 0)
+            {
+                btnCSV.Enabled = true;
+            }
         }
     }
 }

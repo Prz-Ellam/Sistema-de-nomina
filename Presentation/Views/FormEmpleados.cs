@@ -61,7 +61,7 @@ namespace Presentation.Views
                         btnAdd.Enabled = false;
                         btnEdit.Enabled = true;
                         btnDelete.Enabled = true;
-                        dtpHiringDate.MinDate = new DateTime(1753, 1, 1);
+                        dtpHiringDate.MinDate = new DateTime(1970, 1, 1);
                         break;
                     }
                 }
@@ -77,7 +77,8 @@ namespace Presentation.Views
         {
             try
             {
-                payrollDate = new RepositorioNominas().GetDate(Session.company_id);
+                RepositorioNominas payrollRepository = new RepositorioNominas();
+                payrollDate = payrollRepository.GetDate(Session.company_id);
             }
             catch (SqlException ex)
             {
@@ -206,6 +207,10 @@ namespace Presentation.Views
                     {
                         return new ValidationResult("El CURP que ingresó ya está siendo utilizado por otro usuario", ValidationState.Error);
                     }
+                    else if (ex.Message.Contains("Unique_Nss"))
+                    {
+                        return new ValidationResult("El NSS que ingresó ya está siendo utilizado por otro usuario", ValidationState.Error);
+                    }
                     else
                     {
                         return new ValidationResult(ex.Message, ValidationState.Error);
@@ -243,6 +248,26 @@ namespace Presentation.Views
             }
             catch (SqlException ex)
             {
+                if (ex.Number == 2627) // Unique Constraint
+                {
+                    if (ex.Message.Contains("Unique_Rfc"))
+                    {
+                        return new ValidationResult("El RFC que ingresó ya está siendo utilizado por otro usuario", ValidationState.Error);
+                    }
+                    else if (ex.Message.Contains("Unique_Curp"))
+                    {
+                        return new ValidationResult("El CURP que ingresó ya está siendo utilizado por otro usuario", ValidationState.Error);
+                    }
+                    else if (ex.Message.Contains("Unique_Nss"))
+                    {
+                        return new ValidationResult("El NSS que ingresó ya está siendo utilizado por otro usuario", ValidationState.Error);
+                    }
+                    else
+                    {
+                        return new ValidationResult(ex.Message, ValidationState.Error);
+                    }
+                }
+
                 return new ValidationResult(ex.Message, ValidationState.Error);
             }
         }
@@ -476,7 +501,7 @@ namespace Presentation.Views
             StatesRepository repository = new StatesRepository();
             states = repository.GetAll();
 
-            //cbState.Items.Add("Seleccionar");
+            cbState.Items.Add("Seleccionar");
             foreach (var state in states)
             {
                 cbState.Items.Add(state.state);
@@ -490,9 +515,12 @@ namespace Presentation.Views
             cbCity.DataSource = null;
             if (cbState.SelectedIndex <= 0)
             {
+                List<string> cities = new List<string>();
+                cities.Add("Seleccionar");
+                cbCity.DataSource = cities;
                 return;
             }
-            cbCity.DataSource = states[cbState.SelectedIndex].cities;
+            cbCity.DataSource = states[cbState.SelectedIndex - 1].cities;
             cbCity.SelectedIndex = 0;
         }
 

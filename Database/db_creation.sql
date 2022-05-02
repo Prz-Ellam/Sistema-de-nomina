@@ -1,26 +1,34 @@
 --CREATE DATABASE sistema_de_nomina;
 USE sistema_de_nomina;
 
-SELECT*FROM empresas;
-
 -- Tablas primas
 IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'empresas' AND type = 'u')
 	DROP TABLE empresas;
 
 CREATE TABLE empresas(
-	id_empresa				INT IDENTITY(1,1) NOT NULL,
-	razon_social			VARCHAR(60) NOT NULL,
-	domicilio_fiscal		INT NOT NULL,
-	correo_electronico		VARCHAR(30) UNIQUE NOT NULL,
-	registro_patronal		VARCHAR(11) UNIQUE NOT NULL,
-	rfc						VARCHAR(12) UNIQUE NOT NULL,
-	fecha_inicio			DATE NOT NULL,
-	id_administrador		INT NOT NULL,
-	activo					BIT DEFAULT 1
+	id_empresa					INT IDENTITY(1,1) NOT NULL,
+	razon_social				VARCHAR(60) NOT NULL,
+	correo_electronico			VARCHAR(30) NOT NULL,
+	registro_patronal			VARCHAR(11) NOT NULL,
+	rfc							VARCHAR(12) NOT NULL,
+	fecha_inicio				DATE NOT NULL,
+	id_administrador			INT NOT NULL,
+	domicilio_fiscal			INT NOT NULL,
+	activo						BIT DEFAULT 1 NOT NULL,
+	fecha_eliminacion			DATE,
+	id_eliminado				UNIQUEIDENTIFIER DEFAULT NULL,
 
-	CONSTRAINT PK_Company
-		PRIMARY KEY (id_empresa)
+	CONSTRAINT pk_empresas
+		PRIMARY KEY (id_empresa),
+	CONSTRAINT unique_correo
+		UNIQUE (correo_electronico, id_eliminado),
+	CONSTRAINT unique_registro_patronal
+		UNIQUE (registro_patronal, id_eliminado),
+	CONSTRAINT unique_rfc
+		UNIQUE (rfc, id_eliminado)
 );
+
+
 
 IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'administradores' AND type = 'u')
 	DROP TABLE administradores;
@@ -30,10 +38,13 @@ CREATE TABLE administradores(
 	correo_electronico			VARCHAR(60) UNIQUE NOT NULL,
 	contrasena					VARCHAR(30) NOT NULL,
 	activo						BIT DEFAULT 1,
+	fecha_eliminacion			DATE,
+	id_eliminado				UNIQUEIDENTIFIER DEFAULT NULL,
 	
-	CONSTRAINT PK_Administrator
+	CONSTRAINT pk_administradores
 		PRIMARY KEY (id_administrador)
 );
+
 
 IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'departamentos' AND type = 'u')
 	DROP TABLE departamentos;
@@ -43,11 +54,16 @@ CREATE TABLE departamentos(
 	nombre						VARCHAR(30) NOT NULL,
 	sueldo_base					MONEY NOT NULL,
 	activo						BIT DEFAULT 1 NOT NULL,
+	fecha_creacion				DATE,
+	fecha_eliminacion			DATE,
+	id_eliminado				UNIQUEIDENTIFIER DEFAULT NULL,
 	id_empresa					INT NOT NULL
 
-	CONSTRAINT PK_Department
+	CONSTRAINT pk_departamentos
 		PRIMARY KEY (id_departamento)
 );
+
+
 
 IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'puestos' AND type = 'u')
 	DROP TABLE puestos;
@@ -57,11 +73,16 @@ CREATE TABLE puestos(
 	nombre						VARCHAR(30) NOT NULL,
 	nivel_salarial				FLOAT NOT NULL,
 	activo						BIT DEFAULT 1 NOT NULL,
+	fecha_creacion				DATE,
+	fecha_eliminacion			DATE,
+	id_eliminado				UNIQUEIDENTIFIER DEFAULT NULL,
 	id_empresa					INT NOT NULL
 
-	CONSTRAINT PK_Position
+	CONSTRAINT pk_puestos
 		PRIMARY KEY (id_puesto)
 );
+
+
 
 IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'empleados' AND type = 'u')
 	DROP TABLE empleados;
@@ -75,29 +96,31 @@ CREATE TABLE empleados(
 	curp						VARCHAR(18) NOT NULL,
 	nss							VARCHAR(11) NOT NULL,
 	rfc							VARCHAR(13) NOT NULL,
-	domicilio					INT NOT NULL,
-	banco						INT NOT NULL,
 	numero_cuenta				VARCHAR(10) NOT NULL,
 	correo_electronico			VARCHAR(60) NOT NULL,
 	contrasena					VARCHAR(30) NOT NULL,
 	sueldo_diario				MONEY NOT NULL,
 	fecha_contratacion			DATE NOT NULL,
-	activo						BIT DEFAULT 1,
+	domicilio					INT NOT NULL,
+	banco						INT NOT NULL,
 	id_departamento				INT NOT NULL,
 	id_puesto					INT NOT NULL,
+	activo						BIT DEFAULT 1 NOT NULL,
+	fecha_eliminacion			DATE,
+	id_eliminado				UNIQUEIDENTIFIER DEFAULT NULL,
 
-	CONSTRAINT PK_Employee
+	CONSTRAINT pk_empleados
 		PRIMARY KEY (numero_empleado),
-	CONSTRAINT Unique_Curp
-		UNIQUE (curp),
-	CONSTRAINT Unique_Nss
-		UNIQUE (nss),
-	CONSTRAINT Unique_Rfc
-		UNIQUE (rfc),
-	CONSTRAINT Unique_Numero_Cuenta
-		UNIQUE (numero_cuenta),
-	CONSTRAINT Unique_Correo_electronico
-		UNIQUE (correo_electronico)
+	CONSTRAINT unique_curp
+		UNIQUE (curp, id_eliminado),
+	CONSTRAINT unique_nss
+		UNIQUE (nss, id_eliminado),
+	CONSTRAINT unique_rfc_empleado
+		UNIQUE (rfc, id_eliminado),
+	CONSTRAINT unique_numero_cuenta
+		UNIQUE (numero_cuenta, id_eliminado),
+	CONSTRAINT unique_correo_electronico
+		UNIQUE (correo_electronico, id_eliminado)
 );
 
 
@@ -112,15 +135,20 @@ CREATE TABLE percepciones(
 	fijo						MONEY,
 	porcentual					FLOAT,
 	tipo_duracion				CHAR DEFAULT 'S' NOT NULL, -- 'B' es de basic (basico) y 'S' es de special (Especial)
+	id_empresa					INT NOT NULL,
 	activo						BIT DEFAULT 1 NOT NULL,
+	fecha_creacion				DATE,
+	fecha_eliminacion			DATE,
+	id_eliminado				UNIQUEIDENTIFIER DEFAULT NULL
 
-	CONSTRAINT PK_Perception
+	CONSTRAINT pk_percepciones
 		PRIMARY KEY (id_percepcion),
-	CONSTRAINT Chk_Percepcion_Tipo
+	CONSTRAINT chk_percepcion_tipo
 		CHECK (tipo_monto in ('F', 'P')),
-	CONSTRAINT Chk_Percepcion_Duracion
+	CONSTRAINT chk_percepcion_duracion
 		CHECK (tipo_duracion in ('S', 'B'))
 );
+
 
 
 IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'deducciones' AND type = 'u')
@@ -133,15 +161,21 @@ CREATE TABLE deducciones(
 	fijo						MONEY,
 	porcentual					FLOAT,
 	tipo_duracion				CHAR DEFAULT 'S' NOT NULL,
+	id_empresa					INT NOT NULL,
 	activo						BIT DEFAULT 1 NOT NULL,
+	fecha_creacion				DATE,
+	fecha_eliminacion			DATE,
+	id_eliminado				UNIQUEIDENTIFIER DEFAULT NULL
 
-	CONSTRAINT PK_Deduction
+	CONSTRAINT pk_deducciones
 		PRIMARY KEY (id_deduccion),
-	CONSTRAINT Chk_Deduccion_Tipo
+	CONSTRAINT chk_deduccion_tipo
 		CHECK (tipo_monto in ('F', 'P')),
-	CONSTRAINT Chk_Deduccion_Duracion
+	CONSTRAINT chk_deduccion_duracion
 		CHECK (tipo_duracion in ('S', 'B'))
 );
+
+
 
 IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'nominas' AND type = 'u')
 	DROP TABLE nominas;
@@ -152,15 +186,18 @@ CREATE TABLE nominas(
 	sueldo_bruto				MONEY NOT NULL,
 	sueldo_neto					MONEY NOT NULL,
 	banco						INT NOT NULL,
-	numero_cuenta				VARCHAR(11) NOT NULL,
+	numero_cuenta				VARCHAR(10) NOT NULL,
 	fecha						DATE NOT NULL,
 	numero_empleado				INT NOT NULL,
 	id_departamento				INT NOT NULL,
 	id_puesto					INT NOT NULL
 
-	CONSTRAINT PK_Payrolls
-		PRIMARY KEY (id_nomina)
+	CONSTRAINT pk_nominas
+		PRIMARY KEY (id_nomina),
+	CONSTRAINT chk_nomina_sueldo
+		CHECK (sueldo_neto > 0)
 );
+
 
 
 -- Tablas asociativas
@@ -175,9 +212,11 @@ CREATE TABLE percepciones_aplicadas(
 	cantidad					MONEY NOT NULL,
 	fecha						DATE NOT NULL
 
-	CONSTRAINT PK_Employees_Perceptions
+	CONSTRAINT pk_percepciones_aplicadas
 		PRIMARY KEY (id_percepcion_aplicada)
 );
+
+
 
 IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'deducciones_aplicadas' AND type = 'u')
 	DROP TABLE deducciones_aplicadas;
@@ -190,7 +229,7 @@ CREATE TABLE deducciones_aplicadas(
 	cantidad					MONEY NOT NULL,
 	fecha						DATE NOT NULL
 
-	CONSTRAINT PK_Employees_Deductions
+	CONSTRAINT pk_deducciones_aplicadas
 		PRIMARY KEY (id_deduccion_aplicada)
 );
 
@@ -209,9 +248,11 @@ CREATE TABLE domicilios(
 	estado						VARCHAR(30) NOT NULL,
 	codigo_postal				VARCHAR(5) NOT NULL
 
-	CONSTRAINT PK_Addresses
+	CONSTRAINT pk_domicilios
 		PRIMARY KEY (id_domicilio)
 );
+
+
 
 IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'telefonos_empresas' AND type = 'u')
 	DROP TABLE telefonos_empresas;
@@ -221,9 +262,11 @@ CREATE TABLE telefonos_empresas(
 	telefono					VARCHAR(12) NOT NULL,
 	id_empresa					INT NOT NULL
 
-	CONSTRAINT PK_Phones_Companies
+	CONSTRAINT pk_telefonos_empresas
 		PRIMARY KEY (id_telefono_empresa)
 );
+
+
 
 IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'telefonos_empleados' AND type = 'u')
 	DROP TABLE telefonos_empleados;
@@ -233,9 +276,11 @@ CREATE TABLE telefonos_empleados(
 	telefono					VARCHAR(12) NOT NULL,
 	numero_empleado				INT NOT NULL
 
-	CONSTRAINT PK_Phones_Employees
+	CONSTRAINT pk_telefonos_empleados
 		PRIMARY KEY (id_telefono_empleado)
 );
+
+
 
 IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'bancos' AND type = 'u')
 	DROP TABLE bancos;
@@ -244,7 +289,7 @@ CREATE TABLE bancos(
 	id_banco					INT IDENTITY(1,1),
 	nombre						VARCHAR(30) NOT NULL
 
-	CONSTRAINT PK_Banks
+	CONSTRAINT pk_bancos
 		PRIMARY KEY (id_banco)
 );
 
@@ -252,36 +297,36 @@ CREATE TABLE bancos(
 
 -- Llaves foraneas
 ALTER TABLE empresas
-	ADD CONSTRAINT FK_Empresa_Domicilio
+	ADD CONSTRAINT fk_empresa_domicilio
 		FOREIGN KEY (domicilio_fiscal)
 		REFERENCES domicilios(id_domicilio);
 
 ALTER TABLE empresas
-	ADD CONSTRAINT FK_Admin_Empresa
+	ADD CONSTRAINT fk_administrador_empresa
 		FOREIGN KEY (id_administrador)
 		REFERENCES administradores(id_administrador);
 
 ALTER TABLE departamentos
-	ADD CONSTRAINT FK_Departmento_Empresa
+	ADD CONSTRAINT fk_departmento_empresa
 		FOREIGN KEY (id_empresa)
 		REFERENCES empresas(id_empresa);
 
 ALTER TABLE puestos
-	ADD CONSTRAINT FK_Puesto_Empresa
+	ADD CONSTRAINT fk_puesto_empresa
 		FOREIGN KEY (id_empresa)
 		REFERENCES empresas(id_empresa);
 
 ALTER TABLE empleados
-	ADD CONSTRAINT FK_Empleado_Domicilio
+	ADD CONSTRAINT fk_empleado_domicilio
 		FOREIGN KEY (domicilio)
 		REFERENCES domicilios(id_domicilio),
-		CONSTRAINT FK_Empleado_Banco
+		CONSTRAINT fk_empleado_banco
 		FOREIGN KEY (banco)
 		REFERENCES bancos(id_banco),
-		CONSTRAINT FK_Empleado_Departamento
+		CONSTRAINT fk_empleado_departamento
 		FOREIGN KEY (id_departamento)
 		REFERENCES departamentos(id_departamento),
-		CONSTRAINT FK_Empleado_Puesto
+		CONSTRAINT fk_empleado_puesto
 		FOREIGN KEY (id_puesto)
 		REFERENCES puestos(id_puesto);
 
@@ -334,28 +379,24 @@ ALTER TABLE telefonos_empleados
 
 
 
-		
-
-
-
 /*
 ALTER TABLE empresas
-	DROP CONSTRAINT FK_Empresa_Domicilio;
+	DROP CONSTRAINT fk_empresa_domicilio;
 
 ALTER TABLE empresas
-	DROP CONSTRAINT FK_Admin_Empresa;
+	DROP CONSTRAINT fk_administrador_empresa;
 
 ALTER TABLE departamentos
-	DROP CONSTRAINT FK_Departmento_Empresa;
+	DROP CONSTRAINT fk_departmento_empresa;
 
 ALTER TABLE puestos
-	DROP CONSTRAINT FK_Puesto_Empresa;
+	DROP CONSTRAINT fk_puesto_empresa;
 
 ALTER TABLE empleados
-	DROP CONSTRAINT FK_Empleado_Domicilio,
-		CONSTRAINT FK_Empleado_Banco,
-		CONSTRAINT FK_Empleado_Departamento,
-		CONSTRAINT FK_Empleado_Puesto;
+	DROP CONSTRAINT fk_empleado_domicilio,
+		CONSTRAINT fk_empleado_banco,
+		CONSTRAINT fk_empleado_departamento,
+		CONSTRAINT fk_empleado_puesto;
 
 ALTER TABLE percepciones_aplicadas
 	DROP CONSTRAINT fk_percepcion_empleado,
@@ -401,34 +442,11 @@ ORDER BY TableName ASC;
 */
 
 
-INSERT INTO domicilios(calle, numero, colonia, ciudad, estado, codigo_postal)
-VALUES('Montes de Leon', '935', 'Las Puentes 6to Sector', 'San Nicolas de los Garza', 'Nuevo Leon', '66460');
+--INSERT INTO domicilios(calle, numero, colonia, ciudad, estado, codigo_postal)
+--VALUES('Montes de Leon', '935', 'Las Puentes 6to Sector', 'San Nicolas de los Garza', 'Nuevo Leon', '66460');
 
-INSERT INTO empresas(razon_social, domicilio_fiscal, correo_electronico, rfc, registro_patronal, fecha_inicio, id_administrador)
-VALUES('Crystal Soft Development S.A. de C.V.', 1, 'crystal@domain.com', 'MOV1004082C1', 'Y5499995107','20101026', 1);
-
-select top 1 * from empresas;
-
-SELECT * FROM departamentos;
-SELECT * FROM puestos;
-select*from domicilios;
-select*from empresas;
-
-INSERT INTO administradores(correo_electronico, contrasena)
-VALUES('a@a.com', '123');
-
-INSERT INTO Bancos (Nombre) VALUES ('Banorte');
-INSERT INTO Bancos (Nombre) VALUES ('Santander');
-INSERT INTO Bancos (Nombre) VALUES ('BBVA');
-INSERT INTO Bancos (Nombre) VALUES ('Citibanamex');
-INSERT INTO Bancos (Nombre) VALUES ('Afirme');
+--INSERT INTO empresas(razon_social, domicilio_fiscal, correo_electronico, rfc, registro_patronal, fecha_inicio, id_administrador)
+--VALUES('Crystal Soft Development S.A. de C.V.', 1, 'crystal@domain.com', 'MOV1004082C1', 'Y5499995107','20101026', 1);
 
 
-INSERT INTO percepciones(nombre, tipo_monto, fijo, porcentual, tipo_duracion)
-VALUES('Salario', 'P', 0, 1.0, 'B');
-INSERT INTO deducciones(nombre, tipo_monto, fijo, porcentual, tipo_duracion)
-VALUES('ISR', 'P', 0, 0.2, 'B');
-INSERT INTO deducciones(nombre, tipo_monto, fijo, porcentual, tipo_duracion)
-VALUES('IMSS', 'F', 100.0, 0, 'B');
 
-SELECT*FROM deducciones;

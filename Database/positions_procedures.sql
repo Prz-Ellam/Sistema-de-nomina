@@ -59,6 +59,19 @@ AS
 	WHERE 
 			id_puesto = @id_puesto;
 
+	UPDATE
+			empleados
+	SET
+			sueldo_diario	= d.sueldo_base * p.nivel_salarial
+	FROM
+			empleados AS e
+			JOIN departamentos AS d
+			ON e.id_departamento = d.id_departamento 
+			JOIN puestos AS p
+			ON e.id_puesto = p.id_puesto
+	WHERE
+			e.id_puesto = @id_puesto;
+
 GO
 
 
@@ -84,7 +97,10 @@ AS
 	UPDATE
 			puestos
 	SET
-			activo = 0
+			activo = 0,
+			fecha_eliminacion = dbo.OBTENERFECHAACTUAL((SELECT id_empresa FROM puestos 
+												WHERE id_puesto = @id_puesto AND activo = 1)),
+			id_eliminado = NEWID()
 	WHERE
 			id_puesto = @id_puesto AND activo = 1;
 

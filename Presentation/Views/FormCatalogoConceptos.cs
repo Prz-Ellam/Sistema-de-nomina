@@ -466,6 +466,7 @@ namespace Presentation.Views
             percepcion.TipoMonto = rbFijo.Checked ? 'F' : (rbPorcentual.Checked ? 'P' : ' ');
             percepcion.Fijo = nudFijo.Value;
             percepcion.Porcentual = nudPorcentual.Value;
+            percepcion.IdEmpresa = Session.company_id;
         }
 
         public void FillDeduction()
@@ -475,6 +476,7 @@ namespace Presentation.Views
             deduccion.TipoMonto = rbFijo.Checked ? 'F' : (rbPorcentual.Checked ? 'P' : ' ');
             deduccion.Fijo = nudFijo.Value;
             deduccion.Porcentual = nudPorcentual.Value;
+            percepcion.IdEmpresa = Session.company_id;
         }
 
         public void ClearForm()

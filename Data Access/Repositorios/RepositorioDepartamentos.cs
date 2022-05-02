@@ -13,7 +13,7 @@ namespace Data_Access.Repositorios
 {
     public class RepositorioDepartamentos
     {
-        private readonly string agregar, actualizar, eliminar, leer, filtrar;
+        private readonly string agregar, actualizar, eliminar, leer, filtrar, leerNominas;
         private MainConnection repositorio;
         private RepositoryParameters sqlParams = new RepositoryParameters();
 
@@ -24,6 +24,7 @@ namespace Data_Access.Repositorios
             actualizar = "sp_ActualizarDepartamento";
             eliminar = "sp_EliminarDepartamento";
             leer = "sp_LeerDepartamentos";
+            leerNominas = "sp_LeerDepartamentosNominas";
             filtrar = "sp_FiltrarDepartamentos";
         }
 
@@ -66,6 +67,27 @@ namespace Data_Access.Repositorios
             DataTable table = repositorio.ExecuteReader(leer, sqlParams);
             List<DepartmentsViewModel> departments = new List<DepartmentsViewModel>();
             foreach(DataRow row in table.Rows)
+            {
+                departments.Add(new DepartmentsViewModel
+                {
+                    Id = Convert.ToInt32(row["ID Departamento"]),
+                    Name = row["Nombre"].ToString(),
+                    BaseSalary = Convert.ToDecimal(row["Sueldo Base"])
+                });
+            }
+
+            return departments;
+        }
+
+        public List<DepartmentsViewModel> ReadPayrolls(int companyId, DateTime date)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@id_empresa", companyId);
+            sqlParams.Add("@fecha", date);
+
+            DataTable table = repositorio.ExecuteReader(leerNominas, sqlParams);
+            List<DepartmentsViewModel> departments = new List<DepartmentsViewModel>();
+            foreach (DataRow row in table.Rows)
             {
                 departments.Add(new DepartmentsViewModel
                 {

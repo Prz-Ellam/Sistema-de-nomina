@@ -10,12 +10,25 @@ CREATE PROCEDURE sp_AgregarDeduccion(
 	@nombre				VARCHAR(30),
 	@tipo_monto			CHAR(1),
 	@fijo				MONEY,
-	@porcentual			FLOAT
+	@porcentual			FLOAT,
+	@id_empresa			INT
 ) 
 AS
 
-	INSERT INTO deducciones(nombre, tipo_monto, fijo, porcentual)
-	VALUES(@nombre, @tipo_monto, @fijo, @porcentual);
+	INSERT INTO deducciones(
+			nombre,
+			tipo_monto,
+			fijo,
+			porcentual,
+			fecha_creacion
+	)
+	VALUES(
+			@nombre,
+			@tipo_monto,
+			@fijo,
+			@porcentual,
+			dbo.OBTENERFECHAACTUAL(@id_empresa)
+	);
 
 GO
 
@@ -55,10 +68,14 @@ CREATE PROCEDURE sp_EliminarDeduccion(
 )
 AS
 
-	UPDATE deducciones
+	UPDATE 
+			deducciones
 	SET
-	activo = 0
-	WHERE id_deduccion = @id_deduccion;
+			activo = 0,
+			fecha_eliminacion = dbo.OBTENERFECHAACTUAL(id_empresa),
+			id_eliminado = NEWID()
+	WHERE 
+			id_deduccion = @id_deduccion;
 
 GO
 

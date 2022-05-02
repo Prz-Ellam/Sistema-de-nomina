@@ -93,9 +93,11 @@ namespace Data_Access.Entidades
         [RegularExpression(@"^[a-zA-Z0-9 \u00C0-\u00FF]+$", ErrorMessage = "La colonia solo puede contener letras, números y espacios")]
         public string Colonia { get => colonia; set => colonia = value; }
         [Required]
+        [Blacklist("Seleccionar")]
         [RegularExpression(@"^[a-zA-Z0-9 \u00C0-\u00FF]+$", ErrorMessage = "La ciudad solo puede contener letras, números y espacios")]
         public string Ciudad { get => ciudad; set => ciudad = value; }
         [Required]
+        [Blacklist("Seleccionar")]
         [RegularExpression(@"^[a-zA-Z0-9 \u00C0-\u00FF]+$", ErrorMessage = "El estado solo puede contener letras, números y espacios")]
         public string Estado { get => estado; set => estado = value; }
         [Required]

@@ -76,9 +76,12 @@ namespace Presentation.Views
             cbCities.DataSource = null;
             if (cbStates.SelectedIndex <= 0)
             {
+                List<string> cities = new List<string>();
+                cities.Add("Seleccionar");
+                cbCities.DataSource = cities;
                 return;
             }
-            cbCities.DataSource = states[cbStates.SelectedIndex].cities;
+            cbCities.DataSource = states[cbStates.SelectedIndex - 1].cities;
             cbCities.SelectedIndex = 0;
         }
 
@@ -87,10 +90,13 @@ namespace Presentation.Views
             StatesRepository repository = new StatesRepository();
             states = repository.GetAll();
 
+            cbStates.Items.Add("Seleccionar");
             foreach (var state in states)
             {
                 cbStates.Items.Add(state.state);
             }
+
+            cbStates.SelectedIndex = 0;
         }
 
         private void btnAdd_Click(object sender, EventArgs e)

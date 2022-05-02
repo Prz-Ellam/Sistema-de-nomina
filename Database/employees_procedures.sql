@@ -1,12 +1,5 @@
 USE sistema_de_nomina;
 
-select*from domicilios;
-
-select*From empleados;
-select*from telefonos_empleados;
-select*from domicilios;
-
-
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AgregarEmpleado')
 	DROP PROCEDURE sp_AgregarEmpleado;
 GO
@@ -181,10 +174,8 @@ AS
 GO
 
 
-
-
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_EliminarEmpleado')
-	DROP PROCEDURE sp_ActualizarEmpleado;
+	DROP PROCEDURE sp_EliminarEmpleado;
 GO
 
 CREATE PROCEDURE sp_EliminarEmpleado(
@@ -198,9 +189,6 @@ AS
 	WHERE numero_empleado = @numero_empleado;
 
 GO
-
-
-
 
 
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerEmpleados')
@@ -315,21 +303,25 @@ AS
 GO
 
 
+		SELECT
+				e.numero_empleado [Numero de Empleado], 
+				CONCAT(e.nombre, ' ', e.apellido_paterno, ' ', e.apellido_materno) AS [Nombre de Empleado], 
+				d.nombre [Departamento],
+				p.nombre [Puesto],
+				e.sueldo_diario [Sueldo diario],
+				dbo.DIASTRABAJADOSEMPLEADO('20220130', 1) [Dias trabajados],
+				e.sueldo_diario * dbo.DIASTRABAJADOSEMPLEADO('20220130', 1) [Sueldo bruto],
+				dbo.TOTALPERCEPCIONES('20220130', 1) [Total percepciones],
+				dbo.TOTALDEDUCCIONES('20220130', 1) [Total deducciones],
+				(dbo.TOTALPERCEPCIONES('20220130', 1) - dbo.TOTALDEDUCCIONES('20220130', 1)) [Sueldo neto]
+		FROM empleados AS e
+		JOIN departamentos AS d
+		ON e.id_departamento = d.id_departamento
+		JOIN puestos AS p
+		ON e.id_puesto = p.id_puesto
+		WHERE e.activo = 1 AND dbo.PRIMERDIAFECHA(e.fecha_contratacion) <=  dbo.PRIMERDIAFECHA('20220130')
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-EXEC sp_LeerEmpleadosNominas '20220401';
 
 
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerEmpleadosNominas')
@@ -342,7 +334,7 @@ CREATE PROCEDURE sp_LeerEmpleadosNominas(
 )
 AS
 
-	IF dbo.PRIMERDIAFECHA(@fecha) = dbo.OBTENERFECHAACTUAL(@id_empresa)
+	--IF dbo.PRIMERDIAFECHA(@fecha) = dbo.OBTENERFECHAACTUAL(@id_empresa)
 		SELECT
 				e.numero_empleado [Numero de Empleado], 
 				CONCAT(e.nombre, ' ', e.apellido_paterno, ' ', e.apellido_materno) AS [Nombre de Empleado], 
@@ -361,6 +353,7 @@ AS
 		ON e.id_puesto = p.id_puesto
 		WHERE e.activo = 1 AND dbo.PRIMERDIAFECHA(e.fecha_contratacion) <=  dbo.PRIMERDIAFECHA(@fecha)
 		GROUP BY e.numero_empleado, e.nombre, e.apellido_paterno, e.apellido_materno, d.nombre, p.nombre, e.sueldo_diario, e.fecha_contratacion
+	/*
 	ELSE
 		SELECT
 				n.numero_empleado [Numero de empleado],
@@ -383,7 +376,7 @@ AS
 				ON n.numero_empleado = e.numero_empleado
 		WHERE
 				dbo.PRIMERDIAFECHA(n.fecha) = dbo.PRIMERDIAFECHA(@fecha)
-
+				*/
 GO
 
 
