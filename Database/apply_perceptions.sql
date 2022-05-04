@@ -47,6 +47,10 @@ GO
 
 
 
+EXEC sp_AplicarDepartamentoPercepcion 1, 3, '20220501';
+EXEC sp_EliminarDepartamentoPercepcion 1, 3, '20220501';
+
+
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AplicarDepartamentoPercepcion')
 	DROP PROCEDURE sp_AplicarDepartamentoPercepcion;
 GO
@@ -59,6 +63,12 @@ CREATE PROCEDURE sp_AplicarDepartamentoPercepcion(
 AS
 BEGIN
 
+	INSERT INTO percepciones_aplicadas(
+			numero_empleado,
+			id_percepcion,
+			fecha,
+			cantidad
+	)
 	SELECT 
 			e.numero_empleado,
 			@id_percepcion,
@@ -102,6 +112,9 @@ AS
 GO
 
 
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_EliminarDepartamentoPercepcion')
+	DROP PROCEDURE sp_EliminarDepartamentoPercepcion;
+GO
 
 CREATE PROCEDURE sp_EliminarDepartamentoPercepcion(
 	@id_departamento			INT,
@@ -110,8 +123,16 @@ CREATE PROCEDURE sp_EliminarDepartamentoPercepcion(
 )
 AS
 
-	
-
+	DELETE 
+			percepciones_aplicadas 
+	FROM 
+			percepciones_aplicadas AS pa
+			JOIN empleados AS e
+			ON pa.numero_empleado = e.numero_empleado
+	WHERE 
+			e.id_departamento = @id_departamento AND 
+			pa.id_percepcion = @id_percepcion AND 
+			dbo.PRIMERDIAFECHA(pa.fecha) = dbo.PRIMERDIAFECHA(@fecha);
 
 GO
 

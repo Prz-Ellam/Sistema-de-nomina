@@ -27,12 +27,10 @@ namespace Presentation.Views
 
             if (ofnPayroll.ShowDialog() == DialogResult.OK)
             {
-                var report = repository.GetPayrollReceipt(dtpDate.Value);
-
+                var report = repository.GetPayrollReceipt(Session.id, dtpDate.Value);
 
                 var per = new RepositorioPercepcionesAplicadas().ReadPayrollPerceptions(report.IdNomina);
                 var ded = new RepositorioDeduccionesAplicadas().ReadPayrollDeductions(report.IdNomina);
-
 
                 bool result = PDFReceipt.GeneratePDFReceipt(report, per, ded,  ofnPayroll.FileName);
 

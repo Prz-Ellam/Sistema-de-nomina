@@ -191,9 +191,10 @@ namespace Data_Access.Repositorios
             return false;
         }
 
-        public PayrollReceiptViewModel GetPayrollReceipt(DateTime date)
+        public PayrollReceiptViewModel GetPayrollReceipt(int employeeNumber, DateTime date)
         {
             sqlParams.Start();
+            sqlParams.Add("@numero_empleado", employeeNumber);
             sqlParams.Add("@fecha", date);
 
             DataTable table = mainRepository.ExecuteReader(getPayrollReceipt, sqlParams);

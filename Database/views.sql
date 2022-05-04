@@ -160,20 +160,21 @@ AS
 			n.sueldo_diario AS 'Sueldo diario',
 			n.sueldo_bruto AS 'Sueldo bruto',
 			n.sueldo_neto AS 'Sueldo neto',
-			DATEFROMPARTS(YEAR(n.fecha), MONTH(n.fecha), 1) AS 'Periodo',
+			dbo.PRIMERDIAFECHA(n.fecha) AS 'Periodo',
+			DATEFROMPARTS(YEAR(n.fecha), MONTH(n.fecha), dbo.GETMONTHLENGTH(YEAR(n.fecha), MONTH(n.fecha))) AS 'Periodo final',
 			n.id_nomina AS 'ID de nomina'
 	FROM
 			empleados AS e
+			JOIN nominas AS n
+			ON e.numero_empleado = n.numero_empleado
 			JOIN departamentos AS d 
-			ON e.id_departamento = d.id_departamento
+			ON n.id_departamento = d.id_departamento
 			JOIN puestos AS p
-			ON e.id_puesto = p.id_puesto 
+			ON n.id_puesto = p.id_puesto 
 			JOIN empresas AS c
 			ON d.id_empresa = c.id_empresa
 			JOIN domicilios AS do
 			ON c.domicilio_fiscal = do.id_domicilio
-			JOIN nominas AS n
-			ON e.numero_empleado = n.numero_empleado
 	WHERE
 			e.activo = 1;
 

@@ -13,7 +13,7 @@ AS
 	DECLARE @fecha_nomina DATE;
 	SET @fecha_nomina = dbo.OBTENERFECHAACTUAL(@id_empresa);
 	
-	IF (DATEFROMPARTS(YEAR(@fecha_nomina), MONTH(@fecha_nomina), 1) <> DATEFROMPARTS(YEAR(@fecha), MONTH(@fecha), 1))
+	IF (dbo.PRIMERDIAFECHA(@fecha_nomina) <> dbo.PRIMERDIAFECHA(@fecha))
 		BEGIN
 			RAISERROR('No se puede iniciar una nómina fuera del periodo actual de nómina', 11, 1);
 			RETURN;
@@ -34,7 +34,7 @@ AS
 			empleados AS e
 			CROSS JOIN percepciones AS p
 	WHERE 
-			DATEFROMPARTS(YEAR(e.fecha_contratacion), MONTH(e.fecha_contratacion), 1) <= @fecha AND e.activo = 1 AND p.tipo_duracion = 'B';
+			dbo.PRIMERDIAFECHA(e.fecha_contratacion) <= dbo.PRIMERDIAFECHA(@fecha) AND e.activo = 1 AND p.tipo_duracion = 'B';
 
 
 
@@ -53,16 +53,9 @@ AS
 			empleados AS e
 			CROSS JOIN deducciones AS d
 	WHERE 
-			DATEFROMPARTS(YEAR(e.fecha_contratacion), MONTH(e.fecha_contratacion), 1) <= @fecha AND e.activo = 1 AND d.tipo_duracion = 'B';
+			dbo.PRIMERDIAFECHA(e.fecha_contratacion) <= dbo.PRIMERDIAFECHA(@fecha) AND e.activo = 1 AND d.tipo_duracion = 'B';
 
 GO
-
-
-
-
-
-
-
 
 
 
@@ -80,7 +73,7 @@ AS
 	DECLARE @fecha_nomina DATE;
 	SET @fecha_nomina = dbo.OBTENERFECHAACTUAL(@id_empresa);
 
-	IF (DATEFROMPARTS(YEAR(@fecha_nomina), MONTH(@fecha_nomina), 1) <> DATEFROMPARTS(YEAR(@fecha), MONTH(@fecha), 1))
+	IF (dbo.PRIMERDIAFECHA(@fecha_nomina) <> dbo.PRIMERDIAFECHA(@fecha))
 		BEGIN
 			RAISERROR('No se puede generar la nómina fuera del periodo actual de nómina', 11, 1);
 			RETURN;
@@ -112,62 +105,36 @@ AS
 			JOIN departamentos AS d
 			ON d.id_departamento = e.id_departamento
 	WHERE
-			d.id_empresa = @id_empresa 
-			AND dbo.PRIMERDIAFECHA(e.fecha_contratacion) <= dbo.PRIMERDIAFECHA(@fecha) 
-			AND e.activo = 1;
+			d.id_empresa = @id_empresa AND 
+			dbo.PRIMERDIAFECHA(e.fecha_contratacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
+			e.activo = 1;
+
+
+	--UPDATE 
+	--	percepciones_aplicadas
+	--SET
+	--	id_nomina = n.id_nomina
+	--FROM
+	--	percepciones_aplicadas AS pa
+	--	JOIN nominas AS n
+	--	ON pa.fecha = n.fecha AND pa.numero_empleado = n.numero_empleado
+	--WHERE
+	--	dbo.PRIMERDIAFECHA(pa.fecha) = dbo.PRIMERDIAFECHA(@fecha);
+
+
+	--UPDATE 
+	--	deducciones_aplicadas
+	--SET
+	--	id_nomina = n.id_nomina
+	--FROM
+	--	deducciones_aplicadas AS da
+	--	JOIN nominas AS n
+	--	ON da.fecha = n.fecha AND da.numero_empleado = n.numero_empleado
+	--WHERE
+	--	dbo.PRIMERDIAFECHA(da.fecha) = dbo.PRIMERDIAFECHA(@fecha);
 GO
-	
 
 
-	/*
-	DECLARE @anio		INT;
-	DECLARE @mes		INT;
-	DECLARE @dias		INT;
-
-	SET @anio = YEAR(@fecha);
-	SET @mes = MONTH(@fecha);
-	SET @dias =  dbo.DIASTRABAJADOSEMPLEADO(DATEFROMPARTS(@anio, @mes, 1), @numero_empleado);
-
-	--SELECT @anio, @mes, @dias, sueldo_diario FROM empleados WHERE numero_empleado = @numero_empleado;
-	DECLARE @total_percepciones MONEY;
-	DECLARE @total_deducciones MONEY;
-
-	SET @total_percepciones = dbo.TOTALPERCEPCIONES(DATEFROMPARTS(@anio, @mes, 1), @numero_empleado);
-	SET @total_deducciones = dbo.TOTALDEDUCCIONES(DATEFROMPARTS(@anio, @mes, 1), @numero_empleado);
-
-	DECLARE @sueldo_diario MONEY
-	SET @sueldo_diario = (SELECT sueldo_diario FROM empleados WHERE numero_empleado = @numero_empleado AND activo = 1);
-
-	DECLARE @sueldo_bruto MONEY;
-	SET @sueldo_bruto = @sueldo_diario * @dias;
-	SELECT @sueldo_bruto;
-
-	DECLARE @sueldo_neto MONEY;
-	SET @sueldo_neto = @total_percepciones - @total_deducciones;
-	SELECT @sueldo_neto;
-
-	INSERT INTO nominas(sueldo_diario, sueldo_bruto, sueldo_neto, banco, numero_cuenta, fecha, numero_empleado, id_departamento, id_puesto)
-	SELECT @sueldo_diario, @sueldo_bruto, @sueldo_neto, banco, numero_cuenta, @fecha, @numero_empleado, id_departamento, id_puesto
-	FROM empleados WHERE numero_empleado = @numero_empleado AND activo = 1;
-
-
-	UPDATE percepciones_aplicadas
-	SET
-	id_nomina = IDENT_CURRENT('nominas')
-	WHERE YEAR(fecha) = @anio AND MONTH(fecha) = @mes AND numero_empleado = @numero_empleado;
-
-	UPDATE deducciones_aplicadas
-	SET
-	id_nomina = IDENT_CURRENT('nominas')
-	WHERE YEAR(fecha) = @anio AND MONTH(fecha) = @mes AND numero_empleado = @numero_empleado;
-	*/
-
-
-
-
-
-
-EXEC sp_ObtenerNominasPorFecha '20220401';
 
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ObtenerNominasPorFecha')
 	DROP PROCEDURE sp_ObtenerNominasPorFecha;
@@ -184,12 +151,14 @@ AS
 			n.sueldo_neto,
 			b.nombre,
 			n.numero_cuenta
-	FROM nominas AS n
-	JOIN empleados AS e
-	ON n.numero_empleado = e.numero_empleado
-	JOIN bancos AS b
-	ON n.banco = b.id_banco
-	WHERE YEAR(fecha) = YEAR(@fecha) AND MONTH(fecha) = MONTH(@fecha);
+	FROM 
+			nominas AS n
+			JOIN empleados AS e
+			ON n.numero_empleado = e.numero_empleado
+			JOIN bancos AS b
+			ON n.banco = b.id_banco
+	WHERE
+			dbo.PRIMERDIAFECHA(fecha) = dbo.PRIMERDIAFECHA(@fecha);
 
 GO
 
@@ -253,8 +222,6 @@ AS
 	END
 GO
 
-DECLARE @a BIT;
-SET @a = sp_NominaEnProceso;
 
 
 -- Si han sido creadas percepciones y deducciones (las basicas que son obligatorias) significa que una nomina está en proceso, caso contrario
@@ -282,15 +249,13 @@ END
 GO
 
 
-EXEC sp_NominaEnProceso 1;
-SELECT dbo.OBTENERFECHAACTUAL(1);
-
 
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ObtenerReciboNomina')
 	DROP PROCEDURE sp_ObtenerReciboNomina;
 GO
 
 CREATE PROCEDURE sp_ObtenerReciboNomina(
+	@numero_empleado	INT,
 	@fecha				DATE
 )
 AS
@@ -317,31 +282,9 @@ SELECT
 FROM 
 		vw_ReciboNomina
 WHERE
-		[Periodo] = DATEFROMPARTS(YEAR(@fecha), MONTH(@fecha), 1);
+		[Numero de empleado] = @numero_empleado AND
+		[Periodo] = dbo.PRIMERDIAFECHA(@fecha);
 
 GO
 
 
-
-
-
-/*
-CREATE DATABASE pruebas;
-USE pruebas;
-
-CREATE TABLE fechas(
-	id		INT IDENTITY(1,1) PRIMARY KEY,
-	fecha	DATE
-)
-
-DROP TABLE fechas;
-INSERT INTO fechas(fecha) VALUES('20220401');
-INSERT INTO fechas(fecha) VALUES('20220501');
-INSERT INTO fechas(fecha) VALUES('20220501');
-INSERT INTO fechas(fecha) VALUES('20220601');
-INSERT INTO fechas(fecha) VALUES('20220601');
---INSERT INTO(fechas) VALUES('20220601');
-
-SELECT DISTINCT TOP 1 fecha FROM fechas
-ORDER BY fecha DESC;
-*/

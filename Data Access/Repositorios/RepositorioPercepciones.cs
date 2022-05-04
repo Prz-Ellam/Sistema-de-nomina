@@ -50,7 +50,6 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@tipo_monto", percepcion.TipoMonto);
             sqlParams.Add("@fijo", percepcion.Fijo);
             sqlParams.Add("@porcentual", percepcion.Porcentual);
-            sqlParams.Add("@id_empresa", percepcion.IdEmpresa);
 
             int rowCount = mainRepository.ExecuteNonQuery(update, sqlParams);
             return (rowCount > 0) ? true : false;

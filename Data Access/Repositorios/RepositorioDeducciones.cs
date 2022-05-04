@@ -32,6 +32,7 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@tipo_monto", deduccion.TipoMonto);
             sqlParams.Add("@fijo", deduccion.Fijo);
             sqlParams.Add("@porcentual", deduccion.Porcentual);
+            sqlParams.Add("@id_empresa", deduccion.IdEmpresa);
 
             int rowCount = mainRepository.ExecuteNonQuery(create, sqlParams);
             return (rowCount > 0) ? true : false;

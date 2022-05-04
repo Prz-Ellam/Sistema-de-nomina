@@ -41,7 +41,7 @@ CREATE PROCEDURE sp_ActualizarPercepcion(
 	@nombre				VARCHAR(30),
 	@tipo_monto			CHAR(1),
 	@fijo				MONEY,
-	@porcentual			FLOAT
+	@porcentual			FLOAT,
 )
 AS
 

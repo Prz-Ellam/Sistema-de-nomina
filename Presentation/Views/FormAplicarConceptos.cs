@@ -224,7 +224,7 @@ namespace Presentation.Views
                     }
                     case ApplyConceptType.Department:
                     {
-                        bool result =applyPerceptionsRepository.ApplyDepartmentPerception(
+                        bool result = applyPerceptionsRepository.ApplyDepartmentPerception(
                             departmentId, perceptionId, dtpDate.Value);
                         break;
                     }
