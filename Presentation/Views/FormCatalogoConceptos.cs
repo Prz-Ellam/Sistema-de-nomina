@@ -476,7 +476,7 @@ namespace Presentation.Views
             deduccion.TipoMonto = rbFijo.Checked ? 'F' : (rbPorcentual.Checked ? 'P' : ' ');
             deduccion.Fijo = nudFijo.Value;
             deduccion.Porcentual = nudPorcentual.Value;
-            percepcion.IdEmpresa = Session.company_id;
+            deduccion.IdEmpresa = Session.company_id;
         }
 
         public void ClearForm()
@@ -590,6 +590,30 @@ namespace Presentation.Views
 
             ConceptsState = EntityState.Modify;
             dtgDeductionPrevIndex = index;
+        }
+
+        private void txtFilterPerception_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                dtgPerceptions.DataSource = perceptionRepository.ReadLike(txtFilterPerception.Text, Session.company_id);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void txtFilterDeduction_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                dtgDeductions.DataSource = deductionRepository.ReadLike(txtFilterDeduction.Text, Session.company_id);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
     }
 }

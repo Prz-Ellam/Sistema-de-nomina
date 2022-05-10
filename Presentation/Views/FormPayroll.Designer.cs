@@ -48,6 +48,7 @@ namespace Presentation.Views
             this.label3 = new System.Windows.Forms.Label();
             this.btnConsult = new System.Windows.Forms.Button();
             this.ofnPayrollCSV = new System.Windows.Forms.SaveFileDialog();
+            this.btnDeletePayroll = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dtgPayrolls)).BeginInit();
             this.SuspendLayout();
             // 
@@ -155,6 +156,7 @@ namespace Presentation.Views
             this.dtgPayrolls.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.dtgPayrolls.Location = new System.Drawing.Point(12, 349);
             this.dtgPayrolls.Name = "dtgPayrolls";
+            this.dtgPayrolls.ReadOnly = true;
             this.dtgPayrolls.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dtgPayrolls.Size = new System.Drawing.Size(1040, 309);
             this.dtgPayrolls.TabIndex = 12;
@@ -164,6 +166,7 @@ namespace Presentation.Views
             this.number.DataPropertyName = "numeroEmpleado";
             this.number.HeaderText = "Número de empleado";
             this.number.Name = "number";
+            this.number.ReadOnly = true;
             this.number.Width = 200;
             // 
             // empName
@@ -171,6 +174,7 @@ namespace Presentation.Views
             this.empName.DataPropertyName = "nombreEmpleado";
             this.empName.HeaderText = "Nombre del empleado";
             this.empName.Name = "empName";
+            this.empName.ReadOnly = true;
             this.empName.Width = 200;
             // 
             // date
@@ -178,6 +182,7 @@ namespace Presentation.Views
             this.date.DataPropertyName = "fecha";
             this.date.HeaderText = "Fecha";
             this.date.Name = "date";
+            this.date.ReadOnly = true;
             this.date.Width = 200;
             // 
             // amountemp
@@ -187,6 +192,7 @@ namespace Presentation.Views
             this.amountemp.DefaultCellStyle = dataGridViewCellStyle2;
             this.amountemp.HeaderText = "Cantidad";
             this.amountemp.Name = "amountemp";
+            this.amountemp.ReadOnly = true;
             this.amountemp.Width = 200;
             // 
             // bank
@@ -194,6 +200,7 @@ namespace Presentation.Views
             this.bank.DataPropertyName = "banco";
             this.bank.HeaderText = "Banco";
             this.bank.Name = "bank";
+            this.bank.ReadOnly = true;
             this.bank.Width = 200;
             // 
             // accountNumber
@@ -201,6 +208,7 @@ namespace Presentation.Views
             this.accountNumber.DataPropertyName = "numeroCuenta";
             this.accountNumber.HeaderText = "Número de cuenta";
             this.accountNumber.Name = "accountNumber";
+            this.accountNumber.ReadOnly = true;
             this.accountNumber.Width = 200;
             // 
             // dtpConsult
@@ -248,12 +256,29 @@ namespace Presentation.Views
             // 
             this.ofnPayrollCSV.Filter = "CSV (*.csv)|.csv";
             // 
+            // btnDeletePayroll
+            // 
+            this.btnDeletePayroll.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(53)))), ((int)(((byte)(69)))));
+            this.btnDeletePayroll.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnDeletePayroll.FlatAppearance.BorderSize = 0;
+            this.btnDeletePayroll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDeletePayroll.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.btnDeletePayroll.ForeColor = System.Drawing.Color.White;
+            this.btnDeletePayroll.Location = new System.Drawing.Point(241, 161);
+            this.btnDeletePayroll.Name = "btnDeletePayroll";
+            this.btnDeletePayroll.Size = new System.Drawing.Size(175, 54);
+            this.btnDeletePayroll.TabIndex = 29;
+            this.btnDeletePayroll.Text = "Eliminar nómina";
+            this.btnDeletePayroll.UseVisualStyleBackColor = false;
+            this.btnDeletePayroll.Click += new System.EventHandler(this.btnDeletePayroll_Click);
+            // 
             // FormPayroll
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(1064, 670);
+            this.Controls.Add(this.btnDeletePayroll);
             this.Controls.Add(this.btnConsult);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.dtpConsult);
@@ -291,5 +316,6 @@ namespace Presentation.Views
         private System.Windows.Forms.DataGridViewTextBoxColumn amountemp;
         private System.Windows.Forms.DataGridViewTextBoxColumn bank;
         private System.Windows.Forms.DataGridViewTextBoxColumn accountNumber;
+        private System.Windows.Forms.Button btnDeletePayroll;
     }
 }

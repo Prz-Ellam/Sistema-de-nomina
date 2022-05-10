@@ -8,7 +8,7 @@ IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'empresas' AND type = 'u')
 CREATE TABLE empresas(
 	id_empresa					INT IDENTITY(1,1) NOT NULL,
 	razon_social				VARCHAR(60) NOT NULL,
-	correo_electronico			VARCHAR(30) NOT NULL,
+	correo_electronico			VARCHAR(60) NOT NULL,
 	registro_patronal			VARCHAR(11) NOT NULL,
 	rfc							VARCHAR(12) NOT NULL,
 	fecha_inicio				DATE NOT NULL,
@@ -447,6 +447,3 @@ ORDER BY TableName ASC;
 
 --INSERT INTO empresas(razon_social, domicilio_fiscal, correo_electronico, rfc, registro_patronal, fecha_inicio, id_administrador)
 --VALUES('Crystal Soft Development S.A. de C.V.', 1, 'crystal@domain.com', 'MOV1004082C1', 'Y5499995107','20101026', 1);
-
-
-

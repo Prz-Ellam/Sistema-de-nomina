@@ -54,6 +54,7 @@ namespace Presentation.Views
                         btnDelete.Enabled = false;
                         dtpHiringDate.MinDate = payrollDate;
                         dtpHiringDate.Value = payrollDate;
+                        dtpHiringDate.Enabled = true;
                         break;
                     }
                     case EntityState.Modify:
@@ -62,6 +63,7 @@ namespace Presentation.Views
                         btnEdit.Enabled = true;
                         btnDelete.Enabled = true;
                         dtpHiringDate.MinDate = new DateTime(1970, 1, 1);
+                        dtpHiringDate.Enabled = false;
                         break;
                     }
                 }
@@ -444,6 +446,7 @@ namespace Presentation.Views
             txtPostalCode.Text = row.Cells["postalCode"].Value.ToString();
             txtAccountNumber.Text = row.Cells["accountNumber"].Value.ToString();
             txtEmail.Text = row.Cells["email"].Value.ToString();
+            txtPassword.Text = row.Cells["password"].Value.ToString();
             nudDailySalary.Value = Convert.ToDecimal(row.Cells["sueldoDiario"].Value);
             nudBaseSalary.Value = Convert.ToDecimal( row.Cells["baseSalary"].Value);
             nudWageLevel.Value = Convert.ToDecimal(row.Cells["wageLevel"].Value);
@@ -479,6 +482,7 @@ namespace Presentation.Views
             }
 
             cbPhones.SelectedIndex = -1;
+            cbPhones.Items.Clear();
             List<string> phones = phonesRepository.ReadEmployeePhones(employeeId);
             foreach(string phone in phones)
             {
@@ -596,6 +600,18 @@ namespace Presentation.Views
                 nombres.Add(new PairItem(puesto.Name, puesto.Id));
             }
             cbPositions.DataSource = nombres;
+        }
+
+        private void txtFilter_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                dtgEmployees.DataSource = repository.ReadLike(txtFilter.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
     }
 }

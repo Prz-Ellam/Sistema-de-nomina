@@ -46,14 +46,13 @@ namespace Presentation.Views
                     {
                         btnAdd.Enabled = true;
                         btnEdit.Enabled = false;
-                        //btnDelete.Enabled = false;
                         break;
                     }
                     case EntityState.Modify:
                     {
                         btnAdd.Enabled = false;
                         btnEdit.Enabled = true;
-                        //btnDelete.Enabled = true;
+                        dtpStartDate.Enabled = false;
                         break;
                     }
                 }

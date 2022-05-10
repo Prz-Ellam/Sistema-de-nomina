@@ -100,18 +100,18 @@ namespace Data_Access.Repositorios
             foreach (DataRow row in table.Rows)
             {
                 company = new CompaniesViewModel {
-                    IdEmpresa = Convert.ToInt32(row[0]),
-                    RazonSocial = row[1].ToString(),
-                    Calle = row[2].ToString(),
-                    Numero = row[3].ToString(),
-                    Colonia = row[4].ToString(),
-                    Ciudad = row[5].ToString(),
-                    Estado = row[6].ToString(),
-                    CodigoPostal = row[7].ToString(),
-                    CorreoElectronico = row[8].ToString(),
-                    RegistroPatronal = row[9].ToString(),
-                    Rfc = row[10].ToString(),
-                    FechaInicio = Convert.ToDateTime(row[11])
+                    IdEmpresa = Convert.ToInt32(row["ID Empresa"]),
+                    RazonSocial = row["Razon social"].ToString(),
+                    Calle = row["Calle"].ToString(),
+                    Numero = row["Numero"].ToString(),
+                    Colonia = row["Colonia"].ToString(),
+                    Ciudad = row["Ciudad"].ToString(),
+                    Estado = row["Estado"].ToString(),
+                    CodigoPostal = row["Código postal"].ToString(),
+                    CorreoElectronico = row["Correo electrónico"].ToString(),
+                    RegistroPatronal = row["Registro Patronal"].ToString(),
+                    Rfc = row["RFC"].ToString(),
+                    FechaInicio = Convert.ToDateTime(row["Fecha de Inicio"])
                 };
 
                 return company;

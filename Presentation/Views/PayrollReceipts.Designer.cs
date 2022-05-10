@@ -75,6 +75,7 @@ namespace Presentation.Views
             // btnPDF
             // 
             this.btnPDF.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            this.btnPDF.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnPDF.FlatAppearance.BorderSize = 0;
             this.btnPDF.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPDF.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));

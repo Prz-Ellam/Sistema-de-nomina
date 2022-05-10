@@ -63,42 +63,48 @@ namespace Presentation.Views
             this.txtBusinessName.BackColor = System.Drawing.Color.White;
             this.txtBusinessName.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.txtBusinessName.Location = new System.Drawing.Point(31, 97);
+            this.txtBusinessName.MaxLength = 60;
             this.txtBusinessName.Name = "txtBusinessName";
             this.txtBusinessName.Size = new System.Drawing.Size(400, 29);
-            this.txtBusinessName.TabIndex = 0;
+            this.txtBusinessName.TabIndex = 1;
             // 
             // txtEmployerRegistration
             // 
             this.txtEmployerRegistration.BackColor = System.Drawing.Color.White;
             this.txtEmployerRegistration.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.txtEmployerRegistration.Location = new System.Drawing.Point(31, 167);
+            this.txtEmployerRegistration.MaxLength = 60;
             this.txtEmployerRegistration.Name = "txtEmployerRegistration";
             this.txtEmployerRegistration.Size = new System.Drawing.Size(400, 29);
-            this.txtEmployerRegistration.TabIndex = 1;
+            this.txtEmployerRegistration.TabIndex = 2;
             // 
             // txtRFC
             // 
             this.txtRFC.BackColor = System.Drawing.Color.White;
             this.txtRFC.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.txtRFC.Location = new System.Drawing.Point(31, 232);
+            this.txtRFC.MaxLength = 12;
             this.txtRFC.Name = "txtRFC";
             this.txtRFC.Size = new System.Drawing.Size(400, 29);
-            this.txtRFC.TabIndex = 2;
+            this.txtRFC.TabIndex = 3;
             // 
             // txtEmail
             // 
             this.txtEmail.BackColor = System.Drawing.Color.White;
             this.txtEmail.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.txtEmail.Location = new System.Drawing.Point(31, 370);
+            this.txtEmail.MaxLength = 60;
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(400, 29);
-            this.txtEmail.TabIndex = 3;
+            this.txtEmail.TabIndex = 5;
             // 
             // dtpStartDate
             // 
             this.dtpStartDate.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.dtpStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpStartDate.Location = new System.Drawing.Point(31, 303);
+            this.dtpStartDate.MaxDate = new System.DateTime(2038, 1, 17, 0, 0, 0, 0);
+            this.dtpStartDate.MinDate = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
             this.dtpStartDate.Name = "dtpStartDate";
             this.dtpStartDate.Size = new System.Drawing.Size(400, 29);
             this.dtpStartDate.TabIndex = 4;
@@ -126,7 +132,7 @@ namespace Presentation.Views
             this.btnEdit.Location = new System.Drawing.Point(387, 543);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(300, 41);
-            this.btnEdit.TabIndex = 6;
+            this.btnEdit.TabIndex = 14;
             this.btnEdit.Text = "Editar";
             this.btnEdit.UseVisualStyleBackColor = false;
             this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
@@ -149,9 +155,10 @@ namespace Presentation.Views
             this.txtPostalCode.BackColor = System.Drawing.Color.White;
             this.txtPostalCode.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.txtPostalCode.Location = new System.Drawing.Point(527, 434);
+            this.txtPostalCode.MaxLength = 5;
             this.txtPostalCode.Name = "txtPostalCode";
             this.txtPostalCode.Size = new System.Drawing.Size(400, 29);
-            this.txtPostalCode.TabIndex = 37;
+            this.txtPostalCode.TabIndex = 12;
             // 
             // lblState
             // 
@@ -223,9 +230,10 @@ namespace Presentation.Views
             this.txtSuburb.BackColor = System.Drawing.Color.White;
             this.txtSuburb.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.txtSuburb.Location = new System.Drawing.Point(527, 222);
+            this.txtSuburb.MaxLength = 30;
             this.txtSuburb.Name = "txtSuburb";
             this.txtSuburb.Size = new System.Drawing.Size(400, 29);
-            this.txtSuburb.TabIndex = 29;
+            this.txtSuburb.TabIndex = 9;
             // 
             // txtNumber
             // 
@@ -233,18 +241,20 @@ namespace Presentation.Views
             this.txtNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtNumber.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.txtNumber.Location = new System.Drawing.Point(527, 156);
+            this.txtNumber.MaxLength = 5;
             this.txtNumber.Name = "txtNumber";
             this.txtNumber.Size = new System.Drawing.Size(400, 29);
-            this.txtNumber.TabIndex = 28;
+            this.txtNumber.TabIndex = 8;
             // 
             // txtStreet
             // 
             this.txtStreet.BackColor = System.Drawing.Color.White;
             this.txtStreet.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.txtStreet.Location = new System.Drawing.Point(527, 97);
+            this.txtStreet.MaxLength = 30;
             this.txtStreet.Name = "txtStreet";
             this.txtStreet.Size = new System.Drawing.Size(400, 29);
-            this.txtStreet.TabIndex = 27;
+            this.txtStreet.TabIndex = 7;
             // 
             // lblBusinessName
             // 
@@ -319,7 +329,7 @@ namespace Presentation.Views
             this.cbCities.Location = new System.Drawing.Point(527, 303);
             this.cbCities.Name = "cbCities";
             this.cbCities.Size = new System.Drawing.Size(400, 29);
-            this.cbCities.TabIndex = 44;
+            this.cbCities.TabIndex = 10;
             // 
             // cbStates
             // 
@@ -329,7 +339,7 @@ namespace Presentation.Views
             this.cbStates.Location = new System.Drawing.Point(527, 370);
             this.cbStates.Name = "cbStates";
             this.cbStates.Size = new System.Drawing.Size(400, 29);
-            this.cbStates.TabIndex = 45;
+            this.cbStates.TabIndex = 11;
             this.cbStates.SelectedIndexChanged += new System.EventHandler(this.cbStates_SelectedIndexChanged);
             // 
             // label1
@@ -352,7 +362,7 @@ namespace Presentation.Views
             this.cbPhones.Location = new System.Drawing.Point(31, 434);
             this.cbPhones.Name = "cbPhones";
             this.cbPhones.Size = new System.Drawing.Size(400, 29);
-            this.cbPhones.TabIndex = 47;
+            this.cbPhones.TabIndex = 6;
             this.cbPhones.SelectedIndexChanged += new System.EventHandler(this.cbPhones_SelectedIndexChanged);
             this.cbPhones.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cbPhones_KeyDown);
             // 
@@ -367,7 +377,7 @@ namespace Presentation.Views
             this.btnAdd.Location = new System.Drawing.Point(31, 542);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(300, 42);
-            this.btnAdd.TabIndex = 48;
+            this.btnAdd.TabIndex = 13;
             this.btnAdd.Text = "Agregar";
             this.btnAdd.UseVisualStyleBackColor = false;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);

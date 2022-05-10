@@ -43,11 +43,11 @@ namespace Presentation.Views
             this.lblDepartments = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.dtgDepartaments = new System.Windows.Forms.DataGridView();
-            this.txtFilter = new System.Windows.Forms.TextBox();
-            this.lblFilter = new System.Windows.Forms.Label();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.baseSalary = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.txtFilter = new System.Windows.Forms.TextBox();
+            this.lblFilter = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nudBaseSalary)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtgDepartaments)).BeginInit();
             this.SuspendLayout();
@@ -223,29 +223,6 @@ namespace Presentation.Views
             this.dtgDepartaments.TabIndex = 39;
             this.dtgDepartaments.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgDepartaments_CellDoubleClick);
             // 
-            // txtFilter
-            // 
-            this.txtFilter.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.txtFilter.Location = new System.Drawing.Point(564, 354);
-            this.txtFilter.Name = "txtFilter";
-            this.txtFilter.Size = new System.Drawing.Size(307, 29);
-            this.txtFilter.TabIndex = 40;
-            this.txtFilter.TextChanged += new System.EventHandler(this.txtFilter_TextChanged);
-            // 
-            // lblFilter
-            // 
-            this.lblFilter.AutoSize = true;
-            this.lblFilter.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblFilter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lblFilter.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.lblFilter.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.lblFilter.Location = new System.Drawing.Point(500, 357);
-            this.lblFilter.Name = "lblFilter";
-            this.lblFilter.Size = new System.Drawing.Size(58, 21);
-            this.lblFilter.TabIndex = 41;
-            this.lblFilter.Text = "Filtrar:";
-            this.lblFilter.Click += new System.EventHandler(this.lblFilter_Click);
-            // 
             // id
             // 
             this.id.DataPropertyName = "id";
@@ -271,6 +248,30 @@ namespace Presentation.Views
             this.baseSalary.Name = "baseSalary";
             this.baseSalary.ReadOnly = true;
             this.baseSalary.Width = 300;
+            // 
+            // txtFilter
+            // 
+            this.txtFilter.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.txtFilter.Location = new System.Drawing.Point(564, 354);
+            this.txtFilter.MaxLength = 100;
+            this.txtFilter.Name = "txtFilter";
+            this.txtFilter.Size = new System.Drawing.Size(307, 29);
+            this.txtFilter.TabIndex = 40;
+            this.txtFilter.TextChanged += new System.EventHandler(this.txtFilter_TextChanged);
+            // 
+            // lblFilter
+            // 
+            this.lblFilter.AutoSize = true;
+            this.lblFilter.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblFilter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lblFilter.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.lblFilter.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.lblFilter.Location = new System.Drawing.Point(500, 357);
+            this.lblFilter.Name = "lblFilter";
+            this.lblFilter.Size = new System.Drawing.Size(58, 21);
+            this.lblFilter.TabIndex = 41;
+            this.lblFilter.Text = "Filtrar:";
+            this.lblFilter.Click += new System.EventHandler(this.lblFilter_Click);
             // 
             // FormDepartamentos
             // 

@@ -78,6 +78,7 @@ namespace Presentation.Views
             this.dtgGeneralPayroll.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.dtgGeneralPayroll.Location = new System.Drawing.Point(26, 148);
             this.dtgGeneralPayroll.Name = "dtgGeneralPayroll";
+            this.dtgGeneralPayroll.ReadOnly = true;
             this.dtgGeneralPayroll.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dtgGeneralPayroll.Size = new System.Drawing.Size(992, 379);
             this.dtgGeneralPayroll.TabIndex = 0;
@@ -87,6 +88,7 @@ namespace Presentation.Views
             this.departamento.DataPropertyName = "departamento";
             this.departamento.HeaderText = "Departamento";
             this.departamento.Name = "departamento";
+            this.departamento.ReadOnly = true;
             this.departamento.Width = 150;
             // 
             // puesto
@@ -94,12 +96,14 @@ namespace Presentation.Views
             this.puesto.DataPropertyName = "puesto";
             this.puesto.HeaderText = "Puesto";
             this.puesto.Name = "puesto";
+            this.puesto.ReadOnly = true;
             // 
             // nombre
             // 
             this.nombre.DataPropertyName = "nombreEmpleado";
             this.nombre.HeaderText = "Nombre del empleado";
             this.nombre.Name = "nombre";
+            this.nombre.ReadOnly = true;
             this.nombre.Width = 200;
             // 
             // date
@@ -107,6 +111,7 @@ namespace Presentation.Views
             this.date.DataPropertyName = "fechaIngreso";
             this.date.HeaderText = "Fecha de ingreso";
             this.date.Name = "date";
+            this.date.ReadOnly = true;
             this.date.Width = 200;
             // 
             // edad
@@ -114,6 +119,7 @@ namespace Presentation.Views
             this.edad.DataPropertyName = "edad";
             this.edad.HeaderText = "Edad";
             this.edad.Name = "edad";
+            this.edad.ReadOnly = true;
             // 
             // salario
             // 
@@ -122,6 +128,7 @@ namespace Presentation.Views
             this.salario.DefaultCellStyle = dataGridViewCellStyle2;
             this.salario.HeaderText = "Salario diario";
             this.salario.Name = "salario";
+            this.salario.ReadOnly = true;
             this.salario.Width = 200;
             // 
             // label1

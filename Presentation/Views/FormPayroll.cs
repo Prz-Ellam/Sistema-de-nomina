@@ -46,7 +46,6 @@ namespace Presentation.Views
                 return;
             }
 
-
             bool payrollStatus = payrollRepository.IsPayrollProcess(Session.company_id);
 
             if (!payrollStatus)
@@ -56,7 +55,6 @@ namespace Presentation.Views
                 return;
             }
 
-
             DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?\nAl cerrarse la nómina, está no podrá volver a ser editada",
                "Sistema de nómina dice: ", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
@@ -65,17 +63,7 @@ namespace Presentation.Views
                 return;
             }
 
-
             DateTime date = dtpDate.Value;
-
-            //RepositorioEmpleados employeeRepository = new RepositorioEmpleados();
-            //List<int> employeesNumber = employeeRepository.GetEmployeesId();
-
-            //if (employeesNumber.Count < 1)
-            //{
-            //    MessageBox.Show("No hay empleados actualmente");
-            //}
-
             try
             {
                 payrollRepository.GeneratePayrolls(date, Session.company_id);
@@ -93,6 +81,7 @@ namespace Presentation.Views
                 {
                     MessageBox.Show(ex.Message);
                 }
+                return;
             }
 
             ListPayrolls(date);
@@ -145,6 +134,19 @@ namespace Presentation.Views
             if (dtgPayrolls.RowCount > 0)
             {
                 btnCSV.Enabled = true;
+            }
+        }
+
+        private void btnDeletePayroll_Click(object sender, EventArgs e)
+        {
+            DateTime requestDate = dtpDate.Value;
+            try
+            {
+                bool result = payrollRepository.DeletePayroll(Session.company_id, requestDate);
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
     }

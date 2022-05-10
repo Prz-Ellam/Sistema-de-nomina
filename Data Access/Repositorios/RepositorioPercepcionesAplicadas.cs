@@ -12,7 +12,7 @@ namespace Data_Access.Repositorios
     public class RepositorioPercepcionesAplicadas
     {
         private readonly string applyEmployee, undoEmployee, readApplyEmployee, readPayrollPerception;
-        private readonly string applyDepartment, undoDepartment;
+        private readonly string applyDepartment, undoDepartment, readDepartment;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams;
 
@@ -27,6 +27,7 @@ namespace Data_Access.Repositorios
             undoDepartment = "sp_EliminarDepartamentoPercepcion";
 
             readPayrollPerception = "sp_LeerPercepcionesNomina";
+            readDepartment = "sp_LeerDepartamentosPercepcionesAplicadas";
 
             sqlParams = new RepositoryParameters();
         }
@@ -86,6 +87,32 @@ namespace Data_Access.Repositorios
             List<ApplyPerceptionViewModel> applyPerceptions = new List<ApplyPerceptionViewModel>();
 
             foreach(DataRow row in table.Rows)
+            {
+                applyPerceptions.Add(new ApplyPerceptionViewModel
+                {
+                    Aplicada = Convert.ToBoolean(row[0]),
+                    IdPercepcion = Convert.ToInt32(row[1]),
+                    Nombre = row[2].ToString(),
+                    TipoMonto = Convert.ToChar(row[3]),
+                    Fijo = Convert.ToDecimal(row[4]),
+                    Porcentual = Convert.ToDecimal(row[5])
+                });
+            }
+
+            return applyPerceptions;
+        }
+
+        public List<ApplyPerceptionViewModel> ReadApplyDepartmentPerceptions(int filter, int departmentId, DateTime date)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@filtro", filter);
+            sqlParams.Add("@id_departamento", departmentId);
+            sqlParams.Add("@fecha", date);
+
+            DataTable table = mainRepository.ExecuteReader(readDepartment, sqlParams);
+            List<ApplyPerceptionViewModel> applyPerceptions = new List<ApplyPerceptionViewModel>();
+
+            foreach (DataRow row in table.Rows)
             {
                 applyPerceptions.Add(new ApplyPerceptionViewModel
                 {

@@ -1,7 +1,5 @@
 USE sistema_de_nomina;
 
-
-
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AgregarDeduccion')
 	DROP PROCEDURE sp_AgregarDeduccion;
 GO
@@ -14,6 +12,14 @@ CREATE PROCEDURE sp_AgregarDeduccion(
 	@id_empresa			INT
 ) 
 AS
+
+	DECLARE @status_nomina BIT = dbo.NOMINAENPROCESO(@id_empresa);
+
+	IF @status_nomina = 1
+		BEGIN
+			RAISERROR('No se puede añadir la deducción debido a que hay una nómina en proceso', 11, 1);
+			RETURN;
+		END
 
 	INSERT INTO deducciones(
 			nombre,
@@ -47,13 +53,25 @@ CREATE PROCEDURE sp_ActualizarDeduccion(
 )
 AS
 
-	UPDATE deducciones
+	DECLARE @status_nomina BIT;
+	SET @status_nomina = dbo.NOMINAENPROCESO((SELECT id_empresa FROM deducciones 
+												WHERE id_deduccion = @id_deduccion AND activo = 1));
+
+	IF @status_nomina = 1
+		BEGIN
+			RAISERROR('No se puede editar la deducción debido a que hay una nómina en proceso', 11, 1);
+			RETURN;
+		END
+
+	UPDATE 
+			deducciones
 	SET
-	nombre = ISNULL(@nombre, nombre),
-	tipo_monto = ISNULL(@tipo_monto, tipo_monto),
-	fijo = ISNULL(@fijo, fijo),
-	porcentual = ISNULL(@porcentual, porcentual)
-	WHERE id_deduccion = @id_deduccion;
+			nombre			= ISNULL(@nombre, nombre),
+			tipo_monto		= ISNULL(@tipo_monto, tipo_monto),
+			fijo			= ISNULL(@fijo, fijo),
+			porcentual		= ISNULL(@porcentual, porcentual)
+	WHERE 
+			id_deduccion = @id_deduccion;
 
 GO
 
@@ -67,6 +85,16 @@ CREATE PROCEDURE sp_EliminarDeduccion(
 	@id_deduccion		INT
 )
 AS
+
+	DECLARE @status_nomina BIT;
+	SET @status_nomina = dbo.NOMINAENPROCESO((SELECT id_empresa FROM deducciones 
+												WHERE id_deduccion = @id_deduccion AND activo = 1));
+
+	IF @status_nomina = 1
+		BEGIN
+			RAISERROR('No se puede eliminar la deducción debido a que hay una nómina en proceso', 11, 1);
+			RETURN;
+		END
 
 	UPDATE 
 			deducciones
@@ -97,6 +125,35 @@ AS
 	FROM 
 			deducciones
 	WHERE 
-			activo = 1 AND tipo_duracion = 'S';
+			activo = 1 AND
+			tipo_duracion = 'S';
+
+GO
+
+
+
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_FiltrarDeducciones')
+	DROP PROCEDURE sp_FiltrarDeducciones;
+GO
+
+CREATE PROCEDURE sp_FiltrarDeducciones(
+	@filtro					VARCHAR(100),
+	@id_empresa				INT
+)
+AS
+
+	SELECT 
+			id_deduccion [ID Deduccion], 
+			nombre [Nombre],
+			tipo_monto [Tipo de monto], 
+			ISNULL(fijo, 0) [Fijo], 
+			ISNULL(porcentual, 0) [Porcentual]
+	FROM 
+			deducciones
+	WHERE 
+			activo = 1 AND
+			tipo_duracion = 'S' AND
+			id_empresa = @id_empresa AND
+			nombre LIKE CONCAT('%', @filtro, '%');
 
 GO

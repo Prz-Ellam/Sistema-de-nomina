@@ -12,7 +12,7 @@ namespace Data_Access.Repositorios
 {
     public class RepositorioDeducciones
     {
-        private readonly string create, update, delete, readAll;
+        private readonly string create, update, delete, readAll, readLike;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams = new RepositoryParameters();
 
@@ -23,6 +23,7 @@ namespace Data_Access.Repositorios
             update = "sp_ActualizarDeduccion";
             delete = "sp_EliminarDeduccion";
             readAll = "sp_LeerDeducciones";
+            readLike = "sp_FiltrarDeducciones";
         }
 
         public bool Create(Deducciones deduccion)
@@ -65,6 +66,29 @@ namespace Data_Access.Repositorios
             sqlParams.Start();
 
             DataTable table = mainRepository.ExecuteReader(readAll, sqlParams);
+            List<DeductionViewModel> deductions = new List<DeductionViewModel>();
+            foreach (DataRow row in table.Rows)
+            {
+                deductions.Add(new DeductionViewModel
+                {
+                    IdDeduccion = Convert.ToInt32(row["ID Deduccion"]),
+                    Nombre = row["Nombre"].ToString(),
+                    TipoMonto = Convert.ToChar(row["Tipo de monto"]),
+                    Fijo = Convert.ToDecimal(row["Fijo"]),
+                    Porcentual = Convert.ToDecimal(row["Porcentual"])
+                });
+            }
+
+            return deductions;
+        }
+
+        public List<DeductionViewModel> ReadLike(string filter, int companyId)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@filtro", filter);
+            sqlParams.Add("@id_empresa", companyId);
+
+            DataTable table = mainRepository.ExecuteReader(readLike, sqlParams);
             List<DeductionViewModel> deductions = new List<DeductionViewModel>();
             foreach (DataRow row in table.Rows)
             {

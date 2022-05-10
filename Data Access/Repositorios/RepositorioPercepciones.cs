@@ -14,7 +14,7 @@ namespace Data_Access.Repositorios
 {
     public class RepositorioPercepciones
     {
-        private readonly string create, update, delete, leer;
+        private readonly string create, update, delete, readAll, readLike;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams;
 
@@ -24,7 +24,8 @@ namespace Data_Access.Repositorios
             create = "sp_AgregarPercepcion";
             update = "sp_ActualizarPercepcion";
             delete = "sp_EliminarPercepcion";
-            leer = "sp_LeerPercepciones";
+            readAll = "sp_LeerPercepciones";
+            readLike = "sp_FiltrarPercepciones";
             sqlParams = new RepositoryParameters();
 
         }
@@ -68,9 +69,32 @@ namespace Data_Access.Repositorios
         {
             sqlParams.Start();
 
-            DataTable table = mainRepository.ExecuteReader(leer, sqlParams);
+            DataTable table = mainRepository.ExecuteReader(readAll, sqlParams);
             List<PerceptionViewModel> perceptions = new List<PerceptionViewModel>();
             foreach (DataRow row in table.Rows) 
+            {
+                perceptions.Add(new PerceptionViewModel
+                {
+                    IdPercepcion = Convert.ToInt32(row["ID Percepcion"]),
+                    Nombre = row["Nombre"].ToString(),
+                    TipoMonto = Convert.ToChar(row["Tipo de monto"]),
+                    Fijo = Convert.ToDecimal(row["Fijo"]),
+                    Porcentual = Convert.ToDecimal(row["Porcentual"])
+                });
+            }
+
+            return perceptions;
+        }
+
+        public List<PerceptionViewModel> ReadLike(string filter, int companyId)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@filtro", filter);
+            sqlParams.Add("@id_empresa", companyId);
+
+            DataTable table = mainRepository.ExecuteReader(readLike, sqlParams);
+            List<PerceptionViewModel> perceptions = new List<PerceptionViewModel>();
+            foreach (DataRow row in table.Rows)
             {
                 perceptions.Add(new PerceptionViewModel
                 {

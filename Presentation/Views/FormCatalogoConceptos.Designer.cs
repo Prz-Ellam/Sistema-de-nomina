@@ -66,9 +66,9 @@ namespace Presentation.Views
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.porcentual = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lblFilter = new System.Windows.Forms.Label();
-            this.txtFilter = new System.Windows.Forms.TextBox();
+            this.txtFilterPerception = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtFilterDeduction = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nudFijo)).BeginInit();
@@ -99,7 +99,7 @@ namespace Presentation.Views
             this.rbPerception.Location = new System.Drawing.Point(16, 29);
             this.rbPerception.Name = "rbPerception";
             this.rbPerception.Size = new System.Drawing.Size(112, 25);
-            this.rbPerception.TabIndex = 12;
+            this.rbPerception.TabIndex = 1;
             this.rbPerception.TabStop = true;
             this.rbPerception.Text = "Percepción";
             this.rbPerception.UseVisualStyleBackColor = true;
@@ -112,7 +112,7 @@ namespace Presentation.Views
             this.rbDeduction.Location = new System.Drawing.Point(16, 60);
             this.rbDeduction.Name = "rbDeduction";
             this.rbDeduction.Size = new System.Drawing.Size(109, 25);
-            this.rbDeduction.TabIndex = 13;
+            this.rbDeduction.TabIndex = 2;
             this.rbDeduction.TabStop = true;
             this.rbDeduction.Text = "Deducción";
             this.rbDeduction.UseVisualStyleBackColor = true;
@@ -121,9 +121,10 @@ namespace Presentation.Views
             // 
             this.txtName.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.txtName.Location = new System.Drawing.Point(26, 232);
+            this.txtName.MaxLength = 30;
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(285, 29);
-            this.txtName.TabIndex = 14;
+            this.txtName.TabIndex = 3;
             // 
             // label1
             // 
@@ -145,7 +146,7 @@ namespace Presentation.Views
             this.rbPorcentual.Location = new System.Drawing.Point(19, 61);
             this.rbPorcentual.Name = "rbPorcentual";
             this.rbPorcentual.Size = new System.Drawing.Size(110, 25);
-            this.rbPorcentual.TabIndex = 17;
+            this.rbPorcentual.TabIndex = 5;
             this.rbPorcentual.TabStop = true;
             this.rbPorcentual.Text = "Porcentual";
             this.rbPorcentual.UseVisualStyleBackColor = true;
@@ -159,7 +160,7 @@ namespace Presentation.Views
             this.rbFijo.Location = new System.Drawing.Point(19, 28);
             this.rbFijo.Name = "rbFijo";
             this.rbFijo.Size = new System.Drawing.Size(55, 25);
-            this.rbFijo.TabIndex = 16;
+            this.rbFijo.TabIndex = 4;
             this.rbFijo.TabStop = true;
             this.rbFijo.Text = "Fijo";
             this.rbFijo.UseVisualStyleBackColor = true;
@@ -178,7 +179,7 @@ namespace Presentation.Views
             0});
             this.nudFijo.Name = "nudFijo";
             this.nudFijo.Size = new System.Drawing.Size(266, 29);
-            this.nudFijo.TabIndex = 18;
+            this.nudFijo.TabIndex = 6;
             this.nudFijo.ThousandsSeparator = true;
             // 
             // gbTipoConcepto
@@ -310,7 +311,7 @@ namespace Presentation.Views
             this.nudPorcentual.Location = new System.Drawing.Point(45, 461);
             this.nudPorcentual.Name = "nudPorcentual";
             this.nudPorcentual.Size = new System.Drawing.Size(266, 29);
-            this.nudPorcentual.TabIndex = 28;
+            this.nudPorcentual.TabIndex = 7;
             // 
             // label4
             // 
@@ -462,13 +463,15 @@ namespace Presentation.Views
             this.lblFilter.TabIndex = 47;
             this.lblFilter.Text = "Filtrar:";
             // 
-            // txtFilter
+            // txtFilterPerception
             // 
-            this.txtFilter.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.txtFilter.Location = new System.Drawing.Point(731, 37);
-            this.txtFilter.Name = "txtFilter";
-            this.txtFilter.Size = new System.Drawing.Size(307, 29);
-            this.txtFilter.TabIndex = 46;
+            this.txtFilterPerception.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.txtFilterPerception.Location = new System.Drawing.Point(731, 37);
+            this.txtFilterPerception.MaxLength = 100;
+            this.txtFilterPerception.Name = "txtFilterPerception";
+            this.txtFilterPerception.Size = new System.Drawing.Size(307, 29);
+            this.txtFilterPerception.TabIndex = 46;
+            this.txtFilterPerception.TextChanged += new System.EventHandler(this.txtFilterPerception_TextChanged);
             // 
             // label5
             // 
@@ -483,13 +486,14 @@ namespace Presentation.Views
             this.label5.TabIndex = 49;
             this.label5.Text = "Filtrar:";
             // 
-            // textBox2
+            // txtFilterDeduction
             // 
-            this.textBox2.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.textBox2.Location = new System.Drawing.Point(731, 314);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(307, 29);
-            this.textBox2.TabIndex = 48;
+            this.txtFilterDeduction.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.txtFilterDeduction.Location = new System.Drawing.Point(731, 314);
+            this.txtFilterDeduction.Name = "txtFilterDeduction";
+            this.txtFilterDeduction.Size = new System.Drawing.Size(307, 29);
+            this.txtFilterDeduction.TabIndex = 48;
+            this.txtFilterDeduction.TextChanged += new System.EventHandler(this.txtFilterDeduction_TextChanged);
             // 
             // label6
             // 
@@ -526,9 +530,9 @@ namespace Presentation.Views
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.txtFilterDeduction);
             this.Controls.Add(this.lblFilter);
-            this.Controls.Add(this.txtFilter);
+            this.Controls.Add(this.txtFilterPerception);
             this.Controls.Add(this.dtgPerceptions);
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.btnActualizar);
@@ -582,9 +586,9 @@ namespace Presentation.Views
         private System.Windows.Forms.Button btnActualizar;
         private System.Windows.Forms.DataGridView dtgPerceptions;
         private System.Windows.Forms.Label lblFilter;
-        private System.Windows.Forms.TextBox txtFilter;
+        private System.Windows.Forms.TextBox txtFilterPerception;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtFilterDeduction;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.DataGridViewTextBoxColumn id2;

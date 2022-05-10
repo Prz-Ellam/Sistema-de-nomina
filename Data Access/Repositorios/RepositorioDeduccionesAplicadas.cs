@@ -12,6 +12,7 @@ namespace Data_Access.Repositorios
     public class RepositorioDeduccionesAplicadas
     {
         private readonly string applyEmployee, undoEmployee, readApplyEmployee, readPayrollDeduction;
+        private readonly string applyDepartment, undoDepartment, readDepartment;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams;
 
@@ -22,7 +23,11 @@ namespace Data_Access.Repositorios
             undoEmployee = "sp_EliminarEmpleadoDeduccion";
             readApplyEmployee = "sp_LeerDeduccionesAplicadas";
 
+            applyDepartment = "sp_AplicarDepartamentoDeduccion";
+            undoDepartment = "sp_EliminarDepartamentoDeduccion";
+
             readPayrollDeduction = "sp_LeerDeduccionesNomina";
+            readDepartment = "sp_LeerDepartamentosDeduccionesAplicadas";
 
             sqlParams = new RepositoryParameters();
         }
@@ -35,14 +40,18 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@fecha", date);
 
             int rowCount = mainRepository.ExecuteNonQuery(applyEmployee, sqlParams);
-            if (rowCount > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (rowCount > 0) ? true : false;
+        }
+
+        public bool ApplyDepartmentDeduction(int departmentId, int deductionId, DateTime date)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@id_departamento", departmentId);
+            sqlParams.Add("@id_deduccion", deductionId);
+            sqlParams.Add("@fecha", date);
+
+            int rowCount = mainRepository.ExecuteNonQuery(applyDepartment, sqlParams);
+            return (rowCount > 0) ? true : false;
         }
 
         public bool UndoEmployeeDeduction(int employeeNumber, int deductionId, DateTime date)
@@ -53,14 +62,18 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@fecha", date);
 
             int rowCount = mainRepository.ExecuteNonQuery(undoEmployee, sqlParams);
-            if (rowCount > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (rowCount > 0) ? true : false;
+        }
+
+        public bool UndoDepartmentDeduction(int departmentId, int deductionId, DateTime date)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@id_departamento", departmentId);
+            sqlParams.Add("@id_percepcion", deductionId);
+            sqlParams.Add("@fecha", date);
+
+            int rowCount = mainRepository.ExecuteNonQuery(undoDepartment, sqlParams);
+            return (rowCount > 0) ? true : false;
         }
 
         public List<ApplyDeductionsViewModel> ReadApplyDeductions(int filter, int employeeNumber, DateTime date)
@@ -71,6 +84,32 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@fecha", date);
 
             DataTable table = mainRepository.ExecuteReader(readApplyEmployee, sqlParams);
+            List<ApplyDeductionsViewModel> applyDeductions = new List<ApplyDeductionsViewModel>();
+
+            foreach (DataRow row in table.Rows)
+            {
+                applyDeductions.Add(new ApplyDeductionsViewModel
+                {
+                    Aplicada = Convert.ToBoolean(row[0]),
+                    IdDeduccion = Convert.ToInt32(row[1]),
+                    Nombre = row[2].ToString(),
+                    TipoMonto = Convert.ToChar(row[3]),
+                    Fijo = Convert.ToDecimal(row[4]),
+                    Porcentual = Convert.ToDecimal(row[5])
+                });
+            }
+
+            return applyDeductions;
+        }
+
+        public List<ApplyDeductionsViewModel> ReadApplyDepartmentDeductions(int filter, int departmentId, DateTime date)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@filtro", filter);
+            sqlParams.Add("@id_departamento", departmentId);
+            sqlParams.Add("@fecha", date);
+
+            DataTable table = mainRepository.ExecuteReader(readDepartment, sqlParams);
             List<ApplyDeductionsViewModel> applyDeductions = new List<ApplyDeductionsViewModel>();
 
             foreach (DataRow row in table.Rows)

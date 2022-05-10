@@ -9,9 +9,9 @@ CREATE PROCEDURE sp_AgregarEmpleado(
 	@apellido_paterno		VARCHAR(30),
 	@apellido_materno		VARCHAR(30),
 	@fecha_nacimiento		DATE,
-	@curp					VARCHAR(20),
-	@nss					VARCHAR(20),
-	@rfc					VARCHAR(20),
+	@curp					VARCHAR(18),
+	@nss					VARCHAR(11),
+	@rfc					VARCHAR(13),
 	@calle					VARCHAR(30),
 	@numero					VARCHAR(10),
 	@colonia				VARCHAR(30),
@@ -28,6 +28,14 @@ CREATE PROCEDURE sp_AgregarEmpleado(
 	@telefonos				dbo.Telefonos READONLY
 )
 AS
+
+	DECLARE @status_nomina BIT = dbo.NOMINAENPROCESO((SELECT id_empresa FROM departamentos WHERE id_departamento = @id_departamento));
+
+	IF @status_nomina = 1
+		BEGIN
+			RAISERROR('No se puede añadir el puesto debido a que hay una nómina en proceso', 11, 1);
+			RETURN;
+		END
 
 	EXEC sp_AgregarDomicilio @calle, @numero, @colonia, @ciudad, @estado, @codigo_postal;
 
@@ -101,9 +109,9 @@ CREATE PROCEDURE sp_ActualizarEmpleado(
 	@apellido_paterno		VARCHAR(30),
 	@apellido_materno		VARCHAR(30),
 	@fecha_nacimiento		DATE,
-	@curp					VARCHAR(20),
-	@nss					VARCHAR(20),
-	@rfc					VARCHAR(20),
+	@curp					VARCHAR(18),
+	@nss					VARCHAR(11),
+	@rfc					VARCHAR(13),
 	@calle					VARCHAR(30),
 	@numero					VARCHAR(10),
 	@colonia				VARCHAR(30),
@@ -120,6 +128,14 @@ CREATE PROCEDURE sp_ActualizarEmpleado(
 	@telefonos				dbo.Telefonos READONLY
 )
 AS
+
+	DECLARE @status_nomina BIT = dbo.NOMINAENPROCESO((SELECT id_empresa FROM departamentos WHERE id_departamento = @id_departamento));
+
+	IF @status_nomina = 1
+		BEGIN
+			RAISERROR('No se puede añadir el puesto debido a que hay una nómina en proceso', 11, 1);
+			RETURN;
+		END
 
 	DECLARE @id_domicilio INT;
 	SET @id_domicilio = (SELECT domicilio FROM empleados WHERE numero_empleado = @numero_empleado);
@@ -183,12 +199,28 @@ CREATE PROCEDURE sp_EliminarEmpleado(
 )
 AS
 
-	UPDATE empleados
+	DECLARE @id_empresa	INT = (SELECT d.id_empresa FROM empleados AS e JOIN departamentos AS d 
+	ON e.id_departamento = d.id_departamento WHERE e.numero_empleado = @numero_empleado)
+
+	DECLARE @status_nomina BIT = dbo.NOMINAENPROCESO(@id_empresa);
+
+	IF @status_nomina = 1
+		BEGIN
+			RAISERROR('No se puede añadir el puesto debido a que hay una nómina en proceso', 11, 1);
+			RETURN;
+		END
+
+	UPDATE
+			empleados
 	SET
-	activo = 0
-	WHERE numero_empleado = @numero_empleado;
+			activo = 0,
+			fecha_eliminacion = dbo.OBTENERFECHAACTUAL(@id_empresa),
+			id_eliminado = NEWID()
+	WHERE 
+			numero_empleado = @numero_empleado;
 
 GO
+
 
 
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerEmpleados')
@@ -196,61 +228,91 @@ IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerEmplea
 GO
 
 CREATE PROCEDURE sp_LeerEmpleados
-
 AS
 
-	SELECT	E.numero_empleado [ID], 
-			E.nombre [Nombre], 
-			E.apellido_paterno [Apellido paterno],
-			E.apellido_materno [Apellido materno],
-			E.fecha_nacimiento [Fecha de nacimiento],
-			E.curp [CURP],
-			E.nss [NSS],
-			E.rfc [RFC],
-			A.calle [Calle],
-			A.numero [Numero],
-			A.colonia [Colonia],
-			A.ciudad [Municipio],
-			A.estado [Estado],
-			A.codigo_postal [Codigo postal],
-			B.nombre [Banco],
-			B.id_banco [ID Banco],
-			E.numero_cuenta [Numero de cuenta],
-			E.correo_electronico [Correo electronico],
-			D.nombre [Departamento],
-			D.id_departamento [ID Departamento],
-			P.nombre [Puesto],
-			P.id_puesto [ID Puesto],
-			E.fecha_contratacion [Fecha de contratacion],
-			E.sueldo_diario [Sueldo diario],
-			D.sueldo_base [Sueldo base],
-			P.nivel_salarial [Nivel salarial]
-	FROM empleados AS E
-	JOIN domicilios AS A
-	ON A.id_domicilio = E.domicilio
-	JOIN bancos AS B
-	ON B.id_banco = E.banco
-	JOIN departamentos AS D
-	ON D.id_departamento = E.id_departamento
-	JOIN puestos AS P
-	ON P.id_puesto = E.id_puesto
-	WHERE E.activo = 1;
+	SELECT
+			[Numero de empleado], 
+			[Nombre], 
+			[Apellido paterno],
+			[Apellido materno],
+			[Fecha de nacimiento],
+			[CURP],
+			[NSS],
+			[RFC],
+			[Calle],
+			[Numero],
+			[Colonia],
+			[Municipio],
+			[Estado],
+			[Codigo postal],
+			[Banco],
+			[ID Banco],
+			[Numero de cuenta],
+			[Correo electronico],
+			[Contraseña],
+			[Departamento],
+			[ID Departamento],
+			[Puesto],
+			[ID Puesto],
+			[Fecha de contratacion],
+			[Sueldo diario],
+			[Sueldo base],
+			[Nivel salarial]
+	FROM 
+			vw_RegistroEmpleado
+	WHERE
+			[Activo] = 1;
 
 GO
 
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ObtenerEmpleados')
-	DROP PROCEDURE sp_ObtenerEmpleados;
+
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_FiltrarEmpleados')
+	DROP PROCEDURE sp_FiltrarEmpleados;
 GO
 
-CREATE PROCEDURE sp_ObtenerEmpleados
+CREATE PROCEDURE sp_FiltrarEmpleados(
+	@filtro					VARCHAR(100)
+)
 AS
 
-	SELECT numero_empleado FROM empleados WHERE activo = 1;
+		SELECT
+			[Numero de empleado], 
+			[Nombre], 
+			[Apellido paterno],
+			[Apellido materno],
+			[Fecha de nacimiento],
+			[CURP],
+			[NSS],
+			[RFC],
+			[Calle],
+			[Numero],
+			[Colonia],
+			[Municipio],
+			[Estado],
+			[Codigo postal],
+			[Banco],
+			[ID Banco],
+			[Numero de cuenta],
+			[Correo electronico],
+			[Contraseña],
+			[Departamento],
+			[ID Departamento],
+			[Puesto],
+			[ID Puesto],
+			[Fecha de contratacion],
+			[Sueldo diario],
+			[Sueldo base],
+			[Nivel salarial]
+	FROM 
+			vw_RegistroEmpleado
+	WHERE
+			[Activo] = 1 AND
+			([Nombre] LIKE CONCAT('%', @filtro, '%') OR
+			[Apellido paterno] LIKE CONCAT('%', @filtro, '%') OR
+			[Apellido materno] LIKE CONCAT('%', @filtro, '%'));
 
 GO
-
-
 
 
 
@@ -263,46 +325,43 @@ CREATE PROCEDURE sp_ObtenerEmpleadoPorId(
 )
 AS
 
-	SELECT	E.numero_empleado [ID], 
-			E.nombre [Nombre], 
-			E.apellido_paterno [Apellido paterno],
-			E.apellido_materno [Apellido materno],
-			E.fecha_nacimiento [Fecha de nacimiento],
-			E.curp [CURP],
-			E.nss [NSS],
-			E.rfc [RFC],
-			A.calle [Calle],
-			A.numero [Numero],
-			A.colonia [Colonia],
-			A.ciudad [Municipio],
-			A.estado [Estado],
-			A.codigo_postal [Codigo postal],
-			B.nombre [Banco],
-			B.id_banco [ID Banco],
-			E.numero_cuenta [Numero de cuenta],
-			E.correo_electronico [Correo electronico],
-			D.nombre [Departamento],
-			D.id_departamento [ID Departamento],
-			P.nombre [Puesto],
-			P.id_puesto [ID Puesto],
-			E.fecha_contratacion [Fecha de contratacion],
-			E.sueldo_diario [Sueldo diario],
-			D.sueldo_base [Sueldo base],
-			P.nivel_salarial [Nivel salarial]
-	FROM empleados AS E
-	JOIN domicilios AS A
-	ON A.id_domicilio = E.domicilio
-	JOIN bancos AS B
-	ON B.id_banco = E.banco
-	JOIN departamentos AS D
-	ON D.id_departamento = E.id_departamento
-	JOIN puestos AS P
-	ON P.id_puesto = E.id_puesto
-	WHERE E.activo = 1 AND numero_empleado = @numero_empleado;
+		SELECT
+			[Numero de empleado], 
+			[Nombre], 
+			[Apellido paterno],
+			[Apellido materno],
+			[Fecha de nacimiento],
+			[CURP],
+			[NSS],
+			[RFC],
+			[Calle],
+			[Numero],
+			[Colonia],
+			[Municipio],
+			[Estado],
+			[Codigo postal],
+			[Banco],
+			[ID Banco],
+			[Numero de cuenta],
+			[Correo electronico],
+			[Contraseña],
+			[Departamento],
+			[ID Departamento],
+			[Puesto],
+			[ID Puesto],
+			[Fecha de contratacion],
+			[Sueldo diario],
+			[Sueldo base],
+			[Nivel salarial]
+	FROM 
+			vw_RegistroEmpleado
+	WHERE
+			[Activo] = 1 AND
+			[Numero de empleado] = @numero_empleado;
 
 GO
 
-
+/*
 		SELECT
 				e.numero_empleado [Numero de Empleado], 
 				CONCAT(e.nombre, ' ', e.apellido_paterno, ' ', e.apellido_materno) AS [Nombre de Empleado], 
@@ -320,9 +379,9 @@ GO
 		JOIN puestos AS p
 		ON e.id_puesto = p.id_puesto
 		WHERE e.activo = 1 AND dbo.PRIMERDIAFECHA(e.fecha_contratacion) <=  dbo.PRIMERDIAFECHA('20220130')
+*/
 
-
-
+--EXEC sp_LeerEmpleadosNominas '20230301', 1;
 
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerEmpleadosNominas')
 	DROP PROCEDURE sp_LeerEmpleadosNominas;
@@ -333,6 +392,13 @@ CREATE PROCEDURE sp_LeerEmpleadosNominas(
 	@id_empresa			INT
 )
 AS
+
+	IF (dbo.PRIMERDIAFECHA(@fecha) >= dbo.OBTENERFECHAACTUAL(@id_empresa) AND 
+		(dbo.NOMINAENPROCESO(@id_empresa) = 0 OR dbo.PRIMERDIAFECHA(@fecha) > dbo.OBTENERFECHAACTUAL(@id_empresa)))
+		BEGIN
+			RAISERROR('No se puede iniciar una nómina fuera del periodo actual de nómina', 11, 1);
+			RETURN;
+		END
 
 	--IF dbo.PRIMERDIAFECHA(@fecha) = dbo.OBTENERFECHAACTUAL(@id_empresa)
 		SELECT
@@ -425,31 +491,3 @@ LEFT JOIN empleados AS e
 ON d.id_departamento = e.id_departamento
 GROUP BY d.nombre;
 
-
-
-
-
-
-
-CREATE DATABASE a;
-USE a;
-
-CREATE TABLE b(
-	id		INT IDENTITY(1,1),
-	b		INT UNIQUE
-);
-
-INSERT INTO b(b) VALUES(1);
-INSERT INTO b(b) VALUES(95);
-INSERT INTO b(b) VALUES(34);
-INSERT INTO b(b) VALUES(95);
-INSERT INTO b(b) VALUES(84);
-
-SELECT * FROM b;
-
-
-BEGIN TRAN;
-	INSERT INTO b(b) VALUES(54);
-
-	IF @@ERROR = 1
-		ROLLBACK;

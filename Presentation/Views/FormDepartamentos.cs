@@ -10,7 +10,6 @@ using System.Windows.Forms;
 
 using Presentation.Helpers;
 using Data_Access.Repositorios;
-using Data_Access.ViewModels;
 using Data_Access.Entidades;
 using System.Data.SqlClient;
 

@@ -39,8 +39,6 @@ GO
 
 
 
-
-
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ActualizarPuesto')
 	DROP PROCEDURE sp_ActualizarPuesto;
 GO
@@ -51,6 +49,16 @@ CREATE PROCEDURE sp_ActualizarPuesto
 	@nivel_salarial				FLOAT
 AS
 
+	DECLARE @status_nomina BIT;
+	SET @status_nomina = dbo.NOMINAENPROCESO((SELECT id_empresa FROM puestos 
+												WHERE id_puesto = @id_puesto AND activo = 1));
+
+	IF @status_nomina = 1
+		BEGIN
+			RAISERROR('No se puede editar el departamento debido a que hay una nómina en proceso', 11, 1);
+			RETURN;
+		END
+
 	UPDATE 
 			puestos
 	SET
@@ -59,24 +67,7 @@ AS
 	WHERE 
 			id_puesto = @id_puesto;
 
-	UPDATE
-			empleados
-	SET
-			sueldo_diario	= d.sueldo_base * p.nivel_salarial
-	FROM
-			empleados AS e
-			JOIN departamentos AS d
-			ON e.id_departamento = d.id_departamento 
-			JOIN puestos AS p
-			ON e.id_puesto = p.id_puesto
-	WHERE
-			e.id_puesto = @id_puesto;
-
 GO
-
-
-
-
 
 
 
@@ -88,7 +79,7 @@ CREATE PROCEDURE sp_EliminarPuesto
 	@id_puesto					INT
 AS
 
-	IF (EXISTS (SELECT numero_empleado FROM empleados WHERE id_puesto = @id_puesto AND activo = 1))
+	IF EXISTS (SELECT numero_empleado FROM empleados WHERE id_puesto = @id_puesto AND activo = 1)
 		BEGIN
 			RAISERROR ('No se puede eliminar el puesto porque un empleado pertenece a el', 11, 1)
 			RETURN;
@@ -108,9 +99,6 @@ GO
 
 
 
-
-
-
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerPuestos')
 	DROP PROCEDURE sp_LeerPuestos;
 GO
@@ -127,7 +115,8 @@ AS
 	FROM 
 			puestos
 	WHERE 
-			id_empresa = @id_empresa AND activo = 1;
+			id_empresa = @id_empresa AND 
+			activo = 1;
 
 GO
 
@@ -149,6 +138,8 @@ AS
 	FROM 
 			puestos
 	WHERE 
-			id_empresa = @id_empresa AND activo = 1 AND nombre LIKE CONCAT('%', @filtro, '%');
+			id_empresa = @id_empresa AND
+			activo = 1 AND
+			nombre LIKE CONCAT('%', @filtro, '%');
 
 GO

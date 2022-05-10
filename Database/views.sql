@@ -1,26 +1,77 @@
 USE sistema_de_nomina;
 
+IF EXISTS(SELECT name FROM sys.all_views WHERE name = 'vw_RegistroEmpleado')
+	DROP VIEW vw_RegistroEmpleado;
+GO
+
+CREATE VIEW vw_RegistroEmpleado
+AS
+	SELECT
+			E.numero_empleado [Numero de empleado], 
+			E.nombre [Nombre], 
+			E.apellido_paterno [Apellido paterno],
+			E.apellido_materno [Apellido materno],
+			E.fecha_nacimiento [Fecha de nacimiento],
+			E.curp [CURP],
+			E.nss [NSS],
+			E.rfc [RFC],
+			A.calle [Calle],
+			A.numero [Numero],
+			A.colonia [Colonia],
+			A.ciudad [Municipio],
+			A.estado [Estado],
+			A.codigo_postal [Codigo postal],
+			B.nombre [Banco],
+			B.id_banco [ID Banco],
+			E.numero_cuenta [Numero de cuenta],
+			E.correo_electronico [Correo electronico],
+			E.contrasena [Contraseña],
+			D.nombre [Departamento],
+			D.id_departamento [ID Departamento],
+			P.nombre [Puesto],
+			P.id_puesto [ID Puesto],
+			E.fecha_contratacion [Fecha de contratacion],
+			E.sueldo_diario [Sueldo diario],
+			D.sueldo_base [Sueldo base],
+			P.nivel_salarial [Nivel salarial],
+			E.activo [Activo]
+	FROM 
+			empleados AS E
+			JOIN domicilios AS A
+			ON A.id_domicilio = E.domicilio
+			JOIN bancos AS B
+			ON B.id_banco = E.banco
+			JOIN departamentos AS D
+			ON D.id_departamento = E.id_departamento
+			JOIN puestos AS P
+			ON P.id_puesto = E.id_puesto;
+GO
+
+
+
 IF EXISTS(SELECT name FROM sys.all_views WHERE name = 'vw_ReporteGeneralNomina')
 	DROP VIEW vw_ReporteGeneralNomina;
 GO
 
 CREATE VIEW vw_ReporteGeneralNomina
 AS 
-	SELECT 
-	d.nombre [Departamento], 
-	p.nombre [Puesto], 
-	CONCAT(e.nombre, ' ', + e.apellido_paterno, ' ', e.apellido_materno) [Nombre del empleado], 
-	e.fecha_contratacion [Fecha de ingreso], 
-	DATEDIFF(hour,fecha_nacimiento,GETDATE())/8766 [Edad], 
-	e.sueldo_diario [Salario diario]
-	FROM empleados AS e
-	JOIN departamentos AS d
-	ON e.id_departamento = d.id_departamento
-	JOIN puestos AS p
-	ON e.id_puesto = p.id_puesto;
+	SELECT
+			d.nombre [Departamento],
+			p.nombre [Puesto],
+			CONCAT(e.nombre, ' ', + e.apellido_paterno, ' ', e.apellido_materno) [Nombre del empleado],
+			e.fecha_contratacion [Fecha de ingreso],
+			DATEDIFF(HOUR, fecha_nacimiento, DATEFROMPARTS(YEAR(n.fecha), MONTH(n.fecha), dbo.GETMONTHLENGTH(YEAR(n.fecha), MONTH(n.fecha)))) / 8766 [Edad], 
+			n.sueldo_diario [Sueldo diario],
+			n.fecha [Fecha]
+	FROM
+			nominas AS n
+			INNER JOIN empleados AS e
+			ON n.numero_empleado = e.numero_empleado
+			INNER JOIN departamentos AS d
+			ON n.id_departamento = d.id_departamento
+			INNER JOIN puestos AS p
+			ON n.id_puesto = p.id_puesto;
 GO
-
-
 
 
 
@@ -86,17 +137,17 @@ GO
 CREATE VIEW vw_ReporteNomina
 AS 
 	SELECT 
-		d.nombre AS [Departamento], 
-		YEAR(n.fecha) AS [Año], 
-		ISNULL(DATENAME(month, n.fecha), '') AS [Mes],
-		SUM(n.sueldo_bruto) AS [Sueldo bruto], 
-		SUM(n.sueldo_neto) AS [Sueldo neto]
+			d.nombre AS [Departamento], 
+			YEAR(n.fecha) AS [Año], 
+			ISNULL(DATENAME(MONTH, n.fecha), '') AS [Mes],
+			SUM(n.sueldo_bruto) AS [Sueldo bruto], 
+			SUM(n.sueldo_neto) AS [Sueldo neto]
 	FROM 
-		nominas AS n
-		JOIN departamentos AS d
-		ON n.id_departamento = d.id_departamento
+			nominas AS n
+			INNER JOIN departamentos AS d
+			ON n.id_departamento = d.id_departamento
 	GROUP BY 
-		d.nombre, n.fecha;
+			d.nombre, n.fecha;
 GO
 
 
@@ -119,8 +170,17 @@ CREATE PROCEDURE sp_ReporteGeneralNomina(
 )
 AS
 
-	SELECT [Departamento], [Puesto], [Nombre del empleado], [Fecha de ingreso], [Edad], [Salario diario] FROM vw_ReporteGeneralNomina
-	WHERE DATEADD(day, -DAY([Fecha de ingreso]) + 1, [Fecha de ingreso]) <= DATEADD(day, -DAY(@fecha) + 1, @fecha)
+	SELECT 
+			[Departamento],
+			[Puesto],
+			[Nombre del empleado],
+			[Fecha de ingreso],
+			[Edad],
+			[Salario diario] 
+	FROM 
+			vw_ReporteGeneralNomina
+	WHERE 
+			 dbo.PRIMERDIAFECHA([Fecha de ingreso]) <= dbo.PRIMERDIAFECHA(@fecha)
 	ORDER BY [Departamento] ASC, [Puesto] ASC;
 
 GO

@@ -33,13 +33,13 @@ namespace Presentation.Views
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lblTitle = new System.Windows.Forms.Label();
             this.txtNames = new System.Windows.Forms.TextBox();
             this.txtFatherLastName = new System.Windows.Forms.TextBox();
@@ -80,29 +80,6 @@ namespace Presentation.Views
             this.cbPhones = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.dtgEmployees = new System.Windows.Forms.DataGridView();
-            this.employeeNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fatherLastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.motherLastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dateOfBirth = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.curp = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nss = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.rfc = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.street = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.number = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.suburb = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.city = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.state = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.postalCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.bank = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.accountNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.email = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.department = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.position = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.hiringDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sueldoDiario = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.baseSalary = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.wageLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cbDepartments = new System.Windows.Forms.ComboBox();
             this.cbPositions = new System.Windows.Forms.ComboBox();
             this.cbState = new System.Windows.Forms.ComboBox();
@@ -124,6 +101,30 @@ namespace Presentation.Views
             this.dtgPhones = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.employeeNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fatherLastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.motherLastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dateOfBirth = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.curp = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nss = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.rfc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.street = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.number = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.suburb = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.city = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.state = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.postalCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bank = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.accountNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.email = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.password = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.department = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.position = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.hiringDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sueldoDiario = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.baseSalary = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.wageLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dtgEmployees)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudBaseSalary)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudWageLevel)).BeginInit();
@@ -146,6 +147,7 @@ namespace Presentation.Views
             // 
             this.txtNames.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtNames.Location = new System.Drawing.Point(160, 70);
+            this.txtNames.MaxLength = 30;
             this.txtNames.Name = "txtNames";
             this.txtNames.Size = new System.Drawing.Size(200, 25);
             this.txtNames.TabIndex = 1;
@@ -154,6 +156,7 @@ namespace Presentation.Views
             // 
             this.txtFatherLastName.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtFatherLastName.Location = new System.Drawing.Point(160, 105);
+            this.txtFatherLastName.MaxLength = 30;
             this.txtFatherLastName.Name = "txtFatherLastName";
             this.txtFatherLastName.Size = new System.Drawing.Size(200, 25);
             this.txtFatherLastName.TabIndex = 2;
@@ -162,6 +165,7 @@ namespace Presentation.Views
             // 
             this.txtMotherLastName.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMotherLastName.Location = new System.Drawing.Point(160, 140);
+            this.txtMotherLastName.MaxLength = 30;
             this.txtMotherLastName.Name = "txtMotherLastName";
             this.txtMotherLastName.Size = new System.Drawing.Size(200, 25);
             this.txtMotherLastName.TabIndex = 3;
@@ -170,6 +174,7 @@ namespace Presentation.Views
             // 
             this.txtCURP.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtCURP.Location = new System.Drawing.Point(509, 70);
+            this.txtCURP.MaxLength = 18;
             this.txtCURP.Name = "txtCURP";
             this.txtCURP.Size = new System.Drawing.Size(200, 25);
             this.txtCURP.TabIndex = 8;
@@ -178,6 +183,7 @@ namespace Presentation.Views
             // 
             this.txtRFC.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtRFC.Location = new System.Drawing.Point(509, 105);
+            this.txtRFC.MaxLength = 13;
             this.txtRFC.Name = "txtRFC";
             this.txtRFC.Size = new System.Drawing.Size(200, 25);
             this.txtRFC.TabIndex = 9;
@@ -186,6 +192,7 @@ namespace Presentation.Views
             // 
             this.txtNSS.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtNSS.Location = new System.Drawing.Point(509, 140);
+            this.txtNSS.MaxLength = 11;
             this.txtNSS.Name = "txtNSS";
             this.txtNSS.Size = new System.Drawing.Size(200, 25);
             this.txtNSS.TabIndex = 10;
@@ -282,6 +289,7 @@ namespace Presentation.Views
             // 
             this.txtStreet.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtStreet.Location = new System.Drawing.Point(837, 70);
+            this.txtStreet.MaxLength = 30;
             this.txtStreet.Name = "txtStreet";
             this.txtStreet.Size = new System.Drawing.Size(200, 25);
             this.txtStreet.TabIndex = 15;
@@ -290,6 +298,7 @@ namespace Presentation.Views
             // 
             this.txtNumber.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtNumber.Location = new System.Drawing.Point(837, 105);
+            this.txtNumber.MaxLength = 10;
             this.txtNumber.Name = "txtNumber";
             this.txtNumber.Size = new System.Drawing.Size(200, 25);
             this.txtNumber.TabIndex = 16;
@@ -298,6 +307,7 @@ namespace Presentation.Views
             // 
             this.txtSuburb.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSuburb.Location = new System.Drawing.Point(837, 140);
+            this.txtSuburb.MaxLength = 30;
             this.txtSuburb.Name = "txtSuburb";
             this.txtSuburb.Size = new System.Drawing.Size(200, 25);
             this.txtSuburb.TabIndex = 17;
@@ -361,6 +371,7 @@ namespace Presentation.Views
             // 
             this.txtPostalCode.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPostalCode.Location = new System.Drawing.Point(837, 245);
+            this.txtPostalCode.MaxLength = 5;
             this.txtPostalCode.Name = "txtPostalCode";
             this.txtPostalCode.Size = new System.Drawing.Size(200, 25);
             this.txtPostalCode.TabIndex = 20;
@@ -422,6 +433,7 @@ namespace Presentation.Views
             // 
             this.txtEmail.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtEmail.Location = new System.Drawing.Point(160, 210);
+            this.txtEmail.MaxLength = 60;
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(200, 25);
             this.txtEmail.TabIndex = 5;
@@ -430,6 +442,7 @@ namespace Presentation.Views
             // 
             this.txtPassword.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPassword.Location = new System.Drawing.Point(160, 245);
+            this.txtPassword.MaxLength = 30;
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(200, 25);
             this.txtPassword.TabIndex = 6;
@@ -573,6 +586,7 @@ namespace Presentation.Views
             this.bank,
             this.accountNumber,
             this.email,
+            this.password,
             this.department,
             this.position,
             this.hiringDate,
@@ -605,193 +619,6 @@ namespace Presentation.Views
             this.dtgEmployees.Size = new System.Drawing.Size(803, 223);
             this.dtgEmployees.TabIndex = 25;
             this.dtgEmployees.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgEmployees_CellDoubleClick);
-            // 
-            // employeeNumber
-            // 
-            this.employeeNumber.DataPropertyName = "employeeNumber";
-            this.employeeNumber.HeaderText = "Número de empleado";
-            this.employeeNumber.Name = "employeeNumber";
-            this.employeeNumber.ReadOnly = true;
-            this.employeeNumber.Width = 120;
-            // 
-            // name
-            // 
-            this.name.DataPropertyName = "name";
-            this.name.HeaderText = "Nombre";
-            this.name.Name = "name";
-            this.name.ReadOnly = true;
-            this.name.Width = 120;
-            // 
-            // fatherLastName
-            // 
-            this.fatherLastName.DataPropertyName = "fatherLastName";
-            this.fatherLastName.HeaderText = "Apellido paterno";
-            this.fatherLastName.Name = "fatherLastName";
-            this.fatherLastName.ReadOnly = true;
-            this.fatherLastName.Width = 120;
-            // 
-            // motherLastName
-            // 
-            this.motherLastName.DataPropertyName = "motherLastName";
-            this.motherLastName.HeaderText = "Apellido materno";
-            this.motherLastName.Name = "motherLastName";
-            this.motherLastName.ReadOnly = true;
-            this.motherLastName.Width = 120;
-            // 
-            // dateOfBirth
-            // 
-            this.dateOfBirth.DataPropertyName = "dateOfBirth";
-            this.dateOfBirth.HeaderText = "Fecha de nacimiento";
-            this.dateOfBirth.Name = "dateOfBirth";
-            this.dateOfBirth.ReadOnly = true;
-            this.dateOfBirth.Width = 120;
-            // 
-            // curp
-            // 
-            this.curp.DataPropertyName = "curp";
-            this.curp.HeaderText = "CURP";
-            this.curp.Name = "curp";
-            this.curp.ReadOnly = true;
-            this.curp.Width = 120;
-            // 
-            // nss
-            // 
-            this.nss.DataPropertyName = "nss";
-            this.nss.HeaderText = "NSS";
-            this.nss.Name = "nss";
-            this.nss.ReadOnly = true;
-            this.nss.Width = 120;
-            // 
-            // rfc
-            // 
-            this.rfc.DataPropertyName = "rfc";
-            this.rfc.HeaderText = "RFC";
-            this.rfc.Name = "rfc";
-            this.rfc.ReadOnly = true;
-            this.rfc.Width = 120;
-            // 
-            // street
-            // 
-            this.street.DataPropertyName = "street";
-            this.street.HeaderText = "Calle";
-            this.street.Name = "street";
-            this.street.ReadOnly = true;
-            this.street.Width = 120;
-            // 
-            // number
-            // 
-            this.number.DataPropertyName = "number";
-            this.number.HeaderText = "Numero";
-            this.number.Name = "number";
-            this.number.ReadOnly = true;
-            this.number.Width = 120;
-            // 
-            // suburb
-            // 
-            this.suburb.DataPropertyName = "suburb";
-            this.suburb.HeaderText = "Colonia";
-            this.suburb.Name = "suburb";
-            this.suburb.ReadOnly = true;
-            this.suburb.Width = 120;
-            // 
-            // city
-            // 
-            this.city.DataPropertyName = "city";
-            this.city.HeaderText = "Municipio";
-            this.city.Name = "city";
-            this.city.ReadOnly = true;
-            this.city.Width = 120;
-            // 
-            // state
-            // 
-            this.state.DataPropertyName = "state";
-            this.state.HeaderText = "Estado";
-            this.state.Name = "state";
-            this.state.ReadOnly = true;
-            this.state.Width = 120;
-            // 
-            // postalCode
-            // 
-            this.postalCode.DataPropertyName = "postalCode";
-            this.postalCode.HeaderText = "Codigo postal";
-            this.postalCode.Name = "postalCode";
-            this.postalCode.ReadOnly = true;
-            this.postalCode.Width = 120;
-            // 
-            // bank
-            // 
-            this.bank.DataPropertyName = "bank";
-            this.bank.HeaderText = "Banco";
-            this.bank.Name = "bank";
-            this.bank.ReadOnly = true;
-            this.bank.Width = 120;
-            // 
-            // accountNumber
-            // 
-            this.accountNumber.DataPropertyName = "accountNumber";
-            this.accountNumber.HeaderText = "Numero de cuenta";
-            this.accountNumber.Name = "accountNumber";
-            this.accountNumber.ReadOnly = true;
-            this.accountNumber.Width = 120;
-            // 
-            // email
-            // 
-            this.email.DataPropertyName = "email";
-            this.email.HeaderText = "Correo electronico";
-            this.email.Name = "email";
-            this.email.ReadOnly = true;
-            this.email.Width = 120;
-            // 
-            // department
-            // 
-            this.department.DataPropertyName = "department";
-            this.department.HeaderText = "Departamento";
-            this.department.Name = "department";
-            this.department.ReadOnly = true;
-            this.department.Width = 120;
-            // 
-            // position
-            // 
-            this.position.DataPropertyName = "position";
-            this.position.HeaderText = "Puesto";
-            this.position.Name = "position";
-            this.position.ReadOnly = true;
-            this.position.Width = 120;
-            // 
-            // hiringDate
-            // 
-            this.hiringDate.DataPropertyName = "hiringDate";
-            this.hiringDate.HeaderText = "Fecha de contratacion";
-            this.hiringDate.Name = "hiringDate";
-            this.hiringDate.ReadOnly = true;
-            this.hiringDate.Width = 120;
-            // 
-            // sueldoDiario
-            // 
-            this.sueldoDiario.DataPropertyName = "sueldoDiario";
-            dataGridViewCellStyle13.Format = "c";
-            this.sueldoDiario.DefaultCellStyle = dataGridViewCellStyle13;
-            this.sueldoDiario.HeaderText = "Sueldo diario";
-            this.sueldoDiario.Name = "sueldoDiario";
-            this.sueldoDiario.ReadOnly = true;
-            // 
-            // baseSalary
-            // 
-            this.baseSalary.DataPropertyName = "baseSalary";
-            dataGridViewCellStyle14.Format = "c";
-            this.baseSalary.DefaultCellStyle = dataGridViewCellStyle14;
-            this.baseSalary.HeaderText = "Sueldo base";
-            this.baseSalary.Name = "baseSalary";
-            this.baseSalary.ReadOnly = true;
-            // 
-            // wageLevel
-            // 
-            this.wageLevel.DataPropertyName = "wageLevel";
-            dataGridViewCellStyle15.Format = "0.00";
-            this.wageLevel.DefaultCellStyle = dataGridViewCellStyle15;
-            this.wageLevel.HeaderText = "Nivel salarial";
-            this.wageLevel.Name = "wageLevel";
-            this.wageLevel.ReadOnly = true;
             // 
             // cbDepartments
             // 
@@ -874,6 +701,7 @@ namespace Presentation.Views
             this.txtFilter.Name = "txtFilter";
             this.txtFilter.Size = new System.Drawing.Size(263, 25);
             this.txtFilter.TabIndex = 56;
+            this.txtFilter.TextChanged += new System.EventHandler(this.txtFilter_TextChanged);
             // 
             // label22
             // 
@@ -1065,6 +893,200 @@ namespace Presentation.Views
             this.dataGridViewTextBoxColumn16.ReadOnly = true;
             this.dataGridViewTextBoxColumn16.Width = 120;
             // 
+            // employeeNumber
+            // 
+            this.employeeNumber.DataPropertyName = "employeeNumber";
+            this.employeeNumber.HeaderText = "Número de empleado";
+            this.employeeNumber.Name = "employeeNumber";
+            this.employeeNumber.ReadOnly = true;
+            this.employeeNumber.Width = 120;
+            // 
+            // name
+            // 
+            this.name.DataPropertyName = "name";
+            this.name.HeaderText = "Nombre";
+            this.name.Name = "name";
+            this.name.ReadOnly = true;
+            this.name.Width = 120;
+            // 
+            // fatherLastName
+            // 
+            this.fatherLastName.DataPropertyName = "fatherLastName";
+            this.fatherLastName.HeaderText = "Apellido paterno";
+            this.fatherLastName.Name = "fatherLastName";
+            this.fatherLastName.ReadOnly = true;
+            this.fatherLastName.Width = 120;
+            // 
+            // motherLastName
+            // 
+            this.motherLastName.DataPropertyName = "motherLastName";
+            this.motherLastName.HeaderText = "Apellido materno";
+            this.motherLastName.Name = "motherLastName";
+            this.motherLastName.ReadOnly = true;
+            this.motherLastName.Width = 120;
+            // 
+            // dateOfBirth
+            // 
+            this.dateOfBirth.DataPropertyName = "dateOfBirth";
+            this.dateOfBirth.HeaderText = "Fecha de nacimiento";
+            this.dateOfBirth.Name = "dateOfBirth";
+            this.dateOfBirth.ReadOnly = true;
+            this.dateOfBirth.Width = 120;
+            // 
+            // curp
+            // 
+            this.curp.DataPropertyName = "curp";
+            this.curp.HeaderText = "CURP";
+            this.curp.Name = "curp";
+            this.curp.ReadOnly = true;
+            this.curp.Width = 120;
+            // 
+            // nss
+            // 
+            this.nss.DataPropertyName = "nss";
+            this.nss.HeaderText = "NSS";
+            this.nss.Name = "nss";
+            this.nss.ReadOnly = true;
+            this.nss.Width = 120;
+            // 
+            // rfc
+            // 
+            this.rfc.DataPropertyName = "rfc";
+            this.rfc.HeaderText = "RFC";
+            this.rfc.Name = "rfc";
+            this.rfc.ReadOnly = true;
+            this.rfc.Width = 120;
+            // 
+            // street
+            // 
+            this.street.DataPropertyName = "street";
+            this.street.HeaderText = "Calle";
+            this.street.Name = "street";
+            this.street.ReadOnly = true;
+            this.street.Width = 120;
+            // 
+            // number
+            // 
+            this.number.DataPropertyName = "number";
+            this.number.HeaderText = "Numero";
+            this.number.Name = "number";
+            this.number.ReadOnly = true;
+            this.number.Width = 120;
+            // 
+            // suburb
+            // 
+            this.suburb.DataPropertyName = "suburb";
+            this.suburb.HeaderText = "Colonia";
+            this.suburb.Name = "suburb";
+            this.suburb.ReadOnly = true;
+            this.suburb.Width = 120;
+            // 
+            // city
+            // 
+            this.city.DataPropertyName = "city";
+            this.city.HeaderText = "Municipio";
+            this.city.Name = "city";
+            this.city.ReadOnly = true;
+            this.city.Width = 120;
+            // 
+            // state
+            // 
+            this.state.DataPropertyName = "state";
+            this.state.HeaderText = "Estado";
+            this.state.Name = "state";
+            this.state.ReadOnly = true;
+            this.state.Width = 120;
+            // 
+            // postalCode
+            // 
+            this.postalCode.DataPropertyName = "postalCode";
+            this.postalCode.HeaderText = "Codigo postal";
+            this.postalCode.Name = "postalCode";
+            this.postalCode.ReadOnly = true;
+            this.postalCode.Width = 120;
+            // 
+            // bank
+            // 
+            this.bank.DataPropertyName = "bank";
+            this.bank.HeaderText = "Banco";
+            this.bank.Name = "bank";
+            this.bank.ReadOnly = true;
+            this.bank.Width = 120;
+            // 
+            // accountNumber
+            // 
+            this.accountNumber.DataPropertyName = "accountNumber";
+            this.accountNumber.HeaderText = "Numero de cuenta";
+            this.accountNumber.Name = "accountNumber";
+            this.accountNumber.ReadOnly = true;
+            this.accountNumber.Width = 120;
+            // 
+            // email
+            // 
+            this.email.DataPropertyName = "email";
+            this.email.HeaderText = "Correo electronico";
+            this.email.Name = "email";
+            this.email.ReadOnly = true;
+            this.email.Width = 120;
+            // 
+            // password
+            // 
+            this.password.DataPropertyName = "password";
+            this.password.HeaderText = "Contraseña";
+            this.password.Name = "password";
+            this.password.ReadOnly = true;
+            // 
+            // department
+            // 
+            this.department.DataPropertyName = "department";
+            this.department.HeaderText = "Departamento";
+            this.department.Name = "department";
+            this.department.ReadOnly = true;
+            this.department.Width = 120;
+            // 
+            // position
+            // 
+            this.position.DataPropertyName = "position";
+            this.position.HeaderText = "Puesto";
+            this.position.Name = "position";
+            this.position.ReadOnly = true;
+            this.position.Width = 120;
+            // 
+            // hiringDate
+            // 
+            this.hiringDate.DataPropertyName = "hiringDate";
+            this.hiringDate.HeaderText = "Fecha de contratacion";
+            this.hiringDate.Name = "hiringDate";
+            this.hiringDate.ReadOnly = true;
+            this.hiringDate.Width = 120;
+            // 
+            // sueldoDiario
+            // 
+            this.sueldoDiario.DataPropertyName = "sueldoDiario";
+            dataGridViewCellStyle13.Format = "c";
+            this.sueldoDiario.DefaultCellStyle = dataGridViewCellStyle13;
+            this.sueldoDiario.HeaderText = "Sueldo diario";
+            this.sueldoDiario.Name = "sueldoDiario";
+            this.sueldoDiario.ReadOnly = true;
+            // 
+            // baseSalary
+            // 
+            this.baseSalary.DataPropertyName = "baseSalary";
+            dataGridViewCellStyle14.Format = "c";
+            this.baseSalary.DefaultCellStyle = dataGridViewCellStyle14;
+            this.baseSalary.HeaderText = "Sueldo base";
+            this.baseSalary.Name = "baseSalary";
+            this.baseSalary.ReadOnly = true;
+            // 
+            // wageLevel
+            // 
+            this.wageLevel.DataPropertyName = "wageLevel";
+            dataGridViewCellStyle15.Format = "0.00";
+            this.wageLevel.DefaultCellStyle = dataGridViewCellStyle15;
+            this.wageLevel.HeaderText = "Nivel salarial";
+            this.wageLevel.Name = "wageLevel";
+            this.wageLevel.ReadOnly = true;
+            // 
             // FormEmpleados
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1204,6 +1226,9 @@ namespace Presentation.Views
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.NumericUpDown nudDailySalary;
+        private System.Windows.Forms.DataGridView dtgPhones;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn16;
         private System.Windows.Forms.DataGridViewTextBoxColumn employeeNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn name;
         private System.Windows.Forms.DataGridViewTextBoxColumn fatherLastName;
@@ -1221,14 +1246,12 @@ namespace Presentation.Views
         private System.Windows.Forms.DataGridViewTextBoxColumn bank;
         private System.Windows.Forms.DataGridViewTextBoxColumn accountNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn email;
+        private System.Windows.Forms.DataGridViewTextBoxColumn password;
         private System.Windows.Forms.DataGridViewTextBoxColumn department;
         private System.Windows.Forms.DataGridViewTextBoxColumn position;
         private System.Windows.Forms.DataGridViewTextBoxColumn hiringDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn sueldoDiario;
         private System.Windows.Forms.DataGridViewTextBoxColumn baseSalary;
         private System.Windows.Forms.DataGridViewTextBoxColumn wageLevel;
-        private System.Windows.Forms.DataGridView dtgPhones;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn16;
     }
 }

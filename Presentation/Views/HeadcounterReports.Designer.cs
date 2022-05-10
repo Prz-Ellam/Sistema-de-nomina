@@ -34,17 +34,17 @@ namespace Presentation.Views
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dtgHeadcounter1 = new System.Windows.Forms.DataGridView();
+            this.departamento = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.puesto = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.count = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.dtgHeadcounter2 = new System.Windows.Forms.DataGridView();
+            this.depa2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cantu = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cbDepartments = new System.Windows.Forms.ComboBox();
             this.lblState = new System.Windows.Forms.Label();
             this.dtpDate = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
-            this.departamento = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.puesto = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.count = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.depa2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cantu = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dtgHeadcounter1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtgHeadcounter2)).BeginInit();
             this.SuspendLayout();
@@ -79,9 +79,34 @@ namespace Presentation.Views
             this.dtgHeadcounter1.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.dtgHeadcounter1.Location = new System.Drawing.Point(40, 145);
             this.dtgHeadcounter1.Name = "dtgHeadcounter1";
+            this.dtgHeadcounter1.ReadOnly = true;
             this.dtgHeadcounter1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dtgHeadcounter1.Size = new System.Drawing.Size(644, 227);
             this.dtgHeadcounter1.TabIndex = 0;
+            // 
+            // departamento
+            // 
+            this.departamento.DataPropertyName = "departamento";
+            this.departamento.HeaderText = "Departamento";
+            this.departamento.Name = "departamento";
+            this.departamento.ReadOnly = true;
+            this.departamento.Width = 200;
+            // 
+            // puesto
+            // 
+            this.puesto.DataPropertyName = "puesto";
+            this.puesto.HeaderText = "Puesto";
+            this.puesto.Name = "puesto";
+            this.puesto.ReadOnly = true;
+            this.puesto.Width = 200;
+            // 
+            // count
+            // 
+            this.count.DataPropertyName = "cantidadEmpleados";
+            this.count.HeaderText = "Cantidad de empleados";
+            this.count.Name = "count";
+            this.count.ReadOnly = true;
+            this.count.Width = 200;
             // 
             // label1
             // 
@@ -124,9 +149,26 @@ namespace Presentation.Views
             this.dtgHeadcounter2.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.dtgHeadcounter2.Location = new System.Drawing.Point(40, 420);
             this.dtgHeadcounter2.Name = "dtgHeadcounter2";
+            this.dtgHeadcounter2.ReadOnly = true;
             this.dtgHeadcounter2.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dtgHeadcounter2.Size = new System.Drawing.Size(545, 216);
             this.dtgHeadcounter2.TabIndex = 2;
+            // 
+            // depa2
+            // 
+            this.depa2.DataPropertyName = "departamento";
+            this.depa2.HeaderText = "Departamento";
+            this.depa2.Name = "depa2";
+            this.depa2.ReadOnly = true;
+            this.depa2.Width = 300;
+            // 
+            // cantu
+            // 
+            this.cantu.DataPropertyName = "cantidadEmpleados";
+            this.cantu.HeaderText = "Cantidad de empleados";
+            this.cantu.Name = "cantu";
+            this.cantu.ReadOnly = true;
+            this.cantu.Width = 200;
             // 
             // cbDepartments
             // 
@@ -174,41 +216,6 @@ namespace Presentation.Views
             this.label3.Size = new System.Drawing.Size(55, 21);
             this.label3.TabIndex = 48;
             this.label3.Text = "Fecha";
-            // 
-            // departamento
-            // 
-            this.departamento.DataPropertyName = "departamento";
-            this.departamento.HeaderText = "Departamento";
-            this.departamento.Name = "departamento";
-            this.departamento.Width = 200;
-            // 
-            // puesto
-            // 
-            this.puesto.DataPropertyName = "puesto";
-            this.puesto.HeaderText = "Puesto";
-            this.puesto.Name = "puesto";
-            this.puesto.Width = 200;
-            // 
-            // count
-            // 
-            this.count.DataPropertyName = "cantidadEmpleados";
-            this.count.HeaderText = "Cantidad de empleados";
-            this.count.Name = "count";
-            this.count.Width = 200;
-            // 
-            // depa2
-            // 
-            this.depa2.DataPropertyName = "departamento";
-            this.depa2.HeaderText = "Departamento";
-            this.depa2.Name = "depa2";
-            this.depa2.Width = 300;
-            // 
-            // cantu
-            // 
-            this.cantu.DataPropertyName = "cantidadEmpleados";
-            this.cantu.HeaderText = "Cantidad de empleados";
-            this.cantu.Name = "cantu";
-            this.cantu.Width = 200;
             // 
             // HeadcounterReports
             // 

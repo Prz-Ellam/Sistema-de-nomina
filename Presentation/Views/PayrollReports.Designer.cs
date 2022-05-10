@@ -34,14 +34,14 @@ namespace Presentation.Views
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dtgPayrollReport = new System.Windows.Forms.DataGridView();
-            this.label1 = new System.Windows.Forms.Label();
-            this.nudYear = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
             this.departamento = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.anio = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mes = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sueldoBruto = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sueldoNeto = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label1 = new System.Windows.Forms.Label();
+            this.nudYear = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dtgPayrollReport)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudYear)).BeginInit();
             this.SuspendLayout();
@@ -78,9 +78,53 @@ namespace Presentation.Views
             this.dtgPayrollReport.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.dtgPayrollReport.Location = new System.Drawing.Point(35, 156);
             this.dtgPayrollReport.Name = "dtgPayrollReport";
+            this.dtgPayrollReport.ReadOnly = true;
             this.dtgPayrollReport.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.dtgPayrollReport.Size = new System.Drawing.Size(843, 352);
+            this.dtgPayrollReport.Size = new System.Drawing.Size(843, 445);
             this.dtgPayrollReport.TabIndex = 0;
+            // 
+            // departamento
+            // 
+            this.departamento.DataPropertyName = "departamento";
+            this.departamento.HeaderText = "Departamento";
+            this.departamento.Name = "departamento";
+            this.departamento.ReadOnly = true;
+            this.departamento.Width = 150;
+            // 
+            // anio
+            // 
+            this.anio.DataPropertyName = "anio";
+            this.anio.HeaderText = "Año";
+            this.anio.Name = "anio";
+            this.anio.ReadOnly = true;
+            // 
+            // mes
+            // 
+            this.mes.DataPropertyName = "mes";
+            this.mes.HeaderText = "Mes";
+            this.mes.Name = "mes";
+            this.mes.ReadOnly = true;
+            this.mes.Width = 150;
+            // 
+            // sueldoBruto
+            // 
+            this.sueldoBruto.DataPropertyName = "sueldoBruto";
+            dataGridViewCellStyle2.Format = "c";
+            this.sueldoBruto.DefaultCellStyle = dataGridViewCellStyle2;
+            this.sueldoBruto.HeaderText = " ∑ Sueldo bruto";
+            this.sueldoBruto.Name = "sueldoBruto";
+            this.sueldoBruto.ReadOnly = true;
+            this.sueldoBruto.Width = 200;
+            // 
+            // sueldoNeto
+            // 
+            this.sueldoNeto.DataPropertyName = "sueldoNeto";
+            dataGridViewCellStyle3.Format = "c";
+            this.sueldoNeto.DefaultCellStyle = dataGridViewCellStyle3;
+            this.sueldoNeto.HeaderText = " ∑ Sueldo neto";
+            this.sueldoNeto.Name = "sueldoNeto";
+            this.sueldoNeto.ReadOnly = true;
+            this.sueldoNeto.Width = 200;
             // 
             // label1
             // 
@@ -128,44 +172,6 @@ namespace Presentation.Views
             this.label2.Size = new System.Drawing.Size(41, 21);
             this.label2.TabIndex = 7;
             this.label2.Text = "Año";
-            // 
-            // departamento
-            // 
-            this.departamento.DataPropertyName = "departamento";
-            this.departamento.HeaderText = "Departamento";
-            this.departamento.Name = "departamento";
-            this.departamento.Width = 150;
-            // 
-            // anio
-            // 
-            this.anio.DataPropertyName = "anio";
-            this.anio.HeaderText = "Año";
-            this.anio.Name = "anio";
-            // 
-            // mes
-            // 
-            this.mes.DataPropertyName = "mes";
-            this.mes.HeaderText = "Mes";
-            this.mes.Name = "mes";
-            this.mes.Width = 150;
-            // 
-            // sueldoBruto
-            // 
-            this.sueldoBruto.DataPropertyName = "sueldoBruto";
-            dataGridViewCellStyle2.Format = "c";
-            this.sueldoBruto.DefaultCellStyle = dataGridViewCellStyle2;
-            this.sueldoBruto.HeaderText = " ∑ Sueldo bruto";
-            this.sueldoBruto.Name = "sueldoBruto";
-            this.sueldoBruto.Width = 200;
-            // 
-            // sueldoNeto
-            // 
-            this.sueldoNeto.DataPropertyName = "sueldoNeto";
-            dataGridViewCellStyle3.Format = "c";
-            this.sueldoNeto.DefaultCellStyle = dataGridViewCellStyle3;
-            this.sueldoNeto.HeaderText = " ∑ Sueldo neto";
-            this.sueldoNeto.Name = "sueldoNeto";
-            this.sueldoNeto.Width = 200;
             // 
             // PayrollReports
             // 

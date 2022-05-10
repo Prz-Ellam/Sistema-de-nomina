@@ -39,6 +39,39 @@ GO
 
 
 
+
+CREATE PROCEDURE sp_AplicarDepartamentoDeduccion(
+	@id_departamento			INT,
+	@id_deduccion				INT,
+	@fecha						DATE
+)
+AS
+
+	INSERT INTO deducciones_aplicadas(
+			numero_empleado,
+			id_deduccion,
+			fecha,
+			cantidad
+	)
+	SELECT 
+			e.numero_empleado,
+			@id_deduccion,
+			@fecha,
+			sueldo_diario * dbo.DIASTRABAJADOSEMPLEADO(@fecha, numero_empleado) * p.porcentual + p.fijo
+	FROM 
+			empleados AS e
+			INNER JOIN deducciones AS p
+			ON p.id_deduccion = @id_deduccion
+	WHERE
+			e.id_departamento = @id_departamento AND 
+			e.activo = 1 AND
+			(SELECT COUNT(0) FROM deducciones_aplicadas 
+			WHERE numero_empleado = e.numero_empleado AND id_deduccion = @id_deduccion AND fecha = @fecha) = 0;
+
+GO
+
+
+
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_EliminarEmpleadoDeduccion')
 	DROP PROCEDURE sp_EliminarEmpleadoDeduccion;
 GO
@@ -55,6 +88,31 @@ AS
 
 GO
 
+
+
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_EliminarDepartamentoDeduccion')
+	DROP PROCEDURE sp_EliminarDepartamentoDeduccion;
+GO
+
+CREATE PROCEDURE sp_EliminarDepartamentoDeduccion(
+	@id_departamento			INT,
+	@id_percepcion				INT,
+	@fecha						DATE
+)
+AS
+
+	DELETE 
+			deducciones_aplicadas 
+	FROM 
+			deducciones_aplicadas AS da
+			JOIN empleados AS e
+			ON da.numero_empleado = e.numero_empleado
+	WHERE 
+			e.id_departamento = @id_departamento AND 
+			da.id_deduccion = @id_percepcion AND 
+			dbo.PRIMERDIAFECHA(da.fecha) = dbo.PRIMERDIAFECHA(@fecha);
+
+GO
 
 
 
@@ -134,6 +192,110 @@ AS
 	ELSE 
 		RAISERROR('Filtro inválido', 11, 1);
 
+GO
+
+
+
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerDepartamentosDeduccionesAplicadas')
+	DROP PROCEDURE sp_LeerDepartamentosDeduccionesAplicadas;
+GO
+
+CREATE PROCEDURE sp_LeerDepartamentosDeduccionesAplicadas(
+	@filtro						INT,
+	@id_departamento			INT,
+	@fecha						DATE
+)
+AS
+
+	IF @filtro = 1
+
+		SELECT
+				IIF(COUNT(e.numero_empleado) >= 
+				(SELECT Cantidad FROM vw_DepartmentsCount WHERE id_departamento = @id_departamento AND fecha = @fecha) AND
+				COUNT(e.numero_empleado) <> 0, 
+				'true', 'false') [Aplicada],
+				d.id_deduccion,
+				d.nombre,
+				d.tipo_monto,
+				d.fijo,
+				d.porcentual
+		FROM 
+				deducciones AS d
+				LEFT JOIN deducciones_aplicadas AS da
+				ON d.id_deduccion = da.id_deduccion AND
+				dbo.PRIMERDIAFECHA(da.fecha) = dbo.PRIMERDIAFECHA(@fecha)
+				LEFT JOIN empleados AS e
+				ON da.numero_empleado = e.numero_empleado AND
+				e.id_departamento = @id_departamento
+		WHERE
+				d.tipo_duracion = 'S' AND 
+				d.fecha_creacion <= dbo.PRIMERDIAFECHA(@fecha) AND 
+				(d.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR d.fecha_eliminacion IS NULL)
+		GROUP BY 
+				d.id_deduccion, d.nombre, d.tipo_monto, d.fijo, d.porcentual
+
+	ELSE IF @filtro = 2
+
+		SELECT
+				IIF(COUNT(e.numero_empleado) >= 
+				(SELECT Cantidad FROM vw_DepartmentsCount WHERE id_departamento = @id_departamento AND fecha = @fecha) AND
+				COUNT(e.numero_empleado) <> 0, 
+				'true', 'false') [Aplicada],
+				d.id_deduccion,
+				d.nombre,
+				d.tipo_monto,
+				d.fijo,
+				d.porcentual
+		FROM 
+				deducciones AS d
+				LEFT JOIN deducciones_aplicadas AS da
+				ON d.id_deduccion = da.id_deduccion AND
+				dbo.PRIMERDIAFECHA(da.fecha) = dbo.PRIMERDIAFECHA(@fecha)
+				LEFT JOIN empleados AS e
+				ON da.numero_empleado = e.numero_empleado AND
+				e.id_departamento = @id_departamento
+		WHERE
+				d.tipo_duracion = 'S' AND
+				d.fecha_creacion <= dbo.PRIMERDIAFECHA(@fecha) AND 
+				(d.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR d.fecha_eliminacion IS NULL)
+		GROUP BY 
+				d.id_deduccion, d.nombre, d.tipo_monto, d.fijo, d.porcentual
+		HAVING
+				COUNT(e.numero_empleado) >= 
+				(SELECT Cantidad FROM vw_DepartmentsCount WHERE id_departamento = @id_departamento AND fecha = @fecha);
+
+	ELSE IF @filtro = 3
+
+				SELECT
+				IIF(COUNT(e.numero_empleado) >= 
+				(SELECT Cantidad FROM vw_DepartmentsCount WHERE id_departamento = @id_departamento AND fecha = @fecha) AND
+				COUNT(e.numero_empleado) <> 0, 
+				'true', 'false') [Aplicada],
+				d.id_deduccion,
+				d.nombre,
+				d.tipo_monto,
+				d.fijo,
+				d.porcentual
+		FROM 
+				deducciones AS d
+				LEFT JOIN deducciones_aplicadas AS da
+				ON d.id_deduccion = da.id_deduccion AND
+				dbo.PRIMERDIAFECHA(da.fecha) = dbo.PRIMERDIAFECHA(@fecha)
+				LEFT JOIN empleados AS e
+				ON da.numero_empleado = e.numero_empleado AND
+				e.id_departamento = @id_departamento
+		WHERE
+				d.tipo_duracion = 'S' AND
+				d.fecha_creacion <= dbo.PRIMERDIAFECHA(@fecha) AND 
+				(d.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR d.fecha_eliminacion IS NULL)
+		GROUP BY
+				d.id_deduccion, d.nombre, d.tipo_monto, d.fijo, d.porcentual
+		HAVING
+				COUNT(e.numero_empleado) < 
+				(SELECT Cantidad FROM vw_DepartmentsCount WHERE id_departamento = @id_departamento AND fecha = @fecha);
+
+	ELSE
+		RAISERROR('Filtro inválido', 11, 1);
 GO
 
 

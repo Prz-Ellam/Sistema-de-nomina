@@ -12,7 +12,7 @@ namespace Data_Access.Repositorios
     public class RepositorioNominas
     {
         private readonly string generate, readByDate, generalPayrollReport, getDate, getPayrollReceipt;
-        private readonly string startPayroll, payrollReport, headcounter1, headcounter2;
+        private readonly string startPayroll, payrollReport, headcounter1, headcounter2, deletePayroll;
         private readonly string payrollProcess;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams = new RepositoryParameters();
@@ -26,6 +26,7 @@ namespace Data_Access.Repositorios
             getDate = "sp_ObtenerFechaActual";
             getPayrollReceipt = "sp_ObtenerReciboNomina";
             startPayroll = "sp_CrearNomina";
+            deletePayroll = "sp_EliminarNomina";
             payrollReport = "sp_ReporteNomina";
             headcounter1 = "sp_Headcounter1";
             headcounter2 = "sp_Headcounter2";
@@ -234,6 +235,16 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@fecha", date);
 
             int rowCount = mainRepository.ExecuteNonQuery(startPayroll, sqlParams);
+            return (rowCount > 0) ? true : false;
+        }
+
+        public bool DeletePayroll(int companyId, DateTime date)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@id_empresa", companyId);
+            sqlParams.Add("@fecha", date);
+
+            int rowCount = mainRepository.ExecuteNonQuery(deletePayroll, sqlParams);
             return (rowCount > 0) ? true : false;
         }
 

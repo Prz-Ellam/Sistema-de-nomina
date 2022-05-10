@@ -20,6 +20,7 @@ namespace Presentation.Views
     public partial class Profile : Form
     {
         private RepositorioEmpleados employeeRepository = new RepositorioEmpleados();
+        private RepositorioTelefonos phonesRepository = new RepositorioTelefonos();
         private Empleados employee = new Empleados();
         private List<States> states;
 
@@ -73,6 +74,7 @@ namespace Presentation.Views
             txtRFC.Text = employee.Rfc;
             
             txtEmail.Text = employee.Email;
+            txtPassword.Text = employee.Password;
             txtAccountNumber.Text = employee.AccountNumber;
 
             cbBank.SelectedIndex = cbBank.FindString(employee.Bank.ToString());
@@ -90,6 +92,15 @@ namespace Presentation.Views
             nudDailySalary.Value = employee.SueldoDiario;
             nudBaseSalary.Value = employee.BaseSalary;
             nudWageLevel.Value = employee.WageLevel;
+
+            cbPhones.SelectedIndex = -1;
+            List<string> phones = phonesRepository.ReadEmployeePhones(employee.EmployeeNumber);
+            foreach (string phone in phones)
+            {
+                cbPhones.Items.Add(phone);
+            }
+
+
         }
 
         private void FillProfile()

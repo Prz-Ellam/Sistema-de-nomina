@@ -19,6 +19,14 @@ AS
 			RETURN;
 		END
 
+	IF EXISTS(SELECT fecha FROM (SELECT fecha FROM percepciones_aplicadas UNION SELECT fecha FROM deducciones_aplicadas) AS U
+				WHERE dbo.PRIMERDIAFECHA(fecha) = dbo.OBTENERFECHAACTUAL(@id_empresa))
+		BEGIN
+			RAISERROR('Ya existe la nómina en proceso', 11, 1);
+			RETURN;
+		END
+
+
 	INSERT INTO percepciones_aplicadas(
 			numero_empleado,
 			id_percepcion,
@@ -59,6 +67,47 @@ GO
 
 
 
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_EliminarNomina')
+	DROP PROCEDURE sp_EliminarNomina;
+GO
+
+CREATE PROCEDURE sp_EliminarNomina(
+	@id_empresa				INT,
+	@fecha					DATE
+)
+AS
+
+	DECLARE @fecha_nomina DATE;
+	SET @fecha_nomina = dbo.OBTENERFECHAACTUAL(@id_empresa);
+	
+	IF (dbo.PRIMERDIAFECHA(@fecha_nomina) <> dbo.PRIMERDIAFECHA(@fecha))
+		BEGIN
+			RAISERROR('No se puede eliminar una nómina fuera del periodo actual de nómina', 11, 1);
+			RETURN;
+		END
+
+	IF NOT EXISTS(SELECT fecha FROM (SELECT fecha FROM percepciones_aplicadas UNION SELECT fecha FROM deducciones_aplicadas) AS U
+				WHERE dbo.PRIMERDIAFECHA(fecha) = dbo.OBTENERFECHAACTUAL(@id_empresa))
+		BEGIN
+			RAISERROR('No existe la nómina en proceso', 11, 1);
+			RETURN;
+		END
+
+
+	DELETE FROM
+			percepciones_aplicadas
+	WHERE
+			dbo.PRIMERDIAFECHA(fecha) = dbo.PRIMERDIAFECHA(@fecha);
+
+	DELETE FROM
+			deducciones_aplicadas
+	WHERE
+			dbo.PRIMERDIAFECHA(fecha) = dbo.PRIMERDIAFECHA(@fecha);
+
+GO
+
+
+
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_GenerarNomina')
 	DROP PROCEDURE sp_GenerarNomina;
 GO
@@ -76,6 +125,13 @@ AS
 	IF (dbo.PRIMERDIAFECHA(@fecha_nomina) <> dbo.PRIMERDIAFECHA(@fecha))
 		BEGIN
 			RAISERROR('No se puede generar la nómina fuera del periodo actual de nómina', 11, 1);
+			RETURN;
+		END
+
+	IF NOT EXISTS(SELECT fecha FROM (SELECT fecha FROM percepciones_aplicadas UNION SELECT fecha FROM deducciones_aplicadas) AS U
+				WHERE dbo.PRIMERDIAFECHA(fecha) = dbo.OBTENERFECHAACTUAL(@id_empresa))
+		BEGIN
+			RAISERROR('No existe la nómina en proceso', 11, 1);
 			RETURN;
 		END
 
@@ -161,7 +217,6 @@ AS
 			dbo.PRIMERDIAFECHA(fecha) = dbo.PRIMERDIAFECHA(@fecha);
 
 GO
-
 
 
 

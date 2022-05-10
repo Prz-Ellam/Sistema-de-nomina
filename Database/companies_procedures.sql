@@ -1,48 +1,14 @@
 USE sistema_de_nomina;
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_VerificarEmpresa')
-	DROP PROCEDURE sp_VerificarEmpresa;
-GO
-
-CREATE PROCEDURE sp_VerificarEmpresa(
-	@id_administrador			INT
-)
-AS
-
-	SELECT COUNT(0) FROM empresas WHERE id_administrador = @id_administrador AND activo = 1;
-
-GO
-
-
-
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ObtenerEmpresa')
-	DROP PROCEDURE sp_ObtenerEmpresa;
-GO
-
-CREATE PROCEDURE sp_ObtenerEmpresa(
-	@id_administrador			INT
-)
-AS
-
-	SELECT id_empresa FROM empresas WHERE id_administrador = @id_administrador AND activo = 1;
-
-GO
-
-select*from empresas;
-exec sp_ObtenerEmpresa 1;
-
-
-
-
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AgregarEmpresa')
 	DROP PROCEDURE sp_AgregarEmpresa;
 GO
 
 CREATE PROCEDURE sp_AgregarEmpresa(
 	@razon_social				VARCHAR(60),
-	@correo_electronico			VARCHAR(30),
-	@rfc						VARCHAR(18),
-	@registro_patronal			VARCHAR(30),
+	@correo_electronico			VARCHAR(60),
+	@rfc						VARCHAR(12),
+	@registro_patronal			VARCHAR(11),
 	@fecha_inicio				DATE,
 	@id_administrador			INT,
 	@calle						VARCHAR(30),
@@ -56,11 +22,11 @@ CREATE PROCEDURE sp_AgregarEmpresa(
 AS
 
 	-- Solo puede haber una empresa para el proyecto, esta validacion impide crear mas
-	IF (SELECT COUNT(0) FROM empresas WHERE activo = 1) > 0
+	IF EXISTS (SELECT id_empresa FROM empresas WHERE activo = 1)
 	BEGIN
 		RAISERROR('Ya existe una empresa', 11, 1);
 		RETURN;
-	END;
+	END
 
 	EXEC sp_AgregarDomicilio @calle, @numero, @colonia, @ciudad, @estado, @codigo_postal;
 
@@ -92,8 +58,14 @@ AS
 
 		DECLARE @numtel VARCHAR(12) = (SELECT telefono FROM @telefonos WHERE row_count = @count);
 
-		INSERT INTO telefonos_empresas(telefono, id_empresa)
-		VALUES(@numtel, IDENT_CURRENT('empresas'));
+		INSERT INTO telefonos_empresas(
+				telefono,
+				id_empresa
+		)
+		VALUES(
+				@numtel,
+				IDENT_CURRENT('empresas')
+		);
 
 		SET @count = @count + 1;
 
@@ -110,9 +82,9 @@ GO
 CREATE PROCEDURE sp_ActualizarEmpresa(
 	@id_empresa						INT,
 	@razon_social					VARCHAR(60),
-	@correo_electronico				VARCHAR(30),
+	@correo_electronico				VARCHAR(60),
 	@rfc							VARCHAR(12),
-	@registro_patronal				VARCHAR(30),
+	@registro_patronal				VARCHAR(11),
 	@fecha_inicio					DATE,
 	@calle							VARCHAR(30),
 	@numero							VARCHAR(10),
@@ -123,6 +95,13 @@ CREATE PROCEDURE sp_ActualizarEmpresa(
 	@telefonos						dbo.Telefonos READONLY
 )
 AS
+
+	DECLARE @status_nomina BIT = dbo.NOMINAENPROCESO(@id_empresa);
+	IF @status_nomina = 1
+		BEGIN
+			RAISERROR('No se puede editar el departamento debido a que hay una nómina en proceso', 11, 1);
+			RETURN;
+		END
 
 	DECLARE @id_domicilio INT;
 	SET @id_domicilio = (SELECT domicilio_fiscal FROM empresas WHERE id_empresa = @id_empresa);
@@ -174,17 +153,71 @@ CREATE PROCEDURE sp_LeerEmpresa(
 )
 AS
 
-	IF (SELECT COUNT(0) FROM empresas WHERE activo = 1) < 1
+	IF NOT EXISTS (SELECT id_empresa FROM empresas WHERE activo = 1)
 	BEGIN
 		RAISERROR('Aun no existe una empresa', 11, 1);
 		RETURN;
 	END;
 
-	SELECT e.id_empresa, e.razon_social, d.calle, d.numero, d.colonia, d.ciudad, d.estado, d.codigo_postal, 
-	e.correo_electronico, e.registro_patronal, e.rfc, e.fecha_inicio
-	FROM empresas AS e
-	JOIN domicilios AS d
-	ON e.domicilio_fiscal = d.id_domicilio
-	WHERE id_empresa = @id_empresa AND activo = 1;
+	SELECT
+			e.id_empresa [ID Empresa],
+			e.razon_social [Razon social],
+			d.calle [Calle],
+			d.numero [Numero],
+			d.colonia [Colonia],
+			d.ciudad [Ciudad],
+			d.estado [Estado],
+			d.codigo_postal [Código postal], 
+			e.correo_electronico [Correo electrónico],
+			e.registro_patronal [Registro Patronal],
+			e.rfc [RFC],
+			e.fecha_inicio [Fecha de inicio]
+	FROM 
+			empresas AS e
+			JOIN domicilios AS d
+			ON e.domicilio_fiscal = d.id_domicilio
+	WHERE
+			id_empresa = @id_empresa AND activo = 1;
+
+GO
+
+
+
+
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_VerificarEmpresa')
+	DROP PROCEDURE sp_VerificarEmpresa;
+GO
+
+CREATE PROCEDURE sp_VerificarEmpresa(
+	@id_administrador			INT
+)
+AS
+
+	SELECT 
+			COUNT(0) 
+	FROM 
+			empresas 
+	WHERE 
+			id_administrador = @id_administrador AND activo = 1;
+
+GO
+
+
+
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ObtenerEmpresa')
+	DROP PROCEDURE sp_ObtenerEmpresa;
+GO
+
+CREATE PROCEDURE sp_ObtenerEmpresa(
+	@id_administrador			INT
+)
+AS
+
+	SELECT 
+			id_empresa 
+	FROM 
+			empresas 
+	WHERE 
+			id_administrador = @id_administrador AND activo = 1;
 
 GO

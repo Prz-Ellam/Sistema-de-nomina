@@ -14,7 +14,7 @@ namespace Data_Access.Repositorios
 {
     public class RepositorioEmpleados
     {
-        private readonly string create, update, delete, readAll, readLike, getEmployeesId, readPayrolls, getById;
+        private readonly string create, update, delete, readAll, readLike, readPayrolls, getById;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams = new RepositoryParameters();
 
@@ -25,7 +25,7 @@ namespace Data_Access.Repositorios
             update = "sp_ActualizarEmpleado";
             delete = "sp_EliminarEmpleado";
             readAll = "sp_LeerEmpleados";
-            getEmployeesId = "sp_ObtenerEmpleados";
+            readLike = "sp_FiltrarEmpleados";
             readPayrolls = "sp_LeerEmpleadosNominas";
             getById = "sp_ObtenerEmpleadoPorId";
         }
@@ -132,7 +132,7 @@ namespace Data_Access.Repositorios
             {
                 departments.Add(new EmployeesViewModel
                 {
-                    EmployeeNumber = Convert.ToInt32(row["ID"]),
+                    EmployeeNumber = Convert.ToInt32(row["Numero de empleado"]),
                     Name = row["Nombre"].ToString(),
                     FatherLastName = row["Apellido Paterno"].ToString(),
                     MotherLastName = row["Apellido Materno"].ToString(),
@@ -149,6 +149,48 @@ namespace Data_Access.Repositorios
                     Bank = new PairItem(row["Banco"].ToString(), Convert.ToInt32(row["ID Banco"])),
                     AccountNumber = row["Numero de cuenta"].ToString(),
                     Email = row["Correo electronico"].ToString(),
+                    Password = row["Contraseña"].ToString(),
+                    Department = new PairItem(row["Departamento"].ToString(), Convert.ToInt32(row["ID Departamento"])),
+                    Position = new PairItem(row["Puesto"].ToString(), Convert.ToInt32(row["ID Puesto"])),
+                    HiringDate = Convert.ToDateTime(row["Fecha de contratacion"]),
+                    SueldoDiario = Convert.ToDecimal(row["Sueldo diario"]),
+                    BaseSalary = Convert.ToDecimal(row["Sueldo base"]),
+                    WageLevel = Convert.ToDecimal(row["Nivel salarial"])
+                });
+            }
+
+            return departments;
+        }
+
+        public List<EmployeesViewModel> ReadLike(string filter)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@filtro", filter);
+
+            DataTable table = mainRepository.ExecuteReader(readLike, sqlParams);
+            List<EmployeesViewModel> departments = new List<EmployeesViewModel>();
+            foreach (DataRow row in table.Rows)
+            {
+                departments.Add(new EmployeesViewModel
+                {
+                    EmployeeNumber = Convert.ToInt32(row["Numero de empleado"]),
+                    Name = row["Nombre"].ToString(),
+                    FatherLastName = row["Apellido Paterno"].ToString(),
+                    MotherLastName = row["Apellido Materno"].ToString(),
+                    DateOfBirth = Convert.ToDateTime(row["Fecha de nacimiento"]),
+                    Curp = row["CURP"].ToString(),
+                    Nss = row["NSS"].ToString(),
+                    Rfc = row["RFC"].ToString(),
+                    Street = row["Calle"].ToString(),
+                    Number = row["Numero"].ToString(),
+                    Suburb = row["Colonia"].ToString(),
+                    City = row["Municipio"].ToString(),
+                    State = row["Estado"].ToString(),
+                    PostalCode = row["Codigo postal"].ToString(),
+                    Bank = new PairItem(row["Banco"].ToString(), Convert.ToInt32(row["ID Banco"])),
+                    AccountNumber = row["Numero de cuenta"].ToString(),
+                    Email = row["Correo electronico"].ToString(),
+                    Password = row["Contraseña"].ToString(),
                     Department = new PairItem(row["Departamento"].ToString(), Convert.ToInt32(row["ID Departamento"])),
                     Position = new PairItem(row["Puesto"].ToString(), Convert.ToInt32(row["ID Puesto"])),
                     HiringDate = Convert.ToDateTime(row["Fecha de contratacion"]),
@@ -162,21 +204,6 @@ namespace Data_Access.Repositorios
         }
 
 
-        public List<int> GetEmployeesId()
-        {
-            sqlParams.Start();
-
-            DataTable table = mainRepository.ExecuteReader(getEmployeesId, sqlParams);
-
-            List<int> employeesId = new List<int>();
-            foreach (DataRow row in table.Rows)
-            {
-                employeesId.Add(Convert.ToInt32(row[0]));
-            }
-
-            return employeesId;
-        }
-
         public List<EmployeePayrollsViewModel> ReadEmployeePayrolls(int companyId, DateTime date)
         {
             sqlParams.Start();
@@ -184,6 +211,11 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@id_empresa", companyId);
 
             DataTable table = mainRepository.ExecuteReader(readPayrolls, sqlParams);
+
+            if (table == null)
+            {
+                return new List<EmployeePayrollsViewModel>();
+            }
 
             List<EmployeePayrollsViewModel> employeePayrolls = new List<EmployeePayrollsViewModel>();
             foreach (DataRow row in table.Rows)
@@ -216,7 +248,7 @@ namespace Data_Access.Repositorios
             {
                 return new EmployeesViewModel
                 {
-                    EmployeeNumber = Convert.ToInt32(row["ID"]),
+                    EmployeeNumber = Convert.ToInt32(row["Numero de empleado"]),
                     Name = row["Nombre"].ToString(),
                     FatherLastName = row["Apellido Paterno"].ToString(),
                     MotherLastName = row["Apellido Materno"].ToString(),
@@ -233,6 +265,7 @@ namespace Data_Access.Repositorios
                     Bank = new PairItem(row["Banco"].ToString(), Convert.ToInt32(row["ID Banco"])),
                     AccountNumber = row["Numero de cuenta"].ToString(),
                     Email = row["Correo electronico"].ToString(),
+                    Password = row["Contraseña"].ToString(),
                     Department = new PairItem(row["Departamento"].ToString(), Convert.ToInt32(row["ID Departamento"])),
                     Position = new PairItem(row["Puesto"].ToString(), Convert.ToInt32(row["ID Puesto"])),
                     HiringDate = Convert.ToDateTime(row["Fecha de contratacion"]),

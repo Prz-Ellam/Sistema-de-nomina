@@ -17,7 +17,6 @@ AS
 		END;
 
 	DECLARE @status_nomina BIT = dbo.NOMINAENPROCESO(@id_empresa);
-
 	IF @status_nomina = 1
 		BEGIN
 			RAISERROR('No se puede editar el departamento debido a que hay una nómina en proceso', 11, 1);
@@ -70,20 +69,6 @@ AS
 	WHERE 
 			id_departamento	= @id_departamento AND activo = 1;
 
-
-	UPDATE
-			empleados
-	SET
-			sueldo_diario	= d.sueldo_base * p.nivel_salarial
-	FROM
-			empleados AS e
-			JOIN departamentos AS d
-			ON e.id_departamento = d.id_departamento 
-			JOIN puestos AS p
-			ON e.id_puesto = p.id_puesto
-	WHERE
-			e.id_departamento = @id_departamento;
-
 GO
 
 
@@ -96,7 +81,7 @@ CREATE PROCEDURE sp_EliminarDepartamento
 	@id_departamento					INT
 AS
 
-	IF (EXISTS (SELECT numero_empleado FROM empleados WHERE id_departamento = @id_departamento AND activo = 1))
+	IF EXISTS (SELECT numero_empleado FROM empleados WHERE id_departamento = @id_departamento AND activo = 1)
 		BEGIN
 			RAISERROR ('No se puede eliminar el departamento porque un empleado pertenece a el', 11, 1)
 			RETURN;
@@ -116,8 +101,7 @@ AS
 			departamentos
 	SET
 			activo = 0,
-			fecha_eliminacion = dbo.OBTENERFECHAACTUAL((SELECT id_empresa FROM departamentos 
-												WHERE id_departamento = @id_departamento AND activo = 1)),
+			fecha_eliminacion = dbo.OBTENERFECHAACTUAL(id_empresa),
 			id_eliminado = NEWID()
 			
 	WHERE 
@@ -143,11 +127,12 @@ AS
 	FROM 
 			departamentos
 	WHERE 
-			id_empresa = @id_empresa AND activo = 1;
+			id_empresa = @id_empresa AND 
+			activo = 1;
 
 GO
 
-EXEC sp_LeerDepartamentosNominas 1, '20220301';
+
 
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerDepartamentosNominas')
 	DROP PROCEDURE sp_LeerDepartamentosNominas;
@@ -167,7 +152,8 @@ AS
 			departamentos
 	WHERE
 			id_empresa = @id_empresa AND
-			fecha_creacion <= dbo.PRIMERDIAFECHA(@fecha) AND (fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR fecha_eliminacion IS NULL);	
+			fecha_creacion <= dbo.PRIMERDIAFECHA(@fecha) AND 
+			(fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR fecha_eliminacion IS NULL);	
 
 GO
 
@@ -189,6 +175,8 @@ AS
 	FROM 
 			departamentos
 	WHERE 
-			id_empresa = @id_empresa AND activo = 1 AND nombre LIKE CONCAT('%', @filtro, '%');
+			id_empresa = @id_empresa AND 
+			activo = 1 AND 
+			nombre LIKE CONCAT('%', @filtro, '%');
 
 GO
