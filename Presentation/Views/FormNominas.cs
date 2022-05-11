@@ -17,11 +17,11 @@ using System.Windows.Forms;
 
 namespace Presentation.Views
 {
-    public partial class FormPayroll : Form
+    public partial class FormNominas : Form
     {
         RepositorioNominas payrollRepository = new RepositorioNominas();
         DateTime payrollDate;
-        public FormPayroll()
+        public FormNominas()
         {
             InitializeComponent();
         }
@@ -139,10 +139,26 @@ namespace Presentation.Views
 
         private void btnDeletePayroll_Click(object sender, EventArgs e)
         {
+            DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?",
+               "Sistema de nómina dice: ", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (res == DialogResult.No)
+            {
+                return;
+            }
+
             DateTime requestDate = dtpDate.Value;
             try
             {
                 bool result = payrollRepository.DeletePayroll(Session.company_id, requestDate);
+                if (result)
+                {
+                    MessageBox.Show("La nómina fue eliminada éxitosamente");
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo eliminar la nómina");
+                }
             }
             catch (SqlException ex)
             {

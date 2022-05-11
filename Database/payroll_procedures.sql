@@ -5,8 +5,8 @@ IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_CrearNomin
 GO
 
 CREATE PROCEDURE sp_CrearNomina(
-	@id_empresa				INT,
-	@fecha					DATE
+	@id_empresa					INT,
+	@fecha						DATE
 )
 AS
 
@@ -42,7 +42,9 @@ AS
 			empleados AS e
 			CROSS JOIN percepciones AS p
 	WHERE 
-			dbo.PRIMERDIAFECHA(e.fecha_contratacion) <= dbo.PRIMERDIAFECHA(@fecha) AND e.activo = 1 AND p.tipo_duracion = 'B';
+			dbo.PRIMERDIAFECHA(e.fecha_contratacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
+			e.activo = 1 AND
+			p.tipo_duracion = 'B';
 
 
 
@@ -61,7 +63,9 @@ AS
 			empleados AS e
 			CROSS JOIN deducciones AS d
 	WHERE 
-			dbo.PRIMERDIAFECHA(e.fecha_contratacion) <= dbo.PRIMERDIAFECHA(@fecha) AND e.activo = 1 AND d.tipo_duracion = 'B';
+			dbo.PRIMERDIAFECHA(e.fecha_contratacion) <= dbo.PRIMERDIAFECHA(@fecha) AND
+			e.activo = 1 AND
+			d.tipo_duracion = 'B';
 
 GO
 
@@ -122,7 +126,7 @@ AS
 	DECLARE @fecha_nomina DATE;
 	SET @fecha_nomina = dbo.OBTENERFECHAACTUAL(@id_empresa);
 
-	IF (dbo.PRIMERDIAFECHA(@fecha_nomina) <> dbo.PRIMERDIAFECHA(@fecha))
+	IF dbo.PRIMERDIAFECHA(@fecha_nomina) <> dbo.PRIMERDIAFECHA(@fecha)
 		BEGIN
 			RAISERROR('No se puede generar la nómina fuera del periodo actual de nómina', 11, 1);
 			RETURN;
@@ -158,36 +162,13 @@ AS
 			e.id_puesto
 	FROM
 			empleados AS e
-			JOIN departamentos AS d
+			INNER JOIN departamentos AS d
 			ON d.id_departamento = e.id_departamento
 	WHERE
 			d.id_empresa = @id_empresa AND 
 			dbo.PRIMERDIAFECHA(e.fecha_contratacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
 			e.activo = 1;
 
-
-	--UPDATE 
-	--	percepciones_aplicadas
-	--SET
-	--	id_nomina = n.id_nomina
-	--FROM
-	--	percepciones_aplicadas AS pa
-	--	JOIN nominas AS n
-	--	ON pa.fecha = n.fecha AND pa.numero_empleado = n.numero_empleado
-	--WHERE
-	--	dbo.PRIMERDIAFECHA(pa.fecha) = dbo.PRIMERDIAFECHA(@fecha);
-
-
-	--UPDATE 
-	--	deducciones_aplicadas
-	--SET
-	--	id_nomina = n.id_nomina
-	--FROM
-	--	deducciones_aplicadas AS da
-	--	JOIN nominas AS n
-	--	ON da.fecha = n.fecha AND da.numero_empleado = n.numero_empleado
-	--WHERE
-	--	dbo.PRIMERDIAFECHA(da.fecha) = dbo.PRIMERDIAFECHA(@fecha);
 GO
 
 
@@ -209,9 +190,9 @@ AS
 			n.numero_cuenta
 	FROM 
 			nominas AS n
-			JOIN empleados AS e
+			INNER JOIN empleados AS e
 			ON n.numero_empleado = e.numero_empleado
-			JOIN bancos AS b
+			INNER JOIN bancos AS b
 			ON n.banco = b.id_banco
 	WHERE
 			dbo.PRIMERDIAFECHA(fecha) = dbo.PRIMERDIAFECHA(@fecha);
@@ -228,19 +209,26 @@ CREATE PROCEDURE sp_ObtenerFechaActual
 	@id_empresa				INT
 AS
 
-	IF (EXISTS(SELECT id_nomina FROM nominas))	
-		SELECT DISTINCT TOP 1 DATEADD(MONTH, 1, DATEFROMPARTS(YEAR(fecha), MONTH(fecha), 1)) [Fecha]
-		FROM nominas AS n
-		JOIN empleados AS e
-		ON n.numero_empleado = e.numero_empleado
-		JOIN departamentos AS d
-		ON d.id_departamento = e.id_departamento
-		WHERE d.id_empresa = @id_empresa
-		ORDER BY [Fecha] DESC;
-	ELSE IF (EXISTS(SELECT id_empresa FROM empresas WHERE id_empresa = @id_empresa))
-		SELECT fecha_inicio [Fecha]
-		FROM empresas
-		WHERE id_empresa = @id_empresa;
+	IF EXISTS(SELECT id_nomina FROM nominas)
+		SELECT DISTINCT TOP 1 
+				DATEADD(MONTH, 1, dbo.PRIMERDIAFECHA(fecha)) [Fecha]
+		FROM 
+				nominas AS n
+				JOIN empleados AS e
+				ON n.numero_empleado = e.numero_empleado
+				JOIN departamentos AS d
+				ON d.id_departamento = e.id_departamento
+		WHERE
+				d.id_empresa = @id_empresa
+		ORDER BY
+				[Fecha] DESC;
+	ELSE IF EXISTS(SELECT id_empresa FROM empresas WHERE id_empresa = @id_empresa)
+		SELECT
+				fecha_inicio [Fecha]
+		FROM 
+				empresas
+		WHERE
+				id_empresa = @id_empresa;
 	ELSE
 		RAISERROR('La empresa aun no existe', 11, 1);
 		RETURN;
@@ -248,34 +236,6 @@ AS
 GO
 
 
-CREATE FUNCTION OBTENERFECHAACTUAL(
-	@id_empresa				INT
-)
-RETURNS DATE
-AS
-	BEGIN
-
-	DECLARE @fecha		DATE;
-
-	IF (EXISTS(SELECT id_nomina FROM nominas))	
-		SET @fecha = (SELECT DISTINCT TOP 1 DATEADD(MONTH, 1, DATEFROMPARTS(YEAR(fecha), MONTH(fecha), 1)) [Fecha]
-		FROM nominas AS n
-		JOIN empleados AS e
-		ON n.numero_empleado = e.numero_empleado
-		JOIN departamentos AS d
-		ON d.id_departamento = e.id_departamento
-		WHERE d.id_empresa = @id_empresa
-		ORDER BY [Fecha] DESC);
-	ELSE IF (EXISTS(SELECT id_empresa FROM empresas WHERE id_empresa = @id_empresa))
-		SET @fecha = (SELECT fecha_inicio [Fecha]
-		FROM empresas
-		WHERE id_empresa = @id_empresa);
-	ELSE
-		SET @fecha = NULL;
-
-	RETURN @fecha;
-	END
-GO
 
 
 
@@ -341,5 +301,3 @@ WHERE
 		[Periodo] = dbo.PRIMERDIAFECHA(@fecha);
 
 GO
-
-

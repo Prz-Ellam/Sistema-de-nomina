@@ -438,7 +438,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgPerceptions.DataSource = perceptionRepository.Leer();
+                dtgPerceptions.DataSource = perceptionRepository.ReadAll(string.Empty, Session.company_id);
             }
             catch (Exception ex)
             {
@@ -450,7 +450,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgDeductions.DataSource = deductionRepository.ReadAll();
+                dtgDeductions.DataSource = deductionRepository.ReadAll(string.Empty, Session.company_id);
             }
             catch (Exception ex)
             {
@@ -596,7 +596,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgPerceptions.DataSource = perceptionRepository.ReadLike(txtFilterPerception.Text, Session.company_id);
+                dtgPerceptions.DataSource = perceptionRepository.ReadAll(txtFilterPerception.Text, Session.company_id);
             }
             catch (Exception ex)
             {
@@ -608,7 +608,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgDeductions.DataSource = deductionRepository.ReadLike(txtFilterDeduction.Text, Session.company_id);
+                dtgDeductions.DataSource = deductionRepository.ReadAll(txtFilterDeduction.Text, Session.company_id);
             }
             catch (Exception ex)
             {

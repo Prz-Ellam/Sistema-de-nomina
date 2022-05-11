@@ -6,9 +6,9 @@ IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AgregarPue
 GO
 
 CREATE PROCEDURE sp_AgregarPuesto
-	@nombre					VARCHAR(30),
-	@nivel_salarial			FLOAT,
-	@id_empresa				INT
+	@nombre						VARCHAR(30),
+	@nivel_salarial				FLOAT,
+	@id_empresa					INT
 AS
 
 	IF NOT EXISTS (SELECT id_empresa FROM empresas WHERE id_empresa = @id_empresa AND activo = 1)
@@ -18,7 +18,6 @@ AS
 		END;
 
 	DECLARE @status_nomina BIT = dbo.NOMINAENPROCESO(@id_empresa);
-
 	IF @status_nomina = 1
 		BEGIN
 			RAISERROR('No se puede añadir el puesto debido a que hay una nómina en proceso', 11, 1);
@@ -65,7 +64,8 @@ AS
 			nombre				= ISNULL(@nombre, nombre),
 			nivel_salarial		= ISNULL(@nivel_salarial, nivel_salarial)
 	WHERE 
-			id_puesto = @id_puesto;
+			id_puesto = @id_puesto AND
+			activo = 1;
 
 GO
 
@@ -84,16 +84,26 @@ AS
 			RAISERROR ('No se puede eliminar el puesto porque un empleado pertenece a el', 11, 1)
 			RETURN;
 		END
+
+	DECLARE @status_nomina BIT;
+	SET @status_nomina = dbo.NOMINAENPROCESO((SELECT id_empresa FROM puestos 
+												WHERE id_puesto = @id_puesto AND activo = 1));
+
+	IF @status_nomina = 1
+		BEGIN
+			RAISERROR('No se puede eliminar el departamento debido a que hay una nómina en proceso', 11, 1);
+			RETURN;
+		END
 	
 	UPDATE
 			puestos
 	SET
 			activo = 0,
-			fecha_eliminacion = dbo.OBTENERFECHAACTUAL((SELECT id_empresa FROM puestos 
-												WHERE id_puesto = @id_puesto AND activo = 1)),
+			fecha_eliminacion = dbo.OBTENERFECHAACTUAL(id_empresa),
 			id_eliminado = NEWID()
 	WHERE
-			id_puesto = @id_puesto AND activo = 1;
+			id_puesto = @id_puesto AND 
+			activo = 1;
 
 GO
 
@@ -104,41 +114,19 @@ IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerPuesto
 GO
 
 CREATE PROCEDURE sp_LeerPuestos(
+	@filtro						VARCHAR(100),
 	@id_empresa					INT
 )
 AS
 
 	SELECT 
-			id_puesto [ID Puesto], 
-			nombre [Nombre], 
-			nivel_salarial [Nivel salarial]
+			id_puesto			[ID Puesto], 
+			nombre				[Nombre], 
+			nivel_salarial		[Nivel salarial]
 	FROM 
 			puestos
 	WHERE 
 			id_empresa = @id_empresa AND 
-			activo = 1;
-
-GO
-
-
-
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_FiltrarPuestos')
-	DROP PROCEDURE sp_FiltrarPuestos;
-GO
-
-CREATE PROCEDURE sp_FiltrarPuestos
-	@filtro						VARCHAR(100),
-	@id_empresa					INT
-AS
-
-	SELECT 
-			id_puesto [ID Puesto], 
-			nombre [Nombre], 
-			nivel_salarial [Nivel salarial]
-	FROM 
-			puestos
-	WHERE 
-			id_empresa = @id_empresa AND
 			activo = 1 AND
 			nombre LIKE CONCAT('%', @filtro, '%');
 

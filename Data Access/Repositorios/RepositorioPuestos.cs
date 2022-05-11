@@ -12,7 +12,7 @@ namespace Data_Access.Repositorios
 {
     public class RepositorioPuestos
     {
-        private readonly string create, update, delete, readAll, readLike;
+        private readonly string create, update, delete, readAll;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams = new RepositoryParameters();
 
@@ -23,7 +23,6 @@ namespace Data_Access.Repositorios
             update = "sp_ActualizarPuesto";
             delete = "sp_EliminarPuesto";
             readAll = "sp_LeerPuestos";
-            readLike = "sp_FiltrarPuestos";
         }
 
         public bool Create(Puestos position)
@@ -57,9 +56,10 @@ namespace Data_Access.Repositorios
             return (rowCount > 0) ? true : false;
         }
 
-        public List<PositionsViewModel> ReadAll(int companyId)
+        public List<PositionsViewModel> ReadAll(string filter, int companyId)
         {
             sqlParams.Start();
+            sqlParams.Add("@filtro", filter);
             sqlParams.Add("@id_empresa", companyId);
 
             DataTable table = mainRepository.ExecuteReader(readAll, sqlParams);
@@ -77,29 +77,6 @@ namespace Data_Access.Repositorios
 
             return departments;
         }
-
-        public List<PositionsViewModel> ReadLike(string filter, int companyId)
-        {
-            sqlParams.Start();
-            sqlParams.Add("@filtro", filter);
-            sqlParams.Add("@id_empresa", companyId);
-
-            DataTable table = mainRepository.ExecuteReader(readLike, sqlParams);
-            List<PositionsViewModel> departments = new List<PositionsViewModel>();
-            foreach (DataRow row in table.Rows)
-            {
-                departments.Add(new PositionsViewModel
-                {
-                    Id = Convert.ToInt32(row["ID Puesto"]),
-                    Name = row["Nombre"].ToString(),
-                    WageLevel = Convert.ToDecimal(row["Nivel salarial"])
-
-                });
-            }
-
-            return departments;
-        }
-
 
     }
 }

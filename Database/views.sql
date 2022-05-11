@@ -75,57 +75,116 @@ GO
 
 
 
-IF EXISTS(SELECT name FROM sys.all_views WHERE name = 'vw_Headcounter1')
-	DROP VIEW vw_Headcounter1;
+IF EXISTS(SELECT name FROM sys.all_views WHERE name = 'vw_DepartamentosFechas')
+	DROP VIEW vw_DepartamentosFechas;
 GO
 
-CREATE VIEW vw_Headcounter1
+CREATE VIEW vw_DepartamentosFechas
 AS
-	SELECT 
-			d.nombre AS [Departamento],
-			d.id_departamento AS [idd],
-			p.nombre AS [Puesto],
-			n.fecha AS [Fecha],
-			COUNT(n.numero_empleado) AS [Cantidad de empleados]
-	FROM 
-			nominas AS n
-			LEFT JOIN departamentos AS d
-			ON n.id_departamento = d.id_departamento
-			LEFT JOIN puestos AS p
-			ON n.id_puesto = p.id_puesto
-	GROUP BY
-			d.id_departamento, d.nombre, p.id_puesto, p.nombre, n.fecha
+SELECT DISTINCT
+		d.id_departamento,
+		d.id_empresa,
+		d.nombre,
+		n.fecha
+FROM
+		nominas AS n
+		CROSS JOIN departamentos AS d
+WHERE
+		d.fecha_creacion <= dbo.PRIMERDIAFECHA(n.fecha) AND 
+		(d.fecha_eliminacion > dbo.PRIMERDIAFECHA(n.fecha) OR d.fecha_eliminacion IS NULL)
 GO
 
 
 
-IF EXISTS(SELECT name FROM sys.all_views WHERE name = 'vw_Headcounter2')
-	DROP VIEW vw_Headcounter2;
+IF EXISTS(SELECT name FROM sys.all_views WHERE name = 'vw_DepartamentosPuestosFechas')
+	DROP VIEW vw_DepartamentosPuestosFechas;
 GO
 
-CREATE VIEW vw_Headcounter2
+CREATE VIEW vw_DepartamentosPuestosFechas
 AS
-	SELECT 
-			d.nombre AS [Departamento],
-			d.id_departamento AS [id departamento],
-			n.fecha AS [Fecha],
-			COUNT(n.numero_empleado) AS [Cantidad de empleados]
-	FROM 
-			nominas AS n
-			LEFT JOIN departamentos AS d
-			ON n.id_departamento = d.id_departamento
-	GROUP BY
-			d.id_departamento, d.nombre, n.fecha
+SELECT DISTINCT
+		d.id_departamento,
+		p.id_puesto,
+		d.id_empresa,
+		d.nombre [Departamento],
+		p.nombre [Puesto],
+		n.fecha
+FROM
+		nominas AS n
+		CROSS JOIN departamentos AS d
+		CROSS JOIN puestos AS p
+WHERE
+		d.fecha_creacion <= dbo.PRIMERDIAFECHA(n.fecha) AND 
+		(d.fecha_eliminacion > dbo.PRIMERDIAFECHA(n.fecha) OR d.fecha_eliminacion IS NULL) AND
+		p.fecha_creacion <= dbo.PRIMERDIAFECHA(n.fecha) AND
+		(p.fecha_eliminacion > dbo.PRIMERDIAFECHA(n.fecha) OR p.fecha_eliminacion IS NULL)
 GO
 
 
 
+IF EXISTS(SELECT name FROM sys.all_views WHERE name = 'vw_DepartamentosFechaActual')
+	DROP VIEW vw_DepartamentosFechaActual;
+GO
+
+CREATE VIEW vw_DepartamentosFechaActual
+AS
+SELECT
+		d.id_departamento,
+		d.nombre,
+		COUNT(e.numero_empleado) [Cantidad]
+FROM
+		departamentos AS d
+		LEFT JOIN empleados AS e
+		ON d.id_departamento = e.id_departamento
+GROUP BY
+		d.id_departamento, d.nombre;
+GO
 
 
 
+IF EXISTS(SELECT name FROM sys.all_views WHERE name = 'vw_EmpleadosDepartamentosCantidad')
+	DROP VIEW vw_EmpleadosDepartamentosCantidad;
+GO
+
+CREATE VIEW vw_EmpleadosDepartamentosCantidad
+AS
+SELECT
+		d.id_departamento,
+		d.nombre,
+		n.fecha,
+		COUNT(n.numero_empleado) [Cantidad]
+FROM
+		departamentos AS d
+		JOIN nominas AS n
+		ON d.id_departamento = n.id_departamento
+GROUP BY
+		d.id_departamento, d.nombre, n.fecha
+GO
 
 
 
+IF EXISTS(SELECT name FROM sys.all_views WHERE name = 'vw_EmpleadosDepartamentosPuestosCantidad')
+	DROP VIEW vw_EmpleadosDepartamentosPuestosCantidad;
+GO
+
+CREATE VIEW vw_EmpleadosDepartamentosPuestosCantidad
+AS
+SELECT
+		d.id_departamento,
+		p.id_puesto,
+		d.nombre [Departamento],
+		p.nombre [Puesto],
+		n.fecha,
+		COUNT(n.numero_empleado) [Cantidad]
+FROM
+		departamentos AS d
+		INNER JOIN nominas AS n
+		ON d.id_departamento = n.id_departamento
+		INNER JOIN puestos AS p
+		ON p.id_puesto = n.id_puesto
+GROUP BY
+		d.id_departamento, p.id_puesto, d.nombre, p.nombre, n.fecha
+GO
 
 
 

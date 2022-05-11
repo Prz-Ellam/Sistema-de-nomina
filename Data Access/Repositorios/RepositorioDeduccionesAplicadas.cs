@@ -11,8 +11,8 @@ namespace Data_Access.Repositorios
 {
     public class RepositorioDeduccionesAplicadas
     {
-        private readonly string applyEmployee, undoEmployee, readApplyEmployee, readPayrollDeduction;
-        private readonly string applyDepartment, undoDepartment, readDepartment;
+        private readonly string applyEmployee, undoEmployee, applyDepartment, undoDepartment;
+        private readonly string readApplyEmployee, readApplyDepartment, deductionsReceipt;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams;
 
@@ -21,13 +21,14 @@ namespace Data_Access.Repositorios
             mainRepository = MainConnection.GetInstance();
             applyEmployee = "sp_AplicarEmpleadoDeduccion";
             undoEmployee = "sp_EliminarEmpleadoDeduccion";
-            readApplyEmployee = "sp_LeerDeduccionesAplicadas";
 
             applyDepartment = "sp_AplicarDepartamentoDeduccion";
             undoDepartment = "sp_EliminarDepartamentoDeduccion";
 
-            readPayrollDeduction = "sp_LeerDeduccionesNomina";
-            readDepartment = "sp_LeerDepartamentosDeduccionesAplicadas";
+            readApplyEmployee = "sp_LeerDeduccionesAplicadas";
+            readApplyDepartment = "sp_LeerDepartamentosDeduccionesAplicadas";
+
+            deductionsReceipt = "sp_LeerDeduccionesRecibo";
 
             sqlParams = new RepositoryParameters();
         }
@@ -109,7 +110,7 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@id_departamento", departmentId);
             sqlParams.Add("@fecha", date);
 
-            DataTable table = mainRepository.ExecuteReader(readDepartment, sqlParams);
+            DataTable table = mainRepository.ExecuteReader(readApplyDepartment, sqlParams);
             List<ApplyDeductionsViewModel> applyDeductions = new List<ApplyDeductionsViewModel>();
 
             foreach (DataRow row in table.Rows)
@@ -133,7 +134,7 @@ namespace Data_Access.Repositorios
             sqlParams.Start();
             sqlParams.Add("@id_nomina", payrollId);
 
-            DataTable table = mainRepository.ExecuteReader(readPayrollDeduction, sqlParams);
+            DataTable table = mainRepository.ExecuteReader(deductionsReceipt, sqlParams);
             List<PayrollDeductionViewModel> deductions = new List<PayrollDeductionViewModel>();
 
             foreach (DataRow row in table.Rows)

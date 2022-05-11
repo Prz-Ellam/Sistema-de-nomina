@@ -1,7 +1,5 @@
 USE sistema_de_nomina;
 
-
-
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AplicarEmpleadoDeduccion')
 	DROP PROCEDURE sp_AplicarEmpleadoDeduccion;
 GO
@@ -13,32 +11,41 @@ CREATE PROCEDURE sp_AplicarEmpleadoDeduccion(
 )
 AS
 
-	IF (EXISTS (SELECT id_deduccion_aplicada FROM deducciones_aplicadas WHERE fecha = @fecha 
-	AND id_deduccion = @id_deduccion AND numero_empleado = @numero_empleado))
+	IF EXISTS (SELECT id_deduccion_aplicada FROM deducciones_aplicadas WHERE fecha = @fecha 
+				AND id_deduccion = @id_deduccion AND numero_empleado = @numero_empleado)
 		BEGIN
 			RAISERROR('Ya fue aplicada una deducción en esta fecha', 11, 1);
 			RETURN;
 		END
 
-	DECLARE @tipo_monto		CHAR;
-	DECLARE @cantidad		MONEY;
-	SET @tipo_monto = (SELECT tipo_monto FROM deducciones WHERE id_deduccion = @id_deduccion AND activo = 1);
-	
-	IF @tipo_monto = 'F'
-		SET @cantidad = (SELECT fijo FROM deducciones WHERE id_deduccion = @id_deduccion AND activo = 1)
-	ELSE IF @tipo_monto = 'P'
-		SET @cantidad = (SELECT sueldo_diario FROM empleados WHERE numero_empleado = @numero_empleado AND activo = 1) *
-						 dbo.DIASTRABAJADOSEMPLEADO(@fecha, @numero_empleado) *
-						(SELECT porcentual FROM deducciones WHERE id_deduccion = @id_deduccion AND activo = 1)
-
-
-	INSERT INTO deducciones_aplicadas(numero_empleado, id_deduccion, fecha, cantidad)
-	VALUES(@numero_empleado, @id_deduccion, @fecha, @cantidad);
+	INSERT INTO deducciones_aplicadas(
+			numero_empleado,
+			id_deduccion,
+			fecha,
+			cantidad
+	)
+	SELECT TOP 1
+			e.numero_empleado,
+			d.id_deduccion,
+			@fecha,
+			IIF(d.tipo_monto = 'F', d.fijo, d.porcentual * e.sueldo_diario * dbo.DIASTRABAJADOSEMPLEADO(@fecha, e.numero_empleado))
+	FROM
+			empleados AS e
+			INNER JOIN deducciones AS d
+			ON d.id_deduccion = @id_deduccion
+	WHERE
+			d.id_deduccion = @id_deduccion AND
+			e.numero_empleado = @numero_empleado AND
+			e.activo = 1 AND
+			d.activo = 1;
 
 GO
 
 
 
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AplicarDepartamentoDeduccion')
+	DROP PROCEDURE sp_AplicarDepartamentoDeduccion;
+GO
 
 CREATE PROCEDURE sp_AplicarDepartamentoDeduccion(
 	@id_departamento			INT,
@@ -83,8 +90,12 @@ CREATE PROCEDURE sp_EliminarEmpleadoDeduccion(
 )
 AS
 
-	DELETE FROM deducciones_aplicadas
-	WHERE numero_empleado = @numero_empleado AND id_deduccion = @id_deduccion AND YEAR(fecha) = YEAR(@fecha) AND MONTH(fecha) = MONTH(@fecha)
+	DELETE FROM 
+			deducciones_aplicadas
+	WHERE 
+			numero_empleado = @numero_empleado AND 
+			id_deduccion = @id_deduccion AND 
+			dbo.PRIMERDIAFECHA(fecha) = dbo.PRIMERDIAFECHA(@fecha);
 
 GO
 
@@ -105,7 +116,7 @@ AS
 			deducciones_aplicadas 
 	FROM 
 			deducciones_aplicadas AS da
-			JOIN empleados AS e
+			INNER JOIN empleados AS e
 			ON da.numero_empleado = e.numero_empleado
 	WHERE 
 			e.id_departamento = @id_departamento AND 
@@ -127,7 +138,7 @@ CREATE PROCEDURE sp_LeerDeduccionesAplicadas(
 )
 AS
 
-	IF (NOT EXISTS (SELECT numero_empleado FROM empleados WHERE numero_empleado = @numero_empleado))
+	IF NOT EXISTS (SELECT numero_empleado FROM empleados WHERE numero_empleado = @numero_empleado)
 		RETURN;
 
 	IF @filtro = 1
@@ -142,8 +153,7 @@ AS
 				deducciones AS d
 				LEFT JOIN deducciones_aplicadas AS da
 				ON d.id_deduccion = da.id_deduccion AND 
-				YEAR(da.fecha) = YEAR(@fecha) AND 
-				MONTH(da.fecha) = MONTH(@fecha) AND 
+				dbo.PRIMERDIAFECHA(da.fecha) = dbo.PRIMERDIAFECHA(@fecha) AND
 				da.numero_empleado = @numero_empleado
 		WHERE 
 				d.tipo_duracion = 'S' AND 
@@ -161,8 +171,7 @@ AS
 				deducciones AS d
 				LEFT JOIN deducciones_aplicadas AS da
 				ON d.id_deduccion = da.id_deduccion AND
-				YEAR(da.fecha) = YEAR(@fecha) AND
-				MONTH(da.fecha) = MONTH(@fecha) AND
+				dbo.PRIMERDIAFECHA(da.fecha) = dbo.PRIMERDIAFECHA(@fecha) AND
 				da.numero_empleado = @numero_empleado
 		WHERE 
 				IIF(da.id_deduccion_aplicada IS NULL, 'false', 'true') = 'true' AND
@@ -181,8 +190,7 @@ AS
 				deducciones AS d
 				LEFT JOIN deducciones_aplicadas AS da
 				ON d.id_deduccion = da.id_deduccion AND
-				YEAR(da.fecha) = YEAR(@fecha) AND
-				MONTH(da.fecha) = MONTH(@fecha) AND
+				dbo.PRIMERDIAFECHA(da.fecha) = dbo.PRIMERDIAFECHA(@fecha) AND
 				da.numero_empleado = @numero_empleado
 		WHERE 
 				IIF(da.id_deduccion_aplicada IS NULL, 'false', 'true') = 'false' AND
@@ -300,11 +308,11 @@ GO
 
 
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerDeduccionesNomina')
-	DROP PROCEDURE sp_LeerDeduccionesNomina;
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerDeduccionesRecibo')
+	DROP PROCEDURE sp_LeerDeduccionesRecibo;
 GO
 
-CREATE PROCEDURE sp_LeerDeduccionesNomina(
+CREATE PROCEDURE sp_LeerDeduccionesRecibo(
 	@id_nomina			INT
 )
 AS

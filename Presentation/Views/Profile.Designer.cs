@@ -80,6 +80,8 @@ namespace Presentation.Views
             this.label25 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.dtpHiringDate = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.nudDailySalary)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudWageLevel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudBaseSalary)).BeginInit();
@@ -519,7 +521,7 @@ namespace Presentation.Views
             this.nudDailySalary.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
             this.nudDailySalary.Location = new System.Drawing.Point(495, 415);
             this.nudDailySalary.Maximum = new decimal(new int[] {
-            10000,
+            100000000,
             0,
             0,
             0});
@@ -587,7 +589,7 @@ namespace Presentation.Views
             this.nudBaseSalary.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
             this.nudBaseSalary.Location = new System.Drawing.Point(167, 380);
             this.nudBaseSalary.Maximum = new decimal(new int[] {
-            10000,
+            1000000,
             0,
             0,
             0});
@@ -630,11 +632,35 @@ namespace Presentation.Views
             this.label21.TabIndex = 101;
             this.label21.Text = "Sueldo diario";
             // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label22.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.label22.Location = new System.Drawing.Point(4, 296);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(146, 19);
+            this.label22.TabIndex = 111;
+            this.label22.Text = "Fecha de contratación";
+            // 
+            // dtpHiringDate
+            // 
+            this.dtpHiringDate.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
+            this.dtpHiringDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpHiringDate.Location = new System.Drawing.Point(152, 293);
+            this.dtpHiringDate.MinDate = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
+            this.dtpHiringDate.Name = "dtpHiringDate";
+            this.dtpHiringDate.Size = new System.Drawing.Size(200, 25);
+            this.dtpHiringDate.TabIndex = 110;
+            // 
             // Profile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1064, 670);
+            this.Controls.Add(this.label22);
+            this.Controls.Add(this.dtpHiringDate);
             this.Controls.Add(this.nudDailySalary);
             this.Controls.Add(this.label28);
             this.Controls.Add(this.label27);
@@ -751,5 +777,7 @@ namespace Presentation.Views
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.DateTimePicker dtpHiringDate;
     }
 }

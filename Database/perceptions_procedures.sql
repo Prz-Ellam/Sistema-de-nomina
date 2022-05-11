@@ -5,16 +5,21 @@ IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AgregarPer
 GO
 
 CREATE PROCEDURE sp_AgregarPercepcion(
-	@nombre				VARCHAR(30),
-	@tipo_monto			CHAR(1),
-	@fijo				MONEY,
-	@porcentual			FLOAT,
-	@id_empresa			INT
+	@nombre						VARCHAR(30),
+	@tipo_monto					CHAR(1),
+	@fijo						MONEY,
+	@porcentual					FLOAT,
+	@id_empresa					INT
 ) 
 AS
 
-	DECLARE @status_nomina BIT = dbo.NOMINAENPROCESO(@id_empresa);
+	IF NOT EXISTS (SELECT id_empresa FROM empresas WHERE id_empresa = @id_empresa AND activo = 1)
+		BEGIN
+			RAISERROR('La empresa aún no existe', 11, 1);
+			RETURN;
+		END;
 
+	DECLARE @status_nomina BIT = dbo.NOMINAENPROCESO(@id_empresa);
 	IF @status_nomina = 1
 		BEGIN
 			RAISERROR('No se puede añadir la percepción debido a que hay una nómina en proceso', 11, 1);
@@ -26,6 +31,7 @@ AS
 			tipo_monto,
 			fijo,
 			porcentual,
+			id_empresa,
 			fecha_creacion
 	)
 	VALUES(
@@ -33,6 +39,7 @@ AS
 			@tipo_monto,
 			@fijo,
 			@porcentual,
+			@id_empresa,
 			dbo.OBTENERFECHAACTUAL(@id_empresa)
 	);
 
@@ -45,18 +52,17 @@ IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_Actualizar
 GO
 
 CREATE PROCEDURE sp_ActualizarPercepcion(
-	@id_percepcion		INT,
-	@nombre				VARCHAR(30),
-	@tipo_monto			CHAR(1),
-	@fijo				MONEY,
-	@porcentual			FLOAT
+	@id_percepcion				INT,
+	@nombre						VARCHAR(30),
+	@tipo_monto					CHAR(1),
+	@fijo						MONEY,
+	@porcentual					FLOAT
 )
 AS
 
 	DECLARE @status_nomina BIT;
 	SET @status_nomina = dbo.NOMINAENPROCESO((SELECT id_empresa FROM percepciones 
 												WHERE id_percepcion = 6 AND activo = 1));
-
 	IF @status_nomina = 1
 		BEGIN
 			RAISERROR('No se puede editar la percepción debido a que hay una nómina en proceso', 11, 1);
@@ -66,12 +72,13 @@ AS
 	UPDATE 
 			percepciones
 	SET
-			nombre		= ISNULL(@nombre, nombre),
-			tipo_monto	= ISNULL(@tipo_monto, tipo_monto),
-			fijo		= ISNULL(@fijo, fijo),
-			porcentual	= ISNULL(@porcentual, porcentual)
+			nombre				= ISNULL(@nombre, nombre),
+			tipo_monto			= ISNULL(@tipo_monto, tipo_monto),
+			fijo				= ISNULL(@fijo, fijo),
+			porcentual			= ISNULL(@porcentual, porcentual)
 	WHERE
-			id_percepcion = @id_percepcion;
+			id_percepcion = @id_percepcion AND
+			activo = 1;
 
 GO
 
@@ -82,14 +89,13 @@ IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_EliminarPe
 GO
 
 CREATE PROCEDURE sp_EliminarPercepcion(
-	@id_percepcion		INT
+	@id_percepcion				INT
 )
 AS
 
 	DECLARE @status_nomina BIT;
 	SET @status_nomina = dbo.NOMINAENPROCESO((SELECT id_empresa FROM percepciones 
 												WHERE id_percepcion = 6 AND activo = 1));
-
 	IF @status_nomina = 1
 		BEGIN
 			RAISERROR('No se puede editar la percepción debido a que hay una nómina en proceso', 11, 1);
@@ -103,7 +109,8 @@ AS
 			fecha_eliminacion = dbo.OBTENERFECHAACTUAL(id_empresa),
 			id_eliminado = NEWID()
 	WHERE
-			id_percepcion = @id_percepcion;
+			id_percepcion = @id_percepcion AND
+			activo = 1;
 
 GO
 
@@ -113,40 +120,17 @@ IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerPercep
 	DROP PROCEDURE sp_LeerPercepciones;
 GO
 
-CREATE PROCEDURE sp_LeerPercepciones
-AS
-
-	SELECT
-			id_percepcion [ID Percepcion], 
-			nombre [Nombre], 
-			tipo_monto [Tipo de monto], 
-			ISNULL(fijo, 0) [Fijo], 
-			ISNULL(porcentual, 0) [Porcentual]
-	FROM
-			percepciones
-	WHERE
-			activo = 1 AND 
-			tipo_duracion = 'S';
-
-GO
-
-
-
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_FiltrarPercepciones')
-	DROP PROCEDURE sp_FiltrarPercepciones;
-GO
-
-CREATE PROCEDURE sp_FiltrarPercepciones(
-	@filtro					VARCHAR(100),
-	@id_empresa				INT
+CREATE PROCEDURE sp_LeerPercepciones(
+	@filtro						VARCHAR(100),
+	@id_empresa					INT
 )
 AS
 
 	SELECT 
-			id_percepcion [ID Percepcion], 
-			nombre [Nombre],
-			tipo_monto [Tipo de monto], 
-			ISNULL(fijo, 0) [Fijo], 
+			id_percepcion		[ID Percepcion], 
+			nombre				[Nombre],
+			tipo_monto			[Tipo de monto], 
+			ISNULL(fijo, 0)		[Fijo], 
 			ISNULL(porcentual, 0) [Porcentual]
 	FROM 
 			percepciones

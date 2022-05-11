@@ -1,7 +1,7 @@
 ﻿
 namespace Presentation.Views
 {
-    partial class FormPayroll
+    partial class FormNominas
     {
         /// <summary>
         /// Required designer variable.

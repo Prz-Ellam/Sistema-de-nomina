@@ -29,7 +29,7 @@ namespace Presentation.Views
         {
             RepositorioDepartamentos departmentsRepository = new RepositorioDepartamentos();
 
-            List<DepartmentsViewModel> departments = departmentsRepository.ReadAll(Session.company_id);
+            List<DepartmentsViewModel> departments = departmentsRepository.ReadAll(string.Empty, Session.company_id);
             List<PairItem> departmentsName = new List<PairItem>();
             departmentsName.Add(new PairItem("Todos", -1));
             foreach(var department in departments)

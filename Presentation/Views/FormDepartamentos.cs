@@ -140,7 +140,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgDepartaments.DataSource = repository.ReadLike(txtFilter.Text, Session.company_id);
+                dtgDepartaments.DataSource = repository.ReadAll(txtFilter.Text, Session.company_id);
             }
             catch (Exception ex)
             {
@@ -277,7 +277,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgDepartaments.DataSource = repository.ReadAll(Session.company_id);
+                dtgDepartaments.DataSource = repository.ReadAll(string.Empty, Session.company_id);
             }
             catch (Exception ex)
             {

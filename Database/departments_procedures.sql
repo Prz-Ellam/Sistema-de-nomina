@@ -5,9 +5,9 @@ IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AgregarDep
 GO
 
 CREATE PROCEDURE sp_AgregarDepartamento
-	@nombre				VARCHAR(30),
-	@sueldo_base		MONEY,
-	@id_empresa			INT
+	@nombre						VARCHAR(30),
+	@sueldo_base				MONEY,
+	@id_empresa					INT
 AS
 
 	IF NOT EXISTS (SELECT id_empresa FROM empresas WHERE id_empresa = @id_empresa AND activo = 1)
@@ -19,7 +19,7 @@ AS
 	DECLARE @status_nomina BIT = dbo.NOMINAENPROCESO(@id_empresa);
 	IF @status_nomina = 1
 		BEGIN
-			RAISERROR('No se puede editar el departamento debido a que hay una nómina en proceso', 11, 1);
+			RAISERROR('No se puede añadir el departamento debido a que hay una nómina en proceso', 11, 1);
 			RETURN;
 		END
 
@@ -64,10 +64,11 @@ AS
 	UPDATE
 			departamentos
 	SET
-			nombre			= ISNULL(@nombre, nombre),
-			sueldo_base		= ISNULL(@sueldo_base, sueldo_base)
+			nombre				= ISNULL(@nombre, nombre),
+			sueldo_base			= ISNULL(@sueldo_base, sueldo_base)
 	WHERE 
-			id_departamento	= @id_departamento AND activo = 1;
+			id_departamento	= @id_departamento AND 
+			activo = 1;
 
 GO
 
@@ -78,7 +79,7 @@ IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_EliminarDe
 GO
 
 CREATE PROCEDURE sp_EliminarDepartamento
-	@id_departamento					INT
+	@id_departamento			INT
 AS
 
 	IF EXISTS (SELECT numero_empleado FROM empleados WHERE id_departamento = @id_departamento AND activo = 1)
@@ -93,7 +94,7 @@ AS
 
 	IF @status_nomina = 1
 		BEGIN
-			RAISERROR('No se puede editar el departamento debido a que hay una nómina en proceso', 11, 1);
+			RAISERROR('No se puede eliminar el departamento debido a que hay una nómina en proceso', 11, 1);
 			RETURN;
 		END
 	
@@ -105,7 +106,8 @@ AS
 			id_eliminado = NEWID()
 			
 	WHERE 
-			id_departamento = @id_departamento;
+			id_departamento = @id_departamento AND
+			activo = 1;
 
 GO
 
@@ -116,19 +118,21 @@ IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerDepart
 GO
 
 CREATE PROCEDURE sp_LeerDepartamentos(
+	@filtro						VARCHAR(100),
 	@id_empresa					INT
 )
 AS
 
 	SELECT 
-			id_departamento [ID Departamento], 
-			nombre			[Nombre], 
-			sueldo_base		[Sueldo base]
+			id_departamento		[ID Departamento], 
+			nombre				[Nombre], 
+			sueldo_base			[Sueldo base]
 	FROM 
 			departamentos
 	WHERE 
 			id_empresa = @id_empresa AND 
-			activo = 1;
+			activo = 1 AND 
+			nombre LIKE CONCAT('%', @filtro, '%');
 
 GO
 
@@ -139,44 +143,27 @@ IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerDepart
 GO
 
 CREATE PROCEDURE sp_LeerDepartamentosNominas(
-	@id_empresa						INT,
-	@fecha							DATE
+	@id_empresa					INT,
+	@fecha						DATE
 )
 AS
 
+	IF (dbo.PRIMERDIAFECHA(@fecha) >= dbo.OBTENERFECHAACTUAL(@id_empresa) AND 
+		(dbo.NOMINAENPROCESO(@id_empresa) = 0 OR dbo.PRIMERDIAFECHA(@fecha) > dbo.OBTENERFECHAACTUAL(@id_empresa)))
+		BEGIN
+			RAISERROR('No se puede iniciar una nómina fuera del periodo actual de nómina', 11, 1);
+			RETURN;
+		END
+
 	SELECT
-			id_departamento [ID Departamento], 
-			nombre			[Nombre], 
-			sueldo_base		[Sueldo base]
+			id_departamento		[ID Departamento], 
+			nombre				[Nombre], 
+			sueldo_base			[Sueldo base]
 	FROM
 			departamentos
 	WHERE
 			id_empresa = @id_empresa AND
 			fecha_creacion <= dbo.PRIMERDIAFECHA(@fecha) AND 
 			(fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR fecha_eliminacion IS NULL);	
-
-GO
-
-
-
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_FiltrarDepartamentos')
-	DROP PROCEDURE sp_FiltrarDepartamentos;
-GO
-
-CREATE PROCEDURE sp_FiltrarDepartamentos
-	@filtro						VARCHAR(100),
-	@id_empresa					INT
-AS
-
-	SELECT
-			id_departamento [ID Departamento], 
-			nombre			[Nombre], 
-			sueldo_base		[Sueldo base]
-	FROM 
-			departamentos
-	WHERE 
-			id_empresa = @id_empresa AND 
-			activo = 1 AND 
-			nombre LIKE CONCAT('%', @filtro, '%');
 
 GO

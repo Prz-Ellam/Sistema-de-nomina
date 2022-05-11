@@ -22,6 +22,7 @@ namespace Presentation.Views
         private RepositorioEmpleados employeeRepository = new RepositorioEmpleados();
         private RepositorioTelefonos phonesRepository = new RepositorioTelefonos();
         private Empleados employee = new Empleados();
+        private List<Telefonos> phones = new List<Telefonos>();
         private List<States> states;
 
         public Profile()
@@ -47,8 +48,6 @@ namespace Presentation.Views
 
         private void Profile_Load(object sender, EventArgs e)
         {
-            InitStates();
-
             // Inicializar bancos, departamentos y puestos
             List<Bancos> bancos = new RepositorioBancos().ReadAll();
             List<PairItem> nombres = new List<PairItem>();
@@ -58,6 +57,7 @@ namespace Presentation.Views
             }
             cbBank.DataSource = nombres;
 
+            InitStates();
             ListProfile();
         }
 
@@ -115,11 +115,7 @@ namespace Presentation.Views
             employee.Nss = txtNSS.Text;
             employee.Rfc = txtRFC.Text;
 
-            //employee.Address = 1;
-
-            // Estos PairItem pueden provocar excepcion si no hay registros, asi que hay que validar
-            // que los haya
-            
+            //employee.Address = 1;            
             if (cbBank.Items.Count > 0)
             {
                 employee.Banco = ((PairItem)cbBank.SelectedItem).HiddenValue;
@@ -152,15 +148,32 @@ namespace Presentation.Views
                 employee.IdPuesto = -1;
             }
 
-            employee.FechaContratacion = dtpHiringDate.Value;
+            
             */
 
+            employee.FechaContratacion = dtpHiringDate.Value;
             employee.Calle = txtStreet.Text;
             employee.Numero = txtNumber.Text;
             employee.Colonia = txtSuburb.Text;
-            //employee.Ciudad = cbCity.Text;
-            //employee.Estado = cbState.Text;
+            employee.Ciudad = cbCity.Text;
+            employee.Estado = cbState.Text;
             employee.CodigoPostal = txtPostalCode.Text;
+
+            for (int i = 0; i < cbPhones.Items.Count; i++)
+            {
+                phones.Add(new Telefonos
+                {
+                    IdPropietario = Session.id,
+                    Nombre = cbPhones.Items[i].ToString()
+                });
+            }
+
+            employee.Telefonos.Clear();
+            for (int i = 0; i < cbPhones.Items.Count; i++)
+            {
+                employee.Telefonos.Add(cbPhones.Items[i].ToString());
+            }
+
         }
 
         public ValidationResult UpdateProfile()
@@ -173,7 +186,7 @@ namespace Presentation.Views
                     return new ValidationResult(feedback.Item2, ValidationState.Error);
                 }
 
-                bool result = employeeRepository.Update(employee);
+                bool result = employeeRepository.UpdateByEmployee(employee);
                 if (result)
                 {
                     return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);

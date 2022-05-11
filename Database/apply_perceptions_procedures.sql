@@ -11,24 +11,12 @@ CREATE PROCEDURE sp_AplicarEmpleadoPercepcion(
 )
 AS
 
-	IF (EXISTS (SELECT id_percepcion_aplicada FROM percepciones_aplicadas WHERE fecha = @fecha 
-	AND id_percepcion = @id_percepcion AND numero_empleado = @numero_empleado))
+	IF EXISTS (SELECT id_percepcion_aplicada FROM percepciones_aplicadas WHERE fecha = @fecha 
+				AND id_percepcion = @id_percepcion AND numero_empleado = @numero_empleado)
 		BEGIN
 			RAISERROR('Ya fue aplicada una percepcion en esta fecha', 11, 1);
 			RETURN;
 		END
-
-	DECLARE @tipo_monto		CHAR;
-	DECLARE @cantidad		MONEY;
-	SET @tipo_monto = (SELECT tipo_monto FROM percepciones WHERE id_percepcion = @id_percepcion AND activo = 1);
-	
-	IF @tipo_monto = 'F'
-		SET @cantidad = (SELECT fijo FROM percepciones WHERE id_percepcion = @id_percepcion AND activo = 1)
-	ELSE IF @tipo_monto = 'P'
-		SET @cantidad = (SELECT sueldo_diario FROM empleados WHERE numero_empleado = @numero_empleado AND activo = 1) *
-						 dbo.DIASTRABAJADOSEMPLEADO(@fecha, @numero_empleado) *
-						(SELECT porcentual FROM percepciones WHERE id_percepcion = @id_percepcion AND activo = 1)
-
 
 	INSERT INTO percepciones_aplicadas(
 			numero_empleado,
@@ -36,12 +24,20 @@ AS
 			fecha,
 			cantidad
 	)
-	VALUES(
-			@numero_empleado,
-			@id_percepcion,
+	SELECT TOP 1
+			e.numero_empleado,
+			p.id_percepcion,
 			@fecha,
-			@cantidad
-	);
+			IIF(p.tipo_monto = 'F', p.fijo, p.porcentual * e.sueldo_diario * dbo.DIASTRABAJADOSEMPLEADO(@fecha, e.numero_empleado))
+	FROM
+			empleados AS e
+			INNER JOIN percepciones AS p
+			ON p.id_percepcion = @id_percepcion
+	WHERE
+			p.id_percepcion = @id_percepcion AND
+			e.numero_empleado = @numero_empleado AND
+			e.activo = 1 AND
+			p.activo = 1;
 
 GO
 
@@ -85,7 +81,6 @@ GO
 
 
 
-
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_EliminarEmpleadoPercepcion')
 	DROP PROCEDURE sp_EliminarEmpleadoPercepcion;
 GO
@@ -102,10 +97,10 @@ AS
 	WHERE 
 			numero_empleado = @numero_empleado AND
 			id_percepcion = @id_percepcion AND
-			YEAR(fecha) = YEAR(@fecha) AND
-			MONTH(fecha) = MONTH(@fecha);
+			dbo.PRIMERDIAFECHA(fecha) = dbo.PRIMERDIAFECHA(@fecha);
 
 GO
+
 
 
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_EliminarDepartamentoPercepcion')
@@ -277,7 +272,7 @@ AS
 		GROUP BY 
 				p.id_percepcion, p.nombre, p.tipo_monto, p.fijo, p.porcentual
 		HAVING
-				COUNT(e.numero_empleado) >= (SELECT Cantidad FROM vw_DepartamentosFechas3 WHERE id_departamento = @id_departamento);
+				COUNT(e.numero_empleado) >= (SELECT Cantidad FROM vw_DepartamentosFechaActual WHERE id_departamento = @id_departamento);
 
 	ELSE IF @filtro = 3
 
@@ -307,83 +302,20 @@ AS
 		GROUP BY
 				p.id_percepcion, p.nombre, p.tipo_monto, p.fijo, p.porcentual
 		HAVING
-				COUNT(e.numero_empleado) < (SELECT Cantidad FROM vw_DepartamentosFechas3 WHERE id_departamento = @id_departamento);;
+				COUNT(e.numero_empleado) < (SELECT Cantidad FROM vw_DepartamentosFechaActual WHERE id_departamento = @id_departamento);;
 
 	ELSE
 		RAISERROR('Filtro inválido', 11, 1);
-
-/*
-	IF (NOT EXISTS (SELECT numero_empleado FROM empleados WHERE numero_empleado = @numero_empleado))
-		RETURN;
-
-	IF @filtro = 1
-		SELECT 
-				IIF(pa.id_percepcion_aplicada IS NULL, 'false', 'true') AS [Aplicada], 
-				p.id_percepcion,
-				p.nombre,
-				p.tipo_monto,
-				p.fijo,
-				p.porcentual
-		FROM 
-				percepciones AS p
-				LEFT JOIN percepciones_aplicadas AS pa
-				ON p.id_percepcion = pa.id_percepcion AND 
-				YEAR(pa.fecha) = YEAR(@fecha) AND 
-				MONTH(pa.fecha) = MONTH(@fecha) AND 
-				pa.numero_empleado = @numero_empleado
-		WHERE 
-				p.tipo_duracion = 'S' AND 
-				p.fecha_creacion <= dbo.PRIMERDIAFECHA(@fecha) AND 
-				(p.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR p.fecha_eliminacion IS NULL);
-	ELSE IF @filtro = 2
-		SELECT 
-				IIF(pa.id_percepcion_aplicada IS NULL, 'false', 'true') AS [Aplicada], 
-				p.id_percepcion,
-				p.nombre,
-				p.tipo_monto,
-				p.fijo,
-				p.porcentual 
-		FROM 
-				percepciones AS p
-				LEFT JOIN percepciones_aplicadas AS pa
-				ON p.id_percepcion = pa.id_percepcion AND YEAR(pa.fecha) = YEAR(@fecha) AND MONTH(pa.fecha) = MONTH(@fecha) AND pa.numero_empleado = @numero_empleado
-		WHERE 
-				IIF(pa.id_percepcion_aplicada IS NULL, 'false', 'true') = 'true' AND 
-				p.tipo_duracion = 'S' AND 
-				p.fecha_creacion <= dbo.PRIMERDIAFECHA(@fecha) AND 
-				(p.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR p.fecha_eliminacion IS NULL);
-	ELSE IF @filtro = 3
-		SELECT 
-				IIF(pa.id_percepcion_aplicada IS NULL, 'false', 'true') AS [Aplicada], 
-				p.id_percepcion,
-				p.nombre,
-				p.tipo_monto,
-				p.fijo,
-				p.porcentual 
-		FROM 
-				percepciones AS p
-				LEFT JOIN percepciones_aplicadas AS pa
-				ON p.id_percepcion = pa.id_percepcion AND YEAR(pa.fecha) = YEAR(@fecha) AND MONTH(pa.fecha) = MONTH(@fecha) AND pa.numero_empleado = @numero_empleado
-		WHERE 
-				IIF(pa.id_percepcion_aplicada IS NULL, 'false', 'true') = 'false' AND 
-				p.tipo_duracion = 'S' AND 
-				p.fecha_creacion <= dbo.PRIMERDIAFECHA(@fecha) AND 
-				(p.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR p.fecha_eliminacion IS NULL);
-	ELSE 
-		RAISERROR('Filtro inválido', 11, 1);
-*/
 GO
 
 
 
-
-
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerPercepcionesNomina')
-	DROP PROCEDURE sp_LeerPercepcionesNomina;
+IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerPercepcionesRecibo')
+	DROP PROCEDURE sp_LeerPercepcionesRecibo;
 GO
 
-CREATE PROCEDURE sp_LeerPercepcionesNomina(
-	@id_nomina				INT
+CREATE PROCEDURE sp_LeerPercepcionesRecibo(
+	@id_nomina					INT
 )
 AS
 
@@ -393,23 +325,9 @@ AS
 			pa.cantidad			[Importe]
 	FROM 
 			percepciones_aplicadas AS pa
-			JOIN percepciones AS p
+			INNER JOIN percepciones AS p
 			ON pa.id_percepcion = p.id_percepcion
 	WHERE 
 			id_nomina = @id_nomina;
 
 GO
-
-
-
-SELECT * FROM vw_DepartamentosFechas3;
-
-SELECT * FROM vw_DepartamentosFechas2;
-
-
-
-
-
-
-
-				

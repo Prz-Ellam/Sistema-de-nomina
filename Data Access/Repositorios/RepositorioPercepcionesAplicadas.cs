@@ -11,8 +11,8 @@ namespace Data_Access.Repositorios
 {
     public class RepositorioPercepcionesAplicadas
     {
-        private readonly string applyEmployee, undoEmployee, readApplyEmployee, readPayrollPerception;
-        private readonly string applyDepartment, undoDepartment, readDepartment;
+        private readonly string applyEmployee, applyDepartment, undoEmployee, undoDepartment;
+        private readonly string readApplyEmployee, readApplyDepartment, perceptionsReceipt;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams;
 
@@ -21,13 +21,14 @@ namespace Data_Access.Repositorios
             mainRepository = MainConnection.GetInstance();
             applyEmployee = "sp_AplicarEmpleadoPercepcion";
             undoEmployee = "sp_EliminarEmpleadoPercepcion";
-            readApplyEmployee = "sp_LeerPercepcionesAplicadas";
 
             applyDepartment = "sp_AplicarDepartamentoPercepcion";
             undoDepartment = "sp_EliminarDepartamentoPercepcion";
 
-            readPayrollPerception = "sp_LeerPercepcionesNomina";
-            readDepartment = "sp_LeerDepartamentosPercepcionesAplicadas";
+            readApplyEmployee = "sp_LeerPercepcionesAplicadas";
+            readApplyDepartment = "sp_LeerDepartamentosPercepcionesAplicadas";
+
+            perceptionsReceipt = "sp_LeerPercepcionesRecibo";
 
             sqlParams = new RepositoryParameters();
         }
@@ -109,7 +110,7 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@id_departamento", departmentId);
             sqlParams.Add("@fecha", date);
 
-            DataTable table = mainRepository.ExecuteReader(readDepartment, sqlParams);
+            DataTable table = mainRepository.ExecuteReader(readApplyDepartment, sqlParams);
             List<ApplyPerceptionViewModel> applyPerceptions = new List<ApplyPerceptionViewModel>();
 
             foreach (DataRow row in table.Rows)
@@ -133,7 +134,7 @@ namespace Data_Access.Repositorios
             sqlParams.Start();
             sqlParams.Add("@id_nomina", payrollId);
 
-            DataTable table = mainRepository.ExecuteReader(readPayrollPerception, sqlParams);
+            DataTable table = mainRepository.ExecuteReader(perceptionsReceipt, sqlParams);
             List<PayrollPerceptionViewModel> perceptions = new List<PayrollPerceptionViewModel>();
 
             foreach (DataRow row in table.Rows)

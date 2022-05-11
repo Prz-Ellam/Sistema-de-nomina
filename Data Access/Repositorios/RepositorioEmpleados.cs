@@ -14,7 +14,7 @@ namespace Data_Access.Repositorios
 {
     public class RepositorioEmpleados
     {
-        private readonly string create, update, delete, readAll, readLike, readPayrolls, getById;
+        private readonly string create, update, delete, readAll, readPayrolls, getById, updateByEmployee;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams = new RepositoryParameters();
 
@@ -25,7 +25,6 @@ namespace Data_Access.Repositorios
             update = "sp_ActualizarEmpleado";
             delete = "sp_EliminarEmpleado";
             readAll = "sp_LeerEmpleados";
-            readLike = "sp_FiltrarEmpleados";
             readPayrolls = "sp_LeerEmpleadosNominas";
             getById = "sp_ObtenerEmpleadoPorId";
         }
@@ -113,6 +112,48 @@ namespace Data_Access.Repositorios
             return (rowCount > 0) ? true : false;
         }
 
+        public bool UpdateByEmployee(Empleados employee)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@numero_empleado", employee.NumeroEmpleado);
+            sqlParams.Add("@nombre", employee.Nombre);
+            sqlParams.Add("@apellido_paterno", employee.ApellidoPaterno);
+            sqlParams.Add("@apellido_materno", employee.ApellidoMaterno);
+            sqlParams.Add("@fecha_nacimiento", employee.FechaNacimiento);
+            sqlParams.Add("@curp", employee.Curp);
+            sqlParams.Add("@nss", employee.Nss);
+            sqlParams.Add("@rfc", employee.Rfc);
+
+            sqlParams.Add("@calle", employee.Calle);
+            sqlParams.Add("@numero", employee.Numero);
+            sqlParams.Add("@colonia", employee.Colonia);
+            sqlParams.Add("@ciudad", employee.Ciudad);
+            sqlParams.Add("@estado", employee.Estado);
+            sqlParams.Add("@codigo_postal", employee.CodigoPostal);
+
+            sqlParams.Add("@banco", employee.Banco);
+            sqlParams.Add("@numero_cuenta", employee.NumeroCuenta);
+            sqlParams.Add("@correo_electronico", employee.CorreoElectronico);
+            sqlParams.Add("@contrasena", employee.Contrasena);
+            sqlParams.Add("@id_departamento", Convert.DBNull);
+            sqlParams.Add("@id_puesto", Convert.DBNull);
+            sqlParams.Add("@fecha_contratacion", employee.FechaContratacion);
+
+            DataTable telefonos = new DataTable();
+            telefonos.Columns.Add("row_count");
+            telefonos.Columns.Add("telefono");
+
+            for (int i = 0; i < employee.Telefonos.Count; i++)
+            {
+                telefonos.Rows.Add(i.ToString(), employee.Telefonos[i]);
+            }
+
+            sqlParams.Add("@telefonos", telefonos);
+
+            int rowCount = mainRepository.ExecuteNonQuery(update, sqlParams);
+            return (rowCount > 0) ? true : false;
+        }
+
         public bool Delete(int employeeNumber)
         {
             sqlParams.Start();
@@ -122,9 +163,10 @@ namespace Data_Access.Repositorios
             return (rowCount > 0) ? true : false;
         }
 
-        public List<EmployeesViewModel> ReadAll()
+        public List<EmployeesViewModel> ReadAll(string filter)
         {
             sqlParams.Start();
+            sqlParams.Add("@filtro", filter);
 
             DataTable table = mainRepository.ExecuteReader(readAll, sqlParams);
             List<EmployeesViewModel> departments = new List<EmployeesViewModel>();
@@ -161,48 +203,6 @@ namespace Data_Access.Repositorios
 
             return departments;
         }
-
-        public List<EmployeesViewModel> ReadLike(string filter)
-        {
-            sqlParams.Start();
-            sqlParams.Add("@filtro", filter);
-
-            DataTable table = mainRepository.ExecuteReader(readLike, sqlParams);
-            List<EmployeesViewModel> departments = new List<EmployeesViewModel>();
-            foreach (DataRow row in table.Rows)
-            {
-                departments.Add(new EmployeesViewModel
-                {
-                    EmployeeNumber = Convert.ToInt32(row["Numero de empleado"]),
-                    Name = row["Nombre"].ToString(),
-                    FatherLastName = row["Apellido Paterno"].ToString(),
-                    MotherLastName = row["Apellido Materno"].ToString(),
-                    DateOfBirth = Convert.ToDateTime(row["Fecha de nacimiento"]),
-                    Curp = row["CURP"].ToString(),
-                    Nss = row["NSS"].ToString(),
-                    Rfc = row["RFC"].ToString(),
-                    Street = row["Calle"].ToString(),
-                    Number = row["Numero"].ToString(),
-                    Suburb = row["Colonia"].ToString(),
-                    City = row["Municipio"].ToString(),
-                    State = row["Estado"].ToString(),
-                    PostalCode = row["Codigo postal"].ToString(),
-                    Bank = new PairItem(row["Banco"].ToString(), Convert.ToInt32(row["ID Banco"])),
-                    AccountNumber = row["Numero de cuenta"].ToString(),
-                    Email = row["Correo electronico"].ToString(),
-                    Password = row["Contraseña"].ToString(),
-                    Department = new PairItem(row["Departamento"].ToString(), Convert.ToInt32(row["ID Departamento"])),
-                    Position = new PairItem(row["Puesto"].ToString(), Convert.ToInt32(row["ID Puesto"])),
-                    HiringDate = Convert.ToDateTime(row["Fecha de contratacion"]),
-                    SueldoDiario = Convert.ToDecimal(row["Sueldo diario"]),
-                    BaseSalary = Convert.ToDecimal(row["Sueldo base"]),
-                    WageLevel = Convert.ToDecimal(row["Nivel salarial"])
-                });
-            }
-
-            return departments;
-        }
-
 
         public List<EmployeePayrollsViewModel> ReadEmployeePayrolls(int companyId, DateTime date)
         {

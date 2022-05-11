@@ -303,7 +303,7 @@ namespace Presentation.Views
         {
             try
             {
-                List<EmployeesViewModel> employees = repository.ReadAll();
+                List<EmployeesViewModel> employees = repository.ReadAll(string.Empty);
                 dtgEmployees.DataSource = employees;
             }
             catch (Exception ex)
@@ -579,7 +579,7 @@ namespace Presentation.Views
         private void ListDepartments()
         {
             RepositorioDepartamentos repository = new RepositorioDepartamentos();
-            List<DepartmentsViewModel> departamentos = repository.ReadAll(Session.company_id);
+            List<DepartmentsViewModel> departamentos = repository.ReadAll(string.Empty, Session.company_id);
             List<PairItem>  nombres = new List<PairItem>();
             nombres.Add(new PairItem("Seleccionar", -1));
             foreach (var departamento in departamentos)
@@ -592,7 +592,7 @@ namespace Presentation.Views
         private void ListPositions()
         {
             RepositorioPuestos repository = new RepositorioPuestos();
-            List<PositionsViewModel> puestos = repository.ReadAll(Session.company_id);
+            List<PositionsViewModel> puestos = repository.ReadAll(string.Empty, Session.company_id);
             List<PairItem> nombres = new List<PairItem>();
             nombres.Add(new PairItem("Seleccionar", -1));
             foreach (var puesto in puestos)
@@ -606,7 +606,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgEmployees.DataSource = repository.ReadLike(txtFilter.Text);
+                dtgEmployees.DataSource = repository.ReadAll(txtFilter.Text);
             }
             catch (Exception ex)
             {

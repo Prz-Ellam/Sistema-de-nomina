@@ -33,8 +33,9 @@ namespace Presentation.Views
             this.dtpDate = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.btnPDF = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnConsult = new System.Windows.Forms.Button();
             this.ofnPayroll = new System.Windows.Forms.SaveFileDialog();
+            this.pdfViewer = new PdfiumViewer.PdfViewer();
             this.SuspendLayout();
             // 
             // label3
@@ -91,24 +92,32 @@ namespace Presentation.Views
             this.btnPDF.UseVisualStyleBackColor = false;
             this.btnPDF.Click += new System.EventHandler(this.btnPDF_Click);
             // 
-            // button1
+            // btnConsult
             // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(30, 175);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(129, 48);
-            this.button1.TabIndex = 29;
-            this.button1.Text = "Consultar";
-            this.button1.UseVisualStyleBackColor = false;
+            this.btnConsult.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            this.btnConsult.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnConsult.FlatAppearance.BorderSize = 0;
+            this.btnConsult.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnConsult.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.btnConsult.ForeColor = System.Drawing.Color.White;
+            this.btnConsult.Location = new System.Drawing.Point(30, 175);
+            this.btnConsult.Name = "btnConsult";
+            this.btnConsult.Size = new System.Drawing.Size(211, 60);
+            this.btnConsult.TabIndex = 29;
+            this.btnConsult.Text = "Consultar";
+            this.btnConsult.UseVisualStyleBackColor = false;
+            this.btnConsult.Click += new System.EventHandler(this.btnConsult_Click);
             // 
             // ofnPayroll
             // 
             this.ofnPayroll.Filter = "PDF (*.pdf)|.pdf";
+            // 
+            // pdfViewer
+            // 
+            this.pdfViewer.Location = new System.Drawing.Point(354, 20);
+            this.pdfViewer.Name = "pdfViewer";
+            this.pdfViewer.Size = new System.Drawing.Size(675, 609);
+            this.pdfViewer.TabIndex = 30;
             // 
             // PayrollReceipts
             // 
@@ -116,7 +125,8 @@ namespace Presentation.Views
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(1064, 670);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.pdfViewer);
+            this.Controls.Add(this.btnConsult);
             this.Controls.Add(this.btnPDF);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dtpDate);
@@ -124,6 +134,7 @@ namespace Presentation.Views
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "PayrollReceipts";
             this.Text = "PayrollReceipts";
+            this.Load += new System.EventHandler(this.PayrollReceipts_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -135,7 +146,8 @@ namespace Presentation.Views
         private System.Windows.Forms.DateTimePicker dtpDate;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnPDF;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnConsult;
         private System.Windows.Forms.SaveFileDialog ofnPayroll;
+        private PdfiumViewer.PdfViewer pdfViewer;
     }
 }
