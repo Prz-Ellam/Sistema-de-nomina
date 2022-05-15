@@ -56,36 +56,24 @@ namespace Data_Access.Connections
             DataTable dataTable = new DataTable();
             using (var connection = GetConnection())
             {
-                try
-                {
-                    connection.Open();
+                connection.Open();
 
-                    using (var command = new SqlCommand(query, connection))
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandTimeout = 9000;
+
+                    foreach (var parameter in parameters)
                     {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandTimeout = 9000;
-
-                        foreach (var parameter in parameters)
-                        {
-                            command.Parameters.Add(parameter);
-                        }
-
-                        SqlDataAdapter adapter = new SqlDataAdapter();
-                        adapter.SelectCommand = command;
-                        adapter.Fill(dataTable);
+                        command.Parameters.Add(parameter);
                     }
+                    
+                    SqlDataAdapter adapter = new SqlDataAdapter();
+                    adapter.SelectCommand = command;
+                    adapter.Fill(dataTable);
+                    return dataTable;
                 }
-                catch (SqlException e)
-                {
-                    return null;
-                }
-                finally
-                {
-                    connection.Close();
-                }
-            }
-
-            return dataTable;
+            }   
         }
 
     }

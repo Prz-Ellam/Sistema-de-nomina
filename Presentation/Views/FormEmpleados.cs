@@ -19,10 +19,11 @@ namespace Presentation.Views
 {
     public partial class FormEmpleados : Form
     {
-        private RepositorioEmpleados repository = new RepositorioEmpleados();
-        private RepositorioTelefonos phonesRepository = new RepositorioTelefonos();
-        private Empleados employee = new Empleados();
-        private List<Telefonos> phones = new List<Telefonos>();
+        private RepositorioEmpleados repository;
+        private RepositorioTelefonos phonesRepository;
+        RepositorioEmpresas companyRepository;
+        private Empleados employee;
+        private List<Telefonos> phones;
         int dtgPrevIndex = -1;
         int employeeId = -1;
 
@@ -30,7 +31,6 @@ namespace Presentation.Views
         DateTime payrollDate; 
 
         int cbPhonesPrevIndex = -1;
-        
         private List<States> states;
 
         private EntityState employeeState;
@@ -55,6 +55,7 @@ namespace Presentation.Views
                         dtpHiringDate.MinDate = payrollDate;
                         dtpHiringDate.Value = payrollDate;
                         dtpHiringDate.Enabled = true;
+                        dtpDateOfBirth.MaxDate = payrollDate.AddDays(-1).AddYears(-18);
                         break;
                     }
                     case EntityState.Modify:
@@ -62,17 +63,23 @@ namespace Presentation.Views
                         btnAdd.Enabled = false;
                         btnEdit.Enabled = true;
                         btnDelete.Enabled = true;
-                        dtpHiringDate.MinDate = new DateTime(1970, 1, 1);
+                        dtpHiringDate.MinDate = companyRepository.GetCreationDate(Session.company_id, false);
                         dtpHiringDate.Enabled = false;
+                        dtpDateOfBirth.MaxDate = repository.GetDateOfBirth(employeeId, Session.company_id);
                         break;
                     }
                 }
             }
         }
-
+        
         public FormEmpleados()
         {
             InitializeComponent();
+            repository = new RepositorioEmpleados();
+            phonesRepository = new RepositorioTelefonos();
+            companyRepository = new RepositorioEmpresas();
+            employee = new Empleados();
+            phones = new List<Telefonos>();
         }
 
         private void Employees_Load(object sender, EventArgs e)
@@ -84,9 +91,10 @@ namespace Presentation.Views
             }
             catch (SqlException ex)
             {
-                if (ex.Number == 50000)
+                if (ex.Number == 50000) // Error
                 {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show(ex.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
             }
 
@@ -97,7 +105,6 @@ namespace Presentation.Views
             ListPositions();
             InitStates();
 
-            // Esto es para evitar el molesto flickering que tienen los data grid view
             dtgEmployees.DoubleBuffered(true);
         }
 
@@ -160,7 +167,6 @@ namespace Presentation.Views
         private void dtgEmployees_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             int index = e.RowIndex;
-
             if (index == dtgPrevIndex || index == -1)
             {
                 ClearForm();
@@ -170,7 +176,6 @@ namespace Presentation.Views
                 FillForm(index);
             }
         }
-
 
         public ValidationResult AddEmployee()
         {
@@ -201,21 +206,33 @@ namespace Presentation.Views
             {
                 if (ex.Number == 2627) // Unique Constraint
                 {
-                    if (ex.Message.Contains("Unique_Rfc"))
+                    string uniqueName = GetUniqueName(ex.Message);
+                    switch (uniqueName)
                     {
-                        return new ValidationResult("El RFC que ingresó ya está siendo utilizado por otro usuario", ValidationState.Error);
-                    }
-                    else if (ex.Message.Contains("Unique_Curp"))
-                    {
-                        return new ValidationResult("El CURP que ingresó ya está siendo utilizado por otro usuario", ValidationState.Error);
-                    }
-                    else if (ex.Message.Contains("Unique_Nss"))
-                    {
-                        return new ValidationResult("El NSS que ingresó ya está siendo utilizado por otro usuario", ValidationState.Error);
-                    }
-                    else
-                    {
-                        return new ValidationResult(ex.Message, ValidationState.Error);
+                        case "unique_curp":
+                        {
+                            return new ValidationResult("El CURP que ingresó ya está siendo utilizado por otro usuario", ValidationState.Error);
+                        }
+                        case "unique_rfc_empleado":
+                        {
+                            return new ValidationResult("El RFC que ingresó ya está siendo utilizado por otro usuario", ValidationState.Error);
+                        }
+                        case "unique_nss":
+                        {
+                            return new ValidationResult("El NSS que ingresó ya está siendo utilizado por otro usuario", ValidationState.Error);
+                        }
+                        case "unique_numero_cuenta":
+                        {
+                            return new ValidationResult("El Número de cuenta que ingresó ya está siendo utilizado por otro usuario", ValidationState.Error);
+                        }
+                        case "unique_correo_electronico":
+                        {
+                            return new ValidationResult("El correo electrónico que ingresó ya está siendo utilizado por otro usuario", ValidationState.Error);
+                        }
+                        default:
+                        {
+                            return new ValidationResult(ex.Message, ValidationState.Error);
+                        }
                     }
                 }
 
@@ -252,21 +269,33 @@ namespace Presentation.Views
             {
                 if (ex.Number == 2627) // Unique Constraint
                 {
-                    if (ex.Message.Contains("Unique_Rfc"))
+                    string uniqueName = GetUniqueName(ex.Message);
+                    switch (uniqueName)
                     {
-                        return new ValidationResult("El RFC que ingresó ya está siendo utilizado por otro usuario", ValidationState.Error);
-                    }
-                    else if (ex.Message.Contains("Unique_Curp"))
-                    {
-                        return new ValidationResult("El CURP que ingresó ya está siendo utilizado por otro usuario", ValidationState.Error);
-                    }
-                    else if (ex.Message.Contains("Unique_Nss"))
-                    {
-                        return new ValidationResult("El NSS que ingresó ya está siendo utilizado por otro usuario", ValidationState.Error);
-                    }
-                    else
-                    {
-                        return new ValidationResult(ex.Message, ValidationState.Error);
+                        case "unique_curp":
+                        {
+                            return new ValidationResult("El CURP que ingresó ya está siendo utilizado por otro usuario", ValidationState.Error);
+                        }
+                        case "unique_rfc_empleado":
+                        {
+                            return new ValidationResult("El RFC que ingresó ya está siendo utilizado por otro usuario", ValidationState.Error);
+                        }
+                        case "unique_nss":
+                        {
+                            return new ValidationResult("El NSS que ingresó ya está siendo utilizado por otro usuario", ValidationState.Error);
+                        }
+                        case "unique_numero_cuenta":
+                        {
+                            return new ValidationResult("El Número de cuenta que ingresó ya está siendo utilizado por otro usuario", ValidationState.Error);
+                        }
+                        case "unique_correo_electronico":
+                        {
+                            return new ValidationResult("El correo electrónico que ingresó ya está siendo utilizado por otro usuario", ValidationState.Error);
+                        }
+                        default:
+                        {
+                            return new ValidationResult(ex.Message, ValidationState.Error);
+                        }
                     }
                 }
 
@@ -361,7 +390,6 @@ namespace Presentation.Views
 
             employee.FechaContratacion = dtpHiringDate.Value;
 
-
             employee.Calle = txtStreet.Text;
             employee.Numero = txtNumber.Text;
             employee.Colonia = txtSuburb.Text;
@@ -396,7 +424,8 @@ namespace Presentation.Views
             txtCURP.Clear();
             txtNSS.Clear();
             txtRFC.Clear();
-            dtpDateOfBirth.Value = DateTime.Now;
+            dtpDateOfBirth.MaxDate = payrollDate.AddDays(-1).AddYears(-18);
+            dtpDateOfBirth.Value = payrollDate.AddDays(-1).AddYears(-18);
             txtEmail.Clear();
             txtPassword.Clear();
             txtStreet.Clear();
@@ -434,7 +463,6 @@ namespace Presentation.Views
             txtNames.Text = row.Cells["name"].Value.ToString();
             txtFatherLastName.Text = row.Cells["fatherLastName"].Value.ToString();
             txtMotherLastName.Text = row.Cells["motherLastName"].Value.ToString();
-            dtpDateOfBirth.Value = Convert.ToDateTime(row.Cells["dateOfBirth"].Value);
             txtCURP.Text = row.Cells["curp"].Value.ToString();
             txtNSS.Text = row.Cells["nss"].Value.ToString();
             txtRFC.Text = row.Cells["rfc"].Value.ToString();
@@ -491,14 +519,11 @@ namespace Presentation.Views
 
             EmployeeState = EntityState.Modify;
 
+            dtpDateOfBirth.Value = Convert.ToDateTime(row.Cells["dateOfBirth"].Value);
             dtpHiringDate.Value = Convert.ToDateTime(row.Cells["hiringDate"].Value);
 
             dtgPrevIndex = index;
         }
-
-      
-
-
 
         private void InitStates()
         {
@@ -566,12 +591,12 @@ namespace Presentation.Views
         private void ListBanks()
         {
             RepositorioBancos repository = new RepositorioBancos();
-            List<Bancos> bancos = repository.ReadAll();
+            List<Banks> bancos = repository.ReadAll();
             List<PairItem> nombres = new List<PairItem>();
             nombres.Add(new PairItem("Seleccionar", -1));
             foreach (var banco in bancos)
             {
-                nombres.Add(new PairItem(banco.Nombre, banco.IdBanco));
+                nombres.Add(new PairItem(banco.Name, banco.BankId));
             }
             cbBank.DataSource = nombres;
         }
@@ -579,27 +604,27 @@ namespace Presentation.Views
         private void ListDepartments()
         {
             RepositorioDepartamentos repository = new RepositorioDepartamentos();
-            List<DepartmentsViewModel> departamentos = repository.ReadAll(string.Empty, Session.company_id);
-            List<PairItem>  nombres = new List<PairItem>();
-            nombres.Add(new PairItem("Seleccionar", -1));
-            foreach (var departamento in departamentos)
+            List<DepartmentsViewModel> departments = repository.ReadAll(string.Empty, Session.company_id);
+            List<PairItem>  names = new List<PairItem>();
+            names.Add(new PairItem("Seleccionar", -1));
+            foreach (var department in departments)
             {
-                nombres.Add(new PairItem(departamento.Name, departamento.Id));
+                names.Add(new PairItem(department.Name, department.Id));
             }
-            cbDepartments.DataSource = nombres;
+            cbDepartments.DataSource = names;
         }
 
         private void ListPositions()
         {
             RepositorioPuestos repository = new RepositorioPuestos();
-            List<PositionsViewModel> puestos = repository.ReadAll(string.Empty, Session.company_id);
-            List<PairItem> nombres = new List<PairItem>();
-            nombres.Add(new PairItem("Seleccionar", -1));
-            foreach (var puesto in puestos)
+            List<PositionsViewModel> positions = repository.ReadAll(string.Empty, Session.company_id);
+            List<PairItem> names = new List<PairItem>();
+            names.Add(new PairItem("Seleccionar", -1));
+            foreach (var position in positions)
             {
-                nombres.Add(new PairItem(puesto.Name, puesto.Id));
+                names.Add(new PairItem(position.Name, position.Id));
             }
-            cbPositions.DataSource = nombres;
+            cbPositions.DataSource = names;
         }
 
         private void txtFilter_TextChanged(object sender, EventArgs e)
@@ -612,6 +637,17 @@ namespace Presentation.Views
             {
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        private string GetUniqueName(string message)
+        {
+            int startIndex = message.IndexOf("'");
+            if (startIndex <= 1)
+            {
+                return string.Empty;
+            }
+            int endIndex = message.Substring(++startIndex).IndexOf("'");
+            return message.Substring(startIndex, endIndex);
         }
     }
 }

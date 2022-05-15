@@ -51,9 +51,19 @@ namespace Presentation.Views
             btnApply.Enabled = false;
             btnDelete.Enabled = false;
 
-            RepositorioNominas payrollRepository = new RepositorioNominas();
-            payrollDate = payrollRepository.GetDate(Session.company_id);
-            dtpDate.Value = payrollDate;
+            try
+            {
+                RepositorioNominas payrollRepository = new RepositorioNominas();
+                payrollDate = payrollRepository.GetDate(Session.company_id);
+                dtpDate.Value = payrollDate;
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 50000)
+                {
+                    MessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
 
             dtgEmployees.DoubleBuffered(true);
             dtgDepartaments.DoubleBuffered(true);
@@ -556,14 +566,15 @@ namespace Presentation.Views
 
             if (result)
             {
-                MessageBox.Show("La nómina se ha iniciado correctamente");
+                MessageBox.Show("La nómina se ha iniciado correctamente", "Sistema de nómina dice: ",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ClearForm();
             }
             else
             {
-                MessageBox.Show("No se pudo iniciar la nómina");
+                MessageBox.Show("No se pudo iniciar la nómina", "Sistema de nómina dice: ",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
 
         }
 

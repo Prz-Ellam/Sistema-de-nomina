@@ -18,8 +18,8 @@ namespace Presentation.Views
 {
     public partial class FormPuestos : Form
     {
-        private RepositorioPuestos repository = new RepositorioPuestos();
-        private Puestos position = new Puestos();
+        private RepositorioPuestos repository;
+        private Puestos position;
         int dtgPrevIndex = -1;
         int positionId = -1;
 
@@ -58,6 +58,8 @@ namespace Presentation.Views
         public FormPuestos()
         {
             InitializeComponent();
+            repository = new RepositorioPuestos();
+            position = new Puestos();
         }
 
         private void Positions_Load(object sender, EventArgs e)
@@ -102,8 +104,8 @@ namespace Presentation.Views
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?", "Advertencia",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?", 
+                "Advertencia", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             if (res == DialogResult.No)
             {
@@ -127,7 +129,6 @@ namespace Presentation.Views
         private void dtgPositions_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             int index = e.RowIndex;
-
             if (index == dtgPrevIndex || index == -1)
             {
                 ClearForm();
@@ -149,23 +150,6 @@ namespace Presentation.Views
                 MessageBox.Show(ex.ToString());
             }
         }
-
-        private void lblName_Click(object sender, EventArgs e)
-        {
-            txtName.Focus();
-        }
-
-        private void lblWageLevel_Click(object sender, EventArgs e)
-        {
-            nudWageLevel.Focus();
-        }
-
-        private void lblFilter_Click(object sender, EventArgs e)
-        {
-            txtFilter.Focus();
-        }
-
-        
 
         public ValidationResult AddPosition()
         {
@@ -300,11 +284,10 @@ namespace Presentation.Views
             positionId = -1;
             txtName.Clear();
             nudWageLevel.Value = 0.0m;
+            txtFilter.Clear();
 
             PositionState = EntityState.Add;
             dtgPrevIndex = -1;
-
-            txtFilter.Clear();
         }
 
         public void FillForm(int index)

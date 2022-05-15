@@ -14,7 +14,7 @@ namespace Data_Access.Repositorios
 {
     public class RepositorioEmpleados
     {
-        private readonly string create, update, delete, readAll, readPayrolls, getById, updateByEmployee;
+        private readonly string create, update, delete, readAll, readPayrolls, getById, getDateOfBirth;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams = new RepositoryParameters();
 
@@ -27,6 +27,7 @@ namespace Data_Access.Repositorios
             readAll = "sp_LeerEmpleados";
             readPayrolls = "sp_LeerEmpleadosNominas";
             getById = "sp_ObtenerEmpleadoPorId";
+            getDateOfBirth = "sp_ObtenerFechaValidaEmpleado";
         }
 
         public bool Create(Empleados employee)
@@ -276,6 +277,21 @@ namespace Data_Access.Repositorios
             }
 
             return null;
+        }
+
+        public DateTime GetDateOfBirth(int employeeNumber, int companyId)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@numero_empleado", employeeNumber);
+            sqlParams.Add("@id_empresa", companyId);
+
+            DataTable table = mainRepository.ExecuteReader(getDateOfBirth, sqlParams);
+            foreach (DataRow row in table.Rows)
+            {
+                return Convert.ToDateTime(row["Fecha"]);
+            }
+
+            return DateTime.MinValue;
         }
     }
 }

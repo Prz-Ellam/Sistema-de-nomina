@@ -1,6 +1,6 @@
 USE sistema_de_nomina;
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AgregarDepartamento')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AgregarDepartamento')
 	DROP PROCEDURE sp_AgregarDepartamento;
 GO
 
@@ -41,7 +41,7 @@ GO
 
 
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ActualizarDepartamento')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ActualizarDepartamento')
 	DROP PROCEDURE sp_ActualizarDepartamento;
 GO
 
@@ -74,7 +74,7 @@ GO
 
 
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_EliminarDepartamento')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_EliminarDepartamento')
 	DROP PROCEDURE sp_EliminarDepartamento;
 GO
 
@@ -113,7 +113,7 @@ GO
 
 
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerDepartamentos')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerDepartamentos')
 	DROP PROCEDURE sp_LeerDepartamentos;
 GO
 
@@ -138,7 +138,7 @@ GO
 
 
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerDepartamentosNominas')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerDepartamentosNominas')
 	DROP PROCEDURE sp_LeerDepartamentosNominas;
 GO
 
@@ -148,8 +148,8 @@ CREATE PROCEDURE sp_LeerDepartamentosNominas(
 )
 AS
 
-	IF (dbo.PRIMERDIAFECHA(@fecha) >= dbo.OBTENERFECHAACTUAL(@id_empresa) AND 
-		(dbo.NOMINAENPROCESO(@id_empresa) = 0 OR dbo.PRIMERDIAFECHA(@fecha) > dbo.OBTENERFECHAACTUAL(@id_empresa)))
+	IF (dbo.PRIMERDIAFECHA(@fecha) >= dbo.PRIMERDIAFECHA(dbo.OBTENERFECHAACTUAL(@id_empresa)) AND 
+		(dbo.NOMINAENPROCESO(@id_empresa) = 0 OR dbo.PRIMERDIAFECHA(@fecha) > dbo.PRIMERDIAFECHA(dbo.OBTENERFECHAACTUAL(@id_empresa))))
 		BEGIN
 			RAISERROR('No se puede iniciar una nómina fuera del periodo actual de nómina', 11, 1);
 			RETURN;
@@ -163,7 +163,7 @@ AS
 			departamentos
 	WHERE
 			id_empresa = @id_empresa AND
-			fecha_creacion <= dbo.PRIMERDIAFECHA(@fecha) AND 
-			(fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR fecha_eliminacion IS NULL);	
+			dbo.PRIMERDIAFECHA(fecha_creacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
+			(dbo.PRIMERDIAFECHA(fecha_eliminacion) > dbo.PRIMERDIAFECHA(@fecha) OR fecha_eliminacion IS NULL);	
 
 GO

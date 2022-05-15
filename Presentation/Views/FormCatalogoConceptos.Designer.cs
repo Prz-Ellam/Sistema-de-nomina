@@ -123,7 +123,7 @@ namespace Presentation.Views
             this.txtName.Location = new System.Drawing.Point(26, 232);
             this.txtName.MaxLength = 30;
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(285, 29);
+            this.txtName.Size = new System.Drawing.Size(300, 29);
             this.txtName.TabIndex = 3;
             // 
             // label1

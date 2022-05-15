@@ -15,23 +15,43 @@ namespace Presentation.Views
 {
     public partial class PayrollReceipts : Form
     {
-        private RepositorioNominas repository = new RepositorioNominas();
+        private RepositorioNominas repository;
 
         public PayrollReceipts()
         {
             InitializeComponent();
+            repository = new RepositorioNominas();
         }
 
+        private void PayrollReceipts_Load(object sender, EventArgs e)
+        {
+            RepositorioEmpresas companyRepository = new RepositorioEmpresas();
+            DateTime creationDate = companyRepository.GetCreationDate(Session.company_id, true);
+            DateTime payrollDate = repository.GetDate(Session.company_id);
+            dtpDate.Value = creationDate;
+            dtpDate.MinDate = creationDate;
+            dtpDate.MaxDate = payrollDate.AddMonths(-1);
+        }
         private void btnPDF_Click(object sender, EventArgs e)
         {
-            ofnPayroll.FileName = string.Format("{0}-{1} {2}", dtpDate.Value.Year, dtpDate.Value.Month, DateTime.Now.ToString("yyyy-MM-dd HH.mm.ss"));
+            ofnPayroll.FileName = $"{dtpDate.Value.Year}-{dtpDate.Value.Month} {DateTime.Now.ToString("yyyy-MM-dd HH.mm.ss")}";
 
             if (ofnPayroll.ShowDialog() == DialogResult.OK)
             {
                 var report = repository.GetPayrollReceipt(Session.id, dtpDate.Value);
 
-                var per = new RepositorioPercepcionesAplicadas().ReadPayrollPerceptions(report.IdNomina);
-                var ded = new RepositorioDeduccionesAplicadas().ReadPayrollDeductions(report.IdNomina);
+                if (report == null)
+                {
+                    MessageBox.Show("No se ha generado el recibo de nómina de este periodo",
+                        "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                var applyPerceptions = new RepositorioPercepcionesAplicadas();
+                var applyDeductions = new RepositorioDeduccionesAplicadas();
+
+                var per = applyPerceptions.ReadPayrollPerceptions(report.IdNomina);
+                var ded = applyDeductions.ReadPayrollDeductions(report.IdNomina);
 
                 bool result = PDFReceipt.GeneratePDFReceipt(report, per, ded, ofnPayroll.FileName);
 
@@ -43,17 +63,14 @@ namespace Presentation.Views
             }
         }
 
-        private void PayrollReceipts_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void GenerateReceipt()
         {
             var report = repository.GetPayrollReceipt(Session.id, dtpDate.Value);
 
             if (report == null)
             {
+                MessageBox.Show("No se ha generado el recibo de nómina de este periodo",
+                    "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 

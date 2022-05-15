@@ -1,6 +1,6 @@
 USE sistema_de_nomina;
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AgregarEmpresa')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AgregarEmpresa')
 	DROP PROCEDURE sp_AgregarEmpresa;
 GO
 
@@ -21,61 +21,66 @@ CREATE PROCEDURE sp_AgregarEmpresa(
 )
 AS
 
-	-- Solo puede haber una empresa para el proyecto, esta validacion impide crear mas
-	IF EXISTS (SELECT id_empresa FROM empresas WHERE activo = 1)
-	BEGIN
-		RAISERROR('Ya existe una empresa', 11, 1);
-		RETURN;
-	END
+	BEGIN TRY
 
-	EXEC sp_AgregarDomicilio @calle, @numero, @colonia, @ciudad, @estado, @codigo_postal;
+		BEGIN TRAN
 
-	INSERT INTO empresas(
-			razon_social,
-			domicilio_fiscal,
-			correo_electronico,
-			rfc,
-			registro_patronal,
-			fecha_inicio,
-			id_administrador
-	)
-	VALUES(
-			@razon_social,
-			IDENT_CURRENT('Domicilios'),
-			@correo_electronico,
-			@rfc,
-			@registro_patronal,
-			@fecha_inicio,
-			@id_administrador
-	);
+		-- Solo puede haber una empresa para el proyecto, esta validacion impide crear mas
+		IF EXISTS (SELECT id_empresa FROM empresas WHERE activo = 1)
+		BEGIN
+			RAISERROR('Ya existe una empresa', 11, 1);
+			RETURN;
+		END
 
-	DECLARE @min INT = (SELECT MIN(row_count) FROM @telefonos);
-	DECLARE @max INT = (SELECT MAX(row_count) FROM @telefonos)
-	DECLARE @count INT = @min;
+		EXEC sp_AgregarDomicilio @calle, @numero, @colonia, @ciudad, @estado, @codigo_postal;
 
-	WHILE (@count <= @max)
-	BEGIN
-
-		DECLARE @numtel VARCHAR(12) = (SELECT telefono FROM @telefonos WHERE row_count = @count);
-
-		INSERT INTO telefonos_empresas(
-				telefono,
-				id_empresa
+		INSERT INTO empresas(
+				razon_social,
+				domicilio_fiscal,
+				correo_electronico,
+				rfc,
+				registro_patronal,
+				fecha_inicio,
+				id_administrador
 		)
 		VALUES(
-				@numtel,
-				IDENT_CURRENT('empresas')
+				@razon_social,
+				IDENT_CURRENT('Domicilios'), -- Ultimo domicilio agregado
+				@correo_electronico,
+				@rfc,
+				@registro_patronal,
+				@fecha_inicio,
+				@id_administrador
 		);
 
-		SET @count = @count + 1;
+		DECLARE @min INT = (SELECT MIN(row_count) FROM @telefonos);
+		DECLARE @max INT = (SELECT MAX(row_count) FROM @telefonos)
+		DECLARE @count INT = @min;
+		DECLARE @companyId INT = IDENT_CURRENT('empresas')
 
-	END
+		WHILE (@count <= @max)
+		BEGIN
+
+			DECLARE @numtel VARCHAR(12) = (SELECT telefono FROM @telefonos WHERE row_count = @count);
+			EXEC sp_AgregarTelefono @numtel,  @companyId, 'C';
+			SET @count = @count + 1;
+
+		END
+
+		COMMIT TRAN
+
+	END TRY
+	BEGIN CATCH
+
+		ROLLBACK TRAN
+
+	END CATCH
 		
 GO
 
 
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ActualizarEmpresa')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ActualizarEmpresa')
 	DROP PROCEDURE sp_ActualizarEmpresa;
 GO
 
@@ -96,55 +101,66 @@ CREATE PROCEDURE sp_ActualizarEmpresa(
 )
 AS
 
-	DECLARE @status_nomina BIT = dbo.NOMINAENPROCESO(@id_empresa);
-	IF @status_nomina = 1
+	BEGIN TRY
+
+		BEGIN TRAN	
+
+		DECLARE @status_nomina BIT = dbo.NOMINAENPROCESO(@id_empresa);
+		IF @status_nomina = 1
+			BEGIN
+				RAISERROR('No se puede editar la empresa debido a que hay una nómina en proceso', 11, 1);
+				RETURN;
+			END
+
+		DECLARE @id_domicilio INT;
+		SET @id_domicilio = (SELECT domicilio_fiscal FROM empresas WHERE id_empresa = @id_empresa);
+
+		EXEC sp_ActualizarDomicilio @id_domicilio, @calle, @numero, @colonia, @ciudad, @estado, @codigo_postal;
+
+		UPDATE 
+				empresas
+		SET
+				razon_social			= ISNULL(@razon_social, razon_social),
+				correo_electronico		= ISNULL(@correo_electronico, correo_electronico),
+				rfc						= ISNULL(@rfc, rfc),
+				registro_patronal		= ISNULL(@registro_patronal, registro_patronal),
+				fecha_inicio			= ISNULL(@fecha_inicio, fecha_inicio)
+		WHERE 
+				id_empresa = @id_empresa;
+
+		DELETE FROM 
+				telefonos_empresas
+		WHERE 
+				id_empresa = @id_empresa;
+
+		DECLARE @min INT = (SELECT MIN(row_count) FROM @telefonos);
+		DECLARE @max INT = (SELECT MAX(row_count) FROM @telefonos)
+		DECLARE @count INT = @min;
+		DECLARE @companyId INT = IDENT_CURRENT('empresas')
+
+		WHILE (@count <= @max)
 		BEGIN
-			RAISERROR('No se puede editar el departamento debido a que hay una nómina en proceso', 11, 1);
-			RETURN;
+
+			DECLARE @numtel VARCHAR(12) = (SELECT telefono FROM @telefonos WHERE row_count = @count);
+			EXEC sp_AgregarTelefono @numtel,  @companyId, 'C';
+			SET @count = @count + 1;
+
 		END
 
-	DECLARE @id_domicilio INT;
-	SET @id_domicilio = (SELECT domicilio_fiscal FROM empresas WHERE id_empresa = @id_empresa);
+		COMMIT TRAN
 
-	EXEC sp_ActualizarDomicilio @id_domicilio, @calle, @numero, @colonia, @ciudad, @estado, @codigo_postal;
+	END TRY
+	BEGIN CATCH
 
-	UPDATE 
-			empresas
-	SET
-			razon_social				= ISNULL(@razon_social, razon_social),
-			correo_electronico			= ISNULL(@correo_electronico, correo_electronico),
-			rfc							= ISNULL(@rfc, rfc),
-			registro_patronal			= ISNULL(@registro_patronal, registro_patronal),
-			fecha_inicio				= ISNULL(@fecha_inicio, fecha_inicio)
-	WHERE 
-			id_empresa = @id_empresa;
+		ROLLBACK TRAN
 
-	DELETE FROM 
-			telefonos_empresas
-	WHERE 
-			id_empresa = @id_empresa;
-
-	DECLARE @min INT = (SELECT MIN(row_count) FROM @telefonos);
-	DECLARE @max INT = (SELECT MAX(row_count) FROM @telefonos)
-	DECLARE @count INT = @min;
-
-	WHILE (@count <= @max)
-	BEGIN
-
-		DECLARE @numtel VARCHAR(12) = (SELECT telefono FROM @telefonos WHERE row_count = @count);
-
-		INSERT INTO telefonos_empresas(telefono, id_empresa)
-		VALUES(@numtel, @id_empresa);
-
-		SET @count = @count + 1;
-
-	END
+	END CATCH
 
 GO
 
 
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerEmpresa')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerEmpresa')
 	DROP PROCEDURE sp_LeerEmpresa;
 GO
 
@@ -157,54 +173,34 @@ AS
 	BEGIN
 		RAISERROR('Aun no existe una empresa', 11, 1);
 		RETURN;
-	END;
+	END
 
 	SELECT
-			e.id_empresa [ID Empresa],
-			e.razon_social [Razon social],
-			d.calle [Calle],
-			d.numero [Numero],
-			d.colonia [Colonia],
-			d.ciudad [Ciudad],
-			d.estado [Estado],
-			d.codigo_postal [Código postal], 
-			e.correo_electronico [Correo electrónico],
-			e.registro_patronal [Registro Patronal],
-			e.rfc [RFC],
-			e.fecha_inicio [Fecha de inicio]
+			e.id_empresa			[ID Empresa],
+			e.razon_social			[Razon social],
+			d.calle					[Calle],
+			d.numero				[Numero],
+			d.colonia				[Colonia],
+			d.ciudad				[Ciudad],
+			d.estado				[Estado],
+			d.codigo_postal			[Código postal], 
+			e.correo_electronico	[Correo electrónico],
+			e.registro_patronal		[Registro Patronal],
+			e.rfc					[RFC],
+			e.fecha_inicio			[Fecha de inicio]
 	FROM 
 			empresas AS e
-			JOIN domicilios AS d
+			INNER JOIN domicilios AS d
 			ON e.domicilio_fiscal = d.id_domicilio
 	WHERE
-			id_empresa = @id_empresa AND activo = 1;
+			id_empresa = @id_empresa AND 
+			activo = 1;
 
 GO
 
 
 
-
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_VerificarEmpresa')
-	DROP PROCEDURE sp_VerificarEmpresa;
-GO
-
-CREATE PROCEDURE sp_VerificarEmpresa(
-	@id_administrador			INT
-)
-AS
-
-	SELECT 
-			COUNT(0) 
-	FROM 
-			empresas 
-	WHERE 
-			id_administrador = @id_administrador AND activo = 1;
-
-GO
-
-
-
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ObtenerEmpresa')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ObtenerEmpresa')
 	DROP PROCEDURE sp_ObtenerEmpresa;
 GO
 
@@ -218,6 +214,28 @@ AS
 	FROM 
 			empresas 
 	WHERE 
-			id_administrador = @id_administrador AND activo = 1;
+			id_administrador = @id_administrador AND 
+			activo = 1;
+
+GO
+
+
+
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ObtenerFechaCreacion')
+	DROP PROCEDURE sp_ObtenerFechaCreacion;
+GO
+
+CREATE PROCEDURE sp_ObtenerFechaCreacion(
+	@id_empresa					INT,
+	@primer_dia					BIT
+)
+AS
+
+	SELECT
+			IIF(@primer_dia = 0, fecha_inicio, dbo.PRIMERDIAFECHA(fecha_inicio)) [Fecha de inicio]
+	FROM
+			empresas
+	WHERE
+			id_empresa = @id_empresa;
 
 GO

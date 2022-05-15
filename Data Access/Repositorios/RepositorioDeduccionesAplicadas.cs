@@ -94,9 +94,9 @@ namespace Data_Access.Repositorios
                     Aplicada = Convert.ToBoolean(row[0]),
                     IdDeduccion = Convert.ToInt32(row[1]),
                     Nombre = row[2].ToString(),
-                    TipoMonto = Convert.ToChar(row[3]),
-                    Fijo = Convert.ToDecimal(row[4]),
-                    Porcentual = Convert.ToDecimal(row[5])
+                    //TipoMonto = Convert.ToChar(row[3]),
+                    //Fijo = Convert.ToDecimal(row[4]),
+                    //Porcentual = Convert.ToDecimal(row[5])
                 });
             }
 
@@ -120,9 +120,9 @@ namespace Data_Access.Repositorios
                     Aplicada = Convert.ToBoolean(row[0]),
                     IdDeduccion = Convert.ToInt32(row[1]),
                     Nombre = row[2].ToString(),
-                    TipoMonto = Convert.ToChar(row[3]),
-                    Fijo = Convert.ToDecimal(row[4]),
-                    Porcentual = Convert.ToDecimal(row[5])
+                    //TipoMonto = Convert.ToChar(row[3]),
+                    //Fijo = Convert.ToDecimal(row[4]),
+                    //Porcentual = Convert.ToDecimal(row[5])
                 });
             }
 

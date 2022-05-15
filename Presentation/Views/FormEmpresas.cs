@@ -7,11 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
 using Data_Access.Repositorios;
-using System.IO;
 using Data_Access.Entities;
-using Data_Access.Interfaces;
 using Presentation.Helpers;
 using Data_Access.Entidades;
 using Data_Access.ViewModels;
@@ -21,9 +18,9 @@ namespace Presentation.Views
 {
     public partial class FormEmpresas : Form
     {
-        private CompaniesRepository repository = new CompaniesRepository();
-        private RepositorioTelefonos phonesRepository = new RepositorioTelefonos();
-        private Empresas company = new Empresas();
+        private RepositorioEmpresas repository;
+        private RepositorioTelefonos phonesRepository;
+        private Companies company;
         private List<States> states;
         int cbPhonesPrevIndex = -1;
 
@@ -46,6 +43,7 @@ namespace Presentation.Views
                     {
                         btnAdd.Enabled = true;
                         btnEdit.Enabled = false;
+                        dtpStartDate.Enabled = true;
                         break;
                     }
                     case EntityState.Modify:
@@ -62,40 +60,15 @@ namespace Presentation.Views
         public FormEmpresas()
         {
             InitializeComponent();
+            repository = new RepositorioEmpresas();
+            phonesRepository = new RepositorioTelefonos();
+            company = new Companies();
         }
 
         private void Companies_Load(object sender, EventArgs e)
         {
-            InitStates();
+            ListStates();
             ListCompany();
-        }
-
-        private void cbStates_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            cbCities.DataSource = null;
-            if (cbStates.SelectedIndex <= 0)
-            {
-                List<string> cities = new List<string>();
-                cities.Add("Seleccionar");
-                cbCities.DataSource = cities;
-                return;
-            }
-            cbCities.DataSource = states[cbStates.SelectedIndex - 1].cities;
-            cbCities.SelectedIndex = 0;
-        }
-
-        private void InitStates()
-        {
-            StatesRepository repository = new StatesRepository();
-            states = repository.GetAll();
-
-            cbStates.Items.Add("Seleccionar");
-            foreach (var state in states)
-            {
-                cbStates.Items.Add(state.state);
-            }
-
-            cbStates.SelectedIndex = 0;
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -129,6 +102,20 @@ namespace Presentation.Views
             ListCompany();
         }
 
+        private void cbStates_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cbCities.DataSource = null;
+            if (cbStates.SelectedIndex <= 0)
+            {
+                List<string> cities = new List<string>();
+                cities.Add("Seleccionar");
+                cbCities.DataSource = cities;
+                return;
+            }
+            cbCities.DataSource = states[cbStates.SelectedIndex - 1].cities;
+            cbCities.SelectedIndex = 0;
+        }
+
         private ValidationResult AddCompany()
         {
             if (CompanyState != EntityState.Add)
@@ -156,7 +143,14 @@ namespace Presentation.Views
             }
             catch (SqlException ex)
             {
-                return new ValidationResult(ex.Message, ValidationState.Error);
+                if (ex.Number == 50000)
+                {
+                    return new ValidationResult(ex.Message, ValidationState.Error);
+                }
+                else
+                {
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
+                }
             }
         }
 
@@ -182,7 +176,14 @@ namespace Presentation.Views
             }
             catch (SqlException ex)
             {
-                return new ValidationResult(ex.Message, ValidationState.Error);
+                if (ex.Number == 50000)
+                {
+                    return new ValidationResult(ex.Message, ValidationState.Error);
+                }
+                else
+                {
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
+                }
             }
         }
 
@@ -202,26 +203,27 @@ namespace Presentation.Views
 
         private void FillCompany()
         {
-            company.IdEmpresa = Session.company_id;
-            company.RazonSocial = txtBusinessName.Text;
-            company.CorreoElectronico = txtEmail.Text;
-            company.Rfc = txtRFC.Text;
-            company.RegistroPatronal = txtEmployerRegistration.Text;
-            company.FechaInicio = dtpStartDate.Value;
-            company.IdAdministrador = Session.id;
+            company.CompanyId = Session.company_id;
+            company.AdministratorId = Session.id;
 
-            company.Calle = txtStreet.Text;
-            company.Numero = txtNumber.Text;
-            company.Colonia = txtSuburb.Text;
-            company.Ciudad = cbCities.Text;
-            company.Estado = cbStates.Text;
-            company.CodigoPostal = txtPostalCode.Text;
+            company.BusinessName = txtBusinessName.Text;
+            company.EmployerRegistration = txtEmployerRegistration.Text;
+            company.Rfc = txtRfc.Text;
+            company.StartDate = dtpStartDate.Value;
+            company.Email = txtEmail.Text;
 
-            company.Telefonos.Clear();
-            for (int i = 0; i < cbPhones.Items.Count; i++)
+            company.Phones.Clear();
+            foreach (var phone in cbPhones.Items)
             {
-                company.Telefonos.Add(cbPhones.Items[i].ToString());
+                company.Phones.Add(phone.ToString());
             }
+
+            company.Street = txtStreet.Text;
+            company.Number = txtNumber.Text;
+            company.Suburb = txtSuburb.Text;
+            company.City = cbCities.Text;
+            company.State = cbStates.Text;
+            company.PostalCode = txtPostalCode.Text;
         }
 
         private void InitCompanyData()
@@ -229,15 +231,9 @@ namespace Presentation.Views
             CompaniesViewModel company = repository.Read(Session.company_id);
             txtBusinessName.Text = company.RazonSocial;
             txtEmployerRegistration.Text = company.RegistroPatronal;
-            txtRFC.Text = company.Rfc;
-            txtEmail.Text = company.CorreoElectronico;
+            txtRfc.Text = company.Rfc;
             dtpStartDate.Value = company.FechaInicio;
-            txtStreet.Text = company.Calle;
-            txtNumber.Text = company.Numero;
-            txtSuburb.Text = company.Colonia;
-            txtPostalCode.Text = company.CodigoPostal;
-            cbStates.SelectedIndex = cbStates.FindString(company.Estado);
-            cbCities.SelectedIndex = cbCities.FindString(company.Ciudad);
+            txtEmail.Text = company.CorreoElectronico;
 
             cbPhones.Items.Clear();
             cbPhones.SelectedIndex = -1;
@@ -247,12 +243,21 @@ namespace Presentation.Views
                 cbPhones.Items.Add(phone);
             }
 
+            txtStreet.Text = company.Calle;
+            txtNumber.Text = company.Numero;
+            txtSuburb.Text = company.Colonia;
+            txtPostalCode.Text = company.CodigoPostal;
+            cbStates.SelectedIndex = cbStates.FindString(company.Estado);
+            cbCities.SelectedIndex = cbCities.FindString(company.Ciudad);
         }
 
         private void InitCompanyId()
         {
             if (Session.position == "Administrador")
-                Session.company_id = new CompaniesRepository().Verify(Session.id);
+            {
+                RepositorioEmpresas companiesRepository = new RepositorioEmpresas();
+                Session.company_id = companiesRepository.Verify(Session.id);
+            }
         }
 
         private void cbPhones_KeyDown(object sender, KeyEventArgs e)
@@ -287,6 +292,18 @@ namespace Presentation.Views
         private void cbPhones_SelectedIndexChanged(object sender, EventArgs e)
         {
             cbPhonesPrevIndex = cbPhones.SelectedIndex;
+        }
+
+        private void ListStates()
+        {
+            StatesRepository repository = new StatesRepository();
+            states = repository.GetAll();
+            cbStates.Items.Add("Seleccionar");
+            foreach (var state in states)
+            {
+                cbStates.Items.Add(state.state);
+            }
+            cbStates.SelectedIndex = 0;
         }
     }
 }

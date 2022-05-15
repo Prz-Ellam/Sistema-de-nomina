@@ -12,44 +12,46 @@ using Data_Access.ViewModels;
 
 namespace Data_Access.Repositorios
 {
-    public class CompaniesRepository : ICompaniesRepository
+    public class RepositorioEmpresas
     {
-        private readonly string create, update, read, verify;
+        private readonly string create, update, read, getCompany, getCreationDate;
         private MainConnection mainRepository;
-        private RepositoryParameters sqlParams = new RepositoryParameters();
+        private RepositoryParameters sqlParams;
 
-        public CompaniesRepository()
+        public RepositorioEmpresas()
         {
             mainRepository = MainConnection.GetInstance();
+            sqlParams = new RepositoryParameters();
             create = "sp_AgregarEmpresa";
             update = "sp_ActualizarEmpresa";
             read = "sp_LeerEmpresa";
-            verify = "sp_ObtenerEmpresa";
+            getCompany = "sp_ObtenerEmpresa";
+            getCreationDate = "sp_ObtenerFechaCreacion";
         }
 
-        public bool Create(Empresas company)
+        public bool Create(Companies company)
         {
             sqlParams.Start();
-            sqlParams.Add("@razon_social", company.RazonSocial);
-            sqlParams.Add("@correo_electronico", company.CorreoElectronico);
+            sqlParams.Add("@razon_social", company.BusinessName);
+            sqlParams.Add("@correo_electronico", company.Email);
             sqlParams.Add("@rfc", company.Rfc);
-            sqlParams.Add("@registro_patronal", company.RegistroPatronal);
-            sqlParams.Add("@fecha_inicio", company.FechaInicio);
-            sqlParams.Add("@id_administrador", company.IdAdministrador);
-            sqlParams.Add("@calle", company.Calle);
-            sqlParams.Add("@numero", company.Numero);
-            sqlParams.Add("@colonia", company.Colonia);
-            sqlParams.Add("@ciudad", company.Ciudad);
-            sqlParams.Add("@estado", company.Estado);
-            sqlParams.Add("@codigo_postal", company.CodigoPostal);
+            sqlParams.Add("@registro_patronal", company.EmployerRegistration);
+            sqlParams.Add("@fecha_inicio", company.StartDate);
+            sqlParams.Add("@id_administrador", company.AdministratorId);
+            sqlParams.Add("@calle", company.Street);
+            sqlParams.Add("@numero", company.Number);
+            sqlParams.Add("@colonia", company.Suburb);
+            sqlParams.Add("@ciudad", company.City);
+            sqlParams.Add("@estado", company.State);
+            sqlParams.Add("@codigo_postal", company.PostalCode);
 
             DataTable telefonos = new DataTable();
             telefonos.Columns.Add("row_count");
             telefonos.Columns.Add("telefono");
 
-            for (int i = 0; i < company.Telefonos.Count; i++)
+            for (int i = 0; i < company.Phones.Count; i++)
             {
-                telefonos.Rows.Add(i.ToString(), company.Telefonos[i]);
+                telefonos.Rows.Add(i.ToString(), company.Phones[i]);
             }
 
             sqlParams.Add("@telefonos", telefonos);
@@ -58,29 +60,29 @@ namespace Data_Access.Repositorios
             return (rowCount > 0) ? true : false;
         }
 
-        public bool Update(Empresas company)
+        public bool Update(Companies company)
         {
             sqlParams.Start();
-            sqlParams.Add("@id_empresa", company.IdEmpresa);
-            sqlParams.Add("@razon_social", company.RazonSocial);
-            sqlParams.Add("@correo_electronico", company.CorreoElectronico);
+            sqlParams.Add("@id_empresa", company.CompanyId);
+            sqlParams.Add("@razon_social", company.BusinessName);
+            sqlParams.Add("@correo_electronico", company.Email);
             sqlParams.Add("@rfc", company.Rfc);
-            sqlParams.Add("@registro_patronal", company.RegistroPatronal);
-            sqlParams.Add("@fecha_inicio", company.FechaInicio);
-            sqlParams.Add("@calle", company.Calle);
-            sqlParams.Add("@numero", company.Numero);
-            sqlParams.Add("@colonia", company.Colonia);
-            sqlParams.Add("@ciudad", company.Ciudad);
-            sqlParams.Add("@estado", company.Estado);
-            sqlParams.Add("@codigo_postal", company.CodigoPostal);
+            sqlParams.Add("@registro_patronal", company.EmployerRegistration);
+            sqlParams.Add("@fecha_inicio", company.StartDate);
+            sqlParams.Add("@calle", company.Street);
+            sqlParams.Add("@numero", company.Number);
+            sqlParams.Add("@colonia", company.Suburb);
+            sqlParams.Add("@ciudad", company.City);
+            sqlParams.Add("@estado", company.State);
+            sqlParams.Add("@codigo_postal", company.PostalCode);
 
             DataTable telefonos = new DataTable();
             telefonos.Columns.Add("row_count");
             telefonos.Columns.Add("telefono");
 
-            for (int i = 0; i < company.Telefonos.Count; i++)
+            for (int i = 0; i < company.Phones.Count; i++)
             {
-                telefonos.Rows.Add(i.ToString(), company.Telefonos[i]);
+                telefonos.Rows.Add(i.ToString(), company.Phones[i]);
             }
 
             sqlParams.Add("@telefonos", telefonos);
@@ -124,7 +126,7 @@ namespace Data_Access.Repositorios
         {
             sqlParams.Start();
             sqlParams.Add("@id_administrador", id);
-            DataTable table = mainRepository.ExecuteReader(verify, sqlParams);
+            DataTable table = mainRepository.ExecuteReader(getCompany, sqlParams);
 
             foreach (DataRow row in table.Rows)
             {
@@ -132,6 +134,21 @@ namespace Data_Access.Repositorios
             }
 
             return -1;
+        }
+
+        public DateTime GetCreationDate(int companyId, bool firstDay)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@id_empresa", companyId);
+            sqlParams.Add("@primer_dia", firstDay);
+            DataTable table = mainRepository.ExecuteReader(getCreationDate, sqlParams);
+
+            foreach (DataRow row in table.Rows)
+            {
+                return Convert.ToDateTime(row["Fecha de inicio"]);
+            }
+
+            return DateTime.MinValue;
         }
     }
 }

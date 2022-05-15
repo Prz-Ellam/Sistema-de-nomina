@@ -15,11 +15,12 @@ namespace Data_Access.Repositorios
     {
         private readonly string create, update, delete, readAll, readPayrolls;
         private MainConnection repositorio;
-        private RepositoryParameters sqlParams = new RepositoryParameters();
+        private RepositoryParameters sqlParams;
 
         public RepositorioDepartamentos()
         {
             repositorio = MainConnection.GetInstance();
+            sqlParams = new RepositoryParameters();
             create = "sp_AgregarDepartamento";
             update = "sp_ActualizarDepartamento";
             delete = "sp_EliminarDepartamento";
@@ -80,7 +81,7 @@ namespace Data_Access.Repositorios
             return departments;
         }
 
-        public List<DepartmentsViewModel> ReadPayrolls(int companyId, DateTime date)
+        public List<DepartmentsPayrollViewModel> ReadPayrolls(int companyId, DateTime date)
         {
             sqlParams.Start();
             sqlParams.Add("@id_empresa", companyId);
@@ -90,17 +91,16 @@ namespace Data_Access.Repositorios
 
             if (table == null)
             {
-                return new List<DepartmentsViewModel>();
+                return new List<DepartmentsPayrollViewModel>();
             }
 
-            List<DepartmentsViewModel> departments = new List<DepartmentsViewModel>();
+            List<DepartmentsPayrollViewModel> departments = new List<DepartmentsPayrollViewModel>();
             foreach (DataRow row in table.Rows)
             {
-                departments.Add(new DepartmentsViewModel
+                departments.Add(new DepartmentsPayrollViewModel
                 {
                     Id = Convert.ToInt32(row["ID Departamento"]),
-                    Name = row["Nombre"].ToString(),
-                    BaseSalary = Convert.ToDecimal(row["Sueldo Base"])
+                    Name = row["Nombre"].ToString()
                 });
             }
 

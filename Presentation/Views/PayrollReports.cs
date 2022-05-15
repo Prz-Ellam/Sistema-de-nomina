@@ -1,4 +1,5 @@
 ﻿using Data_Access.Repositorios;
+using Presentation.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,7 +25,10 @@ namespace Presentation.Views
 
         private void PayrollReports_Load(object sender, EventArgs e)
         {
+            InitDates();
             ListReport();
+
+            dtgPayrollReport.DoubleBuffered(true);
         }
 
         private void nudYear_ValueChanged(object sender, EventArgs e)
@@ -41,6 +45,26 @@ namespace Presentation.Views
             catch (SqlException ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void InitDates()
+        {
+            try
+            {
+                RepositorioEmpresas companyRepository = new RepositorioEmpresas();
+                DateTime creationDate = companyRepository.GetCreationDate(Session.company_id, true);
+                DateTime payrollDate = payrollRepository.GetDate(Session.company_id);
+                nudYear.Value = creationDate.Year;
+                nudYear.Minimum = creationDate.Year;
+                nudYear.Maximum = payrollDate.Year;
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 50000)
+                {
+                    MessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
     }

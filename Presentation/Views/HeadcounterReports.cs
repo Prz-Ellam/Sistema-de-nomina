@@ -27,21 +27,24 @@ namespace Presentation.Views
 
         private void HeadcounterReports_Load(object sender, EventArgs e)
         {
-            RepositorioDepartamentos departmentsRepository = new RepositorioDepartamentos();
+            ListDepartments();
 
-            List<DepartmentsViewModel> departments = departmentsRepository.ReadAll(string.Empty, Session.company_id);
-            List<PairItem> departmentsName = new List<PairItem>();
-            departmentsName.Add(new PairItem("Todos", -1));
-            foreach(var department in departments)
+            try
             {
-                departmentsName.Add(new PairItem(department.Name, department.Id));
+                RepositorioEmpresas companyRepository = new RepositorioEmpresas();
+                DateTime creationDate = companyRepository.GetCreationDate(Session.company_id, true);
+                DateTime payrollDate = payrollRepository.GetDate(Session.company_id);
+                dtpDate.Value = creationDate;
+                dtpDate.MinDate = creationDate;
+                dtpDate.MaxDate = payrollDate.AddMonths(-1);
             }
-            cbDepartments.DataSource = departmentsName;
-
-
-
-
-
+            catch (SqlException ex)
+            {
+                if (ex.Number == 50000)
+                {
+                    MessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
 
             dtgHeadcounter1.DoubleBuffered(true);
             dtgHeadcounter2.DoubleBuffered(true);
@@ -103,6 +106,19 @@ namespace Presentation.Views
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void ListDepartments()
+        {
+            RepositorioDepartamentos departmentsRepository = new RepositorioDepartamentos();
+            List<DepartmentsViewModel> departments = departmentsRepository.ReadAll(string.Empty, Session.company_id);
+            List<PairItem> departmentsName = new List<PairItem>();
+            departmentsName.Add(new PairItem("Todos", -1));
+            foreach (var department in departments)
+            {
+                departmentsName.Add(new PairItem(department.Name, department.Id));
+            }
+            cbDepartments.DataSource = departmentsName;
         }
 
     }

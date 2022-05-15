@@ -37,13 +37,13 @@ AS
 			E.activo [Activo]
 	FROM 
 			empleados AS E
-			JOIN domicilios AS A
+			INNER JOIN domicilios AS A
 			ON A.id_domicilio = E.domicilio
-			JOIN bancos AS B
+			INNER JOIN bancos AS B
 			ON B.id_banco = E.banco
-			JOIN departamentos AS D
+			INNER JOIN departamentos AS D
 			ON D.id_departamento = E.id_departamento
-			JOIN puestos AS P
+			INNER JOIN puestos AS P
 			ON P.id_puesto = E.id_puesto;
 GO
 
@@ -114,9 +114,9 @@ FROM
 		CROSS JOIN departamentos AS d
 		CROSS JOIN puestos AS p
 WHERE
-		d.fecha_creacion <= dbo.PRIMERDIAFECHA(n.fecha) AND 
+		dbo.PRIMERDIAFECHA(d.fecha_creacion) <= dbo.PRIMERDIAFECHA(n.fecha) AND 
 		(d.fecha_eliminacion > dbo.PRIMERDIAFECHA(n.fecha) OR d.fecha_eliminacion IS NULL) AND
-		p.fecha_creacion <= dbo.PRIMERDIAFECHA(n.fecha) AND
+		dbo.PRIMERDIAFECHA(p.fecha_creacion) <= dbo.PRIMERDIAFECHA(n.fecha) AND
 		(p.fecha_eliminacion > dbo.PRIMERDIAFECHA(n.fecha) OR p.fecha_eliminacion IS NULL)
 GO
 
@@ -211,15 +211,6 @@ GO
 
 
 
-
-
-
-
-
-
-
-
-
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ReporteGeneralNomina')
 	DROP PROCEDURE sp_ReporteGeneralNomina;
 GO
@@ -243,15 +234,6 @@ AS
 	ORDER BY [Departamento] ASC, [Puesto] ASC;
 
 GO
-
-
-
-
-
-
-
-
-
 
 
 

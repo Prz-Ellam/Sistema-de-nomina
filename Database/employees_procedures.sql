@@ -1,6 +1,6 @@
 USE sistema_de_nomina;
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AgregarEmpleado')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AgregarEmpleado')
 	DROP PROCEDURE sp_AgregarEmpleado;
 GO
 
@@ -29,82 +29,93 @@ CREATE PROCEDURE sp_AgregarEmpleado(
 )
 AS
 
-	DECLARE @status_nomina BIT = dbo.NOMINAENPROCESO((SELECT id_empresa FROM departamentos WHERE id_departamento = @id_departamento));
-	IF @status_nomina = 1
-		BEGIN
-			RAISERROR('No se puede añadir el puesto debido a que hay una nómina en proceso', 11, 1);
-			RETURN;
-		END
+	BEGIN TRY
 
-	EXEC sp_AgregarDomicilio @calle, @numero, @colonia, @ciudad, @estado, @codigo_postal;
+		BEGIN TRAN
 
-	DECLARE @sueldo_diario	MONEY
-	SET @sueldo_diario = (SELECT sueldo_base FROM departamentos WHERE id_departamento = @id_departamento) *
-						(SELECT nivel_salarial FROM puestos WHERE id_puesto = @id_puesto);
+		DECLARE @status_nomina BIT = dbo.NOMINAENPROCESO((SELECT id_empresa FROM departamentos WHERE id_departamento = @id_departamento));
+		IF @status_nomina = 1
+			BEGIN
+				RAISERROR('No se puede añadir el puesto debido a que hay una nómina en proceso', 11, 1);
+				RETURN;
+			END
 
-	INSERT INTO empleados(
-			nombre,
-			apellido_paterno,
-			apellido_materno,
-			fecha_nacimiento,
-			curp,
-			nss,
-			rfc,
-			domicilio,
-			banco,
-			numero_cuenta,
-			correo_electronico,
-			contrasena,
-			id_departamento,
-			id_puesto,
-			sueldo_diario,
-			fecha_contratacion
-	)
-	VALUES(
-			@nombre,
-			@apellido_paterno,
-			@apellido_materno,
-			@fecha_nacimiento,
-			@curp,
-			@nss,
-			@rfc,
-			IDENT_CURRENT('Domicilios'), 
-			@banco,
-			@numero_cuenta,
-			@correo_electronico,
-			@contrasena,
-			@id_departamento,
-			@id_puesto,
-			@sueldo_diario,
-			@fecha_contratacion
-	);
+		IF EXISTS (SELECT id_administrador FROM administradores WHERE correo_electronico = @correo_electronico)
+			BEGIN
+				RAISERROR('El correo electrónico que ingresó ya está siendo utilizado por otro usuario', 11, 1);
+				RETURN;
+			END
 
-	DECLARE @min INT = (SELECT MIN(row_count) FROM @telefonos);
-	DECLARE @max INT = (SELECT MAX(row_count) FROM @telefonos)
-	DECLARE @count INT = @min;
+		EXEC sp_AgregarDomicilio @calle, @numero, @colonia, @ciudad, @estado, @codigo_postal;
 
-	WHILE (@count <= @max)
-	BEGIN
+		DECLARE @sueldo_diario	MONEY
+		SET @sueldo_diario = (SELECT sueldo_base FROM departamentos WHERE id_departamento = @id_departamento) *
+							(SELECT nivel_salarial FROM puestos WHERE id_puesto = @id_puesto);
 
-		DECLARE @numtel VARCHAR(12) = (SELECT telefono FROM @telefonos WHERE row_count = @count);
-
-		INSERT INTO telefonos_empleados(
-				telefono,
-				numero_empleado
+		INSERT INTO empleados(
+				nombre,
+				apellido_paterno,
+				apellido_materno,
+				fecha_nacimiento,
+				curp,
+				nss,
+				rfc,
+				domicilio,
+				banco,
+				numero_cuenta,
+				correo_electronico,
+				contrasena,
+				id_departamento,
+				id_puesto,
+				sueldo_diario,
+				fecha_contratacion
 		)
 		VALUES(
-				@numtel,
-				IDENT_CURRENT('empleados')
+				@nombre,
+				@apellido_paterno,
+				@apellido_materno,
+				@fecha_nacimiento,
+				@curp,
+				@nss,
+				@rfc,
+				IDENT_CURRENT('Domicilios'), 
+				@banco,
+				@numero_cuenta,
+				@correo_electronico,
+				@contrasena,
+				@id_departamento,
+				@id_puesto,
+				@sueldo_diario,
+				@fecha_contratacion
 		);
 
-		SET @count = @count + 1;
+		DECLARE @min INT = (SELECT MIN(row_count) FROM @telefonos);
+		DECLARE @max INT = (SELECT MAX(row_count) FROM @telefonos);
+		DECLARE @count INT = @min;
+		DECLARE @numero_empleado INT = IDENT_CURRENT('empleados');
 
-	END
+		WHILE (@count <= @max)
+		BEGIN
+
+			DECLARE @numtel VARCHAR(12) = (SELECT telefono FROM @telefonos WHERE row_count = @count);
+			EXEC sp_AgregarTelefono @numtel,  @numero_empleado, 'E';
+			SET @count = @count + 1;
+
+		END
+
+		COMMIT TRAN
+
+	END TRY
+	BEGIN CATCH
+
+		ROLLBACK TRAN
+
+	END CATCH
 
 GO
 
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ActualizarEmpleado')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ActualizarEmpleado')
 	DROP PROCEDURE sp_ActualizarEmpleado;
 GO
 
@@ -134,74 +145,83 @@ CREATE PROCEDURE sp_ActualizarEmpleado(
 )
 AS
 
-	DECLARE @status_nomina BIT = dbo.NOMINAENPROCESO((SELECT id_empresa FROM departamentos WHERE id_departamento = @id_departamento));
-	IF @status_nomina = 1
+	BEGIN TRY
+
+		BEGIN TRAN
+
+		DECLARE @status_nomina BIT = dbo.NOMINAENPROCESO((SELECT id_empresa FROM departamentos WHERE id_departamento = @id_departamento));
+		IF @status_nomina = 1
+			BEGIN
+				RAISERROR('No se puede añadir el puesto debido a que hay una nómina en proceso', 11, 1);
+				RETURN;
+			END
+
+		IF EXISTS (SELECT id_administrador FROM administradores WHERE correo_electronico = @correo_electronico)
+			BEGIN
+				RAISERROR('El correo electrónico que ingresó ya está siendo utilizado por otro usuario', 11, 1);
+				RETURN;
+			END
+
+		DECLARE @id_domicilio INT;
+		SET @id_domicilio = (SELECT domicilio FROM empleados WHERE numero_empleado = @numero_empleado);
+
+		EXEC sp_ActualizarDomicilio @id_domicilio, @calle, @numero, @colonia, @ciudad, @estado, @codigo_postal;
+
+		DECLARE @sueldo_diario	MONEY
+		SET @sueldo_diario = (SELECT sueldo_base FROM departamentos WHERE id_departamento = @id_departamento) *
+							(SELECT nivel_salarial FROM puestos WHERE id_puesto = @id_puesto);
+
+		UPDATE 
+				empleados
+		SET
+				nombre				= ISNULL(@nombre, nombre),
+				apellido_paterno	= ISNULL(@apellido_paterno, apellido_paterno),
+				apellido_materno	= ISNULL(@apellido_materno, apellido_materno),
+				fecha_nacimiento	= ISNULL(@fecha_nacimiento, fecha_nacimiento),
+				curp				= ISNULL(@curp, curp),
+				nss					= ISNULL(@nss, nss),
+				rfc					= ISNULL(@rfc, rfc),
+				banco				= ISNULL(@banco, banco),
+				numero_cuenta		= ISNULL(@numero_cuenta, numero_cuenta),
+				correo_electronico	= ISNULL(@correo_electronico, correo_electronico),
+				contrasena			= ISNULL(@contrasena, contrasena),
+				id_departamento		= ISNULL(@id_departamento, id_departamento),
+				id_puesto			= ISNULL(@id_puesto, id_puesto),
+				fecha_contratacion	= ISNULL(@fecha_contratacion, fecha_contratacion),
+				sueldo_diario		= ISNULL(@sueldo_diario, sueldo_diario)
+		WHERE 
+				numero_empleado = @numero_empleado AND activo = 1;
+
+		DELETE FROM 
+				telefonos_empleados
+		WHERE 
+				numero_empleado = @numero_empleado;
+
+		DECLARE @min INT = (SELECT MIN(row_count) FROM @telefonos);
+		DECLARE @max INT = (SELECT MAX(row_count) FROM @telefonos)
+		DECLARE @count INT = @min;
+
+		WHILE (@count <= @max)
 		BEGIN
-			RAISERROR('No se puede añadir el puesto debido a que hay una nómina en proceso', 11, 1);
-			RETURN;
+
+			DECLARE @numtel VARCHAR(12) = (SELECT telefono FROM @telefonos WHERE row_count = @count);
+			EXEC sp_AgregarTelefono @numtel,  @numero_empleado, 'E';
+			SET @count = @count + 1;
+
 		END
 
-	DECLARE @id_domicilio INT;
-	SET @id_domicilio = (SELECT domicilio FROM empleados WHERE numero_empleado = @numero_empleado);
+		COMMIT TRAN
 
-	EXEC sp_ActualizarDomicilio @id_domicilio, @calle, @numero, @colonia, @ciudad, @estado, @codigo_postal;
+	END TRY
+	BEGIN CATCH
 
-	DECLARE @sueldo_diario	MONEY
-	SET @sueldo_diario = (SELECT sueldo_base FROM departamentos WHERE id_departamento = @id_departamento) *
-						(SELECT nivel_salarial FROM puestos WHERE id_puesto = @id_puesto);
+		ROLLBACK TRAN
 
-	UPDATE 
-			empleados
-	SET
-			nombre				= ISNULL(@nombre, nombre),
-			apellido_paterno	= ISNULL(@apellido_paterno, apellido_paterno),
-			apellido_materno	= ISNULL(@apellido_materno, apellido_materno),
-			fecha_nacimiento	= ISNULL(@fecha_nacimiento, fecha_nacimiento),
-			curp				= ISNULL(@curp, curp),
-			nss					= ISNULL(@nss, nss),
-			rfc					= ISNULL(@rfc, rfc),
-			banco				= ISNULL(@banco, banco),
-			numero_cuenta		= ISNULL(@numero_cuenta, numero_cuenta),
-			correo_electronico	= ISNULL(@correo_electronico, correo_electronico),
-			contrasena			= ISNULL(@contrasena, contrasena),
-			id_departamento		= ISNULL(@id_departamento, id_departamento),
-			id_puesto			= ISNULL(@id_puesto, id_puesto),
-			fecha_contratacion	= ISNULL(@fecha_contratacion, fecha_contratacion),
-			sueldo_diario		= ISNULL(@sueldo_diario, sueldo_diario)
-	WHERE 
-			numero_empleado = @numero_empleado AND activo = 1;
-
-	DELETE FROM 
-			telefonos_empleados
-	WHERE 
-			numero_empleado = @numero_empleado;
-
-	DECLARE @min INT = (SELECT MIN(row_count) FROM @telefonos);
-	DECLARE @max INT = (SELECT MAX(row_count) FROM @telefonos)
-	DECLARE @count INT = @min;
-
-	WHILE (@count <= @max)
-	BEGIN
-
-		DECLARE @numtel VARCHAR(12) = (SELECT telefono FROM @telefonos WHERE row_count = @count);
-
-		INSERT INTO telefonos_empleados(
-				telefono,
-				numero_empleado
-		)
-		VALUES(
-				@numtel,
-				@numero_empleado
-		);
-
-		SET @count = @count + 1;
-
-	END
+	END CATCH
 
 GO
 
-
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_EliminarEmpleado')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_EliminarEmpleado')
 	DROP PROCEDURE sp_EliminarEmpleado;
 GO
 
@@ -233,7 +253,7 @@ GO
 
 
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerEmpleados')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerEmpleados')
 	DROP PROCEDURE sp_LeerEmpleados;
 GO
 
@@ -282,7 +302,7 @@ GO
 
 
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ObtenerEmpleadoPorId')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ObtenerEmpleadoPorId')
 	DROP PROCEDURE sp_ObtenerEmpleadoPorId;
 GO
 
@@ -329,7 +349,7 @@ GO
 
 
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerEmpleadosNominas')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerEmpleadosNominas')
 	DROP PROCEDURE sp_LeerEmpleadosNominas;
 GO
 
@@ -339,8 +359,8 @@ CREATE PROCEDURE sp_LeerEmpleadosNominas(
 )
 AS
 
-	IF (dbo.PRIMERDIAFECHA(@fecha) >= dbo.OBTENERFECHAACTUAL(@id_empresa) AND 
-		(dbo.NOMINAENPROCESO(@id_empresa) = 0 OR dbo.PRIMERDIAFECHA(@fecha) > dbo.OBTENERFECHAACTUAL(@id_empresa)))
+	IF (dbo.PRIMERDIAFECHA(@fecha) >= dbo.PRIMERDIAFECHA(dbo.OBTENERFECHAACTUAL(@id_empresa)) AND 
+		(dbo.NOMINAENPROCESO(@id_empresa) = 0 OR dbo.PRIMERDIAFECHA(@fecha) > dbo.PRIMERDIAFECHA(dbo.OBTENERFECHAACTUAL(@id_empresa))))
 		BEGIN
 			RAISERROR('No se puede iniciar una nómina fuera del periodo actual de nómina', 11, 1);
 			RETURN;
@@ -389,4 +409,32 @@ AS
 				ON n.numero_empleado = e.numero_empleado
 		WHERE
 				dbo.PRIMERDIAFECHA(n.fecha) = dbo.PRIMERDIAFECHA(@fecha)
+GO
+
+
+
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ObtenerFechaValidaEmpleado')
+	DROP PROCEDURE sp_ObtenerFechaValidaEmpleado;
+GO
+
+CREATE PROCEDURE sp_ObtenerFechaValidaEmpleado(
+	@numero_empleado				INT,
+	@id_empresa						INT
+)
+AS
+
+	IF EXISTS (SELECT numero_empleado FROM nominas WHERE numero_empleado = @numero_empleado)
+
+		SELECT TOP 1
+				DATEADD(DAY, -1, DATEADD(YEAR, -18, fecha)) [Fecha]
+		FROM
+				nominas
+		WHERE
+				numero_empleado = @numero_empleado
+		ORDER BY
+				fecha ASC;
+	ELSE
+		SELECT
+				DATEADD(DAY, -1, DATEADD(YEAR, -18, dbo.OBTENERFECHAACTUAL(@id_empresa))) [Fecha];
+
 GO

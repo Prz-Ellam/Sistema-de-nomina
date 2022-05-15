@@ -11,30 +11,30 @@ namespace Data_Access.Repositorios
 {
     public class RepositorioBancos
     {
-        private string readAll;
+        private readonly string readAll;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams;
 
         public RepositorioBancos()
         {
             mainRepository = MainConnection.GetInstance();
-            readAll = "sp_LeerBancos";
             sqlParams = new RepositoryParameters();
+            readAll = "sp_LeerBancos";
         }
 
-        public List<Bancos> ReadAll()
+        public List<Banks> ReadAll()
         {
             sqlParams.Start();
 
             DataTable table = mainRepository.ExecuteReader(readAll, sqlParams);
 
-            List<Bancos> bancos = new List<Bancos>();
+            List<Banks> bancos = new List<Banks>();
             foreach(DataRow row in table.Rows)
             {
-                bancos.Add(new Bancos
+                bancos.Add(new Banks
                 {
-                    IdBanco = Convert.ToInt32(row[0]),
-                    Nombre = row[1].ToString()
+                    BankId = Convert.ToInt32(row["ID Banco"]),
+                    Name = row["Nombre"].ToString()
                 });
             }
 

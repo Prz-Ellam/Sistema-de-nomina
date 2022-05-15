@@ -7,10 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
 using Presentation.Helpers;
 using Data_Access.Entities;
-using Data_Access.Interfaces;
 using Data_Access.Repositorios;
 
 namespace Presentation.Views
@@ -26,22 +24,8 @@ namespace Presentation.Views
 
         private void Login_Load(object sender, EventArgs e)
         {
-           
-        }
-
-        private void txtEmail_Leave(object sender, EventArgs e)
-        {
-            if (txtEmail.Text == string.Empty)
-            {
-                lblEmailError.Text = "El correo electrónico no puede estar vacío";
-                lblEmailError.Visible = true;
-            }
-        }
-
-        private void txtEmail_Enter(object sender, EventArgs e)
-        {
-            lblEmailError.Text = string.Empty;
-            lblEmailError.Visible = false;
+            WinAPI.SendMessage(txtEmail.Handle, WinAPI.EM_SETCUEBANNER, 0, "CORREO ELECTRONICO");
+            WinAPI.SendMessage(txtPassword.Handle, WinAPI.EM_SETCUEBANNER, 0, "CONTRASEÑA");
         }
 
         private void lblEmail_Click(object sender, EventArgs e)
@@ -88,7 +72,7 @@ namespace Presentation.Views
             Session.email = user.Email;
             Session.id = user.Id;
             if (Session.position == "Administrador")
-                Session.company_id = new CompaniesRepository().Verify(Session.id);
+                Session.company_id = new RepositorioEmpresas().Verify(Session.id);
 
             Layout menu = new Layout();
             menu.Show();
@@ -108,6 +92,12 @@ namespace Presentation.Views
         private void pbMinimized_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void Login_MouseDown(object sender, MouseEventArgs e)
+        {
+            WinAPI.ReleaseCapture();
+            WinAPI.SendMessage(this.Handle, WinAPI.WM_SYSCOMMAND, 0xf012, 0);
         }
     }
 }

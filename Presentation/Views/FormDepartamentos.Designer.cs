@@ -59,7 +59,7 @@ namespace Presentation.Views
             this.txtName.MaxLength = 30;
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(400, 29);
-            this.txtName.TabIndex = 0;
+            this.txtName.TabIndex = 1;
             // 
             // lblName
             // 
@@ -73,7 +73,6 @@ namespace Presentation.Views
             this.lblName.Size = new System.Drawing.Size(73, 21);
             this.lblName.TabIndex = 1;
             this.lblName.Text = "Nombre";
-            this.lblName.Click += new System.EventHandler(this.lblName_Click);
             // 
             // lblBaseSalary
             // 
@@ -87,7 +86,6 @@ namespace Presentation.Views
             this.lblBaseSalary.Size = new System.Drawing.Size(102, 21);
             this.lblBaseSalary.TabIndex = 3;
             this.lblBaseSalary.Text = "Sueldo base";
-            this.lblBaseSalary.Click += new System.EventHandler(this.lblBaseSalary_Click);
             // 
             // btnAdd
             // 
@@ -100,7 +98,7 @@ namespace Presentation.Views
             this.btnAdd.Location = new System.Drawing.Point(20, 290);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(125, 42);
-            this.btnAdd.TabIndex = 4;
+            this.btnAdd.TabIndex = 3;
             this.btnAdd.Text = "Agregar";
             this.btnAdd.UseVisualStyleBackColor = false;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
@@ -116,7 +114,7 @@ namespace Presentation.Views
             this.btnEdit.Location = new System.Drawing.Point(200, 290);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(125, 42);
-            this.btnEdit.TabIndex = 5;
+            this.btnEdit.TabIndex = 4;
             this.btnEdit.Text = "Editar";
             this.btnEdit.UseVisualStyleBackColor = false;
             this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
@@ -132,7 +130,7 @@ namespace Presentation.Views
             this.btnDelete.Location = new System.Drawing.Point(380, 290);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(125, 42);
-            this.btnDelete.TabIndex = 6;
+            this.btnDelete.TabIndex = 5;
             this.btnDelete.Text = "Eliminar";
             this.btnDelete.UseVisualStyleBackColor = false;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
@@ -149,7 +147,7 @@ namespace Presentation.Views
             0});
             this.nudBaseSalary.Name = "nudBaseSalary";
             this.nudBaseSalary.Size = new System.Drawing.Size(377, 29);
-            this.nudBaseSalary.TabIndex = 8;
+            this.nudBaseSalary.TabIndex = 2;
             this.nudBaseSalary.ThousandsSeparator = true;
             // 
             // lblDepartments
@@ -220,7 +218,7 @@ namespace Presentation.Views
             this.dtgDepartaments.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dtgDepartaments.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dtgDepartaments.Size = new System.Drawing.Size(851, 241);
-            this.dtgDepartaments.TabIndex = 39;
+            this.dtgDepartaments.TabIndex = 6;
             this.dtgDepartaments.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgDepartaments_CellDoubleClick);
             // 
             // id
@@ -256,7 +254,7 @@ namespace Presentation.Views
             this.txtFilter.MaxLength = 100;
             this.txtFilter.Name = "txtFilter";
             this.txtFilter.Size = new System.Drawing.Size(307, 29);
-            this.txtFilter.TabIndex = 40;
+            this.txtFilter.TabIndex = 7;
             this.txtFilter.TextChanged += new System.EventHandler(this.txtFilter_TextChanged);
             // 
             // lblFilter
@@ -271,7 +269,6 @@ namespace Presentation.Views
             this.lblFilter.Size = new System.Drawing.Size(58, 21);
             this.lblFilter.TabIndex = 41;
             this.lblFilter.Text = "Filtrar:";
-            this.lblFilter.Click += new System.EventHandler(this.lblFilter_Click);
             // 
             // FormDepartamentos
             // 

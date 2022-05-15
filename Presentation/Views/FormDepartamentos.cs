@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
 using Presentation.Helpers;
 using Data_Access.Repositorios;
 using Data_Access.Entidades;
@@ -17,8 +16,8 @@ namespace Presentation.Views
 {
     public partial class FormDepartamentos : Form
     {
-        private RepositorioDepartamentos repository = new RepositorioDepartamentos();
-        private Departamentos department = new Departamentos();
+        private RepositorioDepartamentos repository;
+        private Departamentos department;
         int dtgPrevIndex = -1;
         int departmentId = -1;
 
@@ -57,6 +56,8 @@ namespace Presentation.Views
         public FormDepartamentos()
         {
             InitializeComponent();
+            repository = new RepositorioDepartamentos();
+            department = new Departamentos();
         }
 
         private void FormDepartments_Load(object sender, EventArgs e)
@@ -147,23 +148,6 @@ namespace Presentation.Views
                 MessageBox.Show(ex.ToString());
             }
         }
-
-        private void lblName_Click(object sender, EventArgs e)
-        {
-            txtName.Focus();
-        }
-
-        private void lblBaseSalary_Click(object sender, EventArgs e)
-        {
-            nudBaseSalary.Focus();
-        }
-
-        private void lblFilter_Click(object sender, EventArgs e)
-        {
-            txtFilter.Focus();
-        }
-
-
 
         public ValidationResult AddDepartment()
         {
@@ -298,11 +282,10 @@ namespace Presentation.Views
             departmentId = -1;
             txtName.Clear();
             nudBaseSalary.Value = 0.0m;
+            txtFilter.Clear();
 
             DepartmentState = EntityState.Add;
             dtgPrevIndex = -1;
-
-            txtFilter.Clear();
         }
 
         public void FillForm(int index)

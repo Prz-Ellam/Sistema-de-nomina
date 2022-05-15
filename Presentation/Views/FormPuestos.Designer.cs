@@ -72,7 +72,6 @@ namespace Presentation.Views
             this.lblName.Size = new System.Drawing.Size(73, 21);
             this.lblName.TabIndex = 1;
             this.lblName.Text = "Nombre";
-            this.lblName.Click += new System.EventHandler(this.lblName_Click);
             // 
             // lblWageLevel
             // 
@@ -86,7 +85,6 @@ namespace Presentation.Views
             this.lblWageLevel.Size = new System.Drawing.Size(105, 21);
             this.lblWageLevel.TabIndex = 2;
             this.lblWageLevel.Text = "Nivel salarial";
-            this.lblWageLevel.Click += new System.EventHandler(this.lblWageLevel_Click);
             // 
             // nudWageLevel
             // 
@@ -244,7 +242,6 @@ namespace Presentation.Views
             this.lblFilter.Size = new System.Drawing.Size(58, 21);
             this.lblFilter.TabIndex = 43;
             this.lblFilter.Text = "Filtrar:";
-            this.lblFilter.Click += new System.EventHandler(this.lblFilter_Click);
             // 
             // txtFilter
             // 

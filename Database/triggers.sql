@@ -1,45 +1,6 @@
 USE sistema_de_nomina;
-/*
-IF (EXISTS(SELECT name FROM sysobjects WHERE type = 'TR' AND name = 'tr_perception_insert'))
-	DROP TRIGGER tr_perception_insert;
-GO
 
-CREATE TRIGGER tr_PercepcionInsert
-ON percepciones
-AFTER INSERT
-AS
-
-	DECLARE @amount_type	CHAR(1);
-	SET @amount_type = (SELECT tipo_monto FROM inserted);
-
-	IF @amount_type = 'F'
-		UPDATE percepciones
-		SET
-		porcentual = 0
-		FROM percepciones
-		INNER JOIN inserted ON percepciones.id_percepcion = inserted.id_percepcion
-		WHERE
-		percepciones.id_percepcion = inserted.id;
-	ELSE IF @amount_type = 'P'
-		UPDATE perceptions
-		SET
-		fixed = 0
-		FROM perceptions
-		INNER JOIN inserted ON perceptions.id = inserted.id 
-		WHERE
-		perceptions.id = inserted.id;
-
-GO
-
-
--- tr_perceptions_update
--- tr_deductions_insert
--- tr_deductions_update
-
-
-*/
-
-IF (EXISTS(SELECT name FROM sysobjects WHERE type = 'TR' AND name = 'tr_AsignarNominaPercepciones'))
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'TR' AND name = 'tr_AsignarNominaPercepciones')
 	DROP TRIGGER tr_AsignarNominaPercepciones;
 GO
 
@@ -55,7 +16,8 @@ AS
 	FROM
 		percepciones_aplicadas AS pa
 		INNER JOIN inserted AS n
-		ON pa.fecha = n.fecha AND pa.numero_empleado = n.numero_empleado
+		ON dbo.PRIMERDIAFECHA(pa.fecha) = dbo.PRIMERDIAFECHA(n.fecha) AND 
+		pa.numero_empleado = n.numero_empleado
 	WHERE
 		dbo.PRIMERDIAFECHA(pa.fecha) = dbo.PRIMERDIAFECHA(n.fecha);
 
@@ -67,7 +29,8 @@ AS
 	FROM
 		deducciones_aplicadas AS da
 		INNER JOIN inserted AS n
-		ON da.fecha = n.fecha AND da.numero_empleado = n.numero_empleado
+		ON dbo.PRIMERDIAFECHA(da.fecha) = dbo.PRIMERDIAFECHA(n.fecha) AND 
+		da.numero_empleado = n.numero_empleado
 	WHERE
 		dbo.PRIMERDIAFECHA(da.fecha) = dbo.PRIMERDIAFECHA(n.fecha);
 
@@ -76,7 +39,7 @@ GO
 
 
 
-IF (EXISTS(SELECT name FROM sysobjects WHERE type = 'TR' AND name = 'tr_ActualizarSueldosDepartamento'))
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'TR' AND name = 'tr_ActualizarSueldosDepartamento')
 	DROP TRIGGER tr_ActualizarSueldosDepartamento;
 GO
 
@@ -100,7 +63,7 @@ GO
 
 
 
-IF (EXISTS(SELECT name FROM sysobjects WHERE type = 'TR' AND name = 'tr_ActualizarSueldosPuesto'))
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'TR' AND name = 'tr_ActualizarSueldosPuesto')
 	DROP TRIGGER tr_ActualizarSueldosPuesto;
 GO
 

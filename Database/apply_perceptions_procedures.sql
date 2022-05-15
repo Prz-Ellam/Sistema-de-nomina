@@ -1,6 +1,6 @@
 USE sistema_de_nomina;
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AplicarEmpleadoPercepcion')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AplicarEmpleadoPercepcion')
 	DROP PROCEDURE sp_AplicarEmpleadoPercepcion;
 GO
 
@@ -43,7 +43,7 @@ GO
 
 
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AplicarDepartamentoPercepcion')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AplicarDepartamentoPercepcion')
 	DROP PROCEDURE sp_AplicarDepartamentoPercepcion;
 GO
 
@@ -81,7 +81,7 @@ GO
 
 
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_EliminarEmpleadoPercepcion')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_EliminarEmpleadoPercepcion')
 	DROP PROCEDURE sp_EliminarEmpleadoPercepcion;
 GO
 
@@ -103,7 +103,7 @@ GO
 
 
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_EliminarDepartamentoPercepcion')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_EliminarDepartamentoPercepcion')
 	DROP PROCEDURE sp_EliminarDepartamentoPercepcion;
 GO
 
@@ -129,7 +129,7 @@ GO
 
 
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerPercepcionesAplicadas')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerPercepcionesAplicadas')
 	DROP PROCEDURE sp_LeerPercepcionesAplicadas;
 GO
 
@@ -159,7 +159,7 @@ AS
 				pa.numero_empleado = @numero_empleado
 		WHERE 
 				p.tipo_duracion = 'S' AND 
-				p.fecha_creacion <= dbo.PRIMERDIAFECHA(@fecha) AND 
+				dbo.PRIMERDIAFECHA(p.fecha_creacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
 				(p.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR p.fecha_eliminacion IS NULL);
 	ELSE IF @filtro = 2
 		SELECT 
@@ -178,7 +178,7 @@ AS
 		WHERE 
 				IIF(pa.id_percepcion_aplicada IS NULL, 'false', 'true') = 'true' AND 
 				p.tipo_duracion = 'S' AND 
-				p.fecha_creacion <= dbo.PRIMERDIAFECHA(@fecha) AND 
+				dbo.PRIMERDIAFECHA(p.fecha_creacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
 				(p.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR p.fecha_eliminacion IS NULL);
 	ELSE IF @filtro = 3
 		SELECT 
@@ -197,7 +197,7 @@ AS
 		WHERE 
 				IIF(pa.id_percepcion_aplicada IS NULL, 'false', 'true') = 'false' AND 
 				p.tipo_duracion = 'S' AND 
-				p.fecha_creacion <= dbo.PRIMERDIAFECHA(@fecha) AND 
+				dbo.PRIMERDIAFECHA(p.fecha_creacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
 				(p.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR p.fecha_eliminacion IS NULL);
 	ELSE 
 		RAISERROR('Filtro inválido', 11, 1);

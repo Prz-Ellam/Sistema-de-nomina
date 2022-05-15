@@ -1,6 +1,6 @@
 USE sistema_de_nomina;
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AgregarPercepcion')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AgregarPercepcion')
 	DROP PROCEDURE sp_AgregarPercepcion;
 GO
 
@@ -47,7 +47,7 @@ GO
 
 
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ActualizarPercepcion')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ActualizarPercepcion')
 	DROP PROCEDURE sp_ActualizarPercepcion;
 GO
 
@@ -62,7 +62,7 @@ AS
 
 	DECLARE @status_nomina BIT;
 	SET @status_nomina = dbo.NOMINAENPROCESO((SELECT id_empresa FROM percepciones 
-												WHERE id_percepcion = 6 AND activo = 1));
+												WHERE id_percepcion = @id_percepcion AND activo = 1));
 	IF @status_nomina = 1
 		BEGIN
 			RAISERROR('No se puede editar la percepción debido a que hay una nómina en proceso', 11, 1);
@@ -84,7 +84,7 @@ GO
 
 
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_EliminarPercepcion')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_EliminarPercepcion')
 	DROP PROCEDURE sp_EliminarPercepcion;
 GO
 
@@ -95,7 +95,7 @@ AS
 
 	DECLARE @status_nomina BIT;
 	SET @status_nomina = dbo.NOMINAENPROCESO((SELECT id_empresa FROM percepciones 
-												WHERE id_percepcion = 6 AND activo = 1));
+												WHERE id_percepcion = @id_percepcion AND activo = 1));
 	IF @status_nomina = 1
 		BEGIN
 			RAISERROR('No se puede editar la percepción debido a que hay una nómina en proceso', 11, 1);
@@ -116,7 +116,7 @@ GO
 
 
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerPercepciones')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerPercepciones')
 	DROP PROCEDURE sp_LeerPercepciones;
 GO
 
@@ -127,11 +127,11 @@ CREATE PROCEDURE sp_LeerPercepciones(
 AS
 
 	SELECT 
-			id_percepcion		[ID Percepcion], 
-			nombre				[Nombre],
-			tipo_monto			[Tipo de monto], 
-			ISNULL(fijo, 0)		[Fijo], 
-			ISNULL(porcentual, 0) [Porcentual]
+			id_percepcion			[ID Percepcion], 
+			nombre					[Nombre],
+			tipo_monto				[Tipo de monto], 
+			ISNULL(fijo, 0)			[Fijo], 
+			ISNULL(porcentual, 0)	[Porcentual]
 	FROM 
 			percepciones
 	WHERE 

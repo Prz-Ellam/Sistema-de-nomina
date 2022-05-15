@@ -79,9 +79,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entidades\Bancos.cs" />
+    <Compile Include="Entidades\Banks.cs" />
     <Compile Include="Entidades\Domicilios.cs" />
-    <Compile Include="Entidades\Empresas.cs" />
+    <Compile Include="Entidades\Companies.cs" />
     <Compile Include="Entidades\Deducciones.cs" />
     <Compile Include="Entidades\Departamentos.cs" />
     <Compile Include="Entidades\Empleados.cs" />
@@ -94,6 +94,8 @@
     <Compile Include="Helpers\BlackList.cs" />
     <Compile Include="Helpers\CURP.cs" />
     <Compile Include="Helpers\PairItem.cs" />
+    <Compile Include="Helpers\Phone.cs" />
+    <Compile Include="Helpers\SqlErrors.cs" />
     <Compile Include="Interfaces\ICompaniesRepository.cs" />
     <Compile Include="Interfaces\IDepartmentsRepository.cs" />
     <Compile Include="Interfaces\IGenericRepository.cs" />
@@ -120,6 +122,7 @@
     <Compile Include="ViewModels\CompaniesViewModel.cs" />
     <Compile Include="ViewModels\ConceptViewModel.cs" />
     <Compile Include="ViewModels\DeductionViewModel.cs" />
+    <Compile Include="ViewModels\DepartmentsPayrollViewModel.cs" />
     <Compile Include="ViewModels\DepartmentsViewModel.cs" />
     <Compile Include="ViewModels\EmployeePayrollsViewModel.cs" />
     <Compile Include="ViewModels\EmployeesViewModel.cs" />

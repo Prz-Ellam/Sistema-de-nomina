@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,28 @@ namespace Presentation.Views
             InitializeComponent();
         }
 
+        private void GeneralPayrollReports_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                RepositorioEmpresas companyRepository = new RepositorioEmpresas();
+                DateTime creationDate = companyRepository.GetCreationDate(Session.company_id, true);
+                DateTime payrollDate = payrollRepository.GetDate(Session.company_id);
+                dtpDate.Value = creationDate;
+                dtpDate.MinDate = creationDate;
+                dtpDate.MaxDate = payrollDate.AddMonths(-1);
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 50000)
+                {
+                    MessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
+            dtgGeneralPayroll.DoubleBuffered(true);
+        }
+
         private void dtpDate_ValueChanged(object sender, EventArgs e)
         {
             DateTime date = dtpDate.Value;
@@ -33,20 +56,5 @@ namespace Presentation.Views
             }
         }
 
-        private void GeneralPayrollReports_Load(object sender, EventArgs e)
-        {
-            DateTime date = dtpDate.Value;
-            try
-            {
-                dtgGeneralPayroll.DataSource = payrollRepository.GeneralPayrollReport(date);
-            }
-            catch (Exception ex)
-            {
-
-            }
-
-
-            dtgGeneralPayroll.DoubleBuffered(true);
-        }
     }
 }

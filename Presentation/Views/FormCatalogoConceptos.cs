@@ -17,10 +17,10 @@ namespace Presentation.Views
 {
     public partial class FormCatalogoConceptos : Form
     {
-        private RepositorioPercepciones perceptionRepository = new RepositorioPercepciones();
-        private RepositorioDeducciones deductionRepository = new RepositorioDeducciones();
-        private Percepciones percepcion = new Percepciones();
-        private Deducciones deduccion = new Deducciones();
+        private RepositorioPercepciones perceptionRepository;
+        private RepositorioDeducciones deductionRepository;
+        private Percepciones percepcion;
+        private Deducciones deduccion;
         int perceptionId = -1;
         int deductionId = -1;
         int dtgPerceptionPrevIndex = -1;
@@ -63,6 +63,10 @@ namespace Presentation.Views
         public FormCatalogoConceptos()
         {
             InitializeComponent();
+            perceptionRepository = new RepositorioPercepciones();
+            deductionRepository = new RepositorioDeducciones();
+            percepcion = new Percepciones();
+            deduccion = new Deducciones();
         }
 
         private void FormCatalogoConceptos_Load(object sender, EventArgs e)
@@ -508,7 +512,6 @@ namespace Presentation.Views
             nudFijo.Value = 0.0m;
         }
 
-
         private void dtgPerceptions_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             int index = e.RowIndex;
@@ -519,7 +522,6 @@ namespace Presentation.Views
             else
             {
                 FillPerceptionForm(index);
-                
             }
         }
 

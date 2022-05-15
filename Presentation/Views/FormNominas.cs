@@ -19,20 +19,30 @@ namespace Presentation.Views
 {
     public partial class FormNominas : Form
     {
-        RepositorioNominas payrollRepository = new RepositorioNominas();
+        RepositorioNominas payrollRepository;
         DateTime payrollDate;
         public FormNominas()
         {
             InitializeComponent();
+            payrollRepository = new RepositorioNominas();
         }
 
         private void Payroll_Load(object sender, EventArgs e)
         {
-            payrollDate = payrollRepository.GetDate(Session.company_id);
-
-            dtpDate.Value = payrollDate;
-            dtpDate.MinDate = payrollDate;
-            dtpConsult.Value = payrollDate;
+            try
+            {
+                payrollDate = payrollRepository.GetDate(Session.company_id);
+                dtpDate.Value = payrollDate;
+                dtpDate.MinDate = payrollDate;
+                dtpConsult.Value = payrollDate;
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 50000)
+                {
+                    MessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
 
             dtgPayrolls.DoubleBuffered(true);
         }
@@ -74,12 +84,14 @@ namespace Presentation.Views
                 {
                     if (ex.Message.Contains("chk_nomina_sueldo"))
                     {
-                        MessageBox.Show("La nómina no puede ser cerrada debido a que un registro es inválido, favor de revisar y realizar correcciones las necesarias");
+                        MessageBox.Show("La nómina no puede ser cerrada debido a que un registro es inválido, favor de revisar y realizar correcciones las necesarias",
+                            "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
                 else
                 {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show("No se pudo realizar la operación", "Sistema de nómina dice: ",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 return;
             }
@@ -153,7 +165,8 @@ namespace Presentation.Views
                 bool result = payrollRepository.DeletePayroll(Session.company_id, requestDate);
                 if (result)
                 {
-                    MessageBox.Show("La nómina fue eliminada éxitosamente");
+                    MessageBox.Show("La nómina fue eliminada éxitosamente", "Sistema de nómina dice: ",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {

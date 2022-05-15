@@ -49,11 +49,11 @@ namespace Presentation.Views
         private void Profile_Load(object sender, EventArgs e)
         {
             // Inicializar bancos, departamentos y puestos
-            List<Bancos> bancos = new RepositorioBancos().ReadAll();
+            List<Banks> bancos = new RepositorioBancos().ReadAll();
             List<PairItem> nombres = new List<PairItem>();
             foreach (var banco in bancos)
             {
-                nombres.Add(new PairItem(banco.Nombre, banco.IdBanco));
+                nombres.Add(new PairItem(banco.Name, banco.BankId));
             }
             cbBank.DataSource = nombres;
 

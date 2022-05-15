@@ -135,7 +135,7 @@ CREATE TABLE percepciones(
 	fijo						MONEY,
 	porcentual					FLOAT,
 	tipo_duracion				CHAR DEFAULT 'S' NOT NULL, -- 'B' es de basic (basico) y 'S' es de special (Especial)
-	id_empresa					INT NOT NULL,
+	id_empresa					INT,
 	activo						BIT DEFAULT 1 NOT NULL,
 	fecha_creacion				DATE,
 	fecha_eliminacion			DATE,
@@ -161,7 +161,7 @@ CREATE TABLE deducciones(
 	fijo						MONEY,
 	porcentual					FLOAT,
 	tipo_duracion				CHAR DEFAULT 'S' NOT NULL,
-	id_empresa					INT NOT NULL,
+	id_empresa					INT,
 	activo						BIT DEFAULT 1 NOT NULL,
 	fecha_creacion				DATE,
 	fecha_eliminacion			DATE,

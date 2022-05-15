@@ -103,6 +103,8 @@ namespace Data_Access.Entidades
         [Required]
         [RegularExpression(@"^\d{4,5}$", ErrorMessage = "El codigo postal no es válido")]
         public string CodigoPostal { get => codigoPostal; set => codigoPostal = value; }
+        //[Required]
+        //[RegularExpression(@"^\d{10}$", ErrorMessage = "El teléfono no es válido")]
         public List<string> Telefonos { get => telefonos; set => telefonos = value; }
     }
 }

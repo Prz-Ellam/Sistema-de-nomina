@@ -1,7 +1,7 @@
 USE sistema_de_nomina;
 
 -- Puestos
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AgregarPuesto')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AgregarPuesto')
 	DROP PROCEDURE sp_AgregarPuesto;
 GO
 
@@ -27,18 +27,21 @@ AS
 	INSERT INTO puestos(
 			nombre,
 			nivel_salarial,
-			id_empresa)
+			id_empresa,
+			fecha_creacion
+	)
 	VALUES (
 			@nombre,
 			@nivel_salarial,
-			@id_empresa
+			@id_empresa,
+			dbo.OBTENERFECHAACTUAL(@id_empresa)
 	);
 
 GO
 
 
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ActualizarPuesto')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ActualizarPuesto')
 	DROP PROCEDURE sp_ActualizarPuesto;
 GO
 
@@ -71,7 +74,7 @@ GO
 
 
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_EliminarPuesto')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_EliminarPuesto')
 	DROP PROCEDURE sp_EliminarPuesto;
 GO
 
@@ -109,7 +112,7 @@ GO
 
 
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerPuestos')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerPuestos')
 	DROP PROCEDURE sp_LeerPuestos;
 GO
 

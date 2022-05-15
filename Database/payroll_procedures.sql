@@ -19,53 +19,64 @@ AS
 			RETURN;
 		END
 
-	IF EXISTS(SELECT fecha FROM (SELECT fecha FROM percepciones_aplicadas UNION SELECT fecha FROM deducciones_aplicadas) AS U
-				WHERE dbo.PRIMERDIAFECHA(fecha) = dbo.OBTENERFECHAACTUAL(@id_empresa))
+	IF EXISTS (SELECT fecha FROM (SELECT fecha FROM percepciones_aplicadas UNION SELECT fecha FROM deducciones_aplicadas) AS U
+				WHERE dbo.PRIMERDIAFECHA(fecha) = dbo.PRIMERDIAFECHA(dbo.OBTENERFECHAACTUAL(@id_empresa)))
 		BEGIN
 			RAISERROR('Ya existe la nómina en proceso', 11, 1);
 			RETURN;
 		END
 
+	BEGIN TRY
+		
+		BEGIN TRAN
 
-	INSERT INTO percepciones_aplicadas(
-			numero_empleado,
-			id_percepcion,
-			cantidad, 
-			fecha
-	)
-	SELECT 
-			e.numero_empleado, 
-			p.id_percepcion, 
-			IIF(p.tipo_monto = 'F', p.fijo, p.porcentual * e.sueldo_diario * dbo.DIASTRABAJADOSEMPLEADO(@fecha, e.numero_empleado)),
-			@fecha
-	FROM 
-			empleados AS e
-			CROSS JOIN percepciones AS p
-	WHERE 
-			dbo.PRIMERDIAFECHA(e.fecha_contratacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
-			e.activo = 1 AND
-			p.tipo_duracion = 'B';
+		INSERT INTO percepciones_aplicadas(
+				numero_empleado,
+				id_percepcion,
+				cantidad, 
+				fecha
+		)
+		SELECT 
+				e.numero_empleado, 
+				p.id_percepcion, 
+				IIF(p.tipo_monto = 'F', p.fijo, p.porcentual * e.sueldo_diario * dbo.DIASTRABAJADOSEMPLEADO(@fecha, e.numero_empleado)),
+				@fecha
+		FROM 
+				empleados AS e
+				CROSS JOIN percepciones AS p
+		WHERE 
+				dbo.PRIMERDIAFECHA(e.fecha_contratacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
+				e.activo = 1 AND
+				p.tipo_duracion = 'B';
 
 
+		INSERT INTO deducciones_aplicadas(
+				numero_empleado, 
+				id_deduccion,
+				cantidad,
+				fecha
+		)
+		SELECT 
+				e.numero_empleado, 
+				d.id_deduccion, 
+				IIF(d.tipo_monto = 'F', d.fijo, d.porcentual * e.sueldo_diario * dbo.DIASTRABAJADOSEMPLEADO(@fecha, e.numero_empleado)),
+				@fecha
+		FROM 
+				empleados AS e
+				CROSS JOIN deducciones AS d
+		WHERE 
+				dbo.PRIMERDIAFECHA(e.fecha_contratacion) <= dbo.PRIMERDIAFECHA(@fecha) AND
+				e.activo = 1 AND
+				d.tipo_duracion = 'B';
 
-	INSERT INTO deducciones_aplicadas(
-			numero_empleado, 
-			id_deduccion,
-			cantidad,
-			fecha
-	)
-	SELECT 
-			e.numero_empleado, 
-			d.id_deduccion, 
-			IIF(d.tipo_monto = 'F', d.fijo, d.porcentual * e.sueldo_diario * dbo.DIASTRABAJADOSEMPLEADO(@fecha, e.numero_empleado)),
-			@fecha
-	FROM 
-			empleados AS e
-			CROSS JOIN deducciones AS d
-	WHERE 
-			dbo.PRIMERDIAFECHA(e.fecha_contratacion) <= dbo.PRIMERDIAFECHA(@fecha) AND
-			e.activo = 1 AND
-			d.tipo_duracion = 'B';
+		COMMIT TRAN
+
+	END TRY
+	BEGIN CATCH
+
+		ROLLBACK TRAN
+
+	END CATCH
 
 GO
 
@@ -90,23 +101,35 @@ AS
 			RETURN;
 		END
 
-	IF NOT EXISTS(SELECT fecha FROM (SELECT fecha FROM percepciones_aplicadas UNION SELECT fecha FROM deducciones_aplicadas) AS U
-				WHERE dbo.PRIMERDIAFECHA(fecha) = dbo.OBTENERFECHAACTUAL(@id_empresa))
+	IF NOT EXISTS (SELECT fecha FROM (SELECT fecha FROM percepciones_aplicadas UNION SELECT fecha FROM deducciones_aplicadas) AS U
+				WHERE dbo.PRIMERDIAFECHA(fecha) = dbo.PRIMERDIAFECHA(dbo.OBTENERFECHAACTUAL(@id_empresa)))
 		BEGIN
 			RAISERROR('No existe la nómina en proceso', 11, 1);
 			RETURN;
 		END
 
+	BEGIN TRY
+		
+		BEGIN TRAN
 
-	DELETE FROM
-			percepciones_aplicadas
-	WHERE
-			dbo.PRIMERDIAFECHA(fecha) = dbo.PRIMERDIAFECHA(@fecha);
+		DELETE FROM
+				percepciones_aplicadas
+		WHERE
+				dbo.PRIMERDIAFECHA(fecha) = dbo.PRIMERDIAFECHA(@fecha);
 
-	DELETE FROM
-			deducciones_aplicadas
-	WHERE
-			dbo.PRIMERDIAFECHA(fecha) = dbo.PRIMERDIAFECHA(@fecha);
+		DELETE FROM
+				deducciones_aplicadas
+		WHERE
+				dbo.PRIMERDIAFECHA(fecha) = dbo.PRIMERDIAFECHA(@fecha);
+
+		COMMIT TRAN
+
+	END TRY
+	BEGIN CATCH
+	
+		ROLLBACK TRAN
+	
+	END CATCH
 
 GO
 
@@ -209,7 +232,9 @@ CREATE PROCEDURE sp_ObtenerFechaActual
 	@id_empresa				INT
 AS
 
-	IF EXISTS(SELECT id_nomina FROM nominas)
+	IF EXISTS (SELECT id_nomina FROM nominas AS n 
+				INNER JOIN departamentos AS d ON n.id_departamento = d.id_departamento 
+				WHERE d.id_empresa = @id_empresa)
 		SELECT DISTINCT TOP 1 
 				DATEADD(MONTH, 1, dbo.PRIMERDIAFECHA(fecha)) [Fecha]
 		FROM 
@@ -222,7 +247,7 @@ AS
 				d.id_empresa = @id_empresa
 		ORDER BY
 				[Fecha] DESC;
-	ELSE IF EXISTS(SELECT id_empresa FROM empresas WHERE id_empresa = @id_empresa)
+	ELSE IF EXISTS (SELECT id_empresa FROM empresas WHERE id_empresa = @id_empresa)
 		SELECT
 				fecha_inicio [Fecha]
 		FROM 

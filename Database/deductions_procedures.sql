@@ -1,6 +1,6 @@
 USE sistema_de_nomina;
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AgregarDeduccion')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AgregarDeduccion')
 	DROP PROCEDURE sp_AgregarDeduccion;
 GO
 
@@ -47,7 +47,7 @@ GO
 
 
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ActualizarDeduccion')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ActualizarDeduccion')
 	DROP PROCEDURE sp_ActualizarDeduccion;
 GO
 
@@ -84,7 +84,7 @@ GO
 
 
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_EliminarDeduccion')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_EliminarDeduccion')
 	DROP PROCEDURE sp_EliminarDeduccion;
 GO
 
@@ -127,11 +127,11 @@ CREATE PROCEDURE sp_LeerDeducciones(
 AS
 
 	SELECT 
-			id_deduccion		[ID Deduccion], 
-			nombre				[Nombre],
-			tipo_monto			[Tipo de monto], 
-			ISNULL(fijo, 0)		[Fijo], 
-			ISNULL(porcentual, 0) [Porcentual]
+			id_deduccion			[ID Deduccion], 
+			nombre					[Nombre],
+			tipo_monto				[Tipo de monto], 
+			ISNULL(fijo, 0)			[Fijo], 
+			ISNULL(porcentual, 0)	[Porcentual]
 	FROM 
 			deducciones
 	WHERE 
