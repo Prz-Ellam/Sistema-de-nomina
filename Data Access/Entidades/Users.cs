@@ -12,10 +12,12 @@ namespace Data_Access.Entities
         private string email;
         private string password;
         private string position;
+        private int companyId;
 
         public int Id { get => id; set => id = value; }
         public string Email { get => email; set => email = value; }
         public string Position { get => position; set => position = value; }
         public string Password { get => password; set => password = value; }
+        public int CompanyId { get => companyId; set => companyId = value; }
     }
 }

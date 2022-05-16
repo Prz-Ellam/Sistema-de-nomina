@@ -40,6 +40,10 @@ namespace Presentation.Views
             this.pbMinimized = new System.Windows.Forms.PictureBox();
             this.pbClose = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.btnProfile = new System.Windows.Forms.Button();
+            this.panel11 = new System.Windows.Forms.Panel();
+            this.btnEmployeeReceipts = new System.Windows.Forms.Button();
             this.panel10 = new System.Windows.Forms.Panel();
             this.btnConceptsApply = new System.Windows.Forms.Button();
             this.panelSubmenuReports = new System.Windows.Forms.Panel();
@@ -62,10 +66,6 @@ namespace Presentation.Views
             this.btnReports = new System.Windows.Forms.Button();
             this.panelStorage = new System.Windows.Forms.Panel();
             this.fadeIn = new System.Windows.Forms.Timer(this.components);
-            this.btnEmployeeReceipts = new System.Windows.Forms.Button();
-            this.panel11 = new System.Windows.Forms.Panel();
-            this.btnProfile = new System.Windows.Forms.Button();
-            this.panel4 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbMinimized)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).BeginInit();
@@ -99,7 +99,7 @@ namespace Presentation.Views
             this.btnCompanies.ForeColor = System.Drawing.Color.White;
             this.btnCompanies.Location = new System.Drawing.Point(0, 89);
             this.btnCompanies.Name = "btnCompanies";
-            this.btnCompanies.Size = new System.Drawing.Size(197, 41);
+            this.btnCompanies.Size = new System.Drawing.Size(201, 41);
             this.btnCompanies.TabIndex = 1;
             this.btnCompanies.Text = "Empresa";
             this.btnCompanies.UseVisualStyleBackColor = true;
@@ -236,6 +236,55 @@ namespace Presentation.Views
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(200, 684);
             this.panel2.TabIndex = 8;
+            // 
+            // panel4
+            // 
+            this.panel4.BackColor = System.Drawing.Color.Black;
+            this.panel4.Location = new System.Drawing.Point(0, 89);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(8, 41);
+            this.panel4.TabIndex = 1;
+            // 
+            // btnProfile
+            // 
+            this.btnProfile.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnProfile.FlatAppearance.BorderSize = 0;
+            this.btnProfile.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnProfile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnProfile.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.btnProfile.ForeColor = System.Drawing.Color.White;
+            this.btnProfile.Location = new System.Drawing.Point(0, 89);
+            this.btnProfile.Name = "btnProfile";
+            this.btnProfile.Size = new System.Drawing.Size(201, 41);
+            this.btnProfile.TabIndex = 25;
+            this.btnProfile.Text = "Perfil";
+            this.btnProfile.UseVisualStyleBackColor = true;
+            this.btnProfile.Click += new System.EventHandler(this.btnProfile_Click);
+            // 
+            // panel11
+            // 
+            this.panel11.BackColor = System.Drawing.Color.Black;
+            this.panel11.Location = new System.Drawing.Point(0, 138);
+            this.panel11.Name = "panel11";
+            this.panel11.Size = new System.Drawing.Size(8, 41);
+            this.panel11.TabIndex = 2;
+            this.panel11.Paint += new System.Windows.Forms.PaintEventHandler(this.panel11_Paint);
+            // 
+            // btnEmployeeReceipts
+            // 
+            this.btnEmployeeReceipts.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnEmployeeReceipts.FlatAppearance.BorderSize = 0;
+            this.btnEmployeeReceipts.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnEmployeeReceipts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEmployeeReceipts.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.btnEmployeeReceipts.ForeColor = System.Drawing.Color.White;
+            this.btnEmployeeReceipts.Location = new System.Drawing.Point(0, 138);
+            this.btnEmployeeReceipts.Name = "btnEmployeeReceipts";
+            this.btnEmployeeReceipts.Size = new System.Drawing.Size(200, 41);
+            this.btnEmployeeReceipts.TabIndex = 24;
+            this.btnEmployeeReceipts.Text = "Recibos";
+            this.btnEmployeeReceipts.UseVisualStyleBackColor = true;
+            this.btnEmployeeReceipts.Click += new System.EventHandler(this.btnEmployeeReceipts_Click);
             // 
             // panel10
             // 
@@ -494,55 +543,6 @@ namespace Presentation.Views
             // 
             this.fadeIn.Enabled = true;
             this.fadeIn.Tick += new System.EventHandler(this.fadeIn_Tick);
-            // 
-            // btnEmployeeReceipts
-            // 
-            this.btnEmployeeReceipts.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnEmployeeReceipts.FlatAppearance.BorderSize = 0;
-            this.btnEmployeeReceipts.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
-            this.btnEmployeeReceipts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEmployeeReceipts.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.btnEmployeeReceipts.ForeColor = System.Drawing.Color.White;
-            this.btnEmployeeReceipts.Location = new System.Drawing.Point(0, 138);
-            this.btnEmployeeReceipts.Name = "btnEmployeeReceipts";
-            this.btnEmployeeReceipts.Size = new System.Drawing.Size(200, 41);
-            this.btnEmployeeReceipts.TabIndex = 24;
-            this.btnEmployeeReceipts.Text = "Recibos";
-            this.btnEmployeeReceipts.UseVisualStyleBackColor = true;
-            this.btnEmployeeReceipts.Click += new System.EventHandler(this.btnEmployeeReceipts_Click);
-            // 
-            // panel11
-            // 
-            this.panel11.BackColor = System.Drawing.Color.Black;
-            this.panel11.Location = new System.Drawing.Point(0, 138);
-            this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(8, 41);
-            this.panel11.TabIndex = 2;
-            this.panel11.Paint += new System.Windows.Forms.PaintEventHandler(this.panel11_Paint);
-            // 
-            // btnProfile
-            // 
-            this.btnProfile.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnProfile.FlatAppearance.BorderSize = 0;
-            this.btnProfile.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
-            this.btnProfile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnProfile.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.btnProfile.ForeColor = System.Drawing.Color.White;
-            this.btnProfile.Location = new System.Drawing.Point(0, 89);
-            this.btnProfile.Name = "btnProfile";
-            this.btnProfile.Size = new System.Drawing.Size(197, 41);
-            this.btnProfile.TabIndex = 25;
-            this.btnProfile.Text = "Perfil";
-            this.btnProfile.UseVisualStyleBackColor = true;
-            this.btnProfile.Click += new System.EventHandler(this.btnProfile_Click);
-            // 
-            // panel4
-            // 
-            this.panel4.BackColor = System.Drawing.Color.Black;
-            this.panel4.Location = new System.Drawing.Point(0, 89);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(8, 41);
-            this.panel4.TabIndex = 1;
             // 
             // Layout
             // 

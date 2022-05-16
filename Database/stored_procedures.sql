@@ -22,7 +22,6 @@ AS
 GO
 
 
-exec sp_Login 'a@a.com', '123';
 
 
 -- Empresas

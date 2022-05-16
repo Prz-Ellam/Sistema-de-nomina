@@ -26,11 +26,19 @@ namespace Presentation.Views
             try
             {
                 RepositorioEmpresas companyRepository = new RepositorioEmpresas();
-                DateTime creationDate = companyRepository.GetCreationDate(Session.company_id, true);
-                DateTime payrollDate = payrollRepository.GetDate(Session.company_id);
+                DateTime creationDate = companyRepository.GetCreationDate(Session.companyId, true);
+                DateTime payrollDate = payrollRepository.GetDate(Session.companyId);
                 dtpDate.Value = creationDate;
                 dtpDate.MinDate = creationDate;
-                dtpDate.MaxDate = payrollDate.AddMonths(-1);
+
+                if (creationDate == payrollDate)
+                {
+                    dtpDate.MaxDate = payrollDate;
+                }
+                else
+                {
+                    dtpDate.MaxDate = payrollDate.AddMonths(-1);
+                }
             }
             catch (SqlException ex)
             {

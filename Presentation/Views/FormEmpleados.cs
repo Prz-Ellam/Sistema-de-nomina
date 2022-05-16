@@ -21,7 +21,7 @@ namespace Presentation.Views
     {
         private RepositorioEmpleados repository;
         private RepositorioTelefonos phonesRepository;
-        RepositorioEmpresas companyRepository;
+        private RepositorioEmpresas companyRepository;
         private Empleados employee;
         private List<Telefonos> phones;
         int dtgPrevIndex = -1;
@@ -63,9 +63,9 @@ namespace Presentation.Views
                         btnAdd.Enabled = false;
                         btnEdit.Enabled = true;
                         btnDelete.Enabled = true;
-                        dtpHiringDate.MinDate = companyRepository.GetCreationDate(Session.company_id, false);
+                        dtpHiringDate.MinDate = companyRepository.GetCreationDate(Session.companyId, false);
                         dtpHiringDate.Enabled = false;
-                        dtpDateOfBirth.MaxDate = repository.GetDateOfBirth(employeeId, Session.company_id);
+                        dtpDateOfBirth.MaxDate = repository.GetDateOfBirth(employeeId, Session.companyId);
                         break;
                     }
                 }
@@ -87,7 +87,7 @@ namespace Presentation.Views
             try
             {
                 RepositorioNominas payrollRepository = new RepositorioNominas();
-                payrollDate = payrollRepository.GetDate(Session.company_id);
+                payrollDate = payrollRepository.GetDate(Session.companyId);
             }
             catch (SqlException ex)
             {
@@ -204,7 +204,7 @@ namespace Presentation.Views
             }
             catch (SqlException ex)
             {
-                if (ex.Number == 2627) // Unique Constraint
+                if (ex.Number == 50000) // Unique Constraint
                 {
                     string uniqueName = GetUniqueName(ex.Message);
                     switch (uniqueName)
@@ -267,7 +267,7 @@ namespace Presentation.Views
             }
             catch (SqlException ex)
             {
-                if (ex.Number == 2627) // Unique Constraint
+                if (ex.Number == 50000) // Unique Constraint
                 {
                     string uniqueName = GetUniqueName(ex.Message);
                     switch (uniqueName)
@@ -604,7 +604,7 @@ namespace Presentation.Views
         private void ListDepartments()
         {
             RepositorioDepartamentos repository = new RepositorioDepartamentos();
-            List<DepartmentsViewModel> departments = repository.ReadAll(string.Empty, Session.company_id);
+            List<DepartmentsViewModel> departments = repository.ReadAll(string.Empty, Session.companyId);
             List<PairItem>  names = new List<PairItem>();
             names.Add(new PairItem("Seleccionar", -1));
             foreach (var department in departments)
@@ -617,7 +617,7 @@ namespace Presentation.Views
         private void ListPositions()
         {
             RepositorioPuestos repository = new RepositorioPuestos();
-            List<PositionsViewModel> positions = repository.ReadAll(string.Empty, Session.company_id);
+            List<PositionsViewModel> positions = repository.ReadAll(string.Empty, Session.companyId);
             List<PairItem> names = new List<PairItem>();
             names.Add(new PairItem("Seleccionar", -1));
             foreach (var position in positions)

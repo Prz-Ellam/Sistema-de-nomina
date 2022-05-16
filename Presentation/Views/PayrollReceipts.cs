@@ -26,8 +26,8 @@ namespace Presentation.Views
         private void PayrollReceipts_Load(object sender, EventArgs e)
         {
             RepositorioEmpresas companyRepository = new RepositorioEmpresas();
-            DateTime creationDate = companyRepository.GetCreationDate(Session.company_id, true);
-            DateTime payrollDate = repository.GetDate(Session.company_id);
+            DateTime creationDate = companyRepository.GetCreationDate(Session.companyId, true);
+            DateTime payrollDate = repository.GetDate(Session.companyId);
             dtpDate.Value = creationDate;
             dtpDate.MinDate = creationDate;
             dtpDate.MaxDate = payrollDate.AddMonths(-1);

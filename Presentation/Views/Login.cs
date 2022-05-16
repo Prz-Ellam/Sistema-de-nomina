@@ -15,26 +15,23 @@ namespace Presentation.Views
 {
     public partial class Login : Form
     {
-        UsersRepository repository = new UsersRepository();
+        UsersRepository repository;
 
         public Login()
         {
             InitializeComponent();
+            repository = new UsersRepository();
         }
 
         private void Login_Load(object sender, EventArgs e)
         {
-            WinAPI.SendMessage(txtEmail.Handle, WinAPI.EM_SETCUEBANNER, 0, "CORREO ELECTRONICO");
-            WinAPI.SendMessage(txtPassword.Handle, WinAPI.EM_SETCUEBANNER, 0, "CONTRASEÑA");
+            //WinAPI.SendMessage(txtEmail.Handle, WinAPI.EM_SETCUEBANNER, 0, "CORREO ELECTRONICO");
+            //WinAPI.SendMessage(txtPassword.Handle, WinAPI.EM_SETCUEBANNER, 0, "CONTRASEÑA");
         }
 
         private void lblEmail_Click(object sender, EventArgs e)
         {
             txtEmail.Focus();
-        }
-
-        private void lblEmail_MouseHover(object sender, EventArgs e)
-        {
         }
 
         private void lblPassword_Click(object sender, EventArgs e)
@@ -49,15 +46,14 @@ namespace Presentation.Views
 
             if (email == string.Empty || password == string.Empty)
             {
-                MessageBox.Show("Todos los campos son obligatorios", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Todos los campos son obligatorios", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             Users user = repository.Login(email, password);
-
             if (user == null)
             {
-                MessageBox.Show("Sus credenciales no coinciden", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Sus credenciales no coinciden", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
@@ -71,8 +67,7 @@ namespace Presentation.Views
             Session.position = user.Position;
             Session.email = user.Email;
             Session.id = user.Id;
-            if (Session.position == "Administrador")
-                Session.company_id = new RepositorioEmpresas().Verify(Session.id);
+            Session.companyId = user.CompanyId;
 
             Layout menu = new Layout();
             menu.Show();
@@ -98,6 +93,26 @@ namespace Presentation.Views
         {
             WinAPI.ReleaseCapture();
             WinAPI.SendMessage(this.Handle, WinAPI.WM_SYSCOMMAND, 0xf012, 0);
+        }
+
+        private void txtEmail_Enter(object sender, EventArgs e)
+        {
+            lineEmail.BackColor = Color.FromArgb(255, 0, 123, 255);
+        }
+
+        private void txtEmail_Leave(object sender, EventArgs e)
+        {
+            lineEmail.BackColor = Color.FromArgb(255, 47, 47, 47);
+        }
+
+        private void txtPassword_Leave(object sender, EventArgs e)
+        {
+            linePassword.BackColor = Color.FromArgb(255, 47, 47, 47);
+        }
+
+        private void txtPassword_Enter(object sender, EventArgs e)
+        {
+            linePassword.BackColor = Color.FromArgb(255, 0, 123, 255);
         }
     }
 }

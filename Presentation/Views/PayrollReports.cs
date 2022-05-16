@@ -53,8 +53,8 @@ namespace Presentation.Views
             try
             {
                 RepositorioEmpresas companyRepository = new RepositorioEmpresas();
-                DateTime creationDate = companyRepository.GetCreationDate(Session.company_id, true);
-                DateTime payrollDate = payrollRepository.GetDate(Session.company_id);
+                DateTime creationDate = companyRepository.GetCreationDate(Session.companyId, true);
+                DateTime payrollDate = payrollRepository.GetDate(Session.companyId);
                 nudYear.Value = creationDate.Year;
                 nudYear.Minimum = creationDate.Year;
                 nudYear.Maximum = payrollDate.Year;

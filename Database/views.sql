@@ -75,7 +75,7 @@ GO
 
 
 
-IF EXISTS(SELECT name FROM sys.all_views WHERE name = 'vw_DepartamentosFechas')
+IF EXISTS (SELECT name FROM sys.all_views WHERE name = 'vw_DepartamentosFechas')
 	DROP VIEW vw_DepartamentosFechas;
 GO
 
@@ -90,13 +90,13 @@ FROM
 		nominas AS n
 		CROSS JOIN departamentos AS d
 WHERE
-		d.fecha_creacion <= dbo.PRIMERDIAFECHA(n.fecha) AND 
+		dbo.PRIMERDIAFECHA(d.fecha_creacion) <= dbo.PRIMERDIAFECHA(n.fecha) AND 
 		(d.fecha_eliminacion > dbo.PRIMERDIAFECHA(n.fecha) OR d.fecha_eliminacion IS NULL)
 GO
 
 
 
-IF EXISTS(SELECT name FROM sys.all_views WHERE name = 'vw_DepartamentosPuestosFechas')
+IF EXISTS (SELECT name FROM sys.all_views WHERE name = 'vw_DepartamentosPuestosFechas')
 	DROP VIEW vw_DepartamentosPuestosFechas;
 GO
 
@@ -271,7 +271,7 @@ AS
 			JOIN departamentos AS d 
 			ON n.id_departamento = d.id_departamento
 			JOIN puestos AS p
-			ON n.id_puesto = p.id_puesto 
+			ON n.id_puesto = p.id_puesto  
 			JOIN empresas AS c
 			ON d.id_empresa = c.id_empresa
 			JOIN domicilios AS do
@@ -280,3 +280,56 @@ AS
 			e.activo = 1;
 
 GO
+
+
+
+
+
+IF EXISTS (SELECT name FROM sys.all_views WHERE name = 'vw_DepartamentosPercepcionesAplicadas')
+	DROP VIEW vw_DepartamentosPercepcionesAplicadas;
+GO
+
+CREATE VIEW vw_DepartamentosPercepcionesAplicadas
+AS
+SELECT
+		IIF(n.id_departamento IS NULL, e.id_departamento, n.id_departamento) [id_departamento],
+		pa.id_percepcion,
+		pa.fecha,
+		IIF(n.id_departamento IS NULL, COUNT(e.numero_empleado), COUNT(n.numero_empleado)) [Cantidad empleados]
+FROM
+		percepciones AS p
+		LEFT JOIN percepciones_aplicadas AS pa
+		ON p.id_percepcion = pa.id_percepcion
+		LEFT JOIN nominas AS n
+		ON pa.numero_empleado = n.numero_empleado AND
+		pa.fecha = n.fecha
+		LEFT JOIN empleados AS e
+		ON pa.numero_empleado = e.numero_empleado
+GROUP BY
+		n.id_departamento, pa.id_percepcion, pa.fecha, p.tipo_duracion, e.id_departamento
+HAVING
+		p.tipo_duracion = 'S';
+GO
+
+
+
+IF EXISTS (SELECT name FROM sys.all_views WHERE name = 'vw_DepartamentosPercepcionesFechas')
+	DROP VIEW vw_DepartamentosPercepcionesFechas;
+GO
+
+CREATE VIEW vw_DepartamentosPercepcionesFechas
+AS
+SELECT DISTINCT
+		d.id_departamento,
+		p.id_percepcion,
+		pa.fecha
+FROM
+		departamentos AS d
+		CROSS JOIN percepciones AS p
+		CROSS JOIN percepciones_aplicadas AS pa
+WHERE
+		p.tipo_duracion = 'S'
+GO
+
+
+

@@ -19,7 +19,7 @@ CREATE PROCEDURE sp_AgregarEmpleado(
 	@estado						VARCHAR(30),
 	@codigo_postal				VARCHAR(5),
 	@banco						INT,
-	@numero_cuenta				VARCHAR(10),
+	@numero_cuenta				VARCHAR(16),
 	@correo_electronico			VARCHAR(60),
 	@contrasena					VARCHAR(30),
 	@id_departamento			INT,
@@ -109,10 +109,14 @@ AS
 	BEGIN CATCH
 
 		ROLLBACK TRAN
+		DECLARE @message VARCHAR(200) = ERROR_MESSAGE();
+		RAISERROR(@message, 11, 1)
+		RETURN;
 
 	END CATCH
 
 GO
+
 
 
 IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ActualizarEmpleado')
@@ -135,7 +139,7 @@ CREATE PROCEDURE sp_ActualizarEmpleado(
 	@estado						VARCHAR(30),
 	@codigo_postal				VARCHAR(5),
 	@banco						INT,
-	@numero_cuenta				VARCHAR(10),
+	@numero_cuenta				VARCHAR(16),
 	@correo_electronico			VARCHAR(60),
 	@contrasena					VARCHAR(30),
 	@id_departamento			INT,
@@ -216,10 +220,15 @@ AS
 	BEGIN CATCH
 
 		ROLLBACK TRAN
+		DECLARE @message VARCHAR(200) = ERROR_MESSAGE();
+		RAISERROR(@message, 11, 1)
+		RETURN;
 
 	END CATCH
 
 GO
+
+
 
 IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_EliminarEmpleado')
 	DROP PROCEDURE sp_EliminarEmpleado;
@@ -362,7 +371,7 @@ AS
 	IF (dbo.PRIMERDIAFECHA(@fecha) >= dbo.PRIMERDIAFECHA(dbo.OBTENERFECHAACTUAL(@id_empresa)) AND 
 		(dbo.NOMINAENPROCESO(@id_empresa) = 0 OR dbo.PRIMERDIAFECHA(@fecha) > dbo.PRIMERDIAFECHA(dbo.OBTENERFECHAACTUAL(@id_empresa))))
 		BEGIN
-			RAISERROR('No se puede iniciar una nómina fuera del periodo actual de nómina', 11, 1);
+			RAISERROR('La nómina solicitada aún no existe', 11, 1);
 			RETURN;
 		END
 
@@ -435,6 +444,6 @@ AS
 				fecha ASC;
 	ELSE
 		SELECT
-				DATEADD(DAY, -1, DATEADD(YEAR, -18, dbo.OBTENERFECHAACTUAL(@id_empresa))) [Fecha];
+				DATEADD(DAY, -1, DATEADD(YEAR, -18, dbo.PRIMERDIAFECHA(dbo.OBTENERFECHAACTUAL(@id_empresa)))) [Fecha];
 
 GO

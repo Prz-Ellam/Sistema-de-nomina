@@ -143,7 +143,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgPositions.DataSource = repository.ReadAll(txtFilter.Text, Session.company_id);
+                dtgPositions.DataSource = repository.ReadAll(txtFilter.Text, Session.companyId);
             }
             catch (Exception ex)
             {
@@ -263,7 +263,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgPositions.DataSource = repository.ReadAll(string.Empty, Session.company_id);
+                dtgPositions.DataSource = repository.ReadAll(string.Empty, Session.companyId);
             }
             catch (Exception ex)
             {
@@ -276,7 +276,7 @@ namespace Presentation.Views
             position.IdPuesto = positionId;
             position.Nombre = txtName.Text;
             position.NivelSalarial = nudWageLevel.Value;
-            position.IdEmpresa = Session.company_id;
+            position.IdEmpresa = Session.companyId;
         }
 
         public void ClearForm()

@@ -23,7 +23,7 @@ AS
 
 GO
 
-EXEC sp_HeadCounter1 3, 1, '20140201';
+
 
 IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_HeadCounter1')
 	DROP PROCEDURE sp_HeadCounter1;
@@ -71,7 +71,7 @@ SELECT
 FROM
 		vw_DepartamentosFechas AS df
 		LEFT JOIN vw_EmpleadosDepartamentosCantidad AS df2
-		ON df.id_departamento = df2.id_departamento AND df.fecha = df2.fecha
+		ON df.id_departamento = df2.id_departamento AND dbo.PRIMERDIAFECHA(df.fecha) = dbo.PRIMERDIAFECHA(df2.fecha)
 WHERE
 		dbo.PRIMERDIAFECHA(df.fecha) = dbo.PRIMERDIAFECHA(@fecha) AND 
 		(df.id_departamento = @id_departamento OR @id_departamento = -1) AND
@@ -120,7 +120,6 @@ GO
 
 
 
-
 DROP VIEW vw_DepartmentsCount;
 
 CREATE VIEW vw_DepartmentsCount
@@ -128,7 +127,7 @@ AS
 SELECT
 		df.id_departamento,
 		df.nombre,
-		df.fecha,
+		dbo.PRIMERDIAFECHA(df.fecha) [Fecha],
 		ISNULL(df2.Cantidad, 0) [Cantidad]
 FROM
 		vw_DepartamentosFechas AS df
@@ -139,7 +138,7 @@ UNION ALL
 SELECT
 		id_departamento,
 		nombre,
-		dbo.OBTENERFECHAACTUAL(1),
+		dbo.PRIMERDIAFECHA(dbo.OBTENERFECHAACTUAL((SELECT TOP 1 id_empresa FROM empresas))) [Fecha],
 		ISNULL(Cantidad, 0) [Cantidad]
 FROM
 		vw_DepartamentosFechaActual;

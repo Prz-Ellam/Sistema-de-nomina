@@ -219,90 +219,71 @@ AS
 
 	IF @filtro = 1
 
-		SELECT
-				IIF(COUNT(e.numero_empleado) >= 
-				(SELECT Cantidad FROM vw_DepartmentsCount WHERE id_departamento = @id_departamento AND fecha = @fecha) AND
-				COUNT(e.numero_empleado) <> 0, 
-				'true', 'false') [Aplicada],
-				p.id_percepcion,
-				p.nombre,
-				p.tipo_monto,
-				p.fijo,
-				p.porcentual
+		SELECT 
+				IIF(ISNULL(dpa.[Cantidad empleados], 0) >= dc.Cantidad AND ISNULL(dpa.[Cantidad empleados], 0) <> 0, 'true', 'false') [Aplicada],
+				dpf.id_percepcion,
+				p.nombre
 		FROM 
-				percepciones AS p
-				LEFT JOIN percepciones_aplicadas AS pa
-				ON p.id_percepcion = pa.id_percepcion AND
-				dbo.PRIMERDIAFECHA(pa.fecha) = dbo.PRIMERDIAFECHA(@fecha)
-				LEFT JOIN empleados AS e
-				ON pa.numero_empleado = e.numero_empleado AND
-				e.id_departamento = @id_departamento
+				vw_DepartamentosPercepcionesAplicadas AS dpa
+				RIGHT JOIN vw_DepartamentosPercepcionesFechas AS dpf
+				ON dpa.id_departamento = dpf.id_departamento AND 
+				dpa.id_percepcion = dpf.id_percepcion AND
+				dbo.PRIMERDIAFECHA(dpa.fecha) = dbo.PRIMERDIAFECHA(dpf.fecha)
+				INNER JOIN percepciones AS p
+				ON dpf.id_percepcion = p.id_percepcion
+				INNER JOIN vw_DepartmentsCount AS dc
+				ON dpf.id_departamento = dc.id_departamento AND dpf.fecha = dc.Fecha
 		WHERE
-				p.activo = 1 AND p.tipo_duracion = 'S' AND
-				p.fecha_creacion <= dbo.PRIMERDIAFECHA(@fecha) AND 
+				dpf.fecha = @fecha AND
+				dpf.id_departamento = @id_departamento AND
+				dbo.PRIMERDIAFECHA(p.fecha_creacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
 				(p.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR p.fecha_eliminacion IS NULL)
-		GROUP BY 
-				p.id_percepcion, p.nombre, p.tipo_monto, p.fijo, p.porcentual
 
 	ELSE IF @filtro = 2
 
-		SELECT
-				IIF(COUNT(e.numero_empleado) >= 
-				(SELECT Cantidad FROM vw_DepartmentsCount WHERE id_departamento = @id_departamento AND fecha = @fecha) AND
-				COUNT(e.numero_empleado) <> 0, 
-				'true', 'false') [Aplicada],
-				p.id_percepcion,
-				p.nombre,
-				p.tipo_monto,
-				p.fijo,
-				p.porcentual
+		SELECT 
+				IIF(ISNULL(dpa.[Cantidad empleados], 0) >= dc.Cantidad AND ISNULL(dpa.[Cantidad empleados], 0) <> 0, 'true', 'false') [Aplicada],
+				dpf.id_percepcion,
+				p.nombre
 		FROM 
-				percepciones AS p
-				LEFT JOIN percepciones_aplicadas AS pa
-				ON p.id_percepcion = pa.id_percepcion AND
-				dbo.PRIMERDIAFECHA(pa.fecha) = dbo.PRIMERDIAFECHA(@fecha)
-				LEFT JOIN empleados AS e
-				ON pa.numero_empleado = e.numero_empleado AND
-				e.id_departamento = @id_departamento
+				vw_DepartamentosPercepcionesAplicadas AS dpa
+				RIGHT JOIN vw_DepartamentosPercepcionesFechas AS dpf
+				ON dpa.id_departamento = dpf.id_departamento AND 
+				dpa.id_percepcion = dpf.id_percepcion AND
+				dbo.PRIMERDIAFECHA(dpa.fecha) = dbo.PRIMERDIAFECHA(dpf.fecha)
+				INNER JOIN percepciones AS p
+				ON dpf.id_percepcion = p.id_percepcion
+				INNER JOIN vw_DepartmentsCount AS dc
+				ON dpf.id_departamento = dc.id_departamento AND dpf.fecha = dc.Fecha
 		WHERE
-				p.activo = 1 AND 
-				p.tipo_duracion = 'S' AND
-				p.fecha_creacion <= dbo.PRIMERDIAFECHA(@fecha) AND 
-				(p.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR p.fecha_eliminacion IS NULL)
-		GROUP BY 
-				p.id_percepcion, p.nombre, p.tipo_monto, p.fijo, p.porcentual
-		HAVING
-				COUNT(e.numero_empleado) >= (SELECT Cantidad FROM vw_DepartamentosFechaActual WHERE id_departamento = @id_departamento);
+				dpf.fecha = @fecha AND
+				dpf.id_departamento = @id_departamento AND
+				dbo.PRIMERDIAFECHA(p.fecha_creacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
+				(p.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR p.fecha_eliminacion IS NULL) AND
+				IIF(ISNULL(dpa.[Cantidad empleados], 0) >= dc.Cantidad AND ISNULL(dpa.[Cantidad empleados], 0) <> 0, 'true', 'false') = 'true'
 
 	ELSE IF @filtro = 3
 
-				SELECT
-				IIF(COUNT(e.numero_empleado) >= 
-				(SELECT Cantidad FROM vw_DepartmentsCount WHERE id_departamento = @id_departamento AND fecha = @fecha) AND
-				COUNT(e.numero_empleado) <> 0, 
-				'true', 'false') [Aplicada],
-				p.id_percepcion,
-				p.nombre,
-				p.tipo_monto,
-				p.fijo,
-				p.porcentual
+				SELECT 
+				IIF(ISNULL(dpa.[Cantidad empleados], 0) >= dc.Cantidad AND ISNULL(dpa.[Cantidad empleados], 0) <> 0, 'true', 'false') [Aplicada],
+				dpf.id_percepcion,
+				p.nombre
 		FROM 
-				percepciones AS p
-				LEFT JOIN percepciones_aplicadas AS pa
-				ON p.id_percepcion = pa.id_percepcion AND
-				dbo.PRIMERDIAFECHA(pa.fecha) = dbo.PRIMERDIAFECHA(@fecha)
-				LEFT JOIN empleados AS e
-				ON pa.numero_empleado = e.numero_empleado AND
-				e.id_departamento = @id_departamento
+				vw_DepartamentosPercepcionesAplicadas AS dpa
+				RIGHT JOIN vw_DepartamentosPercepcionesFechas AS dpf
+				ON dpa.id_departamento = dpf.id_departamento AND 
+				dpa.id_percepcion = dpf.id_percepcion AND
+				dbo.PRIMERDIAFECHA(dpa.fecha) = dbo.PRIMERDIAFECHA(dpf.fecha)
+				INNER JOIN percepciones AS p
+				ON dpf.id_percepcion = p.id_percepcion
+				INNER JOIN vw_DepartmentsCount AS dc
+				ON dpf.id_departamento = dc.id_departamento AND dpf.fecha = dc.Fecha
 		WHERE
-				p.activo = 1 AND 
-				p.tipo_duracion = 'S' AND
-				p.fecha_creacion <= dbo.PRIMERDIAFECHA(@fecha) AND 
-				(p.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR p.fecha_eliminacion IS NULL)
-		GROUP BY
-				p.id_percepcion, p.nombre, p.tipo_monto, p.fijo, p.porcentual
-		HAVING
-				COUNT(e.numero_empleado) < (SELECT Cantidad FROM vw_DepartamentosFechaActual WHERE id_departamento = @id_departamento);;
+				dpf.fecha = @fecha AND
+				dpf.id_departamento = @id_departamento AND
+				dbo.PRIMERDIAFECHA(p.fecha_creacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
+				(p.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR p.fecha_eliminacion IS NULL) AND
+				IIF(ISNULL(dpa.[Cantidad empleados], 0) >= dc.Cantidad AND ISNULL(dpa.[Cantidad empleados], 0) <> 0, 'true', 'false') = 'false'
 
 	ELSE
 		RAISERROR('Filtro inválido', 11, 1);

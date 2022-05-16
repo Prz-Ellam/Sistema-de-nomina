@@ -9,14 +9,14 @@ namespace Presentation.Helpers
     public static class Session
     {
         public static int id { get; set; }
-        public static int company_id { get; set; }
+        public static int companyId { get; set; }
         public static string email { get; set; }
         public static string position { get; set; }
         
         public static void LogOut()
         {
             id = 0;
-            company_id = 0;
+            companyId = 0;
             email = null;
             position = null;
         }

@@ -14,11 +14,12 @@ namespace Data_Access.Repositorios
     {
         private readonly string login;
         private MainConnection mainRepository;
-        private RepositoryParameters sqlParams = new RepositoryParameters();
+        private RepositoryParameters sqlParams;
 
         public UsersRepository()
         {
             mainRepository = MainConnection.GetInstance();
+            sqlParams = new RepositoryParameters();
             login = "sp_Login";
         }
 
@@ -38,7 +39,8 @@ namespace Data_Access.Repositorios
                 {
                     Id = Convert.ToInt32(row["ID"]),
                     Email = row["Correo"].ToString(),
-                    Position = row["Posicion"].ToString()
+                    Position = row["Posicion"].ToString(),
+                    CompanyId = Convert.ToInt32(row["ID Empresa"])
                 };
 
                 return user;

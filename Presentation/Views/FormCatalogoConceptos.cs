@@ -442,7 +442,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgPerceptions.DataSource = perceptionRepository.ReadAll(string.Empty, Session.company_id);
+                dtgPerceptions.DataSource = perceptionRepository.ReadAll(string.Empty, Session.companyId);
             }
             catch (Exception ex)
             {
@@ -454,7 +454,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgDeductions.DataSource = deductionRepository.ReadAll(string.Empty, Session.company_id);
+                dtgDeductions.DataSource = deductionRepository.ReadAll(string.Empty, Session.companyId);
             }
             catch (Exception ex)
             {
@@ -470,7 +470,7 @@ namespace Presentation.Views
             percepcion.TipoMonto = rbFijo.Checked ? 'F' : (rbPorcentual.Checked ? 'P' : ' ');
             percepcion.Fijo = nudFijo.Value;
             percepcion.Porcentual = nudPorcentual.Value;
-            percepcion.IdEmpresa = Session.company_id;
+            percepcion.IdEmpresa = Session.companyId;
         }
 
         public void FillDeduction()
@@ -480,7 +480,7 @@ namespace Presentation.Views
             deduccion.TipoMonto = rbFijo.Checked ? 'F' : (rbPorcentual.Checked ? 'P' : ' ');
             deduccion.Fijo = nudFijo.Value;
             deduccion.Porcentual = nudPorcentual.Value;
-            deduccion.IdEmpresa = Session.company_id;
+            deduccion.IdEmpresa = Session.companyId;
         }
 
         public void ClearForm()
@@ -598,7 +598,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgPerceptions.DataSource = perceptionRepository.ReadAll(txtFilterPerception.Text, Session.company_id);
+                dtgPerceptions.DataSource = perceptionRepository.ReadAll(txtFilterPerception.Text, Session.companyId);
             }
             catch (Exception ex)
             {
@@ -610,7 +610,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgDeductions.DataSource = deductionRepository.ReadAll(txtFilterDeduction.Text, Session.company_id);
+                dtgDeductions.DataSource = deductionRepository.ReadAll(txtFilterDeduction.Text, Session.companyId);
             }
             catch (Exception ex)
             {

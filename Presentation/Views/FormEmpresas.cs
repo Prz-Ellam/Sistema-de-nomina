@@ -190,7 +190,7 @@ namespace Presentation.Views
         private void ListCompany()
         {
             // Verify regresa -1 si el administrador aun no ha creado su empresa
-            if (Session.company_id == -1)
+            if (Session.companyId == -1)
             {
                 CompanyState = EntityState.Add;
             }
@@ -203,7 +203,7 @@ namespace Presentation.Views
 
         private void FillCompany()
         {
-            company.CompanyId = Session.company_id;
+            company.CompanyId = Session.companyId;
             company.AdministratorId = Session.id;
 
             company.BusinessName = txtBusinessName.Text;
@@ -228,7 +228,7 @@ namespace Presentation.Views
 
         private void InitCompanyData()
         {
-            CompaniesViewModel company = repository.Read(Session.company_id);
+            CompaniesViewModel company = repository.Read(Session.companyId);
             txtBusinessName.Text = company.RazonSocial;
             txtEmployerRegistration.Text = company.RegistroPatronal;
             txtRfc.Text = company.Rfc;
@@ -237,7 +237,7 @@ namespace Presentation.Views
 
             cbPhones.Items.Clear();
             cbPhones.SelectedIndex = -1;
-            List<string> phones = phonesRepository.ReadCompanyPhones(Session.company_id);
+            List<string> phones = phonesRepository.ReadCompanyPhones(Session.companyId);
             foreach (string phone in phones)
             {
                 cbPhones.Items.Add(phone);
@@ -256,7 +256,7 @@ namespace Presentation.Views
             if (Session.position == "Administrador")
             {
                 RepositorioEmpresas companiesRepository = new RepositorioEmpresas();
-                Session.company_id = companiesRepository.Verify(Session.id);
+                Session.companyId = companiesRepository.Verify(Session.id);
             }
         }
 

@@ -90,7 +90,6 @@ GO
 
 
 
-
 CREATE FUNCTION NOMINAENPROCESO(
 	@id_empresa				INT
 )
@@ -106,7 +105,7 @@ BEGIN
 					UNION
 			SELECT fecha FROM deducciones_aplicadas) AS U
 	WHERE
-			fecha = dbo.OBTENERFECHAACTUAL(@id_empresa)
+			dbo.PRIMERDIAFECHA(fecha) = dbo.PRIMERDIAFECHA(dbo.OBTENERFECHAACTUAL(@id_empresa))
 	);
 
 END

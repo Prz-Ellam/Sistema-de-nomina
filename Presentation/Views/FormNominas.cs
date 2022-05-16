@@ -31,10 +31,14 @@ namespace Presentation.Views
         {
             try
             {
-                payrollDate = payrollRepository.GetDate(Session.company_id);
+                RepositorioEmpresas companiesRepository = new RepositorioEmpresas();
+                DateTime creationDate = companiesRepository.GetCreationDate(Session.companyId, true);
+                payrollDate = payrollRepository.GetDate(Session.companyId);
                 dtpDate.Value = payrollDate;
                 dtpDate.MinDate = payrollDate;
+                dtpConsult.MinDate = creationDate;
                 dtpConsult.Value = payrollDate;
+                dtpConsult.MaxDate = payrollDate;
             }
             catch (SqlException ex)
             {
@@ -56,7 +60,7 @@ namespace Presentation.Views
                 return;
             }
 
-            bool payrollStatus = payrollRepository.IsPayrollProcess(Session.company_id);
+            bool payrollStatus = payrollRepository.IsPayrollProcess(Session.companyId);
 
             if (!payrollStatus)
             {
@@ -76,7 +80,7 @@ namespace Presentation.Views
             DateTime date = dtpDate.Value;
             try
             {
-                payrollRepository.GeneratePayrolls(date, Session.company_id);
+                payrollRepository.GeneratePayrolls(date, Session.companyId);
             }
             catch (SqlException ex)
             {
@@ -162,7 +166,7 @@ namespace Presentation.Views
             DateTime requestDate = dtpDate.Value;
             try
             {
-                bool result = payrollRepository.DeletePayroll(Session.company_id, requestDate);
+                bool result = payrollRepository.DeletePayroll(Session.companyId, requestDate);
                 if (result)
                 {
                     MessageBox.Show("La nómina fue eliminada éxitosamente", "Sistema de nómina dice: ",

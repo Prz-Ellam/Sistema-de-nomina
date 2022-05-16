@@ -490,7 +490,7 @@ namespace Presentation.Views
             // txtDepartment
             // 
             this.txtDepartment.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDepartment.Location = new System.Drawing.Point(501, 301);
+            this.txtDepartment.Location = new System.Drawing.Point(501, 293);
             this.txtDepartment.Name = "txtDepartment";
             this.txtDepartment.ReadOnly = true;
             this.txtDepartment.Size = new System.Drawing.Size(200, 25);
@@ -519,7 +519,7 @@ namespace Presentation.Views
             // 
             this.nudDailySalary.DecimalPlaces = 2;
             this.nudDailySalary.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
-            this.nudDailySalary.Location = new System.Drawing.Point(495, 415);
+            this.nudDailySalary.Location = new System.Drawing.Point(844, 373);
             this.nudDailySalary.Maximum = new decimal(new int[] {
             100000000,
             0,
@@ -537,7 +537,7 @@ namespace Presentation.Views
             this.label28.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label28.Font = new System.Drawing.Font("Microsoft YaHei", 10F);
             this.label28.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label28.Location = new System.Drawing.Point(475, 417);
+            this.label28.Location = new System.Drawing.Point(824, 375);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(17, 20);
             this.label28.TabIndex = 108;
@@ -549,7 +549,7 @@ namespace Presentation.Views
             this.label27.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label27.Font = new System.Drawing.Font("Microsoft YaHei", 10F);
             this.label27.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label27.Location = new System.Drawing.Point(473, 382);
+            this.label27.Location = new System.Drawing.Point(822, 340);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(21, 20);
             this.label27.TabIndex = 107;
@@ -561,7 +561,7 @@ namespace Presentation.Views
             this.label26.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label26.Font = new System.Drawing.Font("Microsoft YaHei", 10F);
             this.label26.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label26.Location = new System.Drawing.Point(148, 382);
+            this.label26.Location = new System.Drawing.Point(497, 343);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(17, 20);
             this.label26.TabIndex = 106;
@@ -571,7 +571,7 @@ namespace Presentation.Views
             // 
             this.nudWageLevel.DecimalPlaces = 2;
             this.nudWageLevel.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
-            this.nudWageLevel.Location = new System.Drawing.Point(495, 380);
+            this.nudWageLevel.Location = new System.Drawing.Point(844, 338);
             this.nudWageLevel.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -587,7 +587,7 @@ namespace Presentation.Views
             // 
             this.nudBaseSalary.DecimalPlaces = 2;
             this.nudBaseSalary.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
-            this.nudBaseSalary.Location = new System.Drawing.Point(167, 380);
+            this.nudBaseSalary.Location = new System.Drawing.Point(516, 341);
             this.nudBaseSalary.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -604,7 +604,7 @@ namespace Presentation.Views
             this.label25.AutoSize = true;
             this.label25.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label25.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label25.Location = new System.Drawing.Point(377, 383);
+            this.label25.Location = new System.Drawing.Point(726, 341);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(85, 19);
             this.label25.TabIndex = 103;
@@ -615,7 +615,7 @@ namespace Presentation.Views
             this.label24.AutoSize = true;
             this.label24.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label24.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label24.Location = new System.Drawing.Point(49, 383);
+            this.label24.Location = new System.Drawing.Point(398, 344);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(83, 19);
             this.label24.TabIndex = 102;
@@ -626,7 +626,7 @@ namespace Presentation.Views
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label21.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label21.Location = new System.Drawing.Point(377, 415);
+            this.label21.Location = new System.Drawing.Point(726, 373);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(89, 19);
             this.label21.TabIndex = 101;
@@ -646,6 +646,7 @@ namespace Presentation.Views
             // 
             // dtpHiringDate
             // 
+            this.dtpHiringDate.Enabled = false;
             this.dtpHiringDate.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
             this.dtpHiringDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpHiringDate.Location = new System.Drawing.Point(152, 293);

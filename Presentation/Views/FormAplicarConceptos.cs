@@ -54,8 +54,12 @@ namespace Presentation.Views
             try
             {
                 RepositorioNominas payrollRepository = new RepositorioNominas();
-                payrollDate = payrollRepository.GetDate(Session.company_id);
+                RepositorioEmpresas companyRepository = new RepositorioEmpresas();
+                DateTime creationDate = companyRepository.GetCreationDate(Session.companyId, true);
+                payrollDate = payrollRepository.GetDate(Session.companyId);
                 dtpDate.Value = payrollDate;
+                dtpDate.MinDate = creationDate;
+                dtpDate.MaxDate = payrollDate;
             }
             catch (SqlException ex)
             {
@@ -63,6 +67,10 @@ namespace Presentation.Views
                 {
                     MessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+            catch (Exception ex)
+            {
+
             }
 
             dtgEmployees.DoubleBuffered(true);
@@ -303,7 +311,7 @@ namespace Presentation.Views
             }
 
             RepositorioEmpleados employeeRepository = new RepositorioEmpleados();
-            List<EmployeePayrollsViewModel> employees = employeeRepository.ReadEmployeePayrolls(Session.company_id, dtpDate.Value);
+            List<EmployeePayrollsViewModel> employees = employeeRepository.ReadEmployeePayrolls(Session.companyId, dtpDate.Value);
             dtgEmployees.DataSource = employees;
             dtgPerceptions.DataSource = applyPerceptionsRepository.ReadApplyPerceptions(perceptionRadioId, employeeId, dtpDate.Value);
             dtgDeductions.DataSource = applyDeductionsRepository.ReadApplyDeductions(deductionRadioId, employeeId, dtpDate.Value);
@@ -342,11 +350,20 @@ namespace Presentation.Views
             try
             {
                 RepositorioEmpleados employeeRepository = new RepositorioEmpleados();
-                dtgEmployees.DataSource = employeeRepository.ReadEmployeePayrolls(Session.company_id, dtpDate.Value);
+                dtgEmployees.DataSource = employeeRepository.ReadEmployeePayrolls(Session.companyId, dtpDate.Value);
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(ex.Message);
+                if (ex.Number == 50000)
+                {
+                    MessageBox.Show(ex.Message, "Sistema de nómina dice:", MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo realizar la operación", "Sistema de nómina dice:",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -355,7 +372,7 @@ namespace Presentation.Views
             try
             {
                 RepositorioDepartamentos departmentRepository = new RepositorioDepartamentos();
-                dtgDepartaments.DataSource = departmentRepository.ReadPayrolls(Session.company_id, dtpDate.Value);
+                dtgDepartaments.DataSource = departmentRepository.ReadPayrolls(Session.companyId, dtpDate.Value);
             }
             catch (Exception ex)
             {
@@ -505,7 +522,7 @@ namespace Presentation.Views
         {
             foreach (DataGridViewRow row in dtgEmployees.Rows)
             { 
-                if (Convert.ToDecimal(row.Cells[9].Value) < 0.0m) 
+                if (Convert.ToDecimal(row.Cells[9].Value) <= 0.0m) 
                 {
                     row.DefaultCellStyle.BackColor = Color.FromArgb(255, 220, 53, 69);
                     row.DefaultCellStyle.ForeColor = Color.White;
@@ -553,7 +570,7 @@ namespace Presentation.Views
                 return;
             }
 
-            bool status = payrollRepository.IsPayrollProcess(Session.company_id);
+            bool status = payrollRepository.IsPayrollProcess(Session.companyId);
 
             if (status)
             {
@@ -562,18 +579,32 @@ namespace Presentation.Views
                 return;
             }
 
-            bool result = payrollRepository.StartPayroll(Session.company_id, requestDate);
+            try
+            {
+                bool result = payrollRepository.StartPayroll(Session.companyId, requestDate);
 
-            if (result)
-            {
-                MessageBox.Show("La nómina se ha iniciado correctamente", "Sistema de nómina dice: ",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ClearForm();
+                if (result)
+                {
+                    MessageBox.Show("La nómina se ha iniciado correctamente", "Sistema de nómina dice: ",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    isPayrollDate = true;
+                    ListEmployees();
+                    ListDepartments();
+                    ClearForm();
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo iniciar la nómina", "Sistema de nómina dice: ",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            else
+            catch (SqlException ex)
             {
-                MessageBox.Show("No se pudo iniciar la nómina", "Sistema de nómina dice: ",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (ex.Number == 50000)
+                {
+                    MessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
             }
 
         }

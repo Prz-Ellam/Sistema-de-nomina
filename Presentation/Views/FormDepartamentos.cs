@@ -141,7 +141,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgDepartaments.DataSource = repository.ReadAll(txtFilter.Text, Session.company_id);
+                dtgDepartaments.DataSource = repository.ReadAll(txtFilter.Text, Session.companyId);
             }
             catch (Exception ex)
             {
@@ -261,7 +261,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgDepartaments.DataSource = repository.ReadAll(string.Empty, Session.company_id);
+                dtgDepartaments.DataSource = repository.ReadAll(string.Empty, Session.companyId);
             }
             catch (Exception ex)
             {
@@ -274,7 +274,7 @@ namespace Presentation.Views
             department.IdDepartamento = departmentId;
             department.Nombre = txtName.Text;
             department.SueldoBase = nudBaseSalary.Value;
-            department.IdEmpresa = Session.company_id;
+            department.IdEmpresa = Session.companyId;
         }
 
         public void ClearForm()

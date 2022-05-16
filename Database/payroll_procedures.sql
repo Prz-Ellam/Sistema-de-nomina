@@ -135,7 +135,7 @@ GO
 
 
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_GenerarNomina')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_GenerarNomina')
 	DROP PROCEDURE sp_GenerarNomina;
 GO
 
@@ -155,8 +155,8 @@ AS
 			RETURN;
 		END
 
-	IF NOT EXISTS(SELECT fecha FROM (SELECT fecha FROM percepciones_aplicadas UNION SELECT fecha FROM deducciones_aplicadas) AS U
-				WHERE dbo.PRIMERDIAFECHA(fecha) = dbo.OBTENERFECHAACTUAL(@id_empresa))
+	IF NOT EXISTS (SELECT fecha FROM (SELECT fecha FROM percepciones_aplicadas UNION SELECT fecha FROM deducciones_aplicadas) AS U
+				WHERE dbo.PRIMERDIAFECHA(fecha) = dbo.PRIMERDIAFECHA(dbo.OBTENERFECHAACTUAL(@id_empresa)))
 		BEGIN
 			RAISERROR('No existe la nómina en proceso', 11, 1);
 			RETURN;
@@ -172,11 +172,12 @@ AS
 			fecha, 
 			numero_empleado, 
 			id_departamento, 
-			id_puesto)
+			id_puesto
+	)
 	SELECT
 			e.sueldo_diario,
 			e.sueldo_diario * dbo.DIASTRABAJADOSEMPLEADO(@fecha, e.numero_empleado),
-			dbo.TOTALPERCEPCIONES(@fecha, e.numero_empleado) - dbo.TOTALDEDUCCIONES(@fecha, e.numero_empleado),
+			dbo.TOTALPERCEPCIONES(dbo.PRIMERDIAFECHA(@fecha), e.numero_empleado) - dbo.TOTALDEDUCCIONES(dbo.PRIMERDIAFECHA(@fecha), e.numero_empleado),
 			e.banco,
 			e.numero_cuenta,
 			@fecha,
@@ -249,7 +250,7 @@ AS
 				[Fecha] DESC;
 	ELSE IF EXISTS (SELECT id_empresa FROM empresas WHERE id_empresa = @id_empresa)
 		SELECT
-				fecha_inicio [Fecha]
+				dbo.PRIMERDIAFECHA(fecha_inicio) [Fecha]
 		FROM 
 				empresas
 		WHERE
@@ -266,7 +267,7 @@ GO
 
 -- Si han sido creadas percepciones y deducciones (las basicas que son obligatorias) significa que una nomina está en proceso, caso contrario
 -- si no hay ninguna creada se debe tomar como que la nomina no esta en proceso
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_NominaEnProceso')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_NominaEnProceso')
 	DROP PROCEDURE sp_NominaEnProceso;
 GO
 
@@ -283,7 +284,7 @@ BEGIN
 					UNION
 			SELECT fecha FROM deducciones_aplicadas) AS U
 	WHERE
-			fecha = dbo.OBTENERFECHAACTUAL(@id_empresa);
+			dbo.PRIMERDIAFECHA(fecha) = dbo.PRIMERDIAFECHA(dbo.OBTENERFECHAACTUAL(@id_empresa));
 
 END
 GO

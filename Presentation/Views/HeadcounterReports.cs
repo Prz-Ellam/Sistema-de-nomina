@@ -32,11 +32,19 @@ namespace Presentation.Views
             try
             {
                 RepositorioEmpresas companyRepository = new RepositorioEmpresas();
-                DateTime creationDate = companyRepository.GetCreationDate(Session.company_id, true);
-                DateTime payrollDate = payrollRepository.GetDate(Session.company_id);
+                DateTime creationDate = companyRepository.GetCreationDate(Session.companyId, true);
+                DateTime payrollDate = payrollRepository.GetDate(Session.companyId);
                 dtpDate.Value = creationDate;
                 dtpDate.MinDate = creationDate;
-                dtpDate.MaxDate = payrollDate.AddMonths(-1);
+
+                if (creationDate == payrollDate)
+                {
+                    dtpDate.MaxDate = payrollDate;
+                }
+                else
+                {
+                    dtpDate.MaxDate = payrollDate.AddMonths(-1);
+                }
             }
             catch (SqlException ex)
             {
@@ -76,7 +84,7 @@ namespace Presentation.Views
 
             try
             {
-                dtgHeadcounter1.DataSource = payrollRepository.Headcounter1(Session.company_id,
+                dtgHeadcounter1.DataSource = payrollRepository.Headcounter1(Session.companyId,
                    item.HiddenValue, dtpDate.Value);
             }
             catch (SqlException ex)
@@ -99,7 +107,7 @@ namespace Presentation.Views
 
             try
             {
-                dtgHeadcounter2.DataSource = payrollRepository.Headcounter2(Session.company_id,
+                dtgHeadcounter2.DataSource = payrollRepository.Headcounter2(Session.companyId,
                    item.HiddenValue, dtpDate.Value);
             }
             catch (SqlException ex)
@@ -111,7 +119,7 @@ namespace Presentation.Views
         private void ListDepartments()
         {
             RepositorioDepartamentos departmentsRepository = new RepositorioDepartamentos();
-            List<DepartmentsViewModel> departments = departmentsRepository.ReadAll(string.Empty, Session.company_id);
+            List<DepartmentsViewModel> departments = departmentsRepository.ReadAll(string.Empty, Session.companyId);
             List<PairItem> departmentsName = new List<PairItem>();
             departmentsName.Add(new PairItem("Todos", -1));
             foreach (var department in departments)
