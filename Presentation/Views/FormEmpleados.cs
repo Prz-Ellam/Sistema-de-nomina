@@ -65,7 +65,7 @@ namespace Presentation.Views
                         btnDelete.Enabled = true;
                         dtpHiringDate.MinDate = companyRepository.GetCreationDate(Session.companyId, false);
                         dtpHiringDate.Enabled = false;
-                        dtpDateOfBirth.MaxDate = repository.GetDateOfBirth(employeeId, Session.companyId);
+                        dtpDateOfBirth.MaxDate = repository.GetHiringDate(employeeId, false).AddYears(-18);
                         break;
                     }
                 }
@@ -87,7 +87,7 @@ namespace Presentation.Views
             try
             {
                 RepositorioNominas payrollRepository = new RepositorioNominas();
-                payrollDate = payrollRepository.GetDate(Session.companyId);
+                payrollDate = payrollRepository.GetDate(Session.companyId, false);
             }
             catch (SqlException ex)
             {
@@ -115,11 +115,11 @@ namespace Presentation.Views
 
             if (result.State == ValidationState.Error)
             {
-                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ListEmployees();
             ClearForm();
         }
@@ -131,11 +131,11 @@ namespace Presentation.Views
 
             if (result.State == ValidationState.Error)
             {
-                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ListEmployees();
             ClearForm();
         }
@@ -143,7 +143,7 @@ namespace Presentation.Views
         private void btnDelete_Click(object sender, EventArgs e)
         {
             DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?",
-                "Sistema de nómina dice: ", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                "Sistema de nómina dice:", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             if (res == DialogResult.No)
             {
@@ -155,11 +155,11 @@ namespace Presentation.Views
 
             if (result.State == ValidationState.Error)
             {
-                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ListEmployees();
             ClearForm();
         }
@@ -235,8 +235,14 @@ namespace Presentation.Views
                         }
                     }
                 }
-
-                return new ValidationResult(ex.Message, ValidationState.Error);
+                else if (ex.Number == 50000)
+                {
+                    return new ValidationResult(ex.Message, ValidationState.Error);
+                }
+                else
+                {
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
+                }
             }
         }
 
@@ -298,8 +304,14 @@ namespace Presentation.Views
                         }
                     }
                 }
-
-                return new ValidationResult(ex.Message, ValidationState.Error);
+                else if (ex.Number == 50000)
+                {
+                    return new ValidationResult(ex.Message, ValidationState.Error);
+                }
+                else
+                {
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
+                }
             }
         }
 
@@ -324,7 +336,14 @@ namespace Presentation.Views
             }
             catch (SqlException ex)
             {
-                return new ValidationResult(ex.Message, ValidationState.Error);
+                if (ex.Number == 50000)
+                {
+                    return new ValidationResult(ex.Message, ValidationState.Error);
+                }
+                else
+                {
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
+                }
             }
         }
 
@@ -453,7 +472,7 @@ namespace Presentation.Views
 
         public void FillForm(int index)
         {
-            if (index == -1)
+            if (index < 0 || index > dtgEmployees.RowCount)
             {
                 return;
             }
@@ -480,34 +499,13 @@ namespace Presentation.Views
             nudWageLevel.Value = Convert.ToDecimal(row.Cells["wageLevel"].Value);
 
             int bankId = ((PairItem)row.Cells["bank"].Value).HiddenValue;
-            foreach (var item in cbBank.Items)
-            {
-                if (((PairItem)item).HiddenValue == bankId)
-                {
-                    cbBank.SelectedItem = item;
-                    break;
-                }
-            }
+            ComboBoxUtils.FindHiddenValue(bankId, ref cbBank);
 
             int departmentId = ((PairItem)row.Cells["department"].Value).HiddenValue;
-            foreach (var item in cbDepartments.Items)
-            {
-                if( ((PairItem)item).HiddenValue == departmentId)
-                {
-                    cbDepartments.SelectedItem = item;
-                    break;
-                }
-            }
+            ComboBoxUtils.FindHiddenValue(departmentId, ref cbDepartments);
 
             int positionId = ((PairItem)row.Cells["position"].Value).HiddenValue;
-            foreach (var item in cbPositions.Items)
-            {
-                if (((PairItem)item).HiddenValue == positionId)
-                {
-                    cbPositions.SelectedItem = item;
-                    break;
-                }
-            }
+            ComboBoxUtils.FindHiddenValue(positionId, ref cbPositions);
 
             cbPhones.SelectedIndex = -1;
             cbPhones.Items.Clear();
@@ -529,13 +527,11 @@ namespace Presentation.Views
         {
             StatesRepository repository = new StatesRepository();
             states = repository.GetAll();
-
             cbState.Items.Add("Seleccionar");
             foreach (var state in states)
             {
                 cbState.Items.Add(state.state);
             }
-
             cbState.SelectedIndex = 0;
         }
 
@@ -603,7 +599,7 @@ namespace Presentation.Views
 
         private void ListDepartments()
         {
-            RepositorioDepartamentos repository = new RepositorioDepartamentos();
+            DepartmentsRepository repository = new DepartmentsRepository();
             List<DepartmentsViewModel> departments = repository.ReadAll(string.Empty, Session.companyId);
             List<PairItem>  names = new List<PairItem>();
             names.Add(new PairItem("Seleccionar", -1));
@@ -616,7 +612,7 @@ namespace Presentation.Views
 
         private void ListPositions()
         {
-            RepositorioPuestos repository = new RepositorioPuestos();
+            PositionsRepository repository = new PositionsRepository();
             List<PositionsViewModel> positions = repository.ReadAll(string.Empty, Session.companyId);
             List<PairItem> names = new List<PairItem>();
             names.Add(new PairItem("Seleccionar", -1));
@@ -648,6 +644,11 @@ namespace Presentation.Views
             }
             int endIndex = message.Substring(++startIndex).IndexOf("'");
             return message.Substring(startIndex, endIndex);
+        }
+
+        private void dtpHiringDate_ValueChanged(object sender, EventArgs e)
+        {
+            dtpDateOfBirth.MaxDate = dtpHiringDate.Value.AddYears(-18);
         }
     }
 }

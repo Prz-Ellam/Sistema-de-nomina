@@ -159,7 +159,7 @@ namespace Presentation.Views
             this.btnEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEdit.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.btnEdit.ForeColor = System.Drawing.Color.White;
-            this.btnEdit.Location = new System.Drawing.Point(397, 525);
+            this.btnEdit.Location = new System.Drawing.Point(397, 469);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(304, 39);
             this.btnEdit.TabIndex = 86;
@@ -182,7 +182,8 @@ namespace Presentation.Views
             // txtPassword
             // 
             this.txtPassword.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPassword.Location = new System.Drawing.Point(152, 251);
+            this.txtPassword.Location = new System.Drawing.Point(152, 248);
+            this.txtPassword.MaxLength = 30;
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(200, 25);
             this.txtPassword.TabIndex = 83;
@@ -191,7 +192,8 @@ namespace Presentation.Views
             // txtEmail
             // 
             this.txtEmail.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEmail.Location = new System.Drawing.Point(152, 217);
+            this.txtEmail.Location = new System.Drawing.Point(152, 211);
+            this.txtEmail.MaxLength = 60;
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(200, 25);
             this.txtEmail.TabIndex = 82;
@@ -223,6 +225,7 @@ namespace Presentation.Views
             // 
             this.txtAccountNumber.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtAccountNumber.Location = new System.Drawing.Point(501, 218);
+            this.txtAccountNumber.MaxLength = 16;
             this.txtAccountNumber.Name = "txtAccountNumber";
             this.txtAccountNumber.ReadOnly = true;
             this.txtAccountNumber.Size = new System.Drawing.Size(200, 25);
@@ -254,6 +257,7 @@ namespace Presentation.Views
             // 
             this.txtPostalCode.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPostalCode.Location = new System.Drawing.Point(829, 258);
+            this.txtPostalCode.MaxLength = 5;
             this.txtPostalCode.Name = "txtPostalCode";
             this.txtPostalCode.Size = new System.Drawing.Size(200, 25);
             this.txtPostalCode.TabIndex = 75;
@@ -317,6 +321,7 @@ namespace Presentation.Views
             // 
             this.txtSuburb.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSuburb.Location = new System.Drawing.Point(829, 144);
+            this.txtSuburb.MaxLength = 30;
             this.txtSuburb.Name = "txtSuburb";
             this.txtSuburb.Size = new System.Drawing.Size(200, 25);
             this.txtSuburb.TabIndex = 69;
@@ -325,6 +330,7 @@ namespace Presentation.Views
             // 
             this.txtNumber.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtNumber.Location = new System.Drawing.Point(829, 107);
+            this.txtNumber.MaxLength = 10;
             this.txtNumber.Name = "txtNumber";
             this.txtNumber.Size = new System.Drawing.Size(200, 25);
             this.txtNumber.TabIndex = 68;
@@ -333,6 +339,7 @@ namespace Presentation.Views
             // 
             this.txtStreet.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtStreet.Location = new System.Drawing.Point(829, 74);
+            this.txtStreet.MaxLength = 30;
             this.txtStreet.Name = "txtStreet";
             this.txtStreet.Size = new System.Drawing.Size(200, 25);
             this.txtStreet.TabIndex = 67;
@@ -353,7 +360,7 @@ namespace Presentation.Views
             // 
             this.dtpDateOfBirth.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpDateOfBirth.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpDateOfBirth.Location = new System.Drawing.Point(152, 177);
+            this.dtpDateOfBirth.Location = new System.Drawing.Point(152, 174);
             this.dtpDateOfBirth.Name = "dtpDateOfBirth";
             this.dtpDateOfBirth.Size = new System.Drawing.Size(200, 25);
             this.dtpDateOfBirth.TabIndex = 65;
@@ -429,6 +436,7 @@ namespace Presentation.Views
             // 
             this.txtNSS.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtNSS.Location = new System.Drawing.Point(501, 140);
+            this.txtNSS.MaxLength = 11;
             this.txtNSS.Name = "txtNSS";
             this.txtNSS.Size = new System.Drawing.Size(200, 25);
             this.txtNSS.TabIndex = 58;
@@ -437,6 +445,7 @@ namespace Presentation.Views
             // 
             this.txtRFC.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtRFC.Location = new System.Drawing.Point(501, 104);
+            this.txtRFC.MaxLength = 13;
             this.txtRFC.Name = "txtRFC";
             this.txtRFC.Size = new System.Drawing.Size(200, 25);
             this.txtRFC.TabIndex = 57;
@@ -445,6 +454,7 @@ namespace Presentation.Views
             // 
             this.txtCURP.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtCURP.Location = new System.Drawing.Point(501, 68);
+            this.txtCURP.MaxLength = 18;
             this.txtCURP.Name = "txtCURP";
             this.txtCURP.Size = new System.Drawing.Size(200, 25);
             this.txtCURP.TabIndex = 56;
@@ -453,6 +463,7 @@ namespace Presentation.Views
             // 
             this.txtMotherLastName.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMotherLastName.Location = new System.Drawing.Point(152, 138);
+            this.txtMotherLastName.MaxLength = 30;
             this.txtMotherLastName.Name = "txtMotherLastName";
             this.txtMotherLastName.ReadOnly = true;
             this.txtMotherLastName.Size = new System.Drawing.Size(200, 25);
@@ -461,7 +472,8 @@ namespace Presentation.Views
             // txtFatherLastName
             // 
             this.txtFatherLastName.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtFatherLastName.Location = new System.Drawing.Point(152, 102);
+            this.txtFatherLastName.Location = new System.Drawing.Point(152, 104);
+            this.txtFatherLastName.MaxLength = 30;
             this.txtFatherLastName.Name = "txtFatherLastName";
             this.txtFatherLastName.ReadOnly = true;
             this.txtFatherLastName.Size = new System.Drawing.Size(200, 25);
@@ -470,7 +482,8 @@ namespace Presentation.Views
             // txtNames
             // 
             this.txtNames.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNames.Location = new System.Drawing.Point(152, 68);
+            this.txtNames.Location = new System.Drawing.Point(152, 71);
+            this.txtNames.MaxLength = 30;
             this.txtNames.Name = "txtNames";
             this.txtNames.ReadOnly = true;
             this.txtNames.Size = new System.Drawing.Size(200, 25);
@@ -481,7 +494,7 @@ namespace Presentation.Views
             this.lblTitle.AutoSize = true;
             this.lblTitle.Font = new System.Drawing.Font("Microsoft YaHei", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.lblTitle.Location = new System.Drawing.Point(12, 24);
+            this.lblTitle.Location = new System.Drawing.Point(20, 20);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(147, 31);
             this.lblTitle.TabIndex = 52;
@@ -491,6 +504,7 @@ namespace Presentation.Views
             // 
             this.txtDepartment.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtDepartment.Location = new System.Drawing.Point(501, 293);
+            this.txtDepartment.MaxLength = 30;
             this.txtDepartment.Name = "txtDepartment";
             this.txtDepartment.ReadOnly = true;
             this.txtDepartment.Size = new System.Drawing.Size(200, 25);
@@ -500,6 +514,7 @@ namespace Presentation.Views
             // 
             this.txtPosition.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPosition.Location = new System.Drawing.Point(829, 296);
+            this.txtPosition.MaxLength = 30;
             this.txtPosition.Name = "txtPosition";
             this.txtPosition.ReadOnly = true;
             this.txtPosition.Size = new System.Drawing.Size(200, 25);
@@ -537,7 +552,7 @@ namespace Presentation.Views
             this.label28.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label28.Font = new System.Drawing.Font("Microsoft YaHei", 10F);
             this.label28.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label28.Location = new System.Drawing.Point(824, 375);
+            this.label28.Location = new System.Drawing.Point(824, 376);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(17, 20);
             this.label28.TabIndex = 108;
@@ -549,7 +564,7 @@ namespace Presentation.Views
             this.label27.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label27.Font = new System.Drawing.Font("Microsoft YaHei", 10F);
             this.label27.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label27.Location = new System.Drawing.Point(822, 340);
+            this.label27.Location = new System.Drawing.Point(822, 338);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(21, 20);
             this.label27.TabIndex = 107;
@@ -561,7 +576,7 @@ namespace Presentation.Views
             this.label26.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label26.Font = new System.Drawing.Font("Microsoft YaHei", 10F);
             this.label26.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label26.Location = new System.Drawing.Point(497, 343);
+            this.label26.Location = new System.Drawing.Point(497, 338);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(17, 20);
             this.label26.TabIndex = 106;
@@ -571,7 +586,7 @@ namespace Presentation.Views
             // 
             this.nudWageLevel.DecimalPlaces = 2;
             this.nudWageLevel.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
-            this.nudWageLevel.Location = new System.Drawing.Point(844, 338);
+            this.nudWageLevel.Location = new System.Drawing.Point(844, 335);
             this.nudWageLevel.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -587,7 +602,7 @@ namespace Presentation.Views
             // 
             this.nudBaseSalary.DecimalPlaces = 2;
             this.nudBaseSalary.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
-            this.nudBaseSalary.Location = new System.Drawing.Point(516, 341);
+            this.nudBaseSalary.Location = new System.Drawing.Point(516, 335);
             this.nudBaseSalary.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -649,11 +664,12 @@ namespace Presentation.Views
             this.dtpHiringDate.Enabled = false;
             this.dtpHiringDate.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
             this.dtpHiringDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpHiringDate.Location = new System.Drawing.Point(152, 293);
+            this.dtpHiringDate.Location = new System.Drawing.Point(152, 290);
             this.dtpHiringDate.MinDate = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
             this.dtpHiringDate.Name = "dtpHiringDate";
             this.dtpHiringDate.Size = new System.Drawing.Size(200, 25);
             this.dtpHiringDate.TabIndex = 110;
+            this.dtpHiringDate.ValueChanged += new System.EventHandler(this.dtpHiringDate_ValueChanged);
             // 
             // Profile
             // 

@@ -41,12 +41,12 @@ namespace Presentation.Views
             this.btnAdd = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.dtgPositions = new System.Windows.Forms.DataGridView();
-            this.id2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.name2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nivel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label4 = new System.Windows.Forms.Label();
             this.lblFilter = new System.Windows.Forms.Label();
             this.txtFilter = new System.Windows.Forms.TextBox();
+            this.id2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.name2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nivel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.nudWageLevel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtgPositions)).BeginInit();
             this.SuspendLayout();
@@ -58,7 +58,7 @@ namespace Presentation.Views
             this.txtName.MaxLength = 30;
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(400, 29);
-            this.txtName.TabIndex = 0;
+            this.txtName.TabIndex = 1;
             // 
             // lblName
             // 
@@ -88,12 +88,12 @@ namespace Presentation.Views
             // 
             // nudWageLevel
             // 
-            this.nudWageLevel.DecimalPlaces = 2;
+            this.nudWageLevel.DecimalPlaces = 4;
             this.nudWageLevel.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.nudWageLevel.Location = new System.Drawing.Point(46, 220);
             this.nudWageLevel.Name = "nudWageLevel";
             this.nudWageLevel.Size = new System.Drawing.Size(374, 29);
-            this.nudWageLevel.TabIndex = 4;
+            this.nudWageLevel.TabIndex = 2;
             // 
             // btnDelete
             // 
@@ -106,7 +106,7 @@ namespace Presentation.Views
             this.btnDelete.Location = new System.Drawing.Point(380, 290);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(125, 42);
-            this.btnDelete.TabIndex = 9;
+            this.btnDelete.TabIndex = 5;
             this.btnDelete.Text = "Eliminar";
             this.btnDelete.UseVisualStyleBackColor = false;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
@@ -122,7 +122,7 @@ namespace Presentation.Views
             this.btnEdit.Location = new System.Drawing.Point(200, 290);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(125, 42);
-            this.btnEdit.TabIndex = 8;
+            this.btnEdit.TabIndex = 4;
             this.btnEdit.Text = "Editar";
             this.btnEdit.UseVisualStyleBackColor = false;
             this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
@@ -138,7 +138,7 @@ namespace Presentation.Views
             this.btnAdd.Location = new System.Drawing.Point(20, 290);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(125, 42);
-            this.btnAdd.TabIndex = 7;
+            this.btnAdd.TabIndex = 3;
             this.btnAdd.Text = "Agregar";
             this.btnAdd.UseVisualStyleBackColor = false;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
@@ -189,34 +189,8 @@ namespace Presentation.Views
             this.dtgPositions.ReadOnly = true;
             this.dtgPositions.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dtgPositions.Size = new System.Drawing.Size(851, 241);
-            this.dtgPositions.TabIndex = 40;
+            this.dtgPositions.TabIndex = 6;
             this.dtgPositions.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgPositions_CellDoubleClick);
-            // 
-            // id2
-            // 
-            this.id2.DataPropertyName = "id";
-            this.id2.HeaderText = "ID Puesto";
-            this.id2.Name = "id2";
-            this.id2.ReadOnly = true;
-            this.id2.Width = 200;
-            // 
-            // name2
-            // 
-            this.name2.DataPropertyName = "name";
-            this.name2.HeaderText = "Nombre";
-            this.name2.Name = "name2";
-            this.name2.ReadOnly = true;
-            this.name2.Width = 300;
-            // 
-            // nivel
-            // 
-            this.nivel.DataPropertyName = "wageLevel";
-            dataGridViewCellStyle2.Format = "0.00";
-            this.nivel.DefaultCellStyle = dataGridViewCellStyle2;
-            this.nivel.HeaderText = "Nivel salarial";
-            this.nivel.Name = "nivel";
-            this.nivel.ReadOnly = true;
-            this.nivel.Width = 310;
             // 
             // label4
             // 
@@ -249,8 +223,34 @@ namespace Presentation.Views
             this.txtFilter.Location = new System.Drawing.Point(564, 354);
             this.txtFilter.Name = "txtFilter";
             this.txtFilter.Size = new System.Drawing.Size(307, 29);
-            this.txtFilter.TabIndex = 42;
+            this.txtFilter.TabIndex = 7;
             this.txtFilter.TextChanged += new System.EventHandler(this.txtFilter_TextChanged);
+            // 
+            // id2
+            // 
+            this.id2.DataPropertyName = "id";
+            this.id2.HeaderText = "ID Puesto";
+            this.id2.Name = "id2";
+            this.id2.ReadOnly = true;
+            this.id2.Width = 200;
+            // 
+            // name2
+            // 
+            this.name2.DataPropertyName = "name";
+            this.name2.HeaderText = "Nombre";
+            this.name2.Name = "name2";
+            this.name2.ReadOnly = true;
+            this.name2.Width = 300;
+            // 
+            // nivel
+            // 
+            this.nivel.DataPropertyName = "wageLevel";
+            dataGridViewCellStyle2.Format = "0.0000";
+            this.nivel.DefaultCellStyle = dataGridViewCellStyle2;
+            this.nivel.HeaderText = "Nivel salarial";
+            this.nivel.Name = "nivel";
+            this.nivel.ReadOnly = true;
+            this.nivel.Width = 310;
             // 
             // FormPuestos
             // 

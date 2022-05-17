@@ -19,7 +19,9 @@ AS
 	FROM
 			vw_ReporteGeneralNomina
 	WHERE
-			dbo.PRIMERDIAFECHA([Fecha]) = dbo.PRIMERDIAFECHA(@fecha);
+			dbo.PRIMERDIAFECHA([Fecha]) = dbo.PRIMERDIAFECHA(@fecha)
+	ORDER BY
+			[Departamento] ASC, [Puesto] ASC, [Nombre del empleado] ASC;
 
 GO
 
@@ -48,7 +50,9 @@ FROM
 WHERE
 		dbo.PRIMERDIAFECHA(dpf.fecha) = dbo.PRIMERDIAFECHA(@fecha) AND 
 		(dpf.id_departamento = @id_departamento OR @id_departamento = -1) AND
-		dpf.id_empresa = @id_empresa;
+		dpf.id_empresa = @id_empresa
+ORDER BY
+		dpf.Departamento ASC, dpf.Puesto ASC;
 
 GO
 
@@ -75,7 +79,9 @@ FROM
 WHERE
 		dbo.PRIMERDIAFECHA(df.fecha) = dbo.PRIMERDIAFECHA(@fecha) AND 
 		(df.id_departamento = @id_departamento OR @id_departamento = -1) AND
-		df.id_empresa = @id_empresa;
+		df.id_empresa = @id_empresa
+ORDER BY
+		df.nombre ASC;
 
 GO
 
@@ -120,7 +126,7 @@ GO
 
 
 
-DROP VIEW vw_DepartmentsCount;
+
 
 CREATE VIEW vw_DepartmentsCount
 AS

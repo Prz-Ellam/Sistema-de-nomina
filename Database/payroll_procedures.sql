@@ -230,7 +230,8 @@ IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ObtenerFec
 GO
 
 CREATE PROCEDURE sp_ObtenerFechaActual
-	@id_empresa				INT
+	@id_empresa				INT,
+	@primer_dia				BIT
 AS
 
 	IF EXISTS (SELECT id_nomina FROM nominas AS n 
@@ -250,7 +251,7 @@ AS
 				[Fecha] DESC;
 	ELSE IF EXISTS (SELECT id_empresa FROM empresas WHERE id_empresa = @id_empresa)
 		SELECT
-				dbo.PRIMERDIAFECHA(fecha_inicio) [Fecha]
+				IIF(@primer_dia = 1, dbo.PRIMERDIAFECHA(fecha_inicio), fecha_inicio) [Fecha]
 		FROM 
 				empresas
 		WHERE

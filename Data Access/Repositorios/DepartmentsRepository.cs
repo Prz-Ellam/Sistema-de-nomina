@@ -7,17 +7,18 @@ using System.Text;
 using System.Threading.Tasks;
 using Data_Access.Connections;
 using Data_Access.Entidades;
+using Data_Access.Interfaces;
 using Data_Access.ViewModels;
 
 namespace Data_Access.Repositorios
 {
-    public class RepositorioDepartamentos
+    public class DepartmentsRepository : IDepartmentsRepository
     {
         private readonly string create, update, delete, readAll, readPayrolls;
         private MainConnection repositorio;
         private RepositoryParameters sqlParams;
 
-        public RepositorioDepartamentos()
+        public DepartmentsRepository()
         {
             repositorio = MainConnection.GetInstance();
             sqlParams = new RepositoryParameters();
@@ -28,32 +29,32 @@ namespace Data_Access.Repositorios
             readPayrolls = "sp_LeerDepartamentosNominas";
         }
 
-        public bool Create(Departamentos departmento)
+        public bool Create(Departments department)
         {
             sqlParams.Start();
-            sqlParams.Add("@nombre", departmento.Nombre);
-            sqlParams.Add("@sueldo_base", departmento.SueldoBase);
-            sqlParams.Add("@id_empresa", departmento.IdEmpresa);
+            sqlParams.Add("@nombre", department.Name);
+            sqlParams.Add("@sueldo_base", department.BaseSalary);
+            sqlParams.Add("@id_empresa", department.CompanyId);
 
             int rowCount = repositorio.ExecuteNonQuery(create, sqlParams);
             return (rowCount > 0) ? true : false;
         }
 
-        public bool Update(Departamentos department)
+        public bool Update(Departments department)
         {
             sqlParams.Start();
-            sqlParams.Add("@id_departamento", department.IdDepartamento);
-            sqlParams.Add("@nombre", department.Nombre);
-            sqlParams.Add("@sueldo_base", department.SueldoBase);
+            sqlParams.Add("@id_departamento", department.DepartmentId);
+            sqlParams.Add("@nombre", department.Name);
+            sqlParams.Add("@sueldo_base", department.BaseSalary);
 
             int rowCount = repositorio.ExecuteNonQuery(update, sqlParams);
             return (rowCount > 0) ? true : false;
         }
 
-        public bool Delete(int id)
+        public bool Delete(int departmentId)
         {
             sqlParams.Start();
-            sqlParams.Add("@id_departamento", id);
+            sqlParams.Add("@id_departamento", departmentId);
 
             int rowCount = repositorio.ExecuteNonQuery(delete, sqlParams);
             return (rowCount > 0) ? true : false;
@@ -88,12 +89,6 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@fecha", date);
 
             DataTable table = repositorio.ExecuteReader(readPayrolls, sqlParams);
-
-            if (table == null)
-            {
-                return new List<DepartmentsPayrollViewModel>();
-            }
-
             List<DepartmentsPayrollViewModel> departments = new List<DepartmentsPayrollViewModel>();
             foreach (DataRow row in table.Rows)
             {

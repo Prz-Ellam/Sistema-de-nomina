@@ -421,7 +421,6 @@ AS
 GO
 
 
-
 IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ObtenerFechaValidaEmpleado')
 	DROP PROCEDURE sp_ObtenerFechaValidaEmpleado;
 GO
@@ -432,7 +431,7 @@ CREATE PROCEDURE sp_ObtenerFechaValidaEmpleado(
 )
 AS
 
-	IF EXISTS (SELECT numero_empleado FROM nominas WHERE numero_empleado = @numero_empleado)
+	IF EXISTS (SELECT numero_empleado FROM nominas WHERE numero_empleado = @numero_empleado) 
 
 		SELECT TOP 1
 				DATEADD(DAY, -1, DATEADD(YEAR, -18, fecha)) [Fecha]
@@ -444,6 +443,26 @@ AS
 				fecha ASC;
 	ELSE
 		SELECT
-				DATEADD(DAY, -1, DATEADD(YEAR, -18, dbo.PRIMERDIAFECHA(dbo.OBTENERFECHAACTUAL(@id_empresa)))) [Fecha];
+				DATEADD(DAY, -1, DATEADD(YEAR, -18, dbo.OBTENERFECHAACTUAL(@id_empresa))) [Fecha];
+
+GO
+
+
+
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ObtenerFechaContratacion')
+	DROP PROCEDURE sp_ObtenerFechaContratacion;
+GO
+
+CREATE PROCEDURE sp_ObtenerFechaContratacion(
+	@numero_empleado				INT
+)
+AS
+
+	SELECT
+			dbo.PRIMERDIAFECHA(fecha_contratacion) [Fecha contratacion]
+	FROM
+			empleados
+	WHERE
+			numero_empleado = @numero_empleado;
 
 GO

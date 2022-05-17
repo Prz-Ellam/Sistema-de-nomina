@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Presentation.Helpers;
 using Data_Access.Entities;
 using Data_Access.Repositorios;
+using System.Data.SqlClient;
 
 namespace Presentation.Views
 {
@@ -50,14 +51,22 @@ namespace Presentation.Views
                 return;
             }
 
-            Users user = repository.Login(email, password);
-            if (user == null)
+            try
             {
-                MessageBox.Show("Sus credenciales no coinciden", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Users user = repository.Login(email, password);
+
+                if (user == null)
+                {
+                    MessageBox.Show("Sus credenciales no coinciden", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    ShowMenu(user);
+                }
             }
-            else
+            catch (SqlException ex)
             {
-                ShowMenu(user);
+
             }
 
         }

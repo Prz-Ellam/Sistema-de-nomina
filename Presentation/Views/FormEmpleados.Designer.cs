@@ -867,6 +867,7 @@ namespace Presentation.Views
             this.dtpHiringDate.Name = "dtpHiringDate";
             this.dtpHiringDate.Size = new System.Drawing.Size(200, 25);
             this.dtpHiringDate.TabIndex = 7;
+            this.dtpHiringDate.ValueChanged += new System.EventHandler(this.dtpHiringDate_ValueChanged);
             // 
             // label21
             // 

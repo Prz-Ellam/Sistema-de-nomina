@@ -58,7 +58,7 @@ AS
 	SELECT
 			d.nombre [Departamento],
 			p.nombre [Puesto],
-			CONCAT(e.nombre, ' ', + e.apellido_paterno, ' ', e.apellido_materno) [Nombre del empleado],
+			CONCAT(e.apellido_paterno, ' ', e.apellido_materno, ' ', e.nombre) [Nombre del empleado],
 			e.fecha_contratacion [Fecha de ingreso],
 			DATEDIFF(HOUR, fecha_nacimiento, DATEFROMPARTS(YEAR(n.fecha), MONTH(n.fecha), dbo.GETMONTHLENGTH(YEAR(n.fecha), MONTH(n.fecha)))) / 8766 [Edad], 
 			n.sueldo_diario [Sueldo diario],
@@ -210,7 +210,7 @@ AS
 GO
 
 
-
+/*
 IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ReporteGeneralNomina')
 	DROP PROCEDURE sp_ReporteGeneralNomina;
 GO
@@ -234,7 +234,7 @@ AS
 	ORDER BY [Departamento] ASC, [Puesto] ASC;
 
 GO
-
+*/
 
 
 IF EXISTS(SELECT name FROM sys.all_views WHERE name = 'vw_ReciboNomina')
@@ -280,8 +280,6 @@ AS
 			e.activo = 1;
 
 GO
-
-
 
 
 
@@ -333,3 +331,48 @@ GO
 
 
 
+IF EXISTS (SELECT name FROM sys.all_views WHERE name = 'vw_DepartamentosDeduccionesAplicadas')
+	DROP VIEW vw_DepartamentosDeduccionesAplicadas;
+GO
+
+CREATE VIEW vw_DepartamentosDeduccionesAplicadas
+AS
+SELECT
+		IIF(n.id_departamento IS NULL, e.id_departamento, n.id_departamento) [id_departamento],
+		da.id_deduccion,
+		da.fecha,
+		IIF(n.id_departamento IS NULL, COUNT(e.numero_empleado), COUNT(n.numero_empleado)) [Cantidad empleados]
+FROM
+		deducciones AS d
+		LEFT JOIN deducciones_aplicadas AS da
+		ON d.id_deduccion = da.id_deduccion
+		LEFT JOIN nominas AS n
+		ON da.numero_empleado = n.numero_empleado AND
+		da.fecha = n.fecha
+		LEFT JOIN empleados AS e
+		ON da.numero_empleado = e.numero_empleado
+GROUP BY
+		n.id_departamento, da.id_deduccion, da.fecha, d.tipo_duracion, e.id_departamento
+HAVING
+		d.tipo_duracion = 'S';
+GO
+
+
+
+IF EXISTS (SELECT name FROM sys.all_views WHERE name = 'vw_DepartamentosDeduccionesFechas')
+	DROP VIEW vw_DepartamentosDeduccionesFechas;
+GO
+
+CREATE VIEW vw_DepartamentosDeduccionesFechas
+AS
+SELECT DISTINCT
+		d.id_departamento,
+		de.id_deduccion,
+		da.fecha
+FROM
+		departamentos AS d
+		CROSS JOIN deducciones AS de
+		CROSS JOIN deducciones_aplicadas AS da
+WHERE
+		de.tipo_duracion = 'S'
+GO

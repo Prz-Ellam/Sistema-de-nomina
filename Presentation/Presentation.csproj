@@ -102,6 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\ApplyConceptType.cs" />
+    <Compile Include="Helpers\ComboBoxUtils.cs" />
     <Compile Include="Helpers\KeyValueItem.cs" />
     <Compile Include="Helpers\DataValidation.cs" />
     <Compile Include="Helpers\EntityState.cs" />
@@ -206,12 +207,6 @@
     <Compile Include="Views\Profile.Designer.cs">
       <DependentUpon>Profile.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Receipt.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\Receipt.Designer.cs">
-      <DependentUpon>Receipt.cs</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -266,9 +261,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Profile.resx">
       <DependentUpon>Profile.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Receipt.resx">
-      <DependentUpon>Receipt.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

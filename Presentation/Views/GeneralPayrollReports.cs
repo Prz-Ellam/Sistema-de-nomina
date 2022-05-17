@@ -15,30 +15,48 @@ namespace Presentation.Views
 {
     public partial class GeneralPayrollReports : Form
     {
-        private RepositorioNominas payrollRepository = new RepositorioNominas();
+        private RepositorioNominas payrollRepository;
+
         public GeneralPayrollReports()
         {
             InitializeComponent();
+            payrollRepository = new RepositorioNominas();
         }
 
         private void GeneralPayrollReports_Load(object sender, EventArgs e)
+        {
+            InitDates();
+            dtgGeneralPayroll.DoubleBuffered(true);
+        }
+
+        private void dtpDate_ValueChanged(object sender, EventArgs e)
+        {
+            ListReport();
+        }
+
+        private void ListReport()
+        {
+            try
+            {
+                dtgGeneralPayroll.DataSource = payrollRepository.GeneralPayrollReport(dtpDate.Value);
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void InitDates()
         {
             try
             {
                 RepositorioEmpresas companyRepository = new RepositorioEmpresas();
                 DateTime creationDate = companyRepository.GetCreationDate(Session.companyId, true);
-                DateTime payrollDate = payrollRepository.GetDate(Session.companyId);
-                dtpDate.Value = creationDate;
+                DateTime payrollDate = payrollRepository.GetDate(Session.companyId, true);
+                // El Value se adapta al MinDate o MaxDate antes de ponerlo
                 dtpDate.MinDate = creationDate;
-
-                if (creationDate == payrollDate)
-                {
-                    dtpDate.MaxDate = payrollDate;
-                }
-                else
-                {
-                    dtpDate.MaxDate = payrollDate.AddMonths(-1);
-                }
+                dtpDate.MaxDate = (creationDate == payrollDate) ? payrollDate : payrollDate.AddMonths(-1);
+                dtpDate.Value = creationDate;
             }
             catch (SqlException ex)
             {
@@ -46,21 +64,6 @@ namespace Presentation.Views
                 {
                     MessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-            }
-
-            dtgGeneralPayroll.DoubleBuffered(true);
-        }
-
-        private void dtpDate_ValueChanged(object sender, EventArgs e)
-        {
-            DateTime date = dtpDate.Value;
-            try
-            {
-                dtgGeneralPayroll.DataSource = payrollRepository.GeneralPayrollReport(date);
-            }
-            catch (Exception ex)
-            {
-
             }
         }
 

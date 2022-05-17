@@ -40,7 +40,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgPayrollReport.DataSource = payrollRepository.PayrollReport(Convert.ToInt32(nudYear.Value));
+                dtgPayrollReport.DataSource = payrollRepository.PayrollReport(dtpYear.Value.Year);
             }
             catch (SqlException ex)
             {
@@ -54,10 +54,10 @@ namespace Presentation.Views
             {
                 RepositorioEmpresas companyRepository = new RepositorioEmpresas();
                 DateTime creationDate = companyRepository.GetCreationDate(Session.companyId, true);
-                DateTime payrollDate = payrollRepository.GetDate(Session.companyId);
-                nudYear.Value = creationDate.Year;
-                nudYear.Minimum = creationDate.Year;
-                nudYear.Maximum = payrollDate.Year;
+                DateTime payrollDate = payrollRepository.GetDate(Session.companyId, true);
+                dtpYear.MinDate = creationDate;
+                dtpYear.MaxDate = (creationDate == payrollDate) ? payrollDate : payrollDate.AddMonths(-1);
+                dtpYear.Value = creationDate;
             }
             catch (SqlException ex)
             {

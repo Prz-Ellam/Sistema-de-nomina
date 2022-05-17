@@ -55,12 +55,14 @@ namespace Presentation.Views
             // dtpDate
             // 
             this.dtpDate.CustomFormat = "MMMM / yyyy";
+            this.dtpDate.Enabled = false;
             this.dtpDate.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.dtpDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpDate.Location = new System.Drawing.Point(29, 103);
             this.dtpDate.MaxDate = new System.DateTime(2038, 12, 31, 0, 0, 0, 0);
             this.dtpDate.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
             this.dtpDate.Name = "dtpDate";
+            this.dtpDate.ShowUpDown = true;
             this.dtpDate.Size = new System.Drawing.Size(200, 29);
             this.dtpDate.TabIndex = 0;
             // 
@@ -220,6 +222,7 @@ namespace Presentation.Views
             this.dtpConsult.MaxDate = new System.DateTime(2038, 12, 31, 0, 0, 0, 0);
             this.dtpConsult.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
             this.dtpConsult.Name = "dtpConsult";
+            this.dtpConsult.ShowUpDown = true;
             this.dtpConsult.Size = new System.Drawing.Size(200, 29);
             this.dtpConsult.TabIndex = 13;
             // 
@@ -272,7 +275,7 @@ namespace Presentation.Views
             this.btnDeletePayroll.UseVisualStyleBackColor = false;
             this.btnDeletePayroll.Click += new System.EventHandler(this.btnDeletePayroll_Click);
             // 
-            // FormPayroll
+            // FormNominas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -289,7 +292,7 @@ namespace Presentation.Views
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dtpDate);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "FormPayroll";
+            this.Name = "FormNominas";
             this.Text = "Payroll";
             this.Load += new System.EventHandler(this.Payroll_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dtgPayrolls)).EndInit();

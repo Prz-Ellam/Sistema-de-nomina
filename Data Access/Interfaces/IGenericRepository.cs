@@ -8,13 +8,13 @@ namespace Data_Access.Interfaces
 {
     public interface IGenericRepository<T> where T : class
     {
-        int Create(T entity);
+        bool Create(T entity);
         
-        int Update(T entity);
+        bool Update(T entity);
 
-        int Delete(int id);
+        bool Delete(int id);
 
-        List<T> ReadAll();
+        //List<T> ReadAll();
 
         //List<T> ReadLike(string exp);
     }

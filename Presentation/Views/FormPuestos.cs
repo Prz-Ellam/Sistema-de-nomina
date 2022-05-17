@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Data_Access.Entities;
 using Data_Access.Repositorios;
 using Presentation.Helpers;
 using Data_Access.ViewModels;
@@ -18,8 +17,8 @@ namespace Presentation.Views
 {
     public partial class FormPuestos : Form
     {
-        private RepositorioPuestos repository;
-        private Puestos position;
+        private PositionsRepository repository;
+        private Positions position;
         int dtgPrevIndex = -1;
         int positionId = -1;
 
@@ -58,8 +57,8 @@ namespace Presentation.Views
         public FormPuestos()
         {
             InitializeComponent();
-            repository = new RepositorioPuestos();
-            position = new Puestos();
+            repository = new PositionsRepository();
+            position = new Positions();
         }
 
         private void Positions_Load(object sender, EventArgs e)
@@ -77,11 +76,11 @@ namespace Presentation.Views
 
             if (result.State == ValidationState.Error)
             {
-                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ListPositions();
             ClearForm();
         }
@@ -93,11 +92,11 @@ namespace Presentation.Views
 
             if (result.State == ValidationState.Error)
             {
-                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ListPositions();
             ClearForm();
         }
@@ -117,11 +116,11 @@ namespace Presentation.Views
 
             if (result.State == ValidationState.Error)
             {
-                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ListPositions();
             ClearForm();
         }
@@ -129,7 +128,7 @@ namespace Presentation.Views
         private void dtgPositions_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             int index = e.RowIndex;
-            if (index == dtgPrevIndex || index == -1)
+            if (index == dtgPrevIndex || index < 0 || index > dtgPositions.RowCount)
             {
                 ClearForm();
             }
@@ -273,10 +272,10 @@ namespace Presentation.Views
 
         public void FillPosition()
         {
-            position.IdPuesto = positionId;
-            position.Nombre = txtName.Text;
-            position.NivelSalarial = nudWageLevel.Value;
-            position.IdEmpresa = Session.companyId;
+            position.PositionId = positionId;
+            position.Name = txtName.Text;
+            position.WageLevel = nudWageLevel.Value;
+            position.CompanyId = Session.companyId;
         }
 
         public void ClearForm()
@@ -292,7 +291,8 @@ namespace Presentation.Views
 
         public void FillForm(int index)
         {
-            if (index == -1)
+            // Si esta fuera del rango del Data Grid View regresa
+            if (index < 0 || index > dtgPositions.RowCount)
             {
                 return;
             }

@@ -8,26 +8,28 @@ using System.Threading.Tasks;
 using Data_Access.Connections;
 using Data_Access.Entidades;
 using Data_Access.Helpers;
+using Data_Access.Interfaces;
 using Data_Access.ViewModels;
 
 namespace Data_Access.Repositorios
 {
-    public class RepositorioEmpleados
+    public class RepositorioEmpleados : IEmployeesRepository
     {
-        private readonly string create, update, delete, readAll, readPayrolls, getById, getDateOfBirth;
+        private readonly string create, update, delete, readAll, readPayrolls, getById, getHiringDate;
         private MainConnection mainRepository;
-        private RepositoryParameters sqlParams = new RepositoryParameters();
+        private RepositoryParameters sqlParams;
 
         public RepositorioEmpleados()
         {
             mainRepository = MainConnection.GetInstance();
+            sqlParams = new RepositoryParameters();
             create = "sp_AgregarEmpleado";
             update = "sp_ActualizarEmpleado";
             delete = "sp_EliminarEmpleado";
             readAll = "sp_LeerEmpleados";
             readPayrolls = "sp_LeerEmpleadosNominas";
             getById = "sp_ObtenerEmpleadoPorId";
-            getDateOfBirth = "sp_ObtenerFechaValidaEmpleado";
+            getHiringDate = "sp_ObtenerFechaContratacion";
         }
 
         public bool Create(Empleados employee)
@@ -117,12 +119,12 @@ namespace Data_Access.Repositorios
         {
             sqlParams.Start();
             sqlParams.Add("@numero_empleado", employee.NumeroEmpleado);
-            sqlParams.Add("@nombre", employee.Nombre);
-            sqlParams.Add("@apellido_paterno", employee.ApellidoPaterno);
-            sqlParams.Add("@apellido_materno", employee.ApellidoMaterno);
+            sqlParams.Add("@nombre", Convert.DBNull);
+            sqlParams.Add("@apellido_paterno", Convert.DBNull);
+            sqlParams.Add("@apellido_materno", Convert.DBNull);
             sqlParams.Add("@fecha_nacimiento", employee.FechaNacimiento);
             sqlParams.Add("@curp", employee.Curp);
-            sqlParams.Add("@nss", employee.Nss);
+            sqlParams.Add("@nss", Convert.DBNull);
             sqlParams.Add("@rfc", employee.Rfc);
 
             sqlParams.Add("@calle", employee.Calle);
@@ -138,7 +140,7 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@contrasena", employee.Contrasena);
             sqlParams.Add("@id_departamento", Convert.DBNull);
             sqlParams.Add("@id_puesto", Convert.DBNull);
-            sqlParams.Add("@fecha_contratacion", employee.FechaContratacion);
+            sqlParams.Add("@fecha_contratacion", Convert.DBNull);
 
             DataTable telefonos = new DataTable();
             telefonos.Columns.Add("row_count");
@@ -279,16 +281,16 @@ namespace Data_Access.Repositorios
             return null;
         }
 
-        public DateTime GetDateOfBirth(int employeeNumber, int companyId)
+        public DateTime GetHiringDate(int employeeNumber, bool firstDay)
         {
             sqlParams.Start();
             sqlParams.Add("@numero_empleado", employeeNumber);
-            sqlParams.Add("@id_empresa", companyId);
+            sqlParams.Add("@primer_dia", firstDay);
 
-            DataTable table = mainRepository.ExecuteReader(getDateOfBirth, sqlParams);
+            DataTable table = mainRepository.ExecuteReader(getHiringDate, sqlParams);
             foreach (DataRow row in table.Rows)
             {
-                return Convert.ToDateTime(row["Fecha"]);
+                return Convert.ToDateTime(row["Fecha contratacion"]);
             }
 
             return DateTime.MinValue;

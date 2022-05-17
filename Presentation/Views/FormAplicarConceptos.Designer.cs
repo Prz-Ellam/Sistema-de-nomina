@@ -54,9 +54,14 @@ namespace Presentation.Views
             this.lblName = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.dtgDepartaments = new System.Windows.Forms.DataGridView();
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.dtgPerceptions = new System.Windows.Forms.DataGridView();
+            this.check = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label4 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.dtgEmployees = new System.Windows.Forms.DataGridView();
@@ -72,6 +77,9 @@ namespace Presentation.Views
             this.number = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label5 = new System.Windows.Forms.Label();
             this.dtgDeductions = new System.Windows.Forms.DataGridView();
+            this.checkbox = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.rbPerceptionsFilterNotApply = new System.Windows.Forms.RadioButton();
             this.rbPerceptionsFilterAll = new System.Windows.Forms.RadioButton();
@@ -82,14 +90,6 @@ namespace Presentation.Views
             this.rbDeductionsFilterApply = new System.Windows.Forms.RadioButton();
             this.btnConsult = new System.Windows.Forms.Button();
             this.btnStartPayroll = new System.Windows.Forms.Button();
-            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.check = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.checkbox = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dtgDepartaments)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtgPerceptions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtgEmployees)).BeginInit();
@@ -119,6 +119,7 @@ namespace Presentation.Views
             this.dtpDate.MaxDate = new System.DateTime(2038, 12, 31, 0, 0, 0, 0);
             this.dtpDate.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
             this.dtpDate.Name = "dtpDate";
+            this.dtpDate.ShowUpDown = true;
             this.dtpDate.Size = new System.Drawing.Size(250, 27);
             this.dtpDate.TabIndex = 29;
             // 
@@ -243,6 +244,22 @@ namespace Presentation.Views
             this.dtgDepartaments.TabIndex = 53;
             this.dtgDepartaments.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgDepartaments_CellDoubleClick);
             // 
+            // id
+            // 
+            this.id.DataPropertyName = "id";
+            this.id.HeaderText = "ID";
+            this.id.Name = "id";
+            this.id.ReadOnly = true;
+            this.id.Width = 150;
+            // 
+            // name
+            // 
+            this.name.DataPropertyName = "name";
+            this.name.HeaderText = "Nombre";
+            this.name.Name = "name";
+            this.name.ReadOnly = true;
+            this.name.Width = 200;
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -312,6 +329,31 @@ namespace Presentation.Views
             this.dtgPerceptions.Size = new System.Drawing.Size(370, 157);
             this.dtgPerceptions.TabIndex = 57;
             this.dtgPerceptions.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgPerceptions_CellDoubleClick);
+            // 
+            // check
+            // 
+            this.check.DataPropertyName = "aplicada";
+            this.check.HeaderText = "Aplicada";
+            this.check.Name = "check";
+            this.check.ReadOnly = true;
+            this.check.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.check.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.check.Width = 65;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "idPercepcion";
+            this.dataGridViewTextBoxColumn1.HeaderText = "ID";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.DataPropertyName = "nombre";
+            this.dataGridViewTextBoxColumn2.HeaderText = "Nombre";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            this.dataGridViewTextBoxColumn2.Width = 170;
             // 
             // label4
             // 
@@ -524,6 +566,29 @@ namespace Presentation.Views
             this.dtgDeductions.TabIndex = 58;
             this.dtgDeductions.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgDeductions_CellDoubleClick);
             // 
+            // checkbox
+            // 
+            this.checkbox.DataPropertyName = "aplicada";
+            this.checkbox.HeaderText = "Aplicada";
+            this.checkbox.Name = "checkbox";
+            this.checkbox.ReadOnly = true;
+            this.checkbox.Width = 65;
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            this.dataGridViewTextBoxColumn5.DataPropertyName = "idDeduccion";
+            this.dataGridViewTextBoxColumn5.HeaderText = "ID";
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            this.dataGridViewTextBoxColumn5.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn6
+            // 
+            this.dataGridViewTextBoxColumn6.DataPropertyName = "nombre";
+            this.dataGridViewTextBoxColumn6.HeaderText = "Nombre";
+            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            this.dataGridViewTextBoxColumn6.ReadOnly = true;
+            this.dataGridViewTextBoxColumn6.Width = 170;
+            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.rbPerceptionsFilterNotApply);
@@ -665,70 +730,6 @@ namespace Presentation.Views
             this.btnStartPayroll.Text = "Iniciar nómina";
             this.btnStartPayroll.UseVisualStyleBackColor = false;
             this.btnStartPayroll.Click += new System.EventHandler(this.btnStartPayroll_Click);
-            // 
-            // id
-            // 
-            this.id.DataPropertyName = "id";
-            this.id.HeaderText = "ID";
-            this.id.Name = "id";
-            this.id.ReadOnly = true;
-            this.id.Width = 150;
-            // 
-            // name
-            // 
-            this.name.DataPropertyName = "name";
-            this.name.HeaderText = "Nombre";
-            this.name.Name = "name";
-            this.name.ReadOnly = true;
-            this.name.Width = 200;
-            // 
-            // check
-            // 
-            this.check.DataPropertyName = "aplicada";
-            this.check.HeaderText = "Aplicada";
-            this.check.Name = "check";
-            this.check.ReadOnly = true;
-            this.check.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.check.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.check.Width = 65;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.DataPropertyName = "idPercepcion";
-            this.dataGridViewTextBoxColumn1.HeaderText = "ID";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.DataPropertyName = "nombre";
-            this.dataGridViewTextBoxColumn2.HeaderText = "Nombre";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
-            this.dataGridViewTextBoxColumn2.Width = 170;
-            // 
-            // checkbox
-            // 
-            this.checkbox.DataPropertyName = "aplicada";
-            this.checkbox.HeaderText = "Aplicada";
-            this.checkbox.Name = "checkbox";
-            this.checkbox.ReadOnly = true;
-            this.checkbox.Width = 65;
-            // 
-            // dataGridViewTextBoxColumn5
-            // 
-            this.dataGridViewTextBoxColumn5.DataPropertyName = "idDeduccion";
-            this.dataGridViewTextBoxColumn5.HeaderText = "ID";
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            this.dataGridViewTextBoxColumn5.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn6
-            // 
-            this.dataGridViewTextBoxColumn6.DataPropertyName = "nombre";
-            this.dataGridViewTextBoxColumn6.HeaderText = "Nombre";
-            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
-            this.dataGridViewTextBoxColumn6.ReadOnly = true;
-            this.dataGridViewTextBoxColumn6.Width = 170;
             // 
             // FormAplicarConceptos
             // 

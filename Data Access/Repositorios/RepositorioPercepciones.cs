@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Data_Access.Repositorios
 {
-    public class RepositorioPercepciones
+    public class RepositorioPercepciones : IPerceptionsRepository
     {
         private readonly string create, update, delete, readAll;
         private MainConnection mainRepository;
@@ -21,12 +21,11 @@ namespace Data_Access.Repositorios
         public RepositorioPercepciones()
         {
             mainRepository = MainConnection.GetInstance();
+            sqlParams = new RepositoryParameters();
             create = "sp_AgregarPercepcion";
             update = "sp_ActualizarPercepcion";
             delete = "sp_EliminarPercepcion";
             readAll = "sp_LeerPercepciones";
-            sqlParams = new RepositoryParameters();
-
         }
 
         public bool Create(Percepciones percepcion)

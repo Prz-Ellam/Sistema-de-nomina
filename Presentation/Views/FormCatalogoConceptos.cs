@@ -81,22 +81,18 @@ namespace Presentation.Views
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            if (!rbPerception.Checked && !rbDeduction.Checked)
-            {
-                MessageBox.Show("No escogió un tipo de concepto", "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else if (rbPerception.Checked)
+            if (rbPerception.Checked)
             {
                 FillPerception();
                 ValidationResult result = AddPerception();
 
                 if (result.State == ValidationState.Error)
                 {
-                    MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ListPerceptions();
                 ClearForm();
             }
@@ -107,39 +103,34 @@ namespace Presentation.Views
 
                 if (result.State == ValidationState.Error)
                 {
-                    MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ListDeductions();
                 ClearForm();
             }
             else
             {
-                // Es imposible que esto suceda pero igualmente se deja la validacion
-                MessageBox.Show("Acción no soportada", "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("No escogió un tipo de concepto", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void btnActualizar_Click(object sender, EventArgs e)
         {
-            if (!rbPerception.Checked && !rbDeduction.Checked)
-            {
-                MessageBox.Show("No escogió un tipo de concepto", "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else if (rbPerception.Checked)
+            if (rbPerception.Checked)
             {
                 FillPerception();
                 ValidationResult result = UpdatePerception();
 
                 if (result.State == ValidationState.Error)
                 {
-                    MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ListPerceptions();
                 ClearForm();
             }
@@ -150,30 +141,26 @@ namespace Presentation.Views
 
                 if (result.State == ValidationState.Error)
                 {
-                    MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ListDeductions();
                 ClearForm();
             }
             else
             {
-                MessageBox.Show("Acción no soportada", "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("No escogió un tipo de concepto", "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            if (!rbPerception.Checked && !rbDeduction.Checked)
-            {
-                MessageBox.Show("No escogió un tipo de concepto", "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else if (rbPerception.Checked)
+            if (rbPerception.Checked)
             {
                 DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?",
-                    "Sistema de nómina dice: ", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    "Sistema de nómina dice:", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                 if (res == DialogResult.No)
                 {
@@ -185,18 +172,18 @@ namespace Presentation.Views
 
                 if (result.State == ValidationState.Error)
                 {
-                    MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ListPerceptions();
                 ClearForm();
             }
             else if (rbDeduction.Checked)
             {
                 DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?",
-                    "Sistema de nómina dice: ", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    "Sistema de nómina dice:", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                 if (res == DialogResult.No)
                 {
@@ -208,17 +195,17 @@ namespace Presentation.Views
 
                 if (result.State == ValidationState.Error)
                 {
-                    MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ListDeductions();
                 ClearForm();
             }
             else
             {
-                MessageBox.Show("Acción no soportada", "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("No escogió un tipo de concepto", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -515,7 +502,7 @@ namespace Presentation.Views
         private void dtgPerceptions_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             int index = e.RowIndex;
-            if (index == dtgPerceptionPrevIndex || index == -1)
+            if (index == dtgPerceptionPrevIndex || index < 0 || index > dtgPerceptions.RowCount)
             {
                 ClearForm();
             }
@@ -527,13 +514,12 @@ namespace Presentation.Views
 
         private void FillPerceptionForm(int index)
         {
-            if (index == -1)
+            if (index < 0 || index > dtgPerceptions.RowCount)
             {
                 return;
             }
 
             var row = dtgPerceptions.Rows[index];
-
             rbPerception.Checked = true;
             perceptionId = Convert.ToInt32(row.Cells[0].Value);
             txtName.Text = row.Cells[1].Value.ToString();
@@ -556,7 +542,7 @@ namespace Presentation.Views
         private void dtgDeductions_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             int index = e.RowIndex;
-            if (index == dtgDeductionPrevIndex || index == -1)
+            if (index == dtgDeductionPrevIndex || index < 0 || index > dtgDeductions.RowCount)
             {
                 ClearForm();
             }
@@ -568,13 +554,12 @@ namespace Presentation.Views
 
         private void FillDeductionForm(int index)
         {
-            if (index == -1)
+            if (index < 0 || index > dtgDeductions.RowCount)
             {
                 return;
             }
 
             var row = dtgDeductions.Rows[index];
-
             rbDeduction.Checked = true;
             deductionId = Convert.ToInt32(row.Cells[0].Value);
             txtName.Text = row.Cells[1].Value.ToString();

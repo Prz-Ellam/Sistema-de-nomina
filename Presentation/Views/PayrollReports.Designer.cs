@@ -34,16 +34,15 @@ namespace Presentation.Views
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dtgPayrollReport = new System.Windows.Forms.DataGridView();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.dtpYear = new System.Windows.Forms.DateTimePicker();
             this.departamento = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.anio = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mes = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sueldoBruto = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sueldoNeto = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label1 = new System.Windows.Forms.Label();
-            this.nudYear = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dtgPayrollReport)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudYear)).BeginInit();
             this.SuspendLayout();
             // 
             // dtgPayrollReport
@@ -76,12 +75,46 @@ namespace Presentation.Views
             this.dtgPayrollReport.DefaultCellStyle = dataGridViewCellStyle4;
             this.dtgPayrollReport.EnableHeadersVisualStyles = false;
             this.dtgPayrollReport.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.dtgPayrollReport.Location = new System.Drawing.Point(35, 156);
+            this.dtgPayrollReport.Location = new System.Drawing.Point(20, 170);
             this.dtgPayrollReport.Name = "dtgPayrollReport";
             this.dtgPayrollReport.ReadOnly = true;
             this.dtgPayrollReport.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.dtgPayrollReport.Size = new System.Drawing.Size(843, 445);
+            this.dtgPayrollReport.Size = new System.Drawing.Size(1017, 454);
             this.dtgPayrollReport.TabIndex = 0;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label1.Font = new System.Drawing.Font("Microsoft YaHei", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.label1.Location = new System.Drawing.Point(20, 20);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(260, 31);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Reportes de nómina";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.label2.Location = new System.Drawing.Point(20, 90);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(41, 21);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "Año";
+            // 
+            // dtpYear
+            // 
+            this.dtpYear.CustomFormat = "yyyy";
+            this.dtpYear.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.dtpYear.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpYear.Location = new System.Drawing.Point(20, 120);
+            this.dtpYear.Name = "dtpYear";
+            this.dtpYear.ShowUpDown = true;
+            this.dtpYear.Size = new System.Drawing.Size(200, 29);
+            this.dtpYear.TabIndex = 9;
             // 
             // departamento
             // 
@@ -89,7 +122,7 @@ namespace Presentation.Views
             this.departamento.HeaderText = "Departamento";
             this.departamento.Name = "departamento";
             this.departamento.ReadOnly = true;
-            this.departamento.Width = 150;
+            this.departamento.Width = 275;
             // 
             // anio
             // 
@@ -114,7 +147,7 @@ namespace Presentation.Views
             this.sueldoBruto.HeaderText = " ∑ Sueldo bruto";
             this.sueldoBruto.Name = "sueldoBruto";
             this.sueldoBruto.ReadOnly = true;
-            this.sueldoBruto.Width = 200;
+            this.sueldoBruto.Width = 225;
             // 
             // sueldoNeto
             // 
@@ -124,54 +157,7 @@ namespace Presentation.Views
             this.sueldoNeto.HeaderText = " ∑ Sueldo neto";
             this.sueldoNeto.Name = "sueldoNeto";
             this.sueldoNeto.ReadOnly = true;
-            this.sueldoNeto.Width = 200;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label1.Font = new System.Drawing.Font("Microsoft YaHei", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label1.Location = new System.Drawing.Point(20, 20);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(260, 31);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Reportes de nómina";
-            // 
-            // nudYear
-            // 
-            this.nudYear.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.nudYear.Location = new System.Drawing.Point(49, 111);
-            this.nudYear.Maximum = new decimal(new int[] {
-            2999,
-            0,
-            0,
-            0});
-            this.nudYear.Minimum = new decimal(new int[] {
-            1753,
-            0,
-            0,
-            0});
-            this.nudYear.Name = "nudYear";
-            this.nudYear.Size = new System.Drawing.Size(151, 29);
-            this.nudYear.TabIndex = 8;
-            this.nudYear.Value = new decimal(new int[] {
-            2022,
-            0,
-            0,
-            0});
-            this.nudYear.ValueChanged += new System.EventHandler(this.nudYear_ValueChanged);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label2.Location = new System.Drawing.Point(45, 87);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(41, 21);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "Año";
+            this.sueldoNeto.Width = 225;
             // 
             // PayrollReports
             // 
@@ -179,7 +165,7 @@ namespace Presentation.Views
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(1064, 670);
-            this.Controls.Add(this.nudYear);
+            this.Controls.Add(this.dtpYear);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dtgPayrollReport);
@@ -188,7 +174,6 @@ namespace Presentation.Views
             this.Text = "PayrollReports";
             this.Load += new System.EventHandler(this.PayrollReports_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dtgPayrollReport)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudYear)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -198,8 +183,8 @@ namespace Presentation.Views
 
         private System.Windows.Forms.DataGridView dtgPayrollReport;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown nudYear;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.DateTimePicker dtpYear;
         private System.Windows.Forms.DataGridViewTextBoxColumn departamento;
         private System.Windows.Forms.DataGridViewTextBoxColumn anio;
         private System.Windows.Forms.DataGridViewTextBoxColumn mes;

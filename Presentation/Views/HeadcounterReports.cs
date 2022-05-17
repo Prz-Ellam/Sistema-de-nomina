@@ -28,31 +28,7 @@ namespace Presentation.Views
         private void HeadcounterReports_Load(object sender, EventArgs e)
         {
             ListDepartments();
-
-            try
-            {
-                RepositorioEmpresas companyRepository = new RepositorioEmpresas();
-                DateTime creationDate = companyRepository.GetCreationDate(Session.companyId, true);
-                DateTime payrollDate = payrollRepository.GetDate(Session.companyId);
-                dtpDate.Value = creationDate;
-                dtpDate.MinDate = creationDate;
-
-                if (creationDate == payrollDate)
-                {
-                    dtpDate.MaxDate = payrollDate;
-                }
-                else
-                {
-                    dtpDate.MaxDate = payrollDate.AddMonths(-1);
-                }
-            }
-            catch (SqlException ex)
-            {
-                if (ex.Number == 50000)
-                {
-                    MessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
+            InitDates();
 
             dtgHeadcounter1.DoubleBuffered(true);
             dtgHeadcounter2.DoubleBuffered(true);
@@ -118,7 +94,7 @@ namespace Presentation.Views
 
         private void ListDepartments()
         {
-            RepositorioDepartamentos departmentsRepository = new RepositorioDepartamentos();
+            DepartmentsRepository departmentsRepository = new DepartmentsRepository();
             List<DepartmentsViewModel> departments = departmentsRepository.ReadAll(string.Empty, Session.companyId);
             List<PairItem> departmentsName = new List<PairItem>();
             departmentsName.Add(new PairItem("Todos", -1));
@@ -127,6 +103,26 @@ namespace Presentation.Views
                 departmentsName.Add(new PairItem(department.Name, department.Id));
             }
             cbDepartments.DataSource = departmentsName;
+        }
+
+        private void InitDates()
+        {
+            try
+            {
+                RepositorioEmpresas companyRepository = new RepositorioEmpresas();
+                DateTime creationDate = companyRepository.GetCreationDate(Session.companyId, true);
+                DateTime payrollDate = payrollRepository.GetDate(Session.companyId, true);
+                dtpDate.MinDate = creationDate;
+                dtpDate.MaxDate = (creationDate == payrollDate) ? payrollDate : payrollDate.AddMonths(-1);
+                dtpDate.Value = creationDate;
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 50000)
+                {
+                    MessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
 
     }

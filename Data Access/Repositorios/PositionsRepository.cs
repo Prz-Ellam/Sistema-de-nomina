@@ -1,5 +1,6 @@
 ﻿using Data_Access.Connections;
 using Data_Access.Entidades;
+using Data_Access.Interfaces;
 using Data_Access.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -10,38 +11,39 @@ using System.Threading.Tasks;
 
 namespace Data_Access.Repositorios
 {
-    public class RepositorioPuestos
+    public class PositionsRepository : IPositionsRepository
     {
         private readonly string create, update, delete, readAll;
         private MainConnection mainRepository;
-        private RepositoryParameters sqlParams = new RepositoryParameters();
+        private RepositoryParameters sqlParams;
 
-        public RepositorioPuestos()
+        public PositionsRepository()
         {
             mainRepository = MainConnection.GetInstance();
+            sqlParams = new RepositoryParameters();
             create = "sp_AgregarPuesto";
             update = "sp_ActualizarPuesto";
             delete = "sp_EliminarPuesto";
             readAll = "sp_LeerPuestos";
         }
 
-        public bool Create(Puestos position)
+        public bool Create(Positions position)
         {
             sqlParams.Start();
-            sqlParams.Add("@nombre", position.Nombre);
-            sqlParams.Add("@nivel_salarial", position.NivelSalarial);
-            sqlParams.Add("@id_empresa", position.IdEmpresa);
+            sqlParams.Add("@nombre", position.Name);
+            sqlParams.Add("@nivel_salarial", position.WageLevel);
+            sqlParams.Add("@id_empresa", position.CompanyId);
 
             int rowCount = mainRepository.ExecuteNonQuery(create, sqlParams);
             return (rowCount > 0) ? true : false;
         }
 
-        public bool Update(Puestos position)
+        public bool Update(Positions position)
         {
             sqlParams.Start();
-            sqlParams.Add("@id_puesto", position.IdPuesto);
-            sqlParams.Add("@nombre", position.Nombre);
-            sqlParams.Add("@nivel_salarial", position.NivelSalarial);
+            sqlParams.Add("@id_puesto", position.PositionId);
+            sqlParams.Add("@nombre", position.Name);
+            sqlParams.Add("@nivel_salarial", position.WageLevel);
 
             int rowCount = mainRepository.ExecuteNonQuery(update, sqlParams);
             return (rowCount > 0) ? true : false;

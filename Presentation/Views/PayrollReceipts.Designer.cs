@@ -53,23 +53,23 @@ namespace Presentation.Views
             // dtpDate
             // 
             this.dtpDate.CustomFormat = "MMMM / yyyy";
-            this.dtpDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.dtpDate.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.dtpDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpDate.Location = new System.Drawing.Point(29, 119);
+            this.dtpDate.Location = new System.Drawing.Point(20, 120);
             this.dtpDate.MaxDate = new System.DateTime(2038, 12, 31, 0, 0, 0, 0);
             this.dtpDate.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
             this.dtpDate.Name = "dtpDate";
-            this.dtpDate.Size = new System.Drawing.Size(200, 26);
+            this.dtpDate.Size = new System.Drawing.Size(224, 29);
             this.dtpDate.TabIndex = 13;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.label1.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label1.Location = new System.Drawing.Point(26, 92);
+            this.label1.Location = new System.Drawing.Point(20, 90);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(54, 20);
+            this.label1.Size = new System.Drawing.Size(55, 21);
             this.label1.TabIndex = 14;
             this.label1.Text = "Fecha";
             // 
@@ -79,13 +79,13 @@ namespace Presentation.Views
             this.btnPDF.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnPDF.FlatAppearance.BorderSize = 0;
             this.btnPDF.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPDF.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPDF.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.btnPDF.ForeColor = System.Drawing.Color.White;
             this.btnPDF.Image = global::Presentation.Properties.Resources.PDF_Logo;
             this.btnPDF.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnPDF.Location = new System.Drawing.Point(29, 282);
+            this.btnPDF.Location = new System.Drawing.Point(20, 256);
             this.btnPDF.Name = "btnPDF";
-            this.btnPDF.Size = new System.Drawing.Size(212, 80);
+            this.btnPDF.Size = new System.Drawing.Size(224, 81);
             this.btnPDF.TabIndex = 15;
             this.btnPDF.Text = "Generar recibo PDF";
             this.btnPDF.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -100,9 +100,9 @@ namespace Presentation.Views
             this.btnConsult.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnConsult.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.btnConsult.ForeColor = System.Drawing.Color.White;
-            this.btnConsult.Location = new System.Drawing.Point(30, 175);
+            this.btnConsult.Location = new System.Drawing.Point(20, 175);
             this.btnConsult.Name = "btnConsult";
-            this.btnConsult.Size = new System.Drawing.Size(211, 60);
+            this.btnConsult.Size = new System.Drawing.Size(224, 60);
             this.btnConsult.TabIndex = 29;
             this.btnConsult.Text = "Consultar";
             this.btnConsult.UseVisualStyleBackColor = false;

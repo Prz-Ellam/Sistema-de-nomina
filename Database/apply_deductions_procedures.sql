@@ -217,90 +217,71 @@ AS
 
 	IF @filtro = 1
 
-		SELECT
-				IIF(COUNT(da.numero_empleado) >= 
-				(SELECT Cantidad FROM vw_DepartmentsCount WHERE id_departamento = @id_departamento AND [Fecha] = @fecha) AND
-				COUNT(da.numero_empleado) <> 0, 
-				'true', 'false') [Aplicada],
-				d.id_deduccion,
-				d.nombre,
-				d.tipo_monto,
-				d.fijo,
-				d.porcentual
+		SELECT 
+				IIF(ISNULL(dda.[Cantidad empleados], 0) >= dc.Cantidad AND ISNULL(dda.[Cantidad empleados], 0) <> 0, 'true', 'false') [Aplicada],
+				ddf.id_deduccion,
+				d.nombre
 		FROM 
-				deducciones AS d
-				LEFT JOIN deducciones_aplicadas AS da
-				ON d.id_deduccion = da.id_deduccion AND
-				dbo.PRIMERDIAFECHA(da.fecha) = dbo.PRIMERDIAFECHA(@fecha)
-				LEFT JOIN empleados AS e
-				ON da.numero_empleado = e.numero_empleado AND
-				e.id_departamento = @id_departamento
+				vw_DepartamentosDeduccionesAplicadas AS dda
+				RIGHT JOIN vw_DepartamentosDeduccionesFechas AS ddf
+				ON dda.id_departamento = ddf.id_departamento AND 
+				dda.id_deduccion = ddf.id_deduccion AND
+				dbo.PRIMERDIAFECHA(dda.fecha) = dbo.PRIMERDIAFECHA(ddf.fecha)
+				INNER JOIN deducciones AS d
+				ON ddf.id_deduccion = d.id_deduccion
+				INNER JOIN vw_DepartmentsCount AS dc
+				ON ddf.id_departamento = dc.id_departamento AND ddf.fecha = dc.Fecha
 		WHERE
-				d.tipo_duracion = 'S' AND 
+				ddf.fecha = @fecha AND
+				ddf.id_departamento = @id_departamento AND
 				dbo.PRIMERDIAFECHA(d.fecha_creacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
 				(d.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR d.fecha_eliminacion IS NULL)
-		GROUP BY 
-				d.id_deduccion, d.nombre, d.tipo_monto, d.fijo, d.porcentual
 
 	ELSE IF @filtro = 2
 
-		SELECT
-				IIF(COUNT(da.numero_empleado) >= 
-				(SELECT Cantidad FROM vw_DepartmentsCount WHERE id_departamento = @id_departamento AND [Fecha] = @fecha) AND
-				COUNT(da.numero_empleado) <> 0, 
-				'true', 'false') [Aplicada],
-				d.id_deduccion,
-				d.nombre,
-				d.tipo_monto,
-				d.fijo,
-				d.porcentual
+		SELECT 
+				IIF(ISNULL(dda.[Cantidad empleados], 0) >= dc.Cantidad AND ISNULL(dda.[Cantidad empleados], 0) <> 0, 'true', 'false') [Aplicada],
+				ddf.id_deduccion,
+				d.nombre
 		FROM 
-				deducciones AS d
-				LEFT JOIN deducciones_aplicadas AS da
-				ON d.id_deduccion = da.id_deduccion AND
-				dbo.PRIMERDIAFECHA(da.fecha) = dbo.PRIMERDIAFECHA(@fecha)
-				LEFT JOIN empleados AS e
-				ON da.numero_empleado = e.numero_empleado AND
-				e.id_departamento = @id_departamento
+				vw_DepartamentosDeduccionesAplicadas AS dda
+				RIGHT JOIN vw_DepartamentosDeduccionesFechas AS ddf
+				ON dda.id_departamento = ddf.id_departamento AND 
+				dda.id_deduccion = ddf.id_deduccion AND
+				dbo.PRIMERDIAFECHA(dda.fecha) = dbo.PRIMERDIAFECHA(ddf.fecha)
+				INNER JOIN deducciones AS d
+				ON ddf.id_deduccion = d.id_deduccion
+				INNER JOIN vw_DepartmentsCount AS dc
+				ON ddf.id_departamento = dc.id_departamento AND ddf.fecha = dc.Fecha
 		WHERE
-				d.tipo_duracion = 'S' AND
+				ddf.fecha = @fecha AND
+				ddf.id_departamento = @id_departamento AND
 				dbo.PRIMERDIAFECHA(d.fecha_creacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
-				(d.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR d.fecha_eliminacion IS NULL)
-		GROUP BY 
-				d.id_deduccion, d.nombre, d.tipo_monto, d.fijo, d.porcentual
-		HAVING
-				COUNT(da.numero_empleado) >= 
-				(SELECT Cantidad FROM vw_DepartmentsCount WHERE id_departamento = @id_departamento AND [Fecha] = @fecha);
+				(d.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR d.fecha_eliminacion IS NULL) AND
+				IIF(ISNULL(dda.[Cantidad empleados], 0) >= dc.Cantidad AND ISNULL(dda.[Cantidad empleados], 0) <> 0, 'true', 'false') = 'true';
 
 	ELSE IF @filtro = 3
 
-				SELECT
-				IIF(COUNT(da.numero_empleado) >= 
-				(SELECT Cantidad FROM vw_DepartmentsCount WHERE id_departamento = @id_departamento AND [Fecha] = @fecha) AND
-				COUNT(da.numero_empleado) <> 0, 
-				'true', 'false') [Aplicada],
-				d.id_deduccion,
-				d.nombre,
-				d.tipo_monto,
-				d.fijo,
-				d.porcentual
+		SELECT 
+				IIF(ISNULL(dda.[Cantidad empleados], 0) >= dc.Cantidad AND ISNULL(dda.[Cantidad empleados], 0) <> 0, 'true', 'false') [Aplicada],
+				ddf.id_deduccion,
+				d.nombre
 		FROM 
-				deducciones AS d
-				LEFT JOIN deducciones_aplicadas AS da
-				ON d.id_deduccion = da.id_deduccion AND
-				dbo.PRIMERDIAFECHA(da.fecha) = dbo.PRIMERDIAFECHA(@fecha)
-				LEFT JOIN empleados AS e
-				ON da.numero_empleado = e.numero_empleado AND
-				e.id_departamento = @id_departamento
+				vw_DepartamentosDeduccionesAplicadas AS dda
+				RIGHT JOIN vw_DepartamentosDeduccionesFechas AS ddf
+				ON dda.id_departamento = ddf.id_departamento AND 
+				dda.id_deduccion = ddf.id_deduccion AND
+				dbo.PRIMERDIAFECHA(dda.fecha) = dbo.PRIMERDIAFECHA(ddf.fecha)
+				INNER JOIN deducciones AS d
+				ON ddf.id_deduccion = d.id_deduccion
+				INNER JOIN vw_DepartmentsCount AS dc
+				ON ddf.id_departamento = dc.id_departamento AND ddf.fecha = dc.Fecha
 		WHERE
-				d.tipo_duracion = 'S' AND
+				ddf.fecha = @fecha AND
+				ddf.id_departamento = @id_departamento AND
 				dbo.PRIMERDIAFECHA(d.fecha_creacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
-				(d.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR d.fecha_eliminacion IS NULL)
-		GROUP BY
-				d.id_deduccion, d.nombre, d.tipo_monto, d.fijo, d.porcentual
-		HAVING
-				COUNT(da.numero_empleado) < 
-				(SELECT Cantidad FROM vw_DepartmentsCount WHERE id_departamento = @id_departamento AND [Fecha] = @fecha);
+				(d.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR d.fecha_eliminacion IS NULL) AND
+				IIF(ISNULL(dda.[Cantidad empleados], 0) >= dc.Cantidad AND ISNULL(dda.[Cantidad empleados], 0) <> 0, 'true', 'false') = 'false';
 
 	ELSE
 		RAISERROR('Filtro inválido', 11, 1);

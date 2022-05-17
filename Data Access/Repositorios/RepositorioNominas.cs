@@ -159,10 +159,11 @@ namespace Data_Access.Repositorios
             return report;
         }
 
-        public DateTime GetDate(int companyId)
+        public DateTime GetDate(int companyId, bool firstDay)
         {
             sqlParams.Start();
             sqlParams.Add("@id_empresa", companyId);
+            sqlParams.Add("@primer_dia", firstDay);
 
             DataTable table = mainRepository.ExecuteReader(getDate, sqlParams);
             if (table == null)

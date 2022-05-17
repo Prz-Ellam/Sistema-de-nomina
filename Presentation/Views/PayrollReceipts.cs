@@ -25,12 +25,12 @@ namespace Presentation.Views
 
         private void PayrollReceipts_Load(object sender, EventArgs e)
         {
-            RepositorioEmpresas companyRepository = new RepositorioEmpresas();
-            DateTime creationDate = companyRepository.GetCreationDate(Session.companyId, true);
-            DateTime payrollDate = repository.GetDate(Session.companyId);
-            dtpDate.Value = creationDate;
-            dtpDate.MinDate = creationDate;
-            dtpDate.MaxDate = payrollDate.AddMonths(-1);
+            RepositorioEmpleados employeeRepository = new RepositorioEmpleados();
+            DateTime hiringDate = employeeRepository.GetHiringDate(Session.id, true);
+            DateTime payrollDate = repository.GetDate(Session.companyId, true);
+            dtpDate.MinDate = hiringDate;
+            dtpDate.MaxDate = (hiringDate == payrollDate) ? payrollDate : payrollDate.AddMonths(-1);
+            dtpDate.Value = hiringDate;
         }
         private void btnPDF_Click(object sender, EventArgs e)
         {
@@ -50,10 +50,10 @@ namespace Presentation.Views
                 var applyPerceptions = new RepositorioPercepcionesAplicadas();
                 var applyDeductions = new RepositorioDeduccionesAplicadas();
 
-                var per = applyPerceptions.ReadPayrollPerceptions(report.IdNomina);
-                var ded = applyDeductions.ReadPayrollDeductions(report.IdNomina);
+                var perceptions = applyPerceptions.ReadPayrollPerceptions(report.IdNomina);
+                var deductions = applyDeductions.ReadPayrollDeductions(report.IdNomina);
 
-                bool result = PDFReceipt.GeneratePDFReceipt(report, per, ded, ofnPayroll.FileName);
+                bool result = PDFReceipt.GeneratePDFReceipt(report, perceptions, deductions, ofnPayroll.FileName);
 
                 if (result)
                 {
@@ -77,13 +77,12 @@ namespace Presentation.Views
             var applyPerceptions = new RepositorioPercepcionesAplicadas();
             var applyDeductions = new RepositorioDeduccionesAplicadas();
 
-            var per = applyPerceptions.ReadPayrollPerceptions(report.IdNomina);
-            var ded = applyDeductions.ReadPayrollDeductions(report.IdNomina);
+            var perceptions = applyPerceptions.ReadPayrollPerceptions(report.IdNomina);
+            var deductions = applyDeductions.ReadPayrollDeductions(report.IdNomina);
 
-            var stream = PDFReceipt.ReadPDFReceipt(report, per, ded);
+            var stream = PDFReceipt.ReadPDFReceipt(report, perceptions, deductions);
             PdfDocument document = PdfDocument.Load(stream);
             pdfViewer.Document = document;
-            
         }
 
         private void btnConsult_Click(object sender, EventArgs e)

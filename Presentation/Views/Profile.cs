@@ -19,18 +19,32 @@ namespace Presentation.Views
 {
     public partial class Profile : Form
     {
-        private RepositorioEmpleados employeeRepository = new RepositorioEmpleados();
-        private RepositorioTelefonos phonesRepository = new RepositorioTelefonos();
-        private Empleados employee = new Empleados();
-        private List<Telefonos> phones = new List<Telefonos>();
+        private RepositorioEmpleados employeeRepository;
+        private RepositorioTelefonos phonesRepository;
+        private Empleados employee;
+        private List<Telefonos> phones;
         private List<States> states;
 
         public Profile()
         {
             InitializeComponent();
+            employeeRepository = new RepositorioEmpleados();
+            phonesRepository = new RepositorioTelefonos();
+            employee = new Empleados();
+            phones = new List<Telefonos>();
         }
 
-        // TODO: Aun no se hacen pruebas en esto
+        private void Profile_Load(object sender, EventArgs e)
+        {
+            RepositorioEmpresas companiesRepository = new RepositorioEmpresas();
+            dtpHiringDate.MinDate = companiesRepository.GetCreationDate(Session.companyId, false);
+            dtpDateOfBirth.MaxDate = employeeRepository.GetHiringDate(Session.id, false).AddYears(-18);
+            // Inicializar bancos
+            ListBanks();
+            InitStates();
+            ListProfile();
+        }
+
         private void btnEdit_Click(object sender, EventArgs e)
         {
             FillProfile();
@@ -46,21 +60,6 @@ namespace Presentation.Views
             ListProfile();
         }
 
-        private void Profile_Load(object sender, EventArgs e)
-        {
-            // Inicializar bancos, departamentos y puestos
-            List<Banks> bancos = new RepositorioBancos().ReadAll();
-            List<PairItem> nombres = new List<PairItem>();
-            foreach (var banco in bancos)
-            {
-                nombres.Add(new PairItem(banco.Name, banco.BankId));
-            }
-            cbBank.DataSource = nombres;
-
-            InitStates();
-            ListProfile();
-        }
-
         private void ListProfile()
         {
             EmployeesViewModel employee = employeeRepository.GetEmployeeById(Session.id);
@@ -69,15 +68,25 @@ namespace Presentation.Views
             txtFatherLastName.Text = employee.FatherLastName;
             txtMotherLastName.Text = employee.MotherLastName;
 
-            txtCURP.Text = employee.Curp;
-            txtNSS.Text = employee.Nss;
-            txtRFC.Text = employee.Rfc;
-            
+            dtpDateOfBirth.Value = employee.DateOfBirth;
             txtEmail.Text = employee.Email;
             txtPassword.Text = employee.Password;
+            dtpHiringDate.Value = employee.HiringDate;
+
+            txtCURP.Text = employee.Curp;
+            txtRFC.Text = employee.Rfc;
+            txtNSS.Text = employee.Nss;
+
+            cbBank.SelectedItem = ComboBoxUtils.FindHiddenValue(employee.Bank.HiddenValue, ref cbBank);
             txtAccountNumber.Text = employee.AccountNumber;
 
-            cbBank.SelectedIndex = cbBank.FindString(employee.Bank.ToString());
+            cbPhones.SelectedIndex = -1;
+            cbPhones.Items.Clear();
+            List<string> phones = phonesRepository.ReadEmployeePhones(employee.EmployeeNumber);
+            foreach (string phone in phones)
+            {
+                cbPhones.Items.Add(phone);
+            }
 
             txtStreet.Text = employee.Street;
             txtNumber.Text = employee.Number;
@@ -88,31 +97,21 @@ namespace Presentation.Views
 
             txtDepartment.Text = employee.Department.ToString();
             txtPosition.Text = employee.Position.ToString();
-
             nudDailySalary.Value = employee.SueldoDiario;
             nudBaseSalary.Value = employee.BaseSalary;
             nudWageLevel.Value = employee.WageLevel;
-
-            cbPhones.SelectedIndex = -1;
-            List<string> phones = phonesRepository.ReadEmployeePhones(employee.EmployeeNumber);
-            foreach (string phone in phones)
-            {
-                cbPhones.Items.Add(phone);
-            }
-
-
         }
 
         private void FillProfile()
         {
             employee.NumeroEmpleado = Session.id;
-            employee.Nombre = txtNames.Text;
-            employee.ApellidoPaterno = txtFatherLastName.Text;
-            employee.ApellidoMaterno = txtMotherLastName.Text;
+            //employee.Nombre = txtNames.Text;
+            //employee.ApellidoPaterno = txtFatherLastName.Text;
+            //employee.ApellidoMaterno = txtMotherLastName.Text;
 
             employee.FechaNacimiento = dtpDateOfBirth.Value;
             employee.Curp = txtCURP.Text;
-            employee.Nss = txtNSS.Text;
+            //employee.Nss = txtNSS.Text;
             employee.Rfc = txtRFC.Text;
 
             //employee.Address = 1;            
@@ -207,7 +206,7 @@ namespace Presentation.Views
             StatesRepository repository = new StatesRepository();
             states = repository.GetAll();
 
-            //cbState.Items.Add("Seleccionar");
+            cbState.Items.Add("Seleccionar");
             foreach (var state in states)
             {
                 cbState.Items.Add(state.state);
@@ -225,6 +224,23 @@ namespace Presentation.Views
             }
             cbCity.DataSource = states[cbState.SelectedIndex].cities;
             cbCity.SelectedIndex = 0;
+        }
+
+        private void ListBanks()
+        {
+            RepositorioBancos bankRepository = new RepositorioBancos();
+            List<Banks> bancos = bankRepository.ReadAll();
+            List<PairItem> nombres = new List<PairItem>();
+            foreach (var banco in bancos)
+            {
+                nombres.Add(new PairItem(banco.Name, banco.BankId));
+            }
+            cbBank.DataSource = nombres;
+        }
+
+        private void dtpHiringDate_ValueChanged(object sender, EventArgs e)
+        {
+            dtpDateOfBirth.MaxDate = dtpHiringDate.Value.AddYears(-18);
         }
     }
 }

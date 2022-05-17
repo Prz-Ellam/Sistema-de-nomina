@@ -16,10 +16,10 @@ namespace Presentation.Views
 {
     public partial class FormDepartamentos : Form
     {
-        private RepositorioDepartamentos repository;
-        private Departamentos department;
-        int dtgPrevIndex = -1;
-        int departmentId = -1;
+        private DepartmentsRepository repository;
+        private Departments department;
+        private int dtgPrevIndex = -1;
+        private int departmentId = -1;
 
         private EntityState departmentState;
         private EntityState DepartmentState
@@ -56,8 +56,8 @@ namespace Presentation.Views
         public FormDepartamentos()
         {
             InitializeComponent();
-            repository = new RepositorioDepartamentos();
-            department = new Departamentos();
+            repository = new DepartmentsRepository();
+            department = new Departments();
         }
 
         private void FormDepartments_Load(object sender, EventArgs e)
@@ -75,11 +75,11 @@ namespace Presentation.Views
 
             if (result.State == ValidationState.Error)
             {
-                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ListDepartments();
             ClearForm();
         }
@@ -91,11 +91,11 @@ namespace Presentation.Views
 
             if (result.State == ValidationState.Error)
             {
-                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ListDepartments();
             ClearForm();
         }
@@ -103,7 +103,7 @@ namespace Presentation.Views
         private void btnDelete_Click(object sender, EventArgs e)
         {
             DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?",
-                "Sistema de nómina dice: ", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                "Sistema de nómina dice:", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             if (res == DialogResult.No)
             {
@@ -115,11 +115,11 @@ namespace Presentation.Views
 
             if (result.State == ValidationState.Error)
             {
-                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ListDepartments();
             ClearForm();
         }
@@ -127,7 +127,7 @@ namespace Presentation.Views
         private void dtgDepartaments_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             int index = e.RowIndex;
-            if (index == dtgPrevIndex || index == -1)
+            if (index == dtgPrevIndex || index < 0 || index > dtgDepartaments.RowCount)
             {
                 ClearForm();
             }
@@ -143,9 +143,9 @@ namespace Presentation.Views
             {
                 dtgDepartaments.DataSource = repository.ReadAll(txtFilter.Text, Session.companyId);
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show(ex.ToString(), "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -263,18 +263,18 @@ namespace Presentation.Views
             {
                 dtgDepartaments.DataSource = repository.ReadAll(string.Empty, Session.companyId);
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show(ex.ToString(), "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         public void FillDepartment()
         {
-            department.IdDepartamento = departmentId;
-            department.Nombre = txtName.Text;
-            department.SueldoBase = nudBaseSalary.Value;
-            department.IdEmpresa = Session.companyId;
+            department.DepartmentId = departmentId;
+            department.Name = txtName.Text;
+            department.BaseSalary = nudBaseSalary.Value;
+            department.CompanyId = Session.companyId;
         }
 
         public void ClearForm()
@@ -290,15 +290,16 @@ namespace Presentation.Views
 
         public void FillForm(int index)
         {
-            if (index == -1)
+            // Si esta fuera del rango del Data Grid View regresa
+            if (index < 0 || index > dtgDepartaments.RowCount)
             {
                 return;
             }
 
             var row = dtgDepartaments.Rows[index];
-            departmentId = Convert.ToInt32(row.Cells["id"].Value); // Podria tronar si la celda 0 no es numero
+            departmentId = Convert.ToInt32(row.Cells["id"].Value);
             txtName.Text = row.Cells["name"].Value.ToString();
-            nudBaseSalary.Value = Convert.ToDecimal(row.Cells["baseSalary"].Value); // Lo mismo
+            nudBaseSalary.Value = Convert.ToDecimal(row.Cells["baseSalary"].Value);
 
             DepartmentState = EntityState.Modify;
             dtgPrevIndex = index;
