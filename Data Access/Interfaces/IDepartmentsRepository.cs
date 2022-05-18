@@ -8,9 +8,8 @@ using Data_Access.ViewModels;
 
 namespace Data_Access.Interfaces
 {
-    public interface IDepartmentsRepository : IGenericRepository<Departments>
+    public interface IDepartmentsRepository : IGenericRepository<Departments, DepartmentsViewModel>
     {
-        List<DepartmentsViewModel> ReadAll(string like, int companyId);
         List<DepartmentsPayrollViewModel> ReadPayrolls(int companyId, DateTime date);
     }
 }

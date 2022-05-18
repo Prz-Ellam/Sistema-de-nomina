@@ -267,7 +267,8 @@ IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerEmple
 GO
 
 CREATE PROCEDURE sp_LeerEmpleados(
-	@filtro						VARCHAR(100)
+	@filtro						VARCHAR(100),
+	@id_empresa					INT
 )
 AS
 
@@ -302,6 +303,7 @@ AS
 	FROM 
 			vw_RegistroEmpleado
 	WHERE
+			[ID Empresa] = @id_empresa AND
 			[Activo] = 1 AND
 			([Nombre] LIKE CONCAT('%', @filtro, '%') OR
 			[Apellido paterno] LIKE CONCAT('%', @filtro, '%') OR
@@ -363,8 +365,8 @@ IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerEmple
 GO
 
 CREATE PROCEDURE sp_LeerEmpleadosNominas(
-	@fecha				DATE,
-	@id_empresa			INT
+	@fecha						DATE,
+	@id_empresa					INT
 )
 AS
 
@@ -421,45 +423,19 @@ AS
 GO
 
 
-IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ObtenerFechaValidaEmpleado')
-	DROP PROCEDURE sp_ObtenerFechaValidaEmpleado;
-GO
-
-CREATE PROCEDURE sp_ObtenerFechaValidaEmpleado(
-	@numero_empleado				INT,
-	@id_empresa						INT
-)
-AS
-
-	IF EXISTS (SELECT numero_empleado FROM nominas WHERE numero_empleado = @numero_empleado) 
-
-		SELECT TOP 1
-				DATEADD(DAY, -1, DATEADD(YEAR, -18, fecha)) [Fecha]
-		FROM
-				nominas
-		WHERE
-				numero_empleado = @numero_empleado
-		ORDER BY
-				fecha ASC;
-	ELSE
-		SELECT
-				DATEADD(DAY, -1, DATEADD(YEAR, -18, dbo.OBTENERFECHAACTUAL(@id_empresa))) [Fecha];
-
-GO
-
-
 
 IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ObtenerFechaContratacion')
 	DROP PROCEDURE sp_ObtenerFechaContratacion;
 GO
 
 CREATE PROCEDURE sp_ObtenerFechaContratacion(
-	@numero_empleado				INT
+	@numero_empleado			INT,
+	@primer_dia					BIT
 )
 AS
 
 	SELECT
-			dbo.PRIMERDIAFECHA(fecha_contratacion) [Fecha contratacion]
+			IIF(@primer_dia = 1, dbo.PRIMERDIAFECHA(fecha_contratacion), fecha_contratacion) [Fecha contratacion]
 	FROM
 			empleados
 	WHERE

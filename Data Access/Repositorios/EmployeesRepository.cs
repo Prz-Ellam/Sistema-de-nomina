@@ -13,20 +13,20 @@ using Data_Access.ViewModels;
 
 namespace Data_Access.Repositorios
 {
-    public class RepositorioEmpleados : IEmployeesRepository
+    public class EmployeesRepository : IEmployeesRepository
     {
-        private readonly string create, update, delete, readAll, readPayrolls, getById, getHiringDate;
+        private readonly string create, update, delete, read, readPayrolls, getById, getHiringDate;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams;
 
-        public RepositorioEmpleados()
+        public EmployeesRepository()
         {
             mainRepository = MainConnection.GetInstance();
             sqlParams = new RepositoryParameters();
             create = "sp_AgregarEmpleado";
             update = "sp_ActualizarEmpleado";
             delete = "sp_EliminarEmpleado";
-            readAll = "sp_LeerEmpleados";
+            read = "sp_LeerEmpleados";
             readPayrolls = "sp_LeerEmpleadosNominas";
             getById = "sp_ObtenerEmpleadoPorId";
             getHiringDate = "sp_ObtenerFechaContratacion";
@@ -166,12 +166,13 @@ namespace Data_Access.Repositorios
             return (rowCount > 0) ? true : false;
         }
 
-        public List<EmployeesViewModel> ReadAll(string filter)
+        public List<EmployeesViewModel> Read(string filter, int companyId)
         {
             sqlParams.Start();
             sqlParams.Add("@filtro", filter);
+            sqlParams.Add("@id_empresa", companyId);
 
-            DataTable table = mainRepository.ExecuteReader(readAll, sqlParams);
+            DataTable table = mainRepository.ExecuteReader(read, sqlParams);
             List<EmployeesViewModel> departments = new List<EmployeesViewModel>();
             foreach (DataRow row in table.Rows)
             {
@@ -281,6 +282,8 @@ namespace Data_Access.Repositorios
             return null;
         }
 
+        // firstDay: si es false devuelve la fecha con el dia especifico
+        // si es true devuelve siempre el dia como 1
         public DateTime GetHiringDate(int employeeNumber, bool firstDay)
         {
             sqlParams.Start();

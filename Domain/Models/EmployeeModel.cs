@@ -70,13 +70,13 @@ namespace Domain.Models
         public int IdPuesto { get => idPuesto; set => idPuesto = value; }
 
 
-        private RepositorioEmpleados employeeRepository = new RepositorioEmpleados();
+        private EmployeesRepository employeeRepository = new EmployeesRepository();
         private RepositorioDomicilios addressesRepository = new RepositorioDomicilios();
 
 
         public EmployeeModel()
         {
-            employeeRepository = new RepositorioEmpleados();
+            employeeRepository = new EmployeesRepository();
             addressesRepository = new RepositorioDomicilios();
         }
 

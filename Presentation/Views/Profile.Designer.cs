@@ -92,7 +92,7 @@ namespace Presentation.Views
             this.cbCity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbCity.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
             this.cbCity.FormattingEnabled = true;
-            this.cbCity.Location = new System.Drawing.Point(829, 184);
+            this.cbCity.Location = new System.Drawing.Point(829, 176);
             this.cbCity.Name = "cbCity";
             this.cbCity.Size = new System.Drawing.Size(200, 27);
             this.cbCity.TabIndex = 95;
@@ -102,7 +102,7 @@ namespace Presentation.Views
             this.cbState.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbState.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
             this.cbState.FormattingEnabled = true;
-            this.cbState.Location = new System.Drawing.Point(829, 220);
+            this.cbState.Location = new System.Drawing.Point(829, 209);
             this.cbState.Name = "cbState";
             this.cbState.Size = new System.Drawing.Size(200, 27);
             this.cbState.TabIndex = 94;
@@ -113,7 +113,7 @@ namespace Presentation.Views
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label1.Location = new System.Drawing.Point(419, 252);
+            this.label1.Location = new System.Drawing.Point(419, 251);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(68, 19);
             this.label1.TabIndex = 91;
@@ -123,7 +123,7 @@ namespace Presentation.Views
             // 
             this.cbPhones.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
             this.cbPhones.FormattingEnabled = true;
-            this.cbPhones.Location = new System.Drawing.Point(501, 252);
+            this.cbPhones.Location = new System.Drawing.Point(501, 248);
             this.cbPhones.Name = "cbPhones";
             this.cbPhones.Size = new System.Drawing.Size(200, 27);
             this.cbPhones.TabIndex = 90;
@@ -134,7 +134,7 @@ namespace Presentation.Views
             this.label20.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label20.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
             this.label20.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label20.Location = new System.Drawing.Point(761, 304);
+            this.label20.Location = new System.Drawing.Point(761, 293);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(51, 19);
             this.label20.TabIndex = 89;
@@ -146,7 +146,7 @@ namespace Presentation.Views
             this.label19.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label19.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
             this.label19.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label19.Location = new System.Drawing.Point(393, 299);
+            this.label19.Location = new System.Drawing.Point(393, 293);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(98, 19);
             this.label19.TabIndex = 88;
@@ -155,6 +155,7 @@ namespace Presentation.Views
             // btnEdit
             // 
             this.btnEdit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            this.btnEdit.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnEdit.FlatAppearance.BorderSize = 0;
             this.btnEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEdit.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
@@ -215,7 +216,7 @@ namespace Presentation.Views
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label16.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label16.Location = new System.Drawing.Point(440, 187);
+            this.label16.Location = new System.Drawing.Point(440, 179);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(47, 19);
             this.label16.TabIndex = 80;
@@ -224,10 +225,9 @@ namespace Presentation.Views
             // txtAccountNumber
             // 
             this.txtAccountNumber.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtAccountNumber.Location = new System.Drawing.Point(501, 218);
+            this.txtAccountNumber.Location = new System.Drawing.Point(501, 211);
             this.txtAccountNumber.MaxLength = 16;
             this.txtAccountNumber.Name = "txtAccountNumber";
-            this.txtAccountNumber.ReadOnly = true;
             this.txtAccountNumber.Size = new System.Drawing.Size(200, 25);
             this.txtAccountNumber.TabIndex = 79;
             // 
@@ -236,7 +236,7 @@ namespace Presentation.Views
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label15.Location = new System.Drawing.Point(362, 221);
+            this.label15.Location = new System.Drawing.Point(362, 214);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(125, 19);
             this.label15.TabIndex = 78;
@@ -247,7 +247,7 @@ namespace Presentation.Views
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label14.Location = new System.Drawing.Point(721, 261);
+            this.label14.Location = new System.Drawing.Point(721, 251);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(94, 19);
             this.label14.TabIndex = 76;
@@ -256,7 +256,7 @@ namespace Presentation.Views
             // txtPostalCode
             // 
             this.txtPostalCode.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPostalCode.Location = new System.Drawing.Point(829, 258);
+            this.txtPostalCode.Location = new System.Drawing.Point(829, 248);
             this.txtPostalCode.MaxLength = 5;
             this.txtPostalCode.Name = "txtPostalCode";
             this.txtPostalCode.Size = new System.Drawing.Size(200, 25);
@@ -267,7 +267,7 @@ namespace Presentation.Views
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label13.Location = new System.Drawing.Point(765, 222);
+            this.label13.Location = new System.Drawing.Point(765, 212);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(50, 19);
             this.label13.TabIndex = 74;
@@ -278,7 +278,7 @@ namespace Presentation.Views
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label12.Location = new System.Drawing.Point(743, 185);
+            this.label12.Location = new System.Drawing.Point(742, 179);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(70, 19);
             this.label12.TabIndex = 73;
@@ -289,7 +289,7 @@ namespace Presentation.Views
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label11.Location = new System.Drawing.Point(760, 147);
+            this.label11.Location = new System.Drawing.Point(761, 138);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(55, 19);
             this.label11.TabIndex = 72;
@@ -300,7 +300,7 @@ namespace Presentation.Views
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label10.Location = new System.Drawing.Point(755, 110);
+            this.label10.Location = new System.Drawing.Point(755, 102);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(60, 19);
             this.label10.TabIndex = 71;
@@ -311,7 +311,7 @@ namespace Presentation.Views
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label9.Location = new System.Drawing.Point(777, 77);
+            this.label9.Location = new System.Drawing.Point(777, 71);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(38, 19);
             this.label9.TabIndex = 70;
@@ -320,7 +320,7 @@ namespace Presentation.Views
             // txtSuburb
             // 
             this.txtSuburb.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSuburb.Location = new System.Drawing.Point(829, 144);
+            this.txtSuburb.Location = new System.Drawing.Point(829, 135);
             this.txtSuburb.MaxLength = 30;
             this.txtSuburb.Name = "txtSuburb";
             this.txtSuburb.Size = new System.Drawing.Size(200, 25);
@@ -329,7 +329,7 @@ namespace Presentation.Views
             // txtNumber
             // 
             this.txtNumber.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNumber.Location = new System.Drawing.Point(829, 107);
+            this.txtNumber.Location = new System.Drawing.Point(829, 99);
             this.txtNumber.MaxLength = 10;
             this.txtNumber.Name = "txtNumber";
             this.txtNumber.Size = new System.Drawing.Size(200, 25);
@@ -338,7 +338,7 @@ namespace Presentation.Views
             // txtStreet
             // 
             this.txtStreet.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtStreet.Location = new System.Drawing.Point(829, 74);
+            this.txtStreet.Location = new System.Drawing.Point(829, 68);
             this.txtStreet.MaxLength = 30;
             this.txtStreet.Name = "txtStreet";
             this.txtStreet.Size = new System.Drawing.Size(200, 25);
@@ -371,7 +371,7 @@ namespace Presentation.Views
             this.label7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label7.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label7.Location = new System.Drawing.Point(451, 143);
+            this.label7.Location = new System.Drawing.Point(451, 141);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(36, 19);
             this.label7.TabIndex = 64;
@@ -382,7 +382,7 @@ namespace Presentation.Views
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label6.Location = new System.Drawing.Point(451, 107);
+            this.label6.Location = new System.Drawing.Point(454, 107);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(33, 19);
             this.label6.TabIndex = 63;
@@ -393,7 +393,7 @@ namespace Presentation.Views
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label5.Location = new System.Drawing.Point(451, 71);
+            this.label5.Location = new System.Drawing.Point(443, 71);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(44, 19);
             this.label5.TabIndex = 62;
@@ -435,9 +435,10 @@ namespace Presentation.Views
             // txtNSS
             // 
             this.txtNSS.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNSS.Location = new System.Drawing.Point(501, 140);
+            this.txtNSS.Location = new System.Drawing.Point(501, 138);
             this.txtNSS.MaxLength = 11;
             this.txtNSS.Name = "txtNSS";
+            this.txtNSS.ReadOnly = true;
             this.txtNSS.Size = new System.Drawing.Size(200, 25);
             this.txtNSS.TabIndex = 58;
             // 
@@ -503,7 +504,7 @@ namespace Presentation.Views
             // txtDepartment
             // 
             this.txtDepartment.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDepartment.Location = new System.Drawing.Point(501, 293);
+            this.txtDepartment.Location = new System.Drawing.Point(501, 290);
             this.txtDepartment.MaxLength = 30;
             this.txtDepartment.Name = "txtDepartment";
             this.txtDepartment.ReadOnly = true;
@@ -513,7 +514,7 @@ namespace Presentation.Views
             // txtPosition
             // 
             this.txtPosition.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPosition.Location = new System.Drawing.Point(829, 296);
+            this.txtPosition.Location = new System.Drawing.Point(829, 290);
             this.txtPosition.MaxLength = 30;
             this.txtPosition.Name = "txtPosition";
             this.txtPosition.ReadOnly = true;
@@ -525,7 +526,7 @@ namespace Presentation.Views
             this.cbBank.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbBank.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
             this.cbBank.FormattingEnabled = true;
-            this.cbBank.Location = new System.Drawing.Point(501, 182);
+            this.cbBank.Location = new System.Drawing.Point(501, 176);
             this.cbBank.Name = "cbBank";
             this.cbBank.Size = new System.Drawing.Size(200, 27);
             this.cbBank.TabIndex = 100;
@@ -533,6 +534,7 @@ namespace Presentation.Views
             // nudDailySalary
             // 
             this.nudDailySalary.DecimalPlaces = 2;
+            this.nudDailySalary.Enabled = false;
             this.nudDailySalary.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
             this.nudDailySalary.Location = new System.Drawing.Point(844, 373);
             this.nudDailySalary.Maximum = new decimal(new int[] {
@@ -585,6 +587,7 @@ namespace Presentation.Views
             // nudWageLevel
             // 
             this.nudWageLevel.DecimalPlaces = 2;
+            this.nudWageLevel.Enabled = false;
             this.nudWageLevel.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
             this.nudWageLevel.Location = new System.Drawing.Point(844, 335);
             this.nudWageLevel.Maximum = new decimal(new int[] {
@@ -601,6 +604,7 @@ namespace Presentation.Views
             // nudBaseSalary
             // 
             this.nudBaseSalary.DecimalPlaces = 2;
+            this.nudBaseSalary.Enabled = false;
             this.nudBaseSalary.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
             this.nudBaseSalary.Location = new System.Drawing.Point(516, 335);
             this.nudBaseSalary.Maximum = new decimal(new int[] {

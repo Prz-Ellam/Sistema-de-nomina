@@ -19,19 +19,17 @@ namespace Presentation.Views
 {
     public partial class Profile : Form
     {
-        private RepositorioEmpleados employeeRepository;
+        private EmployeesRepository employeeRepository;
         private RepositorioTelefonos phonesRepository;
         private Empleados employee;
-        private List<Telefonos> phones;
         private List<States> states;
 
         public Profile()
         {
             InitializeComponent();
-            employeeRepository = new RepositorioEmpleados();
+            employeeRepository = new EmployeesRepository();
             phonesRepository = new RepositorioTelefonos();
             employee = new Empleados();
-            phones = new List<Telefonos>();
         }
 
         private void Profile_Load(object sender, EventArgs e)
@@ -39,9 +37,9 @@ namespace Presentation.Views
             RepositorioEmpresas companiesRepository = new RepositorioEmpresas();
             dtpHiringDate.MinDate = companiesRepository.GetCreationDate(Session.companyId, false);
             dtpDateOfBirth.MaxDate = employeeRepository.GetHiringDate(Session.id, false).AddYears(-18);
-            // Inicializar bancos
+            
             ListBanks();
-            InitStates();
+            ListStates();
             ListProfile();
         }
 
@@ -58,121 +56,6 @@ namespace Presentation.Views
 
             MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ListProfile();
-        }
-
-        private void ListProfile()
-        {
-            EmployeesViewModel employee = employeeRepository.GetEmployeeById(Session.id);
-
-            txtNames.Text = employee.Name;
-            txtFatherLastName.Text = employee.FatherLastName;
-            txtMotherLastName.Text = employee.MotherLastName;
-
-            dtpDateOfBirth.Value = employee.DateOfBirth;
-            txtEmail.Text = employee.Email;
-            txtPassword.Text = employee.Password;
-            dtpHiringDate.Value = employee.HiringDate;
-
-            txtCURP.Text = employee.Curp;
-            txtRFC.Text = employee.Rfc;
-            txtNSS.Text = employee.Nss;
-
-            cbBank.SelectedItem = ComboBoxUtils.FindHiddenValue(employee.Bank.HiddenValue, ref cbBank);
-            txtAccountNumber.Text = employee.AccountNumber;
-
-            cbPhones.SelectedIndex = -1;
-            cbPhones.Items.Clear();
-            List<string> phones = phonesRepository.ReadEmployeePhones(employee.EmployeeNumber);
-            foreach (string phone in phones)
-            {
-                cbPhones.Items.Add(phone);
-            }
-
-            txtStreet.Text = employee.Street;
-            txtNumber.Text = employee.Number;
-            txtSuburb.Text = employee.Suburb;
-            cbState.SelectedIndex = cbState.FindString(employee.State);
-            cbCity.SelectedIndex = cbCity.FindString(employee.City);
-            txtPostalCode.Text = employee.PostalCode;
-
-            txtDepartment.Text = employee.Department.ToString();
-            txtPosition.Text = employee.Position.ToString();
-            nudDailySalary.Value = employee.SueldoDiario;
-            nudBaseSalary.Value = employee.BaseSalary;
-            nudWageLevel.Value = employee.WageLevel;
-        }
-
-        private void FillProfile()
-        {
-            employee.NumeroEmpleado = Session.id;
-            //employee.Nombre = txtNames.Text;
-            //employee.ApellidoPaterno = txtFatherLastName.Text;
-            //employee.ApellidoMaterno = txtMotherLastName.Text;
-
-            employee.FechaNacimiento = dtpDateOfBirth.Value;
-            employee.Curp = txtCURP.Text;
-            //employee.Nss = txtNSS.Text;
-            employee.Rfc = txtRFC.Text;
-
-            //employee.Address = 1;            
-            if (cbBank.Items.Count > 0)
-            {
-                employee.Banco = ((PairItem)cbBank.SelectedItem).HiddenValue;
-            }
-            else
-            {
-                employee.Banco = -1;
-            }
-            
-            employee.NumeroCuenta = txtAccountNumber.Text;
-            employee.CorreoElectronico = txtEmail.Text;
-            employee.Contrasena = txtPassword.Text;
-
-            /*
-            if (cbDepartments.Items.Count > 0)
-            {
-                employee.IdDepartamento = ((PairItem)cbDepartments.SelectedItem).HiddenValue;
-            }
-            else
-            {
-                employee.IdDepartamento = -1;
-            }
-
-            if (cbPositions.Items.Count > 0)
-            {
-                employee.IdPuesto = ((PairItem)cbPositions.SelectedItem).HiddenValue;
-            }
-            else
-            {
-                employee.IdPuesto = -1;
-            }
-
-            
-            */
-
-            employee.FechaContratacion = dtpHiringDate.Value;
-            employee.Calle = txtStreet.Text;
-            employee.Numero = txtNumber.Text;
-            employee.Colonia = txtSuburb.Text;
-            employee.Ciudad = cbCity.Text;
-            employee.Estado = cbState.Text;
-            employee.CodigoPostal = txtPostalCode.Text;
-
-            for (int i = 0; i < cbPhones.Items.Count; i++)
-            {
-                phones.Add(new Telefonos
-                {
-                    IdPropietario = Session.id,
-                    Nombre = cbPhones.Items[i].ToString()
-                });
-            }
-
-            employee.Telefonos.Clear();
-            for (int i = 0; i < cbPhones.Items.Count; i++)
-            {
-                employee.Telefonos.Add(cbPhones.Items[i].ToString());
-            }
-
         }
 
         public ValidationResult UpdateProfile()
@@ -201,18 +84,78 @@ namespace Presentation.Views
             }
         }
 
-        private void InitStates()
+        private void ListProfile()
         {
-            StatesRepository repository = new StatesRepository();
-            states = repository.GetAll();
+            EmployeesViewModel employee = employeeRepository.GetEmployeeById(Session.id);
+            txtNames.Text = employee.Name;
+            txtFatherLastName.Text = employee.FatherLastName;
+            txtMotherLastName.Text = employee.MotherLastName;
+            dtpDateOfBirth.Value = employee.DateOfBirth;
+            txtEmail.Text = employee.Email;
+            txtPassword.Text = employee.Password;
+            dtpHiringDate.Value = employee.HiringDate;
+            txtCURP.Text = employee.Curp;
+            txtRFC.Text = employee.Rfc;
+            txtNSS.Text = employee.Nss;
+            cbBank.SelectedItem = ComboBoxUtils.FindHiddenValue(employee.Bank.HiddenValue, ref cbBank);
+            txtAccountNumber.Text = employee.AccountNumber;
 
-            cbState.Items.Add("Seleccionar");
-            foreach (var state in states)
+            cbPhones.SelectedIndex = -1;
+            cbPhones.Items.Clear();
+            List<string> phones = phonesRepository.ReadEmployeePhones(employee.EmployeeNumber);
+            foreach (string phone in phones)
             {
-                cbState.Items.Add(state.state);
+                cbPhones.Items.Add(phone);
             }
 
-            cbState.SelectedIndex = 0;
+            txtStreet.Text = employee.Street;
+            txtNumber.Text = employee.Number;
+            txtSuburb.Text = employee.Suburb;
+            cbState.SelectedIndex = cbState.FindString(employee.State);
+            cbCity.SelectedIndex = cbCity.FindString(employee.City);
+            txtPostalCode.Text = employee.PostalCode;
+            txtDepartment.Text = employee.Department.ToString();
+            txtPosition.Text = employee.Position.ToString();
+            nudDailySalary.Value = employee.SueldoDiario;
+            nudBaseSalary.Value = employee.BaseSalary;
+            nudWageLevel.Value = employee.WageLevel;
+        }
+
+        private void FillProfile()
+        {
+            employee.NumeroEmpleado = Session.id;
+            employee.Nombre = txtNames.Text;
+            employee.ApellidoPaterno = txtFatherLastName.Text;
+            employee.ApellidoMaterno = txtMotherLastName.Text;
+            employee.FechaNacimiento = dtpDateOfBirth.Value;
+            employee.CorreoElectronico = txtEmail.Text;
+            employee.Contrasena = txtPassword.Text;
+            employee.Curp = txtCURP.Text;
+            employee.Rfc = txtRFC.Text;
+            employee.Nss = txtNSS.Text;
+            employee.NumeroCuenta = txtAccountNumber.Text;
+        
+            if (cbBank.Items.Count > 0)
+            {
+                employee.Banco = ((PairItem)cbBank.SelectedItem).HiddenValue;
+            }
+            else
+            {
+                employee.Banco = -1;
+            }
+
+            employee.Telefonos.Clear();
+            for (int i = 0; i < cbPhones.Items.Count; i++)
+            {
+                employee.Telefonos.Add(cbPhones.Items[i].ToString());
+            }
+
+            employee.Calle = txtStreet.Text;
+            employee.Numero = txtNumber.Text;
+            employee.Colonia = txtSuburb.Text;
+            employee.Estado = cbState.Text;
+            employee.Ciudad = cbCity.Text;
+            employee.CodigoPostal = txtPostalCode.Text;
         }
 
         private void cbState_SelectedIndexChanged(object sender, EventArgs e)
@@ -220,9 +163,12 @@ namespace Presentation.Views
             cbCity.DataSource = null;
             if (cbState.SelectedIndex <= 0)
             {
+                List<string> cities = new List<string>();
+                cities.Add("Seleccionar");
+                cbCity.DataSource = cities;
                 return;
             }
-            cbCity.DataSource = states[cbState.SelectedIndex].cities;
+            cbCity.DataSource = states[cbState.SelectedIndex - 1].cities;
             cbCity.SelectedIndex = 0;
         }
 
@@ -236,6 +182,18 @@ namespace Presentation.Views
                 nombres.Add(new PairItem(banco.Name, banco.BankId));
             }
             cbBank.DataSource = nombres;
+        }
+
+        private void ListStates()
+        {
+            StatesRepository repository = new StatesRepository();
+            states = repository.GetAll();
+            cbState.Items.Add("Seleccionar");
+            foreach (var state in states)
+            {
+                cbState.Items.Add(state.state);
+            }
+            cbState.SelectedIndex = 0;
         }
 
         private void dtpHiringDate_ValueChanged(object sender, EventArgs e)

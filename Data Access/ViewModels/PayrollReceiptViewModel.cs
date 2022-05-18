@@ -26,6 +26,7 @@ namespace Data_Access.ViewModels
         private decimal sueldoBruto;
         private decimal sueldoNeto;
         private DateTime periodo;
+        private DateTime finalPeriod;
         private int idNomina;
 
         public string NombreEmpresa { get => nombreEmpresa; set => nombreEmpresa = value; }
@@ -46,6 +47,7 @@ namespace Data_Access.ViewModels
         public DateTime Periodo { get => periodo; set => periodo = value; }
         public int IdNomina { get => idNomina; set => idNomina = value; }
         public DateTime FechaIngreso { get => fechaIngreso; set => fechaIngreso = value; }
+        public DateTime FinalPeriod { get => finalPeriod; set => finalPeriod = value; }
         //private List<ConceptViewModel> percepciones;
         //private List<ConceptViewModel> deducciones;
     }

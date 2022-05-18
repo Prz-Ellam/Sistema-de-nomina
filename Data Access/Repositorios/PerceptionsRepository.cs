@@ -12,64 +12,64 @@ using System.Threading.Tasks;
 
 namespace Data_Access.Repositorios
 {
-    public class RepositorioPercepciones : IPerceptionsRepository
+    public class PerceptionsRepository : IPerceptionsRepository
     {
-        private readonly string create, update, delete, readAll;
+        private readonly string create, update, delete, read;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams;
 
-        public RepositorioPercepciones()
+        public PerceptionsRepository()
         {
             mainRepository = MainConnection.GetInstance();
             sqlParams = new RepositoryParameters();
             create = "sp_AgregarPercepcion";
             update = "sp_ActualizarPercepcion";
             delete = "sp_EliminarPercepcion";
-            readAll = "sp_LeerPercepciones";
+            read = "sp_LeerPercepciones";
         }
 
-        public bool Create(Percepciones percepcion)
+        public bool Create(Perceptions perception)
         {
             sqlParams.Start();
-            sqlParams.Add("@nombre", percepcion.Nombre);
-            sqlParams.Add("@tipo_monto", percepcion.TipoMonto);
-            sqlParams.Add("@fijo", percepcion.Fijo);
-            sqlParams.Add("@porcentual", percepcion.Porcentual);
-            sqlParams.Add("@id_empresa", percepcion.IdEmpresa);
+            sqlParams.Add("@nombre", perception.Name);
+            sqlParams.Add("@tipo_monto", perception.AmountType);
+            sqlParams.Add("@fijo", perception.Fixed);
+            sqlParams.Add("@porcentual", perception.Porcentual);
+            sqlParams.Add("@id_empresa", perception.CompanyId);
 
             int rowCount = mainRepository.ExecuteNonQuery(create, sqlParams);
             return (rowCount > 0) ? true : false;
         }
 
-        public bool Update(Percepciones percepcion)
+        public bool Update(Perceptions perception)
         {
             sqlParams.Start();
-            sqlParams.Add("@id_percepcion", percepcion.IdPercepcion);
-            sqlParams.Add("@nombre", percepcion.Nombre);
-            sqlParams.Add("@tipo_monto", percepcion.TipoMonto);
-            sqlParams.Add("@fijo", percepcion.Fijo);
-            sqlParams.Add("@porcentual", percepcion.Porcentual);
+            sqlParams.Add("@id_percepcion", perception.PerceptionId);
+            sqlParams.Add("@nombre", perception.Name);
+            sqlParams.Add("@tipo_monto", perception.AmountType);
+            sqlParams.Add("@fijo", perception.Fixed);
+            sqlParams.Add("@porcentual", perception.Porcentual);
 
             int rowCount = mainRepository.ExecuteNonQuery(update, sqlParams);
             return (rowCount > 0) ? true : false;
         }
 
-        public bool Delete(int id)
+        public bool Delete(int perceptionId)
         {
             sqlParams.Start();
-            sqlParams.Add("@id_percepcion", id);
+            sqlParams.Add("@id_percepcion", perceptionId);
 
             int rowCount = mainRepository.ExecuteNonQuery(delete, sqlParams);
             return (rowCount > 0) ? true : false;
         }
 
-        public List<PerceptionViewModel> ReadAll(string filter, int companyId)
+        public List<PerceptionViewModel> Read(string filter, int companyId)
         {
             sqlParams.Start();
             sqlParams.Add("@filtro", filter);
             sqlParams.Add("@id_empresa", companyId);
 
-            DataTable table = mainRepository.ExecuteReader(readAll, sqlParams);
+            DataTable table = mainRepository.ExecuteReader(read, sqlParams);
             List<PerceptionViewModel> perceptions = new List<PerceptionViewModel>();
             foreach (DataRow row in table.Rows)
             {

@@ -30,22 +30,12 @@ namespace Presentation.Views
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.btnEmployees = new System.Windows.Forms.Button();
-            this.btnCompanies = new System.Windows.Forms.Button();
-            this.btnDepartments = new System.Windows.Forms.Button();
-            this.btnPositions = new System.Windows.Forms.Button();
-            this.btnConcepts = new System.Windows.Forms.Button();
-            this.btnPayroll = new System.Windows.Forms.Button();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Layout));
             this.panel1 = new System.Windows.Forms.Panel();
-            this.pbMinimized = new System.Windows.Forms.PictureBox();
-            this.pbClose = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.btnProfile = new System.Windows.Forms.Button();
             this.panel11 = new System.Windows.Forms.Panel();
-            this.btnEmployeeReceipts = new System.Windows.Forms.Button();
-            this.panel10 = new System.Windows.Forms.Panel();
-            this.btnConceptsApply = new System.Windows.Forms.Button();
+            this.panelApplyConcepts = new System.Windows.Forms.Panel();
             this.panelSubmenuReports = new System.Windows.Forms.Panel();
             this.panelConsumptionsReport = new System.Windows.Forms.Panel();
             this.btnPayrollReports = new System.Windows.Forms.Button();
@@ -57,117 +47,32 @@ namespace Presentation.Views
             this.lblPositionLogged = new System.Windows.Forms.Label();
             this.lblPosition = new System.Windows.Forms.Label();
             this.lblEmail = new System.Windows.Forms.Label();
-            this.panel9 = new System.Windows.Forms.Panel();
-            this.panel8 = new System.Windows.Forms.Panel();
-            this.panel7 = new System.Windows.Forms.Panel();
-            this.panel6 = new System.Windows.Forms.Panel();
-            this.panel5 = new System.Windows.Forms.Panel();
+            this.panelReports = new System.Windows.Forms.Panel();
+            this.panelPayroll = new System.Windows.Forms.Panel();
+            this.panelConcepts = new System.Windows.Forms.Panel();
+            this.panelEmployees = new System.Windows.Forms.Panel();
+            this.panelPositions = new System.Windows.Forms.Panel();
             this.btnLogout = new System.Windows.Forms.Button();
-            this.btnReports = new System.Windows.Forms.Button();
             this.panelStorage = new System.Windows.Forms.Panel();
             this.fadeIn = new System.Windows.Forms.Timer(this.components);
+            this.btnProfile = new System.Windows.Forms.Button();
+            this.btnEmployeeReceipts = new System.Windows.Forms.Button();
+            this.btnConceptsApply = new System.Windows.Forms.Button();
+            this.btnCompanies = new System.Windows.Forms.Button();
+            this.btnDepartments = new System.Windows.Forms.Button();
+            this.btnReports = new System.Windows.Forms.Button();
+            this.btnPositions = new System.Windows.Forms.Button();
+            this.btnPayroll = new System.Windows.Forms.Button();
+            this.btnEmployees = new System.Windows.Forms.Button();
+            this.btnConcepts = new System.Windows.Forms.Button();
+            this.pbMinimized = new System.Windows.Forms.PictureBox();
+            this.pbClose = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbMinimized)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbClose)).BeginInit();
             this.panel2.SuspendLayout();
             this.panelSubmenuReports.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbMinimized)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbClose)).BeginInit();
             this.SuspendLayout();
-            // 
-            // btnEmployees
-            // 
-            this.btnEmployees.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnEmployees.FlatAppearance.BorderSize = 0;
-            this.btnEmployees.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
-            this.btnEmployees.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEmployees.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.btnEmployees.ForeColor = System.Drawing.Color.White;
-            this.btnEmployees.Location = new System.Drawing.Point(0, 236);
-            this.btnEmployees.Name = "btnEmployees";
-            this.btnEmployees.Size = new System.Drawing.Size(200, 41);
-            this.btnEmployees.TabIndex = 0;
-            this.btnEmployees.Text = "Empleados";
-            this.btnEmployees.UseVisualStyleBackColor = true;
-            this.btnEmployees.Click += new System.EventHandler(this.btnEmployees_Click);
-            // 
-            // btnCompanies
-            // 
-            this.btnCompanies.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnCompanies.FlatAppearance.BorderSize = 0;
-            this.btnCompanies.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
-            this.btnCompanies.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCompanies.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.btnCompanies.ForeColor = System.Drawing.Color.White;
-            this.btnCompanies.Location = new System.Drawing.Point(0, 89);
-            this.btnCompanies.Name = "btnCompanies";
-            this.btnCompanies.Size = new System.Drawing.Size(201, 41);
-            this.btnCompanies.TabIndex = 1;
-            this.btnCompanies.Text = "Empresa";
-            this.btnCompanies.UseVisualStyleBackColor = true;
-            this.btnCompanies.Click += new System.EventHandler(this.btnCompanies_Click);
-            // 
-            // btnDepartments
-            // 
-            this.btnDepartments.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnDepartments.FlatAppearance.BorderSize = 0;
-            this.btnDepartments.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
-            this.btnDepartments.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDepartments.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.btnDepartments.ForeColor = System.Drawing.Color.White;
-            this.btnDepartments.Location = new System.Drawing.Point(0, 138);
-            this.btnDepartments.Name = "btnDepartments";
-            this.btnDepartments.Size = new System.Drawing.Size(200, 41);
-            this.btnDepartments.TabIndex = 2;
-            this.btnDepartments.Text = "Departamentos";
-            this.btnDepartments.UseVisualStyleBackColor = true;
-            this.btnDepartments.Click += new System.EventHandler(this.btnDepartments_Click);
-            // 
-            // btnPositions
-            // 
-            this.btnPositions.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnPositions.FlatAppearance.BorderSize = 0;
-            this.btnPositions.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
-            this.btnPositions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPositions.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.btnPositions.ForeColor = System.Drawing.Color.White;
-            this.btnPositions.Location = new System.Drawing.Point(0, 187);
-            this.btnPositions.Name = "btnPositions";
-            this.btnPositions.Size = new System.Drawing.Size(200, 41);
-            this.btnPositions.TabIndex = 3;
-            this.btnPositions.Text = "Puestos";
-            this.btnPositions.UseVisualStyleBackColor = true;
-            this.btnPositions.Click += new System.EventHandler(this.btnPositions_Click);
-            // 
-            // btnConcepts
-            // 
-            this.btnConcepts.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnConcepts.FlatAppearance.BorderSize = 0;
-            this.btnConcepts.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
-            this.btnConcepts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnConcepts.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.btnConcepts.ForeColor = System.Drawing.Color.White;
-            this.btnConcepts.Location = new System.Drawing.Point(0, 284);
-            this.btnConcepts.Name = "btnConcepts";
-            this.btnConcepts.Size = new System.Drawing.Size(200, 41);
-            this.btnConcepts.TabIndex = 4;
-            this.btnConcepts.Text = "Catalogo de conceptos";
-            this.btnConcepts.UseVisualStyleBackColor = true;
-            this.btnConcepts.Click += new System.EventHandler(this.btnConcepts_Click);
-            // 
-            // btnPayroll
-            // 
-            this.btnPayroll.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnPayroll.FlatAppearance.BorderSize = 0;
-            this.btnPayroll.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
-            this.btnPayroll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPayroll.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.btnPayroll.ForeColor = System.Drawing.Color.White;
-            this.btnPayroll.Location = new System.Drawing.Point(0, 382);
-            this.btnPayroll.Name = "btnPayroll";
-            this.btnPayroll.Size = new System.Drawing.Size(200, 41);
-            this.btnPayroll.TabIndex = 5;
-            this.btnPayroll.Text = "Nómina";
-            this.btnPayroll.UseVisualStyleBackColor = true;
-            this.btnPayroll.Click += new System.EventHandler(this.btnPayroll_Click);
             // 
             // panel1
             // 
@@ -180,30 +85,6 @@ namespace Presentation.Views
             this.panel1.Size = new System.Drawing.Size(1280, 36);
             this.panel1.TabIndex = 7;
             // 
-            // pbMinimized
-            // 
-            this.pbMinimized.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pbMinimized.Image = global::Presentation.Properties.Resources.Minimized_Button_Logo;
-            this.pbMinimized.Location = new System.Drawing.Point(1223, 8);
-            this.pbMinimized.Name = "pbMinimized";
-            this.pbMinimized.Size = new System.Drawing.Size(20, 20);
-            this.pbMinimized.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbMinimized.TabIndex = 10;
-            this.pbMinimized.TabStop = false;
-            this.pbMinimized.Click += new System.EventHandler(this.pbMinimized_Click);
-            // 
-            // pbClose
-            // 
-            this.pbClose.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pbClose.Image = global::Presentation.Properties.Resources.Close_Button_Logo;
-            this.pbClose.Location = new System.Drawing.Point(1249, 8);
-            this.pbClose.Name = "pbClose";
-            this.pbClose.Size = new System.Drawing.Size(20, 20);
-            this.pbClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbClose.TabIndex = 9;
-            this.pbClose.TabStop = false;
-            this.pbClose.Click += new System.EventHandler(this.pbClose_Click);
-            // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
@@ -211,18 +92,18 @@ namespace Presentation.Views
             this.panel2.Controls.Add(this.btnProfile);
             this.panel2.Controls.Add(this.panel11);
             this.panel2.Controls.Add(this.btnEmployeeReceipts);
-            this.panel2.Controls.Add(this.panel10);
+            this.panel2.Controls.Add(this.panelApplyConcepts);
             this.panel2.Controls.Add(this.btnConceptsApply);
             this.panel2.Controls.Add(this.panelSubmenuReports);
             this.panel2.Controls.Add(this.lblEmailLogged);
             this.panel2.Controls.Add(this.lblPositionLogged);
             this.panel2.Controls.Add(this.lblPosition);
             this.panel2.Controls.Add(this.lblEmail);
-            this.panel2.Controls.Add(this.panel9);
-            this.panel2.Controls.Add(this.panel8);
-            this.panel2.Controls.Add(this.panel7);
-            this.panel2.Controls.Add(this.panel6);
-            this.panel2.Controls.Add(this.panel5);
+            this.panel2.Controls.Add(this.panelReports);
+            this.panel2.Controls.Add(this.panelPayroll);
+            this.panel2.Controls.Add(this.panelConcepts);
+            this.panel2.Controls.Add(this.panelEmployees);
+            this.panel2.Controls.Add(this.panelPositions);
             this.panel2.Controls.Add(this.btnLogout);
             this.panel2.Controls.Add(this.btnCompanies);
             this.panel2.Controls.Add(this.btnDepartments);
@@ -245,22 +126,6 @@ namespace Presentation.Views
             this.panel4.Size = new System.Drawing.Size(8, 41);
             this.panel4.TabIndex = 1;
             // 
-            // btnProfile
-            // 
-            this.btnProfile.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnProfile.FlatAppearance.BorderSize = 0;
-            this.btnProfile.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
-            this.btnProfile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnProfile.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.btnProfile.ForeColor = System.Drawing.Color.White;
-            this.btnProfile.Location = new System.Drawing.Point(0, 89);
-            this.btnProfile.Name = "btnProfile";
-            this.btnProfile.Size = new System.Drawing.Size(201, 41);
-            this.btnProfile.TabIndex = 25;
-            this.btnProfile.Text = "Perfil";
-            this.btnProfile.UseVisualStyleBackColor = true;
-            this.btnProfile.Click += new System.EventHandler(this.btnProfile_Click);
-            // 
             // panel11
             // 
             this.panel11.BackColor = System.Drawing.Color.Black;
@@ -270,45 +135,13 @@ namespace Presentation.Views
             this.panel11.TabIndex = 2;
             this.panel11.Paint += new System.Windows.Forms.PaintEventHandler(this.panel11_Paint);
             // 
-            // btnEmployeeReceipts
+            // panelApplyConcepts
             // 
-            this.btnEmployeeReceipts.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnEmployeeReceipts.FlatAppearance.BorderSize = 0;
-            this.btnEmployeeReceipts.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
-            this.btnEmployeeReceipts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEmployeeReceipts.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.btnEmployeeReceipts.ForeColor = System.Drawing.Color.White;
-            this.btnEmployeeReceipts.Location = new System.Drawing.Point(0, 138);
-            this.btnEmployeeReceipts.Name = "btnEmployeeReceipts";
-            this.btnEmployeeReceipts.Size = new System.Drawing.Size(200, 41);
-            this.btnEmployeeReceipts.TabIndex = 24;
-            this.btnEmployeeReceipts.Text = "Recibos";
-            this.btnEmployeeReceipts.UseVisualStyleBackColor = true;
-            this.btnEmployeeReceipts.Click += new System.EventHandler(this.btnEmployeeReceipts_Click);
-            // 
-            // panel10
-            // 
-            this.panel10.BackColor = System.Drawing.Color.Black;
-            this.panel10.Location = new System.Drawing.Point(0, 331);
-            this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(8, 41);
-            this.panel10.TabIndex = 6;
-            // 
-            // btnConceptsApply
-            // 
-            this.btnConceptsApply.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnConceptsApply.FlatAppearance.BorderSize = 0;
-            this.btnConceptsApply.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
-            this.btnConceptsApply.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnConceptsApply.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.btnConceptsApply.ForeColor = System.Drawing.Color.White;
-            this.btnConceptsApply.Location = new System.Drawing.Point(0, 331);
-            this.btnConceptsApply.Name = "btnConceptsApply";
-            this.btnConceptsApply.Size = new System.Drawing.Size(200, 41);
-            this.btnConceptsApply.TabIndex = 23;
-            this.btnConceptsApply.Text = "Aplicar conceptos";
-            this.btnConceptsApply.UseVisualStyleBackColor = true;
-            this.btnConceptsApply.Click += new System.EventHandler(this.btnConceptsApply_Click);
+            this.panelApplyConcepts.BackColor = System.Drawing.Color.Black;
+            this.panelApplyConcepts.Location = new System.Drawing.Point(0, 331);
+            this.panelApplyConcepts.Name = "panelApplyConcepts";
+            this.panelApplyConcepts.Size = new System.Drawing.Size(8, 41);
+            this.panelApplyConcepts.TabIndex = 6;
             // 
             // panelSubmenuReports
             // 
@@ -348,7 +181,7 @@ namespace Presentation.Views
             this.btnPayrollReports.Margin = new System.Windows.Forms.Padding(2);
             this.btnPayrollReports.Name = "btnPayrollReports";
             this.btnPayrollReports.Size = new System.Drawing.Size(183, 32);
-            this.btnPayrollReports.TabIndex = 17;
+            this.btnPayrollReports.TabIndex = 11;
             this.btnPayrollReports.Text = "Nómina";
             this.btnPayrollReports.UseVisualStyleBackColor = false;
             this.btnPayrollReports.Click += new System.EventHandler(this.btnPayrollReports_Click);
@@ -375,7 +208,7 @@ namespace Presentation.Views
             this.btnHeadcounterReport.Margin = new System.Windows.Forms.Padding(2);
             this.btnHeadcounterReport.Name = "btnHeadcounterReport";
             this.btnHeadcounterReport.Size = new System.Drawing.Size(183, 32);
-            this.btnHeadcounterReport.TabIndex = 16;
+            this.btnHeadcounterReport.TabIndex = 10;
             this.btnHeadcounterReport.Text = "Headcounter";
             this.btnHeadcounterReport.UseVisualStyleBackColor = false;
             this.btnHeadcounterReport.Click += new System.EventHandler(this.btnHeadcounterReport_Click);
@@ -402,7 +235,7 @@ namespace Presentation.Views
             this.btnGeneralPayrollReport.Margin = new System.Windows.Forms.Padding(2);
             this.btnGeneralPayrollReport.Name = "btnGeneralPayrollReport";
             this.btnGeneralPayrollReport.Size = new System.Drawing.Size(183, 32);
-            this.btnGeneralPayrollReport.TabIndex = 15;
+            this.btnGeneralPayrollReport.TabIndex = 9;
             this.btnGeneralPayrollReport.Text = "General de nómina";
             this.btnGeneralPayrollReport.UseVisualStyleBackColor = false;
             this.btnGeneralPayrollReport.Click += new System.EventHandler(this.btnGeneralPayrollReport_Click);
@@ -411,12 +244,12 @@ namespace Presentation.Views
             // 
             this.lblEmailLogged.AutoSize = true;
             this.lblEmailLogged.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblEmailLogged.Font = new System.Drawing.Font("Microsoft YaHei", 11.25F);
+            this.lblEmailLogged.Font = new System.Drawing.Font("Microsoft YaHei", 10F);
             this.lblEmailLogged.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.lblEmailLogged.Location = new System.Drawing.Point(7, 64);
             this.lblEmailLogged.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblEmailLogged.Name = "lblEmailLogged";
-            this.lblEmailLogged.Size = new System.Drawing.Size(97, 20);
+            this.lblEmailLogged.Size = new System.Drawing.Size(90, 20);
             this.lblEmailLogged.TabIndex = 21;
             this.lblEmailLogged.Text = "@Username";
             // 
@@ -424,12 +257,12 @@ namespace Presentation.Views
             // 
             this.lblPositionLogged.AutoSize = true;
             this.lblPositionLogged.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblPositionLogged.Font = new System.Drawing.Font("Microsoft YaHei", 11.25F);
+            this.lblPositionLogged.Font = new System.Drawing.Font("Microsoft YaHei", 10F);
             this.lblPositionLogged.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.lblPositionLogged.Location = new System.Drawing.Point(7, 22);
             this.lblPositionLogged.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblPositionLogged.Name = "lblPositionLogged";
-            this.lblPositionLogged.Size = new System.Drawing.Size(87, 20);
+            this.lblPositionLogged.Size = new System.Drawing.Size(82, 20);
             this.lblPositionLogged.TabIndex = 20;
             this.lblPositionLogged.Text = "@Position ";
             // 
@@ -459,60 +292,163 @@ namespace Presentation.Views
             this.lblEmail.TabIndex = 18;
             this.lblEmail.Text = "Correo electrónico: ";
             // 
-            // panel9
+            // panelReports
             // 
-            this.panel9.BackColor = System.Drawing.Color.Black;
-            this.panel9.Location = new System.Drawing.Point(0, 431);
-            this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(8, 41);
-            this.panel9.TabIndex = 6;
+            this.panelReports.BackColor = System.Drawing.Color.Black;
+            this.panelReports.Location = new System.Drawing.Point(0, 431);
+            this.panelReports.Name = "panelReports";
+            this.panelReports.Size = new System.Drawing.Size(8, 41);
+            this.panelReports.TabIndex = 6;
             // 
-            // panel8
+            // panelPayroll
             // 
-            this.panel8.BackColor = System.Drawing.Color.Black;
-            this.panel8.Location = new System.Drawing.Point(0, 382);
-            this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(8, 41);
-            this.panel8.TabIndex = 5;
+            this.panelPayroll.BackColor = System.Drawing.Color.Black;
+            this.panelPayroll.Location = new System.Drawing.Point(0, 382);
+            this.panelPayroll.Name = "panelPayroll";
+            this.panelPayroll.Size = new System.Drawing.Size(8, 41);
+            this.panelPayroll.TabIndex = 5;
             // 
-            // panel7
+            // panelConcepts
             // 
-            this.panel7.BackColor = System.Drawing.Color.Black;
-            this.panel7.Location = new System.Drawing.Point(0, 284);
-            this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(8, 41);
-            this.panel7.TabIndex = 4;
+            this.panelConcepts.BackColor = System.Drawing.Color.Black;
+            this.panelConcepts.Location = new System.Drawing.Point(0, 284);
+            this.panelConcepts.Name = "panelConcepts";
+            this.panelConcepts.Size = new System.Drawing.Size(8, 41);
+            this.panelConcepts.TabIndex = 4;
             // 
-            // panel6
+            // panelEmployees
             // 
-            this.panel6.BackColor = System.Drawing.Color.Black;
-            this.panel6.Location = new System.Drawing.Point(0, 236);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(8, 41);
-            this.panel6.TabIndex = 3;
+            this.panelEmployees.BackColor = System.Drawing.Color.Black;
+            this.panelEmployees.Location = new System.Drawing.Point(0, 236);
+            this.panelEmployees.Name = "panelEmployees";
+            this.panelEmployees.Size = new System.Drawing.Size(8, 41);
+            this.panelEmployees.TabIndex = 3;
             // 
-            // panel5
+            // panelPositions
             // 
-            this.panel5.BackColor = System.Drawing.Color.Black;
-            this.panel5.Location = new System.Drawing.Point(0, 187);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(8, 41);
-            this.panel5.TabIndex = 2;
+            this.panelPositions.BackColor = System.Drawing.Color.Black;
+            this.panelPositions.Location = new System.Drawing.Point(0, 187);
+            this.panelPositions.Name = "panelPositions";
+            this.panelPositions.Size = new System.Drawing.Size(8, 41);
+            this.panelPositions.TabIndex = 2;
             // 
             // btnLogout
             // 
             this.btnLogout.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnLogout.FlatAppearance.BorderSize = 0;
+            this.btnLogout.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.btnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLogout.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.btnLogout.ForeColor = System.Drawing.Color.White;
             this.btnLogout.Location = new System.Drawing.Point(0, 601);
             this.btnLogout.Name = "btnLogout";
             this.btnLogout.Size = new System.Drawing.Size(200, 41);
-            this.btnLogout.TabIndex = 9;
+            this.btnLogout.TabIndex = 12;
             this.btnLogout.Text = "Cerrar sesión";
             this.btnLogout.UseVisualStyleBackColor = true;
             this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
+            // 
+            // panelStorage
+            // 
+            this.panelStorage.Location = new System.Drawing.Point(206, 42);
+            this.panelStorage.Name = "panelStorage";
+            this.panelStorage.Size = new System.Drawing.Size(1064, 670);
+            this.panelStorage.TabIndex = 9;
+            // 
+            // fadeIn
+            // 
+            this.fadeIn.Enabled = true;
+            this.fadeIn.Tick += new System.EventHandler(this.fadeIn_Tick);
+            // 
+            // btnProfile
+            // 
+            this.btnProfile.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnProfile.FlatAppearance.BorderSize = 0;
+            this.btnProfile.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnProfile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnProfile.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.btnProfile.ForeColor = System.Drawing.Color.White;
+            this.btnProfile.Image = global::Presentation.Properties.Resources.Profile_Logo;
+            this.btnProfile.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnProfile.Location = new System.Drawing.Point(8, 138);
+            this.btnProfile.Name = "btnProfile";
+            this.btnProfile.Size = new System.Drawing.Size(191, 41);
+            this.btnProfile.TabIndex = 2;
+            this.btnProfile.Text = "Perfil";
+            this.btnProfile.UseVisualStyleBackColor = true;
+            this.btnProfile.Click += new System.EventHandler(this.btnProfile_Click);
+            // 
+            // btnEmployeeReceipts
+            // 
+            this.btnEmployeeReceipts.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnEmployeeReceipts.FlatAppearance.BorderSize = 0;
+            this.btnEmployeeReceipts.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnEmployeeReceipts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEmployeeReceipts.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.btnEmployeeReceipts.ForeColor = System.Drawing.Color.White;
+            this.btnEmployeeReceipts.Image = global::Presentation.Properties.Resources.Receipt_Logo;
+            this.btnEmployeeReceipts.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnEmployeeReceipts.Location = new System.Drawing.Point(8, 89);
+            this.btnEmployeeReceipts.Name = "btnEmployeeReceipts";
+            this.btnEmployeeReceipts.Size = new System.Drawing.Size(192, 41);
+            this.btnEmployeeReceipts.TabIndex = 1;
+            this.btnEmployeeReceipts.Text = "Recibos";
+            this.btnEmployeeReceipts.UseVisualStyleBackColor = true;
+            this.btnEmployeeReceipts.Click += new System.EventHandler(this.btnEmployeeReceipts_Click);
+            // 
+            // btnConceptsApply
+            // 
+            this.btnConceptsApply.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnConceptsApply.FlatAppearance.BorderSize = 0;
+            this.btnConceptsApply.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnConceptsApply.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnConceptsApply.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.btnConceptsApply.ForeColor = System.Drawing.Color.White;
+            this.btnConceptsApply.Image = global::Presentation.Properties.Resources.Apply_Logo;
+            this.btnConceptsApply.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnConceptsApply.Location = new System.Drawing.Point(8, 331);
+            this.btnConceptsApply.Name = "btnConceptsApply";
+            this.btnConceptsApply.Size = new System.Drawing.Size(192, 41);
+            this.btnConceptsApply.TabIndex = 6;
+            this.btnConceptsApply.Text = "     Aplicar conceptos";
+            this.btnConceptsApply.UseVisualStyleBackColor = true;
+            this.btnConceptsApply.Click += new System.EventHandler(this.btnConceptsApply_Click);
+            // 
+            // btnCompanies
+            // 
+            this.btnCompanies.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCompanies.FlatAppearance.BorderSize = 0;
+            this.btnCompanies.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnCompanies.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCompanies.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.btnCompanies.ForeColor = System.Drawing.Color.White;
+            this.btnCompanies.Image = global::Presentation.Properties.Resources.Company_Logo;
+            this.btnCompanies.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnCompanies.Location = new System.Drawing.Point(9, 89);
+            this.btnCompanies.Name = "btnCompanies";
+            this.btnCompanies.Size = new System.Drawing.Size(192, 41);
+            this.btnCompanies.TabIndex = 1;
+            this.btnCompanies.Text = "Empresa";
+            this.btnCompanies.UseVisualStyleBackColor = true;
+            this.btnCompanies.Click += new System.EventHandler(this.btnCompanies_Click);
+            // 
+            // btnDepartments
+            // 
+            this.btnDepartments.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnDepartments.FlatAppearance.BorderSize = 0;
+            this.btnDepartments.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnDepartments.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDepartments.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.btnDepartments.ForeColor = System.Drawing.Color.White;
+            this.btnDepartments.Image = global::Presentation.Properties.Resources.Position_Logo1;
+            this.btnDepartments.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnDepartments.Location = new System.Drawing.Point(8, 138);
+            this.btnDepartments.Name = "btnDepartments";
+            this.btnDepartments.Size = new System.Drawing.Size(192, 41);
+            this.btnDepartments.TabIndex = 2;
+            this.btnDepartments.Text = "     Departamentos";
+            this.btnDepartments.UseVisualStyleBackColor = true;
+            this.btnDepartments.Click += new System.EventHandler(this.btnDepartments_Click);
             // 
             // btnReports
             // 
@@ -527,22 +463,106 @@ namespace Presentation.Views
             this.btnReports.Location = new System.Drawing.Point(8, 431);
             this.btnReports.Name = "btnReports";
             this.btnReports.Size = new System.Drawing.Size(192, 41);
-            this.btnReports.TabIndex = 6;
+            this.btnReports.TabIndex = 8;
             this.btnReports.Text = "Reportes";
             this.btnReports.UseVisualStyleBackColor = true;
             this.btnReports.Click += new System.EventHandler(this.btnReports_Click);
             // 
-            // panelStorage
+            // btnPositions
             // 
-            this.panelStorage.Location = new System.Drawing.Point(206, 42);
-            this.panelStorage.Name = "panelStorage";
-            this.panelStorage.Size = new System.Drawing.Size(1064, 670);
-            this.panelStorage.TabIndex = 9;
+            this.btnPositions.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnPositions.FlatAppearance.BorderSize = 0;
+            this.btnPositions.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnPositions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPositions.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.btnPositions.ForeColor = System.Drawing.Color.White;
+            this.btnPositions.Image = global::Presentation.Properties.Resources.Position_Logo;
+            this.btnPositions.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnPositions.Location = new System.Drawing.Point(8, 187);
+            this.btnPositions.Name = "btnPositions";
+            this.btnPositions.Size = new System.Drawing.Size(192, 41);
+            this.btnPositions.TabIndex = 3;
+            this.btnPositions.Text = "Puestos";
+            this.btnPositions.UseVisualStyleBackColor = true;
+            this.btnPositions.Click += new System.EventHandler(this.btnPositions_Click);
             // 
-            // fadeIn
+            // btnPayroll
             // 
-            this.fadeIn.Enabled = true;
-            this.fadeIn.Tick += new System.EventHandler(this.fadeIn_Tick);
+            this.btnPayroll.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnPayroll.FlatAppearance.BorderSize = 0;
+            this.btnPayroll.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnPayroll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPayroll.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.btnPayroll.ForeColor = System.Drawing.Color.White;
+            this.btnPayroll.Image = global::Presentation.Properties.Resources.Payroll_Logo;
+            this.btnPayroll.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnPayroll.Location = new System.Drawing.Point(8, 382);
+            this.btnPayroll.Name = "btnPayroll";
+            this.btnPayroll.Size = new System.Drawing.Size(192, 41);
+            this.btnPayroll.TabIndex = 7;
+            this.btnPayroll.Text = "Nómina";
+            this.btnPayroll.UseVisualStyleBackColor = true;
+            this.btnPayroll.Click += new System.EventHandler(this.btnPayroll_Click);
+            // 
+            // btnEmployees
+            // 
+            this.btnEmployees.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnEmployees.FlatAppearance.BorderSize = 0;
+            this.btnEmployees.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnEmployees.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEmployees.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.btnEmployees.ForeColor = System.Drawing.Color.White;
+            this.btnEmployees.Image = global::Presentation.Properties.Resources.Client_Logo;
+            this.btnEmployees.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnEmployees.Location = new System.Drawing.Point(8, 236);
+            this.btnEmployees.Name = "btnEmployees";
+            this.btnEmployees.Size = new System.Drawing.Size(192, 41);
+            this.btnEmployees.TabIndex = 4;
+            this.btnEmployees.Text = "Empleados";
+            this.btnEmployees.UseVisualStyleBackColor = true;
+            this.btnEmployees.Click += new System.EventHandler(this.btnEmployees_Click);
+            // 
+            // btnConcepts
+            // 
+            this.btnConcepts.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnConcepts.FlatAppearance.BorderSize = 0;
+            this.btnConcepts.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnConcepts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnConcepts.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.btnConcepts.ForeColor = System.Drawing.Color.White;
+            this.btnConcepts.Image = global::Presentation.Properties.Resources.Concept_Logo;
+            this.btnConcepts.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnConcepts.Location = new System.Drawing.Point(8, 284);
+            this.btnConcepts.Name = "btnConcepts";
+            this.btnConcepts.Size = new System.Drawing.Size(192, 41);
+            this.btnConcepts.TabIndex = 5;
+            this.btnConcepts.Text = "Conceptos";
+            this.btnConcepts.UseVisualStyleBackColor = true;
+            this.btnConcepts.Click += new System.EventHandler(this.btnConcepts_Click);
+            // 
+            // pbMinimized
+            // 
+            this.pbMinimized.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbMinimized.Image = global::Presentation.Properties.Resources.Minimized_Button_Logo;
+            this.pbMinimized.Location = new System.Drawing.Point(1223, 8);
+            this.pbMinimized.Name = "pbMinimized";
+            this.pbMinimized.Size = new System.Drawing.Size(20, 20);
+            this.pbMinimized.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbMinimized.TabIndex = 10;
+            this.pbMinimized.TabStop = false;
+            this.pbMinimized.Click += new System.EventHandler(this.pbMinimized_Click);
+            // 
+            // pbClose
+            // 
+            this.pbClose.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbClose.Image = global::Presentation.Properties.Resources.Close_Button_Logo;
+            this.pbClose.Location = new System.Drawing.Point(1249, 8);
+            this.pbClose.Name = "pbClose";
+            this.pbClose.Size = new System.Drawing.Size(20, 20);
+            this.pbClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbClose.TabIndex = 9;
+            this.pbClose.TabStop = false;
+            this.pbClose.Click += new System.EventHandler(this.pbClose_Click);
             // 
             // Layout
             // 
@@ -554,17 +574,18 @@ namespace Presentation.Views
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Layout";
             this.Opacity = 0D;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Layout";
             this.Load += new System.EventHandler(this.Layout_Load);
             this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pbMinimized)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbClose)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panelSubmenuReports.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbMinimized)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbClose)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -584,11 +605,11 @@ namespace Presentation.Views
         private System.Windows.Forms.PictureBox pbClose;
         private System.Windows.Forms.Panel panelStorage;
         private System.Windows.Forms.Timer fadeIn;
-        private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.Panel panel6;
-        private System.Windows.Forms.Panel panel8;
-        private System.Windows.Forms.Panel panel7;
-        private System.Windows.Forms.Panel panel9;
+        private System.Windows.Forms.Panel panelPositions;
+        private System.Windows.Forms.Panel panelEmployees;
+        private System.Windows.Forms.Panel panelPayroll;
+        private System.Windows.Forms.Panel panelConcepts;
+        private System.Windows.Forms.Panel panelReports;
         private System.Windows.Forms.Label lblEmailLogged;
         private System.Windows.Forms.Label lblPositionLogged;
         private System.Windows.Forms.Label lblPosition;
@@ -600,7 +621,7 @@ namespace Presentation.Views
         private System.Windows.Forms.Button btnHeadcounterReport;
         private System.Windows.Forms.Panel panelGeneralReport;
         private System.Windows.Forms.Button btnGeneralPayrollReport;
-        private System.Windows.Forms.Panel panel10;
+        private System.Windows.Forms.Panel panelApplyConcepts;
         private System.Windows.Forms.Button btnConceptsApply;
         private System.Windows.Forms.PictureBox pbMinimized;
         private System.Windows.Forms.Button btnEmployeeReceipts;

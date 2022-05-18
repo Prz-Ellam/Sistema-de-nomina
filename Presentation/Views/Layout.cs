@@ -37,11 +37,17 @@ namespace Presentation.Views
                     btnCompanies.Visible = false;
                     btnDepartments.Visible = false;
                     btnPositions.Visible = false;
+                    panelPositions.Visible = false;
                     btnEmployees.Visible = false;
+                    panelEmployees.Visible = false;
                     btnConcepts.Visible = false;
+                    panelConcepts.Visible = false;
                     btnConceptsApply.Visible = false;
+                    panelApplyConcepts.Visible = false;
                     btnPayroll.Visible = false;
+                    panelPayroll.Visible = false;
                     btnReports.Visible = false;
+                    panelReports.Visible = false;
                     panelSubmenuReports.Visible = false;
                     // Habilitar o deshabilitar opciones de acuerdo al tipo de usuario
                     break;

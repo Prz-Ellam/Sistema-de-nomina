@@ -192,10 +192,9 @@ namespace Presentation.Helpers
             /*gfx.DrawString("Ambar", new XFont("Arial", 20), XBrushes.Black, new XRect(100, 40, page.Width, page.Height),
                 XStringFormats.TopLeft);*/
 
-            // Titulo
+            // Razon social
             gfx.DrawString(receipt.NombreEmpresa, new XFont("Arial", 20), XBrushes.Black,
                 new XRect(20, 20, page.Width, page.Height), XStringFormats.TopLeft);
-
 
             // RFC
             gfx.DrawString("Reg. Fed. Cont. " + receipt.RfcEmpresa, new XFont("Arial", 10), XBrushes.Black,
@@ -205,9 +204,9 @@ namespace Presentation.Helpers
             gfx.DrawString("Reg. Patronal " + receipt.RegistroPatronal, new XFont("Arial", 10), XBrushes.Black,
                 new XRect(0, 60, page.Width, page.Height), XStringFormats.TopCenter);
 
+            // Fecha de alta a la empresa
             gfx.DrawString("Fecha Alta " + receipt.FechaIngreso.ToString("dd/MM/yyyy"), new XFont("Arial", 10), XBrushes.Black,
                 new XRect(-20, 60, page.Width, page.Height), XStringFormats.TopRight);
-
 
             // Domicilio
             gfx.DrawString(receipt.DomicilioFiscalParte1, new XFont("Arial", 10), XBrushes.Black,
@@ -218,26 +217,35 @@ namespace Presentation.Helpers
 
 
 
+            // Nombre del empleado 
             string employee = string.Format("No. Empleado {0}  {1}",
                 receipt.NumeroEmpleado.ToString(), receipt.NombreEmpleado);
 
             gfx.DrawString(employee, new XFont("Arial", 11, XFontStyle.Bold), XBrushes.Black,
                 new XRect(20, 140, page.Width, page.Height), XStringFormats.TopLeft);
+            
+            // Periodo
+            string period = "Periodo " + receipt.Periodo.ToString("dd/MM/yyyy") + " - " + receipt.FinalPeriod.ToString("dd/MM/yyyy");
+            gfx.DrawString(period, new XFont("Arial", 10), XBrushes.Black,
+                new XRect(-20, 140, page.Width, page.Height), XStringFormats.TopRight);
 
-
+            // RFC del empleado
             gfx.DrawString("RFC " + receipt.RfcEmpleado, new XFont("Arial", 10), XBrushes.Black,
                 new XRect(20, 160, page.Width, page.Height), XStringFormats.TopLeft);
-
+            
+            // Numero del seguro social
             gfx.DrawString("NSS " + receipt.NssEmpleado, new XFont("Arial", 10), XBrushes.Black,
                 new XRect(0, 160, page.Width, page.Height), XStringFormats.TopCenter);
-
+             
+            // CURP
             gfx.DrawString("CURP " + receipt.CurpEmpleado, new XFont("Arial", 10), XBrushes.Black,
                 new XRect(-20, 160, page.Width, page.Height), XStringFormats.TopRight);
 
-
+            // Departamento
             gfx.DrawString("Departamento " + receipt.Departamento, new XFont("Arial", 10), XBrushes.Black,
                 new XRect(20, 180, page.Width, page.Height), XStringFormats.TopLeft);
 
+            // Puesto
             gfx.DrawString("Puesto " + receipt.Puesto, new XFont("Arial", 10), XBrushes.Black,
                 new XRect(20, 200, page.Width, page.Height), XStringFormats.TopLeft);
 
@@ -255,27 +263,25 @@ namespace Presentation.Helpers
             gfx.DrawString("Importe", new XFont("Arial", 10), XBrushes.Black,
                new XRect(page.Width / 6 * 2.4, 260, page.Width / 6, page.Height), XStringFormats.TopLeft);
 
-
-            int y = 280;
+            int y1 = 280;
             decimal total = 0.0m;
             foreach (var perception in perceptions)
             {
                 gfx.DrawString(perception.IdPercepcion.ToString(), new XFont("Arial", 10), XBrushes.Black,
-               new XRect(page.Width / 6 * 0.2, y, page.Width / 6, page.Height), XStringFormats.TopLeft);
+                   new XRect(page.Width / 6 * 0.2, y1, page.Width / 6, page.Height), XStringFormats.TopLeft);
 
                 gfx.DrawString(perception.Concepto, new XFont("Arial", 10), XBrushes.Black,
-                   new XRect(page.Width / 6 * 0.6, y, page.Width / 6, page.Height), XStringFormats.TopLeft);
+                   new XRect(page.Width / 6 * 0.6, y1, page.Width / 6, page.Height), XStringFormats.TopLeft);
 
                 gfx.DrawString(perception.Importe.ToString("c"), new XFont("Arial", 10), XBrushes.Black,
-                   new XRect(page.Width / 6 * 2.4, y, page.Width / 6, page.Height), XStringFormats.TopLeft);
+                   new XRect(page.Width / 6 * 2.4, y1, page.Width / 6, page.Height), XStringFormats.TopLeft);
 
-                y += 20;
+                y1 += 20;
                 total += perception.Importe;
             }
 
             gfx.DrawString(total.ToString("c"), new XFont("Arial", 10), XBrushes.Black,
-               new XRect(page.Width / 6 * 2.4, y, page.Width / 6, page.Height), XStringFormats.TopLeft);
-
+               new XRect(page.Width / 6 * 2.4, y1, page.Width / 6, page.Height), XStringFormats.TopLeft);
 
 
 
@@ -292,46 +298,47 @@ namespace Presentation.Helpers
                new XRect(page.Width / 6 * 5.4, 260, page.Width / 6, page.Height), XStringFormats.TopLeft);
 
 
-            y = 280;
+            int y2 = 280;
             total = 0.0m;
             foreach (var deduction in deductions)
             {
                 gfx.DrawString(deduction.IdDeduccion.ToString(), new XFont("Arial", 10), XBrushes.Black,
-               new XRect(page.Width / 6 * 3.2, y, page.Width / 6, page.Height), XStringFormats.TopLeft);
+               new XRect(page.Width / 6 * 3.2, y2, page.Width / 6, page.Height), XStringFormats.TopLeft);
 
                 gfx.DrawString(deduction.Concepto, new XFont("Arial", 10), XBrushes.Black,
-                   new XRect(page.Width / 6 * 3.6, y, page.Width / 6, page.Height), XStringFormats.TopLeft);
+                   new XRect(page.Width / 6 * 3.6, y2, page.Width / 6, page.Height), XStringFormats.TopLeft);
 
                 gfx.DrawString(deduction.Importe.ToString("c"), new XFont("Arial", 10), XBrushes.Black,
-                   new XRect(page.Width / 6 * 5.4, y, page.Width / 6, page.Height), XStringFormats.TopLeft);
+                   new XRect(page.Width / 6 * 5.4, y2, page.Width / 6, page.Height), XStringFormats.TopLeft);
 
-                y += 20;
+                y2 += 20;
                 total += deduction.Importe;
             }
 
             gfx.DrawString(total.ToString("c"), new XFont("Arial", 10), XBrushes.Black,
-               new XRect(page.Width / 6 * 5.4, y, page.Width / 6, page.Height), XStringFormats.TopLeft);
+               new XRect(page.Width / 6 * 5.4, y2, page.Width / 6, page.Height), XStringFormats.TopLeft);
+
+
+
 
             /*
             gfx.DrawString("Deducciones", new XFont("Arial", 12), XBrushes.Black,
                new XRect(page.Width / 2, 240, page.Width, page.Height), XStringFormats.TopCenter);
             */
 
+            int y = Math.Max(y1, y2) + 60;
 
+            gfx.DrawString("Sueldo diario " + receipt.SueldoDiario.ToString("c"), new XFont("Arial", 10), XBrushes.Black, 
+                new XRect(20, y, page.Width, page.Height), XStringFormats.TopLeft);
 
+            gfx.DrawString("Sueldo bruto " + receipt.SueldoBruto.ToString("c"), new XFont("Arial", 10), XBrushes.Black, 
+                new XRect(20, y + 20, page.Width, page.Height), XStringFormats.TopLeft);
 
+            gfx.DrawString("Total " + receipt.SueldoNeto.ToString("c"), new XFont("Arial", 10), XBrushes.Black, 
+                new XRect(20, y + 40, page.Width, page.Height), XStringFormats.TopLeft);
 
-
-            gfx.DrawString(receipt.SueldoDiario.ToString("c"), new XFont("Arial", 10), XBrushes.Black, new XRect(100, 360, page.Width, page.Height),
-               XStringFormats.TopLeft);
-
-            gfx.DrawString(receipt.SueldoBruto.ToString("c"), new XFont("Arial", 10), XBrushes.Black, new XRect(100, 380, page.Width, page.Height),
-               XStringFormats.TopLeft);
-
-            gfx.DrawString(receipt.SueldoNeto.ToString("c"), new XFont("Arial", 10), XBrushes.Black, new XRect(100, 400, page.Width, page.Height),
-               XStringFormats.TopLeft);
-
-            gfx.DrawString(NumericUtils.GetNumberString(receipt.SueldoNeto) + " PESOS M.N.", new XFont("Arial", 10), XBrushes.Black, new XRect(100, 420, page.Width, page.Height),
+            gfx.DrawString("Total con letra " + NumericUtils.GetNumberString(receipt.SueldoNeto) + " PESOS M.N.", 
+                new XFont("Arial", 10), XBrushes.Black, new XRect(20, y + 60, page.Width, page.Height),
               XStringFormats.TopLeft);
 
             var ms = new MemoryStream();

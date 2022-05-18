@@ -58,7 +58,7 @@ namespace Presentation.Views
             this.dtpDate.Enabled = false;
             this.dtpDate.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.dtpDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpDate.Location = new System.Drawing.Point(29, 103);
+            this.dtpDate.Location = new System.Drawing.Point(12, 103);
             this.dtpDate.MaxDate = new System.DateTime(2038, 12, 31, 0, 0, 0, 0);
             this.dtpDate.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
             this.dtpDate.Name = "dtpDate";
@@ -73,7 +73,7 @@ namespace Presentation.Views
             this.label1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label1.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label1.Location = new System.Drawing.Point(26, 72);
+            this.label1.Location = new System.Drawing.Point(9, 72);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(55, 21);
             this.label1.TabIndex = 1;
@@ -87,7 +87,7 @@ namespace Presentation.Views
             this.btnGeneratePayroll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGeneratePayroll.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.btnGeneratePayroll.ForeColor = System.Drawing.Color.White;
-            this.btnGeneratePayroll.Location = new System.Drawing.Point(29, 161);
+            this.btnGeneratePayroll.Location = new System.Drawing.Point(12, 161);
             this.btnGeneratePayroll.Name = "btnGeneratePayroll";
             this.btnGeneratePayroll.Size = new System.Drawing.Size(175, 54);
             this.btnGeneratePayroll.TabIndex = 9;
@@ -169,7 +169,7 @@ namespace Presentation.Views
             this.number.HeaderText = "Número de empleado";
             this.number.Name = "number";
             this.number.ReadOnly = true;
-            this.number.Width = 200;
+            this.number.Width = 150;
             // 
             // empName
             // 
@@ -177,7 +177,7 @@ namespace Presentation.Views
             this.empName.HeaderText = "Nombre del empleado";
             this.empName.Name = "empName";
             this.empName.ReadOnly = true;
-            this.empName.Width = 200;
+            this.empName.Width = 250;
             // 
             // date
             // 
@@ -313,12 +313,12 @@ namespace Presentation.Views
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnConsult;
         private System.Windows.Forms.SaveFileDialog ofnPayrollCSV;
+        private System.Windows.Forms.Button btnDeletePayroll;
         private System.Windows.Forms.DataGridViewTextBoxColumn number;
         private System.Windows.Forms.DataGridViewTextBoxColumn empName;
         private System.Windows.Forms.DataGridViewTextBoxColumn date;
         private System.Windows.Forms.DataGridViewTextBoxColumn amountemp;
         private System.Windows.Forms.DataGridViewTextBoxColumn bank;
         private System.Windows.Forms.DataGridViewTextBoxColumn accountNumber;
-        private System.Windows.Forms.Button btnDeletePayroll;
     }
 }

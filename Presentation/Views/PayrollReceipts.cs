@@ -25,7 +25,7 @@ namespace Presentation.Views
 
         private void PayrollReceipts_Load(object sender, EventArgs e)
         {
-            RepositorioEmpleados employeeRepository = new RepositorioEmpleados();
+            EmployeesRepository employeeRepository = new EmployeesRepository();
             DateTime hiringDate = employeeRepository.GetHiringDate(Session.id, true);
             DateTime payrollDate = repository.GetDate(Session.companyId, true);
             dtpDate.MinDate = hiringDate;

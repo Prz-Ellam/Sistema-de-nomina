@@ -47,7 +47,6 @@ namespace Data_Access.Connections
                     connection.Close();
                     return result;
                 }
-
             }
         }
 
@@ -71,10 +70,10 @@ namespace Data_Access.Connections
                     SqlDataAdapter adapter = new SqlDataAdapter();
                     adapter.SelectCommand = command;
                     adapter.Fill(dataTable);
+                    connection.Close();
                     return dataTable;
                 }
             }   
         }
-
     }
 }

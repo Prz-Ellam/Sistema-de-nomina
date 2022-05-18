@@ -326,6 +326,36 @@
   <ItemGroup>
     <None Include="Resources\Password_Logo.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Payroll_Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Client_Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Receipt_Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Company_Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Position_Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Position_Logo1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Profile_Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Concept_Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Apply_Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Logo.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Text.Json.6.0.2\build\System.Text.Json.targets" Condition="Exists('..\packages\System.Text.Json.6.0.2\build\System.Text.Json.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

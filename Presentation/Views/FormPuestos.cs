@@ -142,7 +142,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgPositions.DataSource = repository.ReadAll(txtFilter.Text, Session.companyId);
+                dtgPositions.DataSource = repository.Read(txtFilter.Text, Session.companyId);
             }
             catch (Exception ex)
             {
@@ -262,7 +262,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgPositions.DataSource = repository.ReadAll(string.Empty, Session.companyId);
+                dtgPositions.DataSource = repository.Read(string.Empty, Session.companyId);
             }
             catch (Exception ex)
             {

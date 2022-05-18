@@ -11,12 +11,13 @@ using Presentation.Helpers;
 using Data_Access.Repositorios;
 using Data_Access.Entidades;
 using System.Data.SqlClient;
+using Data_Access.Interfaces;
 
 namespace Presentation.Views
 {
     public partial class FormDepartamentos : Form
     {
-        private DepartmentsRepository repository;
+        private IDepartmentsRepository repository;
         private Departments department;
         private int dtgPrevIndex = -1;
         private int departmentId = -1;
@@ -141,7 +142,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgDepartaments.DataSource = repository.ReadAll(txtFilter.Text, Session.companyId);
+                dtgDepartaments.DataSource = repository.Read(txtFilter.Text, Session.companyId);
             }
             catch (SqlException ex)
             {
@@ -261,7 +262,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgDepartaments.DataSource = repository.ReadAll(string.Empty, Session.companyId);
+                dtgDepartaments.DataSource = repository.Read(string.Empty, Session.companyId);
             }
             catch (SqlException ex)
             {
@@ -272,7 +273,7 @@ namespace Presentation.Views
         public void FillDepartment()
         {
             department.DepartmentId = departmentId;
-            department.Name = txtName.Text;
+            department.Name = txtName.Text.Trim();
             department.BaseSalary = nudBaseSalary.Value;
             department.CompanyId = Session.companyId;
         }

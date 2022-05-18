@@ -17,10 +17,10 @@ namespace Presentation.Views
 {
     public partial class FormCatalogoConceptos : Form
     {
-        private RepositorioPercepciones perceptionRepository;
-        private RepositorioDeducciones deductionRepository;
-        private Percepciones percepcion;
-        private Deducciones deduccion;
+        private PerceptionsRepository perceptionRepository;
+        private DeductionsRepository deductionRepository;
+        private Perceptions percepcion;
+        private Deductions deduccion;
         int perceptionId = -1;
         int deductionId = -1;
         int dtgPerceptionPrevIndex = -1;
@@ -63,10 +63,10 @@ namespace Presentation.Views
         public FormCatalogoConceptos()
         {
             InitializeComponent();
-            perceptionRepository = new RepositorioPercepciones();
-            deductionRepository = new RepositorioDeducciones();
-            percepcion = new Percepciones();
-            deduccion = new Deducciones();
+            perceptionRepository = new PerceptionsRepository();
+            deductionRepository = new DeductionsRepository();
+            percepcion = new Perceptions();
+            deduccion = new Deductions();
         }
 
         private void FormCatalogoConceptos_Load(object sender, EventArgs e)
@@ -429,7 +429,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgPerceptions.DataSource = perceptionRepository.ReadAll(string.Empty, Session.companyId);
+                dtgPerceptions.DataSource = perceptionRepository.Read(string.Empty, Session.companyId);
             }
             catch (Exception ex)
             {
@@ -441,7 +441,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgDeductions.DataSource = deductionRepository.ReadAll(string.Empty, Session.companyId);
+                dtgDeductions.DataSource = deductionRepository.Read(string.Empty, Session.companyId);
             }
             catch (Exception ex)
             {
@@ -452,22 +452,22 @@ namespace Presentation.Views
 
         public void FillPerception()
         {
-            percepcion.IdPercepcion = perceptionId;
-            percepcion.Nombre = txtName.Text;
-            percepcion.TipoMonto = rbFijo.Checked ? 'F' : (rbPorcentual.Checked ? 'P' : ' ');
-            percepcion.Fijo = nudFijo.Value;
+            percepcion.PerceptionId = perceptionId;
+            percepcion.Name = txtName.Text;
+            percepcion.AmountType = rbFijo.Checked ? 'F' : (rbPorcentual.Checked ? 'P' : ' ');
+            percepcion.Fixed = nudFijo.Value;
             percepcion.Porcentual = nudPorcentual.Value;
-            percepcion.IdEmpresa = Session.companyId;
+            percepcion.CompanyId = Session.companyId;
         }
 
         public void FillDeduction()
         {
-            deduccion.IdDeduccion = deductionId;
-            deduccion.Nombre = txtName.Text;
-            deduccion.TipoMonto = rbFijo.Checked ? 'F' : (rbPorcentual.Checked ? 'P' : ' ');
-            deduccion.Fijo = nudFijo.Value;
+            deduccion.DeductionId = deductionId;
+            deduccion.Name = txtName.Text;
+            deduccion.AmountType = rbFijo.Checked ? 'F' : (rbPorcentual.Checked ? 'P' : ' ');
+            deduccion.Fixed = nudFijo.Value;
             deduccion.Porcentual = nudPorcentual.Value;
-            deduccion.IdEmpresa = Session.companyId;
+            deduccion.CompanyId = Session.companyId;
         }
 
         public void ClearForm()
@@ -583,7 +583,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgPerceptions.DataSource = perceptionRepository.ReadAll(txtFilterPerception.Text, Session.companyId);
+                dtgPerceptions.DataSource = perceptionRepository.Read(txtFilterPerception.Text, Session.companyId);
             }
             catch (Exception ex)
             {
@@ -595,7 +595,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgDeductions.DataSource = deductionRepository.ReadAll(txtFilterDeduction.Text, Session.companyId);
+                dtgDeductions.DataSource = deductionRepository.Read(txtFilterDeduction.Text, Session.companyId);
             }
             catch (Exception ex)
             {

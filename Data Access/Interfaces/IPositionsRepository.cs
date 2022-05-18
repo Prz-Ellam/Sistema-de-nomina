@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 
 namespace Data_Access.Interfaces
 {
-    public interface IPositionsRepository : IGenericRepository<Positions>
+    public interface IPositionsRepository : IGenericRepository<Positions, PositionsViewModel>
     {
-        List<PositionsViewModel> ReadAll(string filter, int companyId);
     }
 }

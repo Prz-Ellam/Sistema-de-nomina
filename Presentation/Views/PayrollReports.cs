@@ -15,12 +15,12 @@ namespace Presentation.Views
 {
     public partial class PayrollReports : Form
     {
-        private RepositorioNominas payrollRepository;
+        private ReportsRepository reportsRepository;
 
         public PayrollReports()
         {
             InitializeComponent();
-            payrollRepository = new RepositorioNominas();
+            reportsRepository = new ReportsRepository();
         }
 
         private void PayrollReports_Load(object sender, EventArgs e)
@@ -40,7 +40,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgPayrollReport.DataSource = payrollRepository.PayrollReport(dtpYear.Value.Year);
+                dtgPayrollReport.DataSource = reportsRepository.PayrollReport(dtpYear.Value.Year);
             }
             catch (SqlException ex)
             {
@@ -53,6 +53,7 @@ namespace Presentation.Views
             try
             {
                 RepositorioEmpresas companyRepository = new RepositorioEmpresas();
+                RepositorioNominas payrollRepository = new RepositorioNominas();
                 DateTime creationDate = companyRepository.GetCreationDate(Session.companyId, true);
                 DateTime payrollDate = payrollRepository.GetDate(Session.companyId, true);
                 dtpYear.MinDate = creationDate;

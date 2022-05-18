@@ -17,12 +17,12 @@ namespace Presentation.Views
 {
     public partial class HeadcounterReports : Form
     {
-        private RepositorioNominas payrollRepository;
+        private ReportsRepository reportsRepository;
 
         public HeadcounterReports()
         {
             InitializeComponent();
-            payrollRepository = new RepositorioNominas();
+            reportsRepository = new ReportsRepository();
         }
 
         private void HeadcounterReports_Load(object sender, EventArgs e)
@@ -60,7 +60,7 @@ namespace Presentation.Views
 
             try
             {
-                dtgHeadcounter1.DataSource = payrollRepository.Headcounter1(Session.companyId,
+                dtgHeadcounter1.DataSource = reportsRepository.Headcounter1(Session.companyId,
                    item.HiddenValue, dtpDate.Value);
             }
             catch (SqlException ex)
@@ -83,7 +83,7 @@ namespace Presentation.Views
 
             try
             {
-                dtgHeadcounter2.DataSource = payrollRepository.Headcounter2(Session.companyId,
+                dtgHeadcounter2.DataSource = reportsRepository.Headcounter2(Session.companyId,
                    item.HiddenValue, dtpDate.Value);
             }
             catch (SqlException ex)
@@ -95,7 +95,7 @@ namespace Presentation.Views
         private void ListDepartments()
         {
             DepartmentsRepository departmentsRepository = new DepartmentsRepository();
-            List<DepartmentsViewModel> departments = departmentsRepository.ReadAll(string.Empty, Session.companyId);
+            List<DepartmentsViewModel> departments = departmentsRepository.Read(string.Empty, Session.companyId);
             List<PairItem> departmentsName = new List<PairItem>();
             departmentsName.Add(new PairItem("Todos", -1));
             foreach (var department in departments)
@@ -110,10 +110,11 @@ namespace Presentation.Views
             try
             {
                 RepositorioEmpresas companyRepository = new RepositorioEmpresas();
+                RepositorioNominas payrollRepository = new RepositorioNominas();
                 DateTime creationDate = companyRepository.GetCreationDate(Session.companyId, true);
                 DateTime payrollDate = payrollRepository.GetDate(Session.companyId, true);
                 dtpDate.MinDate = creationDate;
-                dtpDate.MaxDate = (creationDate == payrollDate) ? payrollDate : payrollDate.AddMonths(-1);
+                dtpDate.MaxDate = payrollDate;
                 dtpDate.Value = creationDate;
             }
             catch (SqlException ex)

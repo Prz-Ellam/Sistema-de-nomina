@@ -15,12 +15,12 @@ namespace Presentation.Views
 {
     public partial class GeneralPayrollReports : Form
     {
-        private RepositorioNominas payrollRepository;
+        private ReportsRepository reportsRepository;
 
         public GeneralPayrollReports()
         {
             InitializeComponent();
-            payrollRepository = new RepositorioNominas();
+            reportsRepository = new ReportsRepository();
         }
 
         private void GeneralPayrollReports_Load(object sender, EventArgs e)
@@ -38,7 +38,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgGeneralPayroll.DataSource = payrollRepository.GeneralPayrollReport(dtpDate.Value);
+                dtgGeneralPayroll.DataSource = reportsRepository.GeneralPayrollReport(dtpDate.Value);
             }
             catch (SqlException ex)
             {
@@ -51,11 +51,12 @@ namespace Presentation.Views
             try
             {
                 RepositorioEmpresas companyRepository = new RepositorioEmpresas();
+                RepositorioNominas payrollRepository = new RepositorioNominas();
                 DateTime creationDate = companyRepository.GetCreationDate(Session.companyId, true);
                 DateTime payrollDate = payrollRepository.GetDate(Session.companyId, true);
                 // El Value se adapta al MinDate o MaxDate antes de ponerlo
                 dtpDate.MinDate = creationDate;
-                dtpDate.MaxDate = (creationDate == payrollDate) ? payrollDate : payrollDate.AddMonths(-1);
+                dtpDate.MaxDate = payrollDate;
                 dtpDate.Value = creationDate;
             }
             catch (SqlException ex)

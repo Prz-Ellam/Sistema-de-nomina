@@ -11,25 +11,21 @@ namespace Data_Access.Repositorios
 {
     public class RepositorioNominas
     {
-        private readonly string generate, readByDate, generalPayrollReport, getDate, getPayrollReceipt;
-        private readonly string startPayroll, payrollReport, headcounter1, headcounter2, deletePayroll;
-        private readonly string payrollProcess;
+        private readonly string startPayroll, deletePayroll, generate;
+        private readonly string readByDate, getDate, getPayrollReceipt, payrollProcess;
         private MainConnection mainRepository;
-        private RepositoryParameters sqlParams = new RepositoryParameters();
+        private RepositoryParameters sqlParams;
 
         public RepositorioNominas()
         {
             mainRepository = MainConnection.GetInstance();
+            sqlParams = new RepositoryParameters();
             generate = "sp_GenerarNomina";
             readByDate = "sp_ObtenerNominasPorFecha";
-            generalPayrollReport = "sp_ReporteGeneralNomina";
             getDate = "sp_ObtenerFechaActual";
             getPayrollReceipt = "sp_ObtenerReciboNomina";
             startPayroll = "sp_CrearNomina";
             deletePayroll = "sp_EliminarNomina";
-            payrollReport = "sp_ReporteNomina";
-            headcounter1 = "sp_Headcounter1";
-            headcounter2 = "sp_Headcounter2";
             payrollProcess = "sp_NominaEnProceso";
         }
 
@@ -49,114 +45,20 @@ namespace Data_Access.Repositorios
 
             DataTable table = mainRepository.ExecuteReader(readByDate, sqlParams);
             List<PayrollViewModel> payrolls = new List<PayrollViewModel>();
-
             foreach(DataRow row in table.Rows)
             {
                 payrolls.Add(new PayrollViewModel
                 {
-                    NumeroEmpleado = Convert.ToInt32(row[0]),
-                    NombreEmpleado = row[1].ToString(),
-                    Fecha = Convert.ToDateTime(row[2]),
-                    Cantidad = Convert.ToDecimal(row[3]),
-                    Banco = row[4].ToString(),
-                    NumeroCuenta = row[5].ToString()
+                    NumeroEmpleado = Convert.ToInt32(row["Numero de empleado"]),
+                    NombreEmpleado = row["Nombre"].ToString(),
+                    Fecha = Convert.ToDateTime(row["Fecha"]),
+                    Cantidad = Convert.ToDecimal(row["Sueldo neto"]),
+                    Banco = row["Banco"].ToString(),
+                    NumeroCuenta = row["Numero de cuenta"].ToString()
                 });
             }
 
             return payrolls;
-        }
-
-        public List<GeneralPayrollReportsViewModel> GeneralPayrollReport(DateTime date)
-        {
-            sqlParams.Start();
-            sqlParams.Add("@fecha", date);
-
-            DataTable table = mainRepository.ExecuteReader(generalPayrollReport, sqlParams);
-            List<GeneralPayrollReportsViewModel> report = new List<GeneralPayrollReportsViewModel>();
-
-            foreach(DataRow row in table.Rows)
-            {
-                report.Add(new GeneralPayrollReportsViewModel
-                {
-                    Departamento = row[0].ToString(),
-                    Puesto = row[1].ToString(),
-                    NombreEmpleado = row[2].ToString(),
-                    FechaIngreso = Convert.ToDateTime(row[3]),
-                    Edad = Convert.ToUInt32(row[4]),
-                    SalarioDiario = Convert.ToDecimal(row[5])
-                });
-            }
-
-            return report;
-        }
-
-        public List<Headcounter1ViewModel> Headcounter1(int companyId, int departmentId, DateTime date)
-        {
-            sqlParams.Start();
-            sqlParams.Add("@id_empresa", companyId);
-            sqlParams.Add("@id_departamento", departmentId);
-            sqlParams.Add("@fecha", date);
-
-            DataTable table = mainRepository.ExecuteReader(headcounter1, sqlParams);
-            List<Headcounter1ViewModel> report = new List<Headcounter1ViewModel>();
-
-            foreach (DataRow row in table.Rows)
-            {
-                report.Add(new Headcounter1ViewModel
-                {
-                    Departamento = row[0].ToString(),
-                    Puesto = row[1].ToString(),
-                    CantidadEmpleados = Convert.ToUInt32(row[2])
-                });
-            }
-
-            return report;
-        }
-
-        public List<Headcounter2ViewModel> Headcounter2(int companyId, int departmentId, DateTime date)
-        {
-            sqlParams.Start();
-            sqlParams.Add("@id_empresa", companyId);
-            sqlParams.Add("@id_departamento", departmentId);
-            sqlParams.Add("@fecha", date);
-
-            DataTable table = mainRepository.ExecuteReader(headcounter2, sqlParams);
-            List<Headcounter2ViewModel> report = new List<Headcounter2ViewModel>();
-
-            foreach (DataRow row in table.Rows)
-            {
-                report.Add(new Headcounter2ViewModel
-                {
-                    Departamento = row[0].ToString(),
-                    CantidadEmpleados = Convert.ToUInt32(row[1])
-                });
-            }
-
-            return report;
-        }
-
-
-        public List<PayrollReportsViewModel> PayrollReport(int year)
-        {
-            sqlParams.Start();
-            sqlParams.Add("@anio", year);
-
-            DataTable table = mainRepository.ExecuteReader(payrollReport, sqlParams);
-            List<PayrollReportsViewModel> report = new List<PayrollReportsViewModel>();
-
-            foreach (DataRow row in table.Rows)
-            {
-                report.Add(new PayrollReportsViewModel
-                {
-                    Departamento = row[0].ToString(),
-                    Anio = row[1].ToString(),
-                    Mes = row[2].ToString(),
-                    SueldoBruto = Convert.ToDecimal(row[3]),
-                    SueldoNeto = Convert.ToDecimal(row[4])
-                });
-            }
-
-            return report;
         }
 
         public DateTime GetDate(int companyId, bool firstDay)
@@ -222,6 +124,7 @@ namespace Data_Access.Repositorios
                     SueldoBruto = Convert.ToDecimal(row["Sueldo bruto"]),
                     SueldoNeto = Convert.ToDecimal(row["Sueldo neto"]),
                     Periodo = Convert.ToDateTime(row["Periodo"]),
+                    FinalPeriod = Convert.ToDateTime(row["Periodo final"]),
                     IdNomina = Convert.ToInt32(row["ID de nomina"]),
                 };
             }

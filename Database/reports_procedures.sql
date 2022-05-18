@@ -1,6 +1,6 @@
 USE sistema_de_nomina;
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ReporteGeneralNomina')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ReporteGeneralNomina')
 	DROP PROCEDURE sp_ReporteGeneralNomina;
 GO
 
@@ -38,50 +38,45 @@ CREATE PROCEDURE sp_HeadCounter1(
 )
 AS
 
-SELECT
-		dpf.Departamento,
-		dpf.Puesto,
-		ISNULL(dpf2.Cantidad, 0) [Cantidad],
-		dpf2.fecha
-FROM
-		vw_DepartamentosPuestosFechas AS dpf
-		LEFT JOIN vw_EmpleadosDepartamentosPuestosCantidad AS dpf2
-		ON dpf.id_departamento = dpf2.id_departamento AND dpf.id_puesto = dpf2.id_puesto AND dpf.fecha = dpf2.fecha
-WHERE
-		dbo.PRIMERDIAFECHA(dpf.fecha) = dbo.PRIMERDIAFECHA(@fecha) AND 
-		(dpf.id_departamento = @id_departamento OR @id_departamento = -1) AND
-		dpf.id_empresa = @id_empresa
-ORDER BY
-		dpf.Departamento ASC, dpf.Puesto ASC;
+	SELECT
+			[Departamento],
+			[Puesto],
+			[Cantidad]
+	FROM
+			vw_Headcounter1
+	WHERE
+			dbo.PRIMERDIAFECHA([Fecha]) = dbo.PRIMERDIAFECHA(@fecha) AND 
+			([ID Departamento] = @id_departamento OR @id_departamento = -1) AND
+			[ID Empresa] = @id_empresa
+	ORDER BY
+			[Departamento] ASC, [Puesto] ASC;
 
 GO
 
 
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_HeadCounter2')
-	DROP PROCEDURE sp_HeadCounter2;
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_Headcounter2')
+	DROP PROCEDURE sp_Headcounter2;
 GO
 
-CREATE PROCEDURE sp_HeadCounter2(
+CREATE PROCEDURE sp_Headcounter2(
 	@id_empresa					INT,
 	@id_departamento			INT,
 	@fecha						DATE
 )
 AS
 
-SELECT
-		df.nombre,
-		ISNULL(df2.Cantidad, 0) [Cantidad]
-FROM
-		vw_DepartamentosFechas AS df
-		LEFT JOIN vw_EmpleadosDepartamentosCantidad AS df2
-		ON df.id_departamento = df2.id_departamento AND dbo.PRIMERDIAFECHA(df.fecha) = dbo.PRIMERDIAFECHA(df2.fecha)
-WHERE
-		dbo.PRIMERDIAFECHA(df.fecha) = dbo.PRIMERDIAFECHA(@fecha) AND 
-		(df.id_departamento = @id_departamento OR @id_departamento = -1) AND
-		df.id_empresa = @id_empresa
-ORDER BY
-		df.nombre ASC;
+	SELECT
+			[Departamento],
+			[Cantidad]
+	FROM
+			vw_Headcounter2
+	WHERE
+			dbo.PRIMERDIAFECHA([Fecha]) = dbo.PRIMERDIAFECHA(@fecha) AND
+			([ID Departamento] = @id_departamento OR @id_departamento = -1) AND
+			[ID Empresa] = @id_empresa
+	ORDER BY
+			[Departamento] ASC;
 
 GO
 
@@ -123,8 +118,6 @@ AS
 	SET LANGUAGE 'us_english';
 
 GO
-
-
 
 
 

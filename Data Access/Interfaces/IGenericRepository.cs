@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Data_Access.Interfaces
 {
-    public interface IGenericRepository<T> where T : class
+    public interface IGenericRepository<T, U> 
+        where T : class
+        where U : class
     {
         bool Create(T entity);
         
@@ -14,8 +16,6 @@ namespace Data_Access.Interfaces
 
         bool Delete(int id);
 
-        //List<T> ReadAll();
-
-        //List<T> ReadLike(string exp);
+        List<U> Read(string filter, int companyId);
     }
 }

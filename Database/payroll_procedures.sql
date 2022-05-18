@@ -1,6 +1,6 @@
 USE sistema_de_nomina;
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_CrearNomina')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_CrearNomina')
 	DROP PROCEDURE sp_CrearNomina;
 GO
 
@@ -39,7 +39,7 @@ AS
 		SELECT 
 				e.numero_empleado, 
 				p.id_percepcion, 
-				IIF(p.tipo_monto = 'F', p.fijo, p.porcentual * e.sueldo_diario * dbo.DIASTRABAJADOSEMPLEADO(@fecha, e.numero_empleado)),
+				p.fijo + p.porcentual * e.sueldo_diario * dbo.DIASTRABAJADOSEMPLEADO(@fecha, e.numero_empleado),
 				@fecha
 		FROM 
 				empleados AS e
@@ -59,7 +59,7 @@ AS
 		SELECT 
 				e.numero_empleado, 
 				d.id_deduccion, 
-				IIF(d.tipo_monto = 'F', d.fijo, d.porcentual * e.sueldo_diario * dbo.DIASTRABAJADOSEMPLEADO(@fecha, e.numero_empleado)),
+				d.fijo + d.porcentual * e.sueldo_diario * dbo.DIASTRABAJADOSEMPLEADO(@fecha, e.numero_empleado),
 				@fecha
 		FROM 
 				empleados AS e
@@ -197,7 +197,7 @@ GO
 
 
 
-IF EXISTS(SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ObtenerNominasPorFecha')
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_ObtenerNominasPorFecha')
 	DROP PROCEDURE sp_ObtenerNominasPorFecha;
 GO
 
@@ -206,12 +206,13 @@ CREATE PROCEDURE sp_ObtenerNominasPorFecha(
 )
 AS
 
-	SELECT n.numero_empleado, 
-			CONCAT(e.nombre, ' ', + e.apellido_paterno, ' ', e.apellido_materno) [Nombre], 
-			n.fecha,
-			n.sueldo_neto,
-			b.nombre,
-			n.numero_cuenta
+	SELECT 
+			n.numero_empleado [Numero de empleado], 
+			CONCAT(e.apellido_paterno, ' ', e.apellido_materno, ' ', e.nombre) [Nombre], 
+			n.fecha [Fecha],
+			n.sueldo_neto [Sueldo neto],
+			b.nombre [Banco],
+			n.numero_cuenta [Numero de cuenta]
 	FROM 
 			nominas AS n
 			INNER JOIN empleados AS e
@@ -264,8 +265,6 @@ GO
 
 
 
-
-
 -- Si han sido creadas percepciones y deducciones (las basicas que son obligatorias) significa que una nomina está en proceso, caso contrario
 -- si no hay ninguna creada se debe tomar como que la nomina no esta en proceso
 IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_NominaEnProceso')
@@ -302,29 +301,30 @@ CREATE PROCEDURE sp_ObtenerReciboNomina(
 )
 AS
 
-SELECT 
-		[Nombre de empresa], 
-		[RFC de empresa], 
-		[Registro patronal], 
-		[Domicilio fiscal parte 1], 
-		[Domicilio fiscal parte 2], 
-		[Numero de empleado], 
-		[Nombre de empleado], 
-		[Numero de seguro social], 
-		[CURP], 
-		[RFC de empleado],
-		[Fecha de ingreso],
-		[Departamento], 
-		[Puesto], 
-		[Sueldo diario],
-		[Sueldo bruto], 
-		[Sueldo neto], 
-		[Periodo], 
-		[ID de nomina] 
-FROM 
-		vw_ReciboNomina
-WHERE
-		[Numero de empleado] = @numero_empleado AND
-		[Periodo] = dbo.PRIMERDIAFECHA(@fecha);
+	SELECT 
+			[Nombre de empresa], 
+			[RFC de empresa], 
+			[Registro patronal], 
+			[Domicilio fiscal parte 1], 
+			[Domicilio fiscal parte 2], 
+			[Numero de empleado], 
+			[Nombre de empleado], 
+			[Numero de seguro social], 
+			[CURP], 
+			[RFC de empleado],
+			[Fecha de ingreso],
+			[Departamento], 
+			[Puesto], 
+			[Sueldo diario],
+			[Sueldo bruto], 
+			[Sueldo neto], 
+			[Periodo],
+			[Periodo final],
+			[ID de nomina] 
+	FROM 
+			vw_ReciboNomina
+	WHERE
+			[Numero de empleado] = @numero_empleado AND
+			[Periodo] = dbo.PRIMERDIAFECHA(@fecha);
 
 GO

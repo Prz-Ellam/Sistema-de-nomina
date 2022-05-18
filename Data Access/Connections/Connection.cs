@@ -22,6 +22,5 @@ namespace Data_Access.Connections
         {
             return new SqlConnection(connection);
         }
-
     }
 }

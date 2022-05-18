@@ -48,12 +48,12 @@ GO
 CREATE PROCEDURE sp_ActualizarDepartamento
 	@id_departamento			INT,
 	@nombre						VARCHAR(30),
-	@sueldo_base				MONEY
+	@sueldo_base				MONEY,
+	@id_empresa					INT
 AS
 
 	DECLARE @status_nomina BIT;
-	SET @status_nomina = dbo.NOMINAENPROCESO((SELECT id_empresa FROM departamentos 
-												WHERE id_departamento = @id_departamento AND activo = 1));
+	SET @status_nomina = dbo.NOMINAENPROCESO(@id_empresa);
 
 	IF @status_nomina = 1
 		BEGIN
@@ -151,7 +151,7 @@ AS
 	IF (dbo.PRIMERDIAFECHA(@fecha) >= dbo.PRIMERDIAFECHA(dbo.OBTENERFECHAACTUAL(@id_empresa)) AND 
 		(dbo.NOMINAENPROCESO(@id_empresa) = 0 OR dbo.PRIMERDIAFECHA(@fecha) > dbo.PRIMERDIAFECHA(dbo.OBTENERFECHAACTUAL(@id_empresa))))
 		BEGIN
-			RAISERROR('No se puede iniciar una nómina fuera del periodo actual de nómina', 11, 1);
+			RAISERROR('No existe el periodo de nómina solicitado', 11, 1);
 			RETURN;
 		END
 

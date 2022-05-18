@@ -6,46 +6,48 @@ using System.Text;
 using System.Threading.Tasks;
 using Data_Access.Connections;
 using Data_Access.Entidades;
+using Data_Access.Interfaces;
 using Data_Access.ViewModels;
 
 namespace Data_Access.Repositorios
 {
-    public class RepositorioDeducciones
+    public class DeductionsRepository : IDeductionsRepository
     {
-        private readonly string create, update, delete, readAll;
+        private readonly string create, update, delete, read;
         private MainConnection mainRepository;
-        private RepositoryParameters sqlParams = new RepositoryParameters();
+        private RepositoryParameters sqlParams;
 
-        public RepositorioDeducciones()
+        public DeductionsRepository()
         {
             mainRepository = MainConnection.GetInstance();
+            sqlParams = new RepositoryParameters();
             create = "sp_AgregarDeduccion";
             update = "sp_ActualizarDeduccion";
             delete = "sp_EliminarDeduccion";
-            readAll = "sp_LeerDeducciones";
+            read = "sp_LeerDeducciones";
         }
 
-        public bool Create(Deducciones deduccion)
+        public bool Create(Deductions deduction)
         {
             sqlParams.Start();
-            sqlParams.Add("@nombre", deduccion.Nombre);
-            sqlParams.Add("@tipo_monto", deduccion.TipoMonto);
-            sqlParams.Add("@fijo", deduccion.Fijo);
-            sqlParams.Add("@porcentual", deduccion.Porcentual);
-            sqlParams.Add("@id_empresa", deduccion.IdEmpresa);
+            sqlParams.Add("@nombre", deduction.Name);
+            sqlParams.Add("@tipo_monto", deduction.AmountType);
+            sqlParams.Add("@fijo", deduction.Fixed);
+            sqlParams.Add("@porcentual", deduction.Porcentual);
+            sqlParams.Add("@id_empresa", deduction.CompanyId);
 
             int rowCount = mainRepository.ExecuteNonQuery(create, sqlParams);
             return (rowCount > 0) ? true : false;
         }
 
-        public bool Update(Deducciones deduccion)
+        public bool Update(Deductions deduction)
         {
             sqlParams.Start();
-            sqlParams.Add("@id_deduccion", deduccion.IdDeduccion);
-            sqlParams.Add("@nombre", deduccion.Nombre);
-            sqlParams.Add("@tipo_monto", deduccion.TipoMonto);
-            sqlParams.Add("@fijo", deduccion.Fijo);
-            sqlParams.Add("@porcentual", deduccion.Porcentual);
+            sqlParams.Add("@id_deduccion", deduction.DeductionId);
+            sqlParams.Add("@nombre", deduction.Name);
+            sqlParams.Add("@tipo_monto", deduction.AmountType);
+            sqlParams.Add("@fijo", deduction.Fixed);
+            sqlParams.Add("@porcentual", deduction.Porcentual);
 
             int rowCount = mainRepository.ExecuteNonQuery(update, sqlParams);
             return (rowCount > 0) ? true : false;
@@ -60,13 +62,13 @@ namespace Data_Access.Repositorios
             return (rowCount > 0) ? true : false;
         }
 
-        public List<DeductionViewModel> ReadAll(string filter, int companyId)
+        public List<DeductionViewModel> Read(string filter, int companyId)
         {
             sqlParams.Start();
             sqlParams.Add("@filtro", filter);
             sqlParams.Add("@id_empresa", companyId);
 
-            DataTable table = mainRepository.ExecuteReader(readAll, sqlParams);
+            DataTable table = mainRepository.ExecuteReader(read, sqlParams);
             List<DeductionViewModel> deductions = new List<DeductionViewModel>();
             foreach (DataRow row in table.Rows)
             {

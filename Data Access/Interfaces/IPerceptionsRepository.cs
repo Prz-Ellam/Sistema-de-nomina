@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 
 namespace Data_Access.Interfaces
 {
-    public interface IPerceptionsRepository : IGenericRepository<Percepciones>
+    public interface IPerceptionsRepository : IGenericRepository<Perceptions, PerceptionViewModel>
     {
-        List<PerceptionViewModel> ReadAll(string filter, int companyId);
     }
 }

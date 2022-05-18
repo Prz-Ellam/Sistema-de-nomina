@@ -19,11 +19,10 @@ namespace Presentation.Views
 {
     public partial class FormEmpleados : Form
     {
-        private RepositorioEmpleados repository;
+        private EmployeesRepository repository;
         private RepositorioTelefonos phonesRepository;
         private RepositorioEmpresas companyRepository;
         private Empleados employee;
-        private List<Telefonos> phones;
         int dtgPrevIndex = -1;
         int employeeId = -1;
 
@@ -53,6 +52,7 @@ namespace Presentation.Views
                         btnEdit.Enabled = false;
                         btnDelete.Enabled = false;
                         dtpHiringDate.MinDate = payrollDate;
+                        dtpHiringDate.MaxDate = payrollDate.AddMonths(1).AddDays(-1);
                         dtpHiringDate.Value = payrollDate;
                         dtpHiringDate.Enabled = true;
                         dtpDateOfBirth.MaxDate = payrollDate.AddDays(-1).AddYears(-18);
@@ -63,9 +63,23 @@ namespace Presentation.Views
                         btnAdd.Enabled = false;
                         btnEdit.Enabled = true;
                         btnDelete.Enabled = true;
+                        RepositorioNominas payrollsRepository = new RepositorioNominas();
+                        DateTime payrollDate = payrollsRepository.GetDate(Session.companyId, false);
+                        DateTime hiringDate = repository.GetHiringDate(employeeId, false);
+
                         dtpHiringDate.MinDate = companyRepository.GetCreationDate(Session.companyId, false);
-                        dtpHiringDate.Enabled = false;
-                        dtpDateOfBirth.MaxDate = repository.GetHiringDate(employeeId, false).AddYears(-18);
+
+                        if (payrollsRepository.GetDate(Session.companyId, true) !=
+                            repository.GetHiringDate(employeeId, true))
+                        {
+                            dtpHiringDate.Enabled = false;
+                        }
+                        else
+                        {
+                            dtpHiringDate.Enabled = true;
+                        }
+
+                        dtpDateOfBirth.MaxDate = hiringDate.AddYears(-18);
                         break;
                     }
                 }
@@ -75,11 +89,10 @@ namespace Presentation.Views
         public FormEmpleados()
         {
             InitializeComponent();
-            repository = new RepositorioEmpleados();
+            repository = new EmployeesRepository();
             phonesRepository = new RepositorioTelefonos();
             companyRepository = new RepositorioEmpresas();
             employee = new Empleados();
-            phones = new List<Telefonos>();
         }
 
         private void Employees_Load(object sender, EventArgs e)
@@ -103,7 +116,7 @@ namespace Presentation.Views
             ListBanks();
             ListDepartments();
             ListPositions();
-            InitStates();
+            ListStates();
 
             dtgEmployees.DoubleBuffered(true);
         }
@@ -351,7 +364,7 @@ namespace Presentation.Views
         {
             try
             {
-                List<EmployeesViewModel> employees = repository.ReadAll(string.Empty);
+                List<EmployeesViewModel> employees = repository.Read(string.Empty, Session.companyId);
                 dtgEmployees.DataSource = employees;
             }
             catch (Exception ex)
@@ -371,8 +384,6 @@ namespace Presentation.Views
             employee.Curp = txtCURP.Text;
             employee.Nss = txtNSS.Text;
             employee.Rfc = txtRFC.Text;
-
-            //employee.Address = 1;
 
             // Estos PairItem pueden provocar excepcion si no hay registros, asi que hay que validar
             // que los haya
@@ -415,15 +426,6 @@ namespace Presentation.Views
             employee.Ciudad = cbCity.Text;
             employee.Estado = cbState.Text;
             employee.CodigoPostal = txtPostalCode.Text;
-
-            for(int i = 0; i < cbPhones.Items.Count; i++)
-            {
-                phones.Add(new Telefonos 
-                { 
-                    IdPropietario = Session.id,
-                    Nombre = cbPhones.Items[i].ToString() 
-                });
-            }
 
             employee.Telefonos.Clear();
             for (int i = 0; i < cbPhones.Items.Count; i++)
@@ -499,13 +501,13 @@ namespace Presentation.Views
             nudWageLevel.Value = Convert.ToDecimal(row.Cells["wageLevel"].Value);
 
             int bankId = ((PairItem)row.Cells["bank"].Value).HiddenValue;
-            ComboBoxUtils.FindHiddenValue(bankId, ref cbBank);
+            cbBank.SelectedItem = ComboBoxUtils.FindHiddenValue(bankId, ref cbBank);
 
             int departmentId = ((PairItem)row.Cells["department"].Value).HiddenValue;
-            ComboBoxUtils.FindHiddenValue(departmentId, ref cbDepartments);
+            cbDepartments.SelectedItem = ComboBoxUtils.FindHiddenValue(departmentId, ref cbDepartments);
 
             int positionId = ((PairItem)row.Cells["position"].Value).HiddenValue;
-            ComboBoxUtils.FindHiddenValue(positionId, ref cbPositions);
+            cbPositions.SelectedItem = ComboBoxUtils.FindHiddenValue(positionId, ref cbPositions);
 
             cbPhones.SelectedIndex = -1;
             cbPhones.Items.Clear();
@@ -523,7 +525,7 @@ namespace Presentation.Views
             dtgPrevIndex = index;
         }
 
-        private void InitStates()
+        private void ListStates()
         {
             StatesRepository repository = new StatesRepository();
             states = repository.GetAll();
@@ -600,7 +602,7 @@ namespace Presentation.Views
         private void ListDepartments()
         {
             DepartmentsRepository repository = new DepartmentsRepository();
-            List<DepartmentsViewModel> departments = repository.ReadAll(string.Empty, Session.companyId);
+            List<DepartmentsViewModel> departments = repository.Read(string.Empty, Session.companyId);
             List<PairItem>  names = new List<PairItem>();
             names.Add(new PairItem("Seleccionar", -1));
             foreach (var department in departments)
@@ -613,7 +615,7 @@ namespace Presentation.Views
         private void ListPositions()
         {
             PositionsRepository repository = new PositionsRepository();
-            List<PositionsViewModel> positions = repository.ReadAll(string.Empty, Session.companyId);
+            List<PositionsViewModel> positions = repository.Read(string.Empty, Session.companyId);
             List<PairItem> names = new List<PairItem>();
             names.Add(new PairItem("Seleccionar", -1));
             foreach (var position in positions)
@@ -627,7 +629,7 @@ namespace Presentation.Views
         {
             try
             {
-                dtgEmployees.DataSource = repository.ReadAll(txtFilter.Text);
+                dtgEmployees.DataSource = repository.Read(txtFilter.Text, Session.companyId);
             }
             catch (Exception ex)
             {

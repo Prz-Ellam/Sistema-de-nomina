@@ -395,7 +395,7 @@ namespace Presentation.Views
         {
             try
             {
-                RepositorioEmpleados employeeRepository = new RepositorioEmpleados();
+                EmployeesRepository employeeRepository = new EmployeesRepository();
                 dtgEmployees.DataSource = employeeRepository.ReadEmployeePayrolls(Session.companyId, dtpDate.Value);
             }
             catch (SqlException ex)
