@@ -1,4 +1,5 @@
-﻿using Data_Access.Entidades;
+﻿using CustomMessageBox;
+using Data_Access.Entidades;
 using Data_Access.Repositorios;
 using Data_Access.ViewModels;
 using Presentation.Helpers;
@@ -68,7 +69,7 @@ namespace Presentation.Views
             {
                 if (ex.Number == 50000)
                 {
-                    MessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    RJMessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
@@ -146,7 +147,7 @@ namespace Presentation.Views
         {
             if (!isPayrollDate)
             {
-                MessageBox.Show("No se pueden cargar conceptos debido a que no es el periodo actual de nómina", "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                RJMessageBox.Show("No se pueden cargar conceptos debido a que no es el periodo actual de nómina", "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -190,7 +191,7 @@ namespace Presentation.Views
         {
             if (!isPayrollDate)
             {
-                MessageBox.Show("No se pueden cargar conceptos debido a que no es el periodo actual de nómina", "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                RJMessageBox.Show("No se pueden cargar conceptos debido a que no es el periodo actual de nómina", "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -402,12 +403,12 @@ namespace Presentation.Views
             {
                 if (ex.Number == 50000)
                 {
-                    MessageBox.Show(ex.Message, "Sistema de nómina dice:", MessageBoxButtons.OK,
+                    RJMessageBox.Show(ex.Message, "Sistema de nómina dice:", MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                 }
                 else
                 {
-                    MessageBox.Show("No se pudo realizar la operación", "Sistema de nómina dice:",
+                    RJMessageBox.Show("No se pudo realizar la operación", "Sistema de nómina dice:",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
@@ -424,12 +425,12 @@ namespace Presentation.Views
             {
                 if (ex.Number == 50000)
                 {
-                    MessageBox.Show(ex.Message, "Sistema de nómina dice:", MessageBoxButtons.OK,
+                    RJMessageBox.Show(ex.Message, "Sistema de nómina dice:", MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                 }
                 else
                 {
-                    MessageBox.Show("No se pudo realizar la operación", "Sistema de nómina dice:",
+                    RJMessageBox.Show("No se pudo realizar la operación", "Sistema de nómina dice:",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
@@ -592,12 +593,12 @@ namespace Presentation.Views
 
             if (requestDate.CompareTo(actualDate) < 0)
             {
-                MessageBox.Show("No se pueden cargar conceptos debido a que ya fue cerrada la nómina de este periodo");
+                RJMessageBox.Show("No se pueden cargar conceptos debido a que ya fue cerrada la nómina de este periodo");
                 isPayrollDate = false;
             }
             else if (requestDate.CompareTo(actualDate) > 0)
             {
-                MessageBox.Show("No se pueden cargar conceptos antes del periodo de actual nómina");
+                RJMessageBox.Show("No se pueden cargar conceptos antes del periodo de actual nómina");
                 isPayrollDate = false;
             }
             else
@@ -620,7 +621,7 @@ namespace Presentation.Views
 
             if (payrollDate.Year != requestDate.Year || payrollDate.Month != requestDate.Month)
             {
-                MessageBox.Show("No se puede iniciar una nómina fuera del periodo actual de nómina", 
+                RJMessageBox.Show("No se puede iniciar una nómina fuera del periodo actual de nómina", 
                     "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -629,7 +630,7 @@ namespace Presentation.Views
 
             if (status)
             {
-                MessageBox.Show("Ya hay una nómina en proceso", "Sistema de nómina dice: ", 
+                RJMessageBox.Show("Ya hay una nómina en proceso", "Sistema de nómina dice: ", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -640,7 +641,7 @@ namespace Presentation.Views
 
                 if (result)
                 {
-                    MessageBox.Show("La nómina se ha iniciado correctamente", "Sistema de nómina dice: ",
+                    RJMessageBox.Show("La nómina se ha iniciado correctamente", "Sistema de nómina dice: ",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                     isPayrollDate = true;
                     ListEmployees();
@@ -649,7 +650,7 @@ namespace Presentation.Views
                 }
                 else
                 {
-                    MessageBox.Show("No se pudo iniciar la nómina", "Sistema de nómina dice: ",
+                    RJMessageBox.Show("No se pudo iniciar la nómina", "Sistema de nómina dice: ",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
@@ -657,7 +658,7 @@ namespace Presentation.Views
             {
                 if (ex.Number == 50000)
                 {
-                    MessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK,
+                    RJMessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                 }
             }

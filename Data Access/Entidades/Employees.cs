@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Data_Access.Entidades
 {
-    public class Empleados
+    public class Employees
     {
         private int numeroEmpleado;
         private string nombre;
@@ -39,40 +39,95 @@ namespace Data_Access.Entidades
         private string estado;
         private string codigoPostal;
 
-        public int NumeroEmpleado { get => numeroEmpleado; set => numeroEmpleado = value; }
+        public int NumeroEmpleado
+        { 
+            get => numeroEmpleado;
+            set => numeroEmpleado = value; 
+        }
+
         [Required(ErrorMessage = "El nombre del empleado es requerido")]
         [RegularExpression(@"^[a-zA-Z \u00C0-\u00FF]+$", ErrorMessage = "El nombre del empleado solo puede contener letras y espacios")]
-        public string Nombre { get => nombre; set => nombre = value; }
+        [MaxLength(30, ErrorMessage = "El nombre del empleado no puede tener más de 30 caracteres")]
+        public string Nombre 
+        { 
+            get => nombre;
+            set => nombre = value;
+        }
+
         [Required(ErrorMessage = "El apellido paterno del empleado es requerido")]
         [RegularExpression(@"^[a-zA-Z \u00C0-\u00FF]+$", ErrorMessage = "El apellido paterno del empleado solo puede contener letras y espacios")]
-        public string ApellidoPaterno { get => apellidoPaterno; set => apellidoPaterno = value; }
+        [MaxLength(30, ErrorMessage = "El nombre del empleado no puede tener más de 30 caracteres")]
+        public string ApellidoPaterno 
+        {
+            get => apellidoPaterno;
+            set => apellidoPaterno = value;
+        }
+
         [Required(ErrorMessage = "El apellido materno del empleado es requerido")]
         [RegularExpression(@"^[a-zA-Z \u00C0-\u00FF]+$", ErrorMessage = "El apellido materno del empleado solo puede contener letras y espacios")]
-        public string ApellidoMaterno { get => apellidoMaterno; set => apellidoMaterno = value; }
+        [MaxLength(30, ErrorMessage = "El nombre del empleado no puede tener más de 30 caracteres")]
+        public string ApellidoMaterno
+        {
+            get => apellidoMaterno;
+            set => apellidoMaterno = value;
+        }
+
         [Required(ErrorMessage = "La fecha de nacimiento es requerida")]
-        public DateTime FechaNacimiento { get => fechaNacimiento; set => fechaNacimiento = value; }
-        [Required(ErrorMessage = "El CURP del empleado es requerido")]
+        public DateTime FechaNacimiento
+        {
+            get => fechaNacimiento;
+            set => fechaNacimiento = value;
+        }
+
         //[CURP]
+        [Required(ErrorMessage = "El CURP del empleado es requerido")]
         [RegularExpression(@"^([A-Z][AEIOUX][A-Z]{2}\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\d])(\d)$", ErrorMessage = "El CURP que ingresó no es válido")]
-        public string Curp { get => curp; set => curp = value; }
+        public string Curp {
+            get => curp;
+            set => curp = value;
+        }
+
         [Required(ErrorMessage = "El NSS del empleado es requerido")]
         [RegularExpression(@"^(\d{2})(\d{2})(\d{2})\d{5}$", ErrorMessage = "El NSS que ingresó no es válido")]
-        public string Nss { get => nss; set => nss = value; }
+        public string Nss
+        {
+            get => nss;
+            set => nss = value;
+        }
+
         [Required(ErrorMessage = "El RFC del empleado es requerido")]
         [RegularExpression(@"^([A-ZÑ&]{3,4}) ?(?:- ?)?(\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])) ?(?:- ?)?([A-Z\d]{2})([A\d])$", ErrorMessage = "El RFC que ingresó no válido")]
-        public string Rfc { get => rfc; set => rfc = value; }
+        public string Rfc
+        {
+            get => rfc;
+            set => rfc = value;
+        }
+
         [Required]
         public int Domicilio { get => domicilio; set => domicilio = value; }
+
         [Required]
         [Range(0, int.MaxValue, ErrorMessage = "El banco del empleado no es válido")]
-        public int Banco { get => banco; set => banco = value; }
-        [Required]
-        public string NumeroCuenta { get => numeroCuenta; set => numeroCuenta = value; }
+        public int Banco
+        {
+            get => banco;
+            set => banco = value;
+        }
+
+        [Required(ErrorMessage = "El número de cuenta es requerido")]
+        public string NumeroCuenta
+        {
+            get => numeroCuenta;
+            set => numeroCuenta = value;
+        }
+
         [Required(ErrorMessage = "El correo electrónico del empleado es requerido")]
         [EmailAddress(ErrorMessage = "El correo electrónico que ingresó no es válido")]
         public string CorreoElectronico { get => correoElectronico; set => correoElectronico = value; }
+
         [Required(ErrorMessage = "La contraseña del empleado es requerida")]
         public string Contrasena { get => contrasena; set => contrasena = value; }
+
         public decimal SueldoDiario { get => sueldoDiario; set => sueldoDiario = value; }
         [Required]
         public DateTime FechaContratacion { get => fechaContratacion; set => fechaContratacion = value; }

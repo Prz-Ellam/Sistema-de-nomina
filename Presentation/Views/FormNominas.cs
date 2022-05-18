@@ -1,4 +1,5 @@
 ﻿using CsvHelper;
+using CustomMessageBox;
 using Data_Access.Repositorios;
 using Data_Access.ViewModels;
 using Presentation.Helpers;
@@ -38,7 +39,7 @@ namespace Presentation.Views
         {
             //if (dtpDate.Value != payrollDate)
             //{
-            //    MessageBox.Show("No se puede generar la nómina fuera del periodo actual de nómina",
+            //    RJMessageBox.Show("No se puede generar la nómina fuera del periodo actual de nómina",
             //   "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
             //    return;
             //}
@@ -48,7 +49,7 @@ namespace Presentation.Views
                 bool payrollStatus = payrollRepository.IsPayrollProcess(Session.companyId);
                 if (!payrollStatus)
                 {
-                    MessageBox.Show("No se puede realizar esta acción, no hay una nómina en proceso",
+                    RJMessageBox.Show("No se puede realizar esta acción, no hay una nómina en proceso",
                         "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
@@ -57,12 +58,12 @@ namespace Presentation.Views
             {
                 if (ex.Number == 50000)
                 {
-                    MessageBox.Show(ex.Message, "Sistema de nómina dice:", 
+                    RJMessageBox.Show(ex.Message, "Sistema de nómina dice:", 
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
 
-            DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?\nAl cerrarse la nómina, está no podrá volver a ser editada",
+            DialogResult res = RJMessageBox.Show("¿Está seguro que desea realizar esta acción?\nAl cerrarse la nómina, está no podrá volver a ser editada",
                "Sistema de nómina dice:", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             if (res == DialogResult.No)
@@ -80,13 +81,13 @@ namespace Presentation.Views
                 {
                     if (ex.Message.Contains("chk_nomina_sueldo"))
                     {
-                        MessageBox.Show("La nómina no puede ser cerrada debido a que un registro es inválido, favor de revisar y realizar correcciones las necesarias",
+                        RJMessageBox.Show("La nómina no puede ser cerrada debido a que un registro es inválido, favor de revisar y realizar correcciones las necesarias",
                             "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("No se pudo realizar la operación", "Sistema de nómina dice: ",
+                    RJMessageBox.Show("No se pudo realizar la operación", "Sistema de nómina dice: ",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 return;
@@ -100,7 +101,7 @@ namespace Presentation.Views
 
         private void btnDeletePayroll_Click(object sender, EventArgs e)
         {
-            DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?",
+            DialogResult res = RJMessageBox.Show("¿Está seguro que desea realizar esta acción?",
                "Sistema de nómina dice: ", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             if (res == DialogResult.No)
@@ -114,18 +115,18 @@ namespace Presentation.Views
                 bool result = payrollRepository.DeletePayroll(Session.companyId, requestDate);
                 if (result)
                 {
-                    MessageBox.Show("La nómina fue eliminada éxitosamente", "Sistema de nómina dice:",
+                    RJMessageBox.Show("La nómina fue eliminada éxitosamente", "Sistema de nómina dice:",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    MessageBox.Show("No se pudo eliminar la nómina", "Sistema de nómina dice:",
+                    RJMessageBox.Show("No se pudo eliminar la nómina", "Sistema de nómina dice:",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(ex.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                RJMessageBox.Show(ex.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -151,7 +152,7 @@ namespace Presentation.Views
                 List<PayrollViewModel> payrolls = dtgPayrolls.DataSource as List<PayrollViewModel>;
                 if (payrolls == null)
                 {
-                    MessageBox.Show("Error inesperado", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    RJMessageBox.Show("Error inesperado", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -169,7 +170,7 @@ namespace Presentation.Views
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(ex.Message);
+                RJMessageBox.Show(ex.Message);
             }
 
             if (dtgPayrolls.RowCount > 0)
@@ -197,7 +198,7 @@ namespace Presentation.Views
             {
                 if (ex.Number == 50000)
                 {
-                    MessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    RJMessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

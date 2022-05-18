@@ -8,9 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CustomMessageBox;
 using Data_Access.Entidades;
 using Data_Access.Entities;
 using Data_Access.Helpers;
+using Data_Access.Interfaces;
 using Data_Access.Repositorios;
 using Data_Access.ViewModels;
 using Presentation.Helpers;
@@ -19,10 +21,10 @@ namespace Presentation.Views
 {
     public partial class FormEmpleados : Form
     {
-        private EmployeesRepository repository;
+        private IEmployeesRepository repository;
         private RepositorioTelefonos phonesRepository;
         private RepositorioEmpresas companyRepository;
-        private Empleados employee;
+        private Employees employee;
         int dtgPrevIndex = -1;
         int employeeId = -1;
 
@@ -92,7 +94,7 @@ namespace Presentation.Views
             repository = new EmployeesRepository();
             phonesRepository = new RepositorioTelefonos();
             companyRepository = new RepositorioEmpresas();
-            employee = new Empleados();
+            employee = new Employees();
         }
 
         private void Employees_Load(object sender, EventArgs e)
@@ -106,7 +108,7 @@ namespace Presentation.Views
             {
                 if (ex.Number == 50000) // Error
                 {
-                    MessageBox.Show(ex.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    RJMessageBox.Show(ex.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
             }
@@ -128,11 +130,11 @@ namespace Presentation.Views
 
             if (result.State == ValidationState.Error)
             {
-                MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ListEmployees();
             ClearForm();
         }
@@ -144,18 +146,18 @@ namespace Presentation.Views
 
             if (result.State == ValidationState.Error)
             {
-                MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ListEmployees();
             ClearForm();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?",
+            DialogResult res = RJMessageBox.Show("¿Está seguro que desea realizar esta acción?",
                 "Sistema de nómina dice:", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             if (res == DialogResult.No)
@@ -168,11 +170,11 @@ namespace Presentation.Views
 
             if (result.State == ValidationState.Error)
             {
-                MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ListEmployees();
             ClearForm();
         }
@@ -364,12 +366,11 @@ namespace Presentation.Views
         {
             try
             {
-                List<EmployeesViewModel> employees = repository.Read(string.Empty, Session.companyId);
-                dtgEmployees.DataSource = employees;
+                dtgEmployees.DataSource = repository.Read(txtFilter.Text.Trim(), Session.companyId);
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
-                MessageBox.Show(ex.ToString());
+                RJMessageBox.Show(ex.ToString(), "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -459,17 +460,14 @@ namespace Presentation.Views
             txtAccountNumber.Clear();
             cbPhones.Items.Clear();
 
-            nudBaseSalary.Value = 0.0m;
-            nudWageLevel.Value = 0.0m;
-            nudDailySalary.Value = 0.0m;
+            nudBaseSalary.Value = decimal.Zero;
+            nudWageLevel.Value = decimal.Zero;
+            nudDailySalary.Value = decimal.Zero;
             cbDepartments.SelectedIndex = 0;
             cbPositions.SelectedIndex = 0;
 
-
             EmployeeState = EntityState.Add;
             dtgPrevIndex = -1;
-
-            txtFilter.Clear();
         }
 
         public void FillForm(int index)
@@ -588,53 +586,46 @@ namespace Presentation.Views
 
         private void ListBanks()
         {
-            RepositorioBancos repository = new RepositorioBancos();
-            List<Banks> bancos = repository.ReadAll();
-            List<PairItem> nombres = new List<PairItem>();
-            nombres.Add(new PairItem("Seleccionar", -1));
-            foreach (var banco in bancos)
+            try
             {
-                nombres.Add(new PairItem(banco.Name, banco.BankId));
+                BanksRepository repository = new BanksRepository();
+                cbBank.DataSource = repository.ReadPair();
             }
-            cbBank.DataSource = nombres;
+            catch (SqlException ex)
+            {
+                RJMessageBox.Show(ex.ToString(), "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void ListDepartments()
         {
-            DepartmentsRepository repository = new DepartmentsRepository();
-            List<DepartmentsViewModel> departments = repository.Read(string.Empty, Session.companyId);
-            List<PairItem>  names = new List<PairItem>();
-            names.Add(new PairItem("Seleccionar", -1));
-            foreach (var department in departments)
+            try
             {
-                names.Add(new PairItem(department.Name, department.Id));
+                IDepartmentsRepository repository = new DepartmentsRepository();
+                cbDepartments.DataSource = repository.ReadPair(true);
             }
-            cbDepartments.DataSource = names;
+            catch (SqlException ex)
+            {
+                RJMessageBox.Show(ex.ToString(), "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void ListPositions()
         {
-            PositionsRepository repository = new PositionsRepository();
-            List<PositionsViewModel> positions = repository.Read(string.Empty, Session.companyId);
-            List<PairItem> names = new List<PairItem>();
-            names.Add(new PairItem("Seleccionar", -1));
-            foreach (var position in positions)
+            try
             {
-                names.Add(new PairItem(position.Name, position.Id));
+                IPositionsRepository repository = new PositionsRepository();
+                cbPositions.DataSource = repository.ReadPair();
             }
-            cbPositions.DataSource = names;
+            catch (SqlException ex)
+            {
+                RJMessageBox.Show(ex.ToString(), "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void txtFilter_TextChanged(object sender, EventArgs e)
         {
-            try
-            {
-                dtgEmployees.DataSource = repository.Read(txtFilter.Text, Session.companyId);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
+            ListEmployees();
         }
 
         private string GetUniqueName(string message)

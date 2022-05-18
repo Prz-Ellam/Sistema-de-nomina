@@ -138,6 +138,31 @@ GO
 
 
 
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerDepartamentosPar')
+	DROP PROCEDURE sp_LeerDepartamentosPar;
+GO
+
+CREATE PROCEDURE sp_LeerDepartamentosPar(
+	@activos					BIT
+)
+AS
+
+	SELECT
+			'Seleccionar'		[Nombre],
+			-1					[ID Departamento]
+	UNION
+	SELECT
+			nombre				[Nombre],
+			id_departamento		[ID Departamento]
+	FROM
+			departamentos
+	WHERE
+			activo = 1
+			OR @activos = 0
+
+GO
+
+
 IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerDepartamentosNominas')
 	DROP PROCEDURE sp_LeerDepartamentosNominas;
 GO

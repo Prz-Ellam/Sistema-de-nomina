@@ -46,14 +46,23 @@ namespace Data_Access.Entidades
         private int companyId;
 
         public int PerceptionId { get => perceptionId; set => perceptionId = value; }
+
         [Required(ErrorMessage = "El nombre de la percepción es requerido")]
         [RegularExpression(@"^[a-zA-Z0-9 \u00C0-\u00FF]+$", ErrorMessage = "La nombre de la percepción solo puede contener letras, números y espacios")]
         [MaxLength(30, ErrorMessage = "El nombre de la percepción es muy largo")]
-        public string Name { get => name; set => name = value; }
+        public string Name
+        {
+            get => name;
+            set => name = value;
+        }
 
         [Required]
         [RegularExpression("^[FP]$", ErrorMessage = "El tipo de monto es requerido")]
-        public char AmountType { get => amountType; set => amountType = value; }
+        public char AmountType
+        {
+            get => amountType;
+            set => amountType = value;
+        }
 
         [PerceptionsAmountType]
         public decimal Fixed { get => _fixed; set => _fixed = value; }

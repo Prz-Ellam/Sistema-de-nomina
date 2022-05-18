@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Data_Access.Connections;
 using Data_Access.Entidades;
+using Data_Access.Helpers;
 using Data_Access.Interfaces;
 using Data_Access.ViewModels;
 
@@ -14,7 +15,7 @@ namespace Data_Access.Repositorios
 {
     public class DepartmentsRepository : IDepartmentsRepository
     {
-        private readonly string create, update, delete, read, readPayrolls;
+        private readonly string create, update, delete, read, readPair, readPayrolls;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams;
 
@@ -26,6 +27,7 @@ namespace Data_Access.Repositorios
             update = "sp_ActualizarDepartamento";
             delete = "sp_EliminarDepartamento";
             read = "sp_LeerDepartamentos";
+            readPair = "sp_LeerDepartamentosPar";
             readPayrolls = "sp_LeerDepartamentosNominas";
         }
 
@@ -61,7 +63,7 @@ namespace Data_Access.Repositorios
             return (rowCount > 0) ? true : false;
         }
 
-        public List<DepartmentsViewModel> Read(string like, int companyId)
+        public IEnumerable<DepartmentsViewModel> Read(string like, int companyId)
         {
             sqlParams.Start();
             sqlParams.Add("@filtro", like);
@@ -78,6 +80,24 @@ namespace Data_Access.Repositorios
                     BaseSalary = Convert.ToDecimal(row["Sueldo Base"])
 
                 });
+            }
+
+            return departments;
+        }
+
+        public IEnumerable<PairItem> ReadPair(bool actives)
+        {
+            sqlParams.Start();
+            sqlParams.Add("@activos", actives);
+
+            DataTable table = mainRepository.ExecuteReader(readPair, sqlParams);
+            List<PairItem> departments = new List<PairItem>();
+            foreach (DataRow row in table.Rows)
+            {
+                departments.Add(new PairItem(
+                    row["Nombre"].ToString(),
+                    Convert.ToInt32(row["ID Departamento"])
+                ));
             }
 
             return departments;
@@ -102,6 +122,5 @@ namespace Data_Access.Repositorios
 
             return departments;
         }
-
     }
 }

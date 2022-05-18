@@ -12,6 +12,7 @@ using Data_Access.Repositorios;
 using Data_Access.Entidades;
 using System.Data.SqlClient;
 using Data_Access.Interfaces;
+using CustomMessageBox;
 
 namespace Presentation.Views
 {
@@ -65,7 +66,6 @@ namespace Presentation.Views
         {
             DepartmentState = EntityState.Add;
             ListDepartments();
-
             dtgDepartaments.DoubleBuffered(true);
         }
 
@@ -76,11 +76,11 @@ namespace Presentation.Views
 
             if (result.State == ValidationState.Error)
             {
-                MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ListDepartments();
             ClearForm();
         }
@@ -92,18 +92,18 @@ namespace Presentation.Views
 
             if (result.State == ValidationState.Error)
             {
-                MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ListDepartments();
             ClearForm();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?",
+            DialogResult res = RJMessageBox.Show("¿Está seguro que desea realizar esta acción?",
                 "Sistema de nómina dice:", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             if (res == DialogResult.No)
@@ -116,11 +116,11 @@ namespace Presentation.Views
 
             if (result.State == ValidationState.Error)
             {
-                MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ListDepartments();
             ClearForm();
         }
@@ -140,14 +140,7 @@ namespace Presentation.Views
 
         private void txtFilter_TextChanged(object sender, EventArgs e)
         {
-            try
-            {
-                dtgDepartaments.DataSource = repository.Read(txtFilter.Text, Session.companyId);
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show(ex.ToString(), "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            ListDepartments();
         }
 
         public ValidationResult AddDepartment()
@@ -235,7 +228,7 @@ namespace Presentation.Views
 
             try
             {
-                bool result = repository.Delete(departmentId);
+                bool result = repository.Delete(department.DepartmentId);
                 if (result)
                 {
                     return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
@@ -262,11 +255,11 @@ namespace Presentation.Views
         {
             try
             {
-                dtgDepartaments.DataSource = repository.Read(string.Empty, Session.companyId);
+                dtgDepartaments.DataSource = repository.Read(txtFilter.Text.Trim(), Session.companyId);
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(ex.ToString(), "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                RJMessageBox.Show(ex.ToString(), "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -282,8 +275,7 @@ namespace Presentation.Views
         {
             departmentId = -1;
             txtName.Clear();
-            nudBaseSalary.Value = 0.0m;
-            txtFilter.Clear();
+            nudBaseSalary.Value = decimal.Zero;
 
             DepartmentState = EntityState.Add;
             dtgPrevIndex = -1;
@@ -291,7 +283,6 @@ namespace Presentation.Views
 
         public void FillForm(int index)
         {
-            // Si esta fuera del rango del Data Grid View regresa
             if (index < 0 || index > dtgDepartaments.RowCount)
             {
                 return;
@@ -305,6 +296,5 @@ namespace Presentation.Views
             DepartmentState = EntityState.Modify;
             dtgPrevIndex = index;
         }
-
     }
 }

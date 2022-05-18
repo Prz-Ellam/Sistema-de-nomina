@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Data_Access.Interfaces
 {
-    public interface IEmployeesRepository : IGenericRepository<Empleados, EmployeesViewModel>
+    public interface IEmployeesRepository : IGenericRepository<Employees, EmployeesViewModel>
     {
         EmployeesViewModel GetEmployeeById(int employeeId);
-        bool UpdateByEmployee(Empleados employee);
+        bool UpdateByEmployee(Employees employee);
         List<EmployeePayrollsViewModel> ReadEmployeePayrolls(int companyId, DateTime date);
         DateTime GetHiringDate(int employeeNumber, bool firstDay);
     }

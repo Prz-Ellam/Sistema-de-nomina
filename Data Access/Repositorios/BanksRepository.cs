@@ -1,5 +1,6 @@
 ﻿using Data_Access.Connections;
 using Data_Access.Entidades;
+using Data_Access.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,36 +10,34 @@ using System.Threading.Tasks;
 
 namespace Data_Access.Repositorios
 {
-    public class RepositorioBancos
+    public class BanksRepository
     {
-        private readonly string readAll;
+        private readonly string readPair;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams;
 
-        public RepositorioBancos()
+        public BanksRepository()
         {
             mainRepository = MainConnection.GetInstance();
             sqlParams = new RepositoryParameters();
-            readAll = "sp_LeerBancos";
+            readPair = "sp_LeerBancosPar";
         }
 
-        public List<Banks> ReadAll()
+        public List<PairItem> ReadPair()
         {
             sqlParams.Start();
 
-            DataTable table = mainRepository.ExecuteReader(readAll, sqlParams);
-
-            List<Banks> bancos = new List<Banks>();
+            DataTable table = mainRepository.ExecuteReader(readPair, sqlParams);
+            List<PairItem> banks = new List<PairItem>();
             foreach(DataRow row in table.Rows)
             {
-                bancos.Add(new Banks
-                {
-                    BankId = Convert.ToInt32(row["ID Banco"]),
-                    Name = row["Nombre"].ToString()
-                });
+                banks.Add(new PairItem(
+                    row["Nombre"].ToString(),
+                    Convert.ToInt32(row["ID Banco"])
+                ));
             }
 
-            return bancos;
+            return banks;
         }
     }
 }

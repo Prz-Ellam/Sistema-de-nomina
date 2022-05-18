@@ -9,15 +9,16 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Data_Access.Repositorios;
 using Presentation.Helpers;
-using Data_Access.ViewModels;
 using Data_Access.Entidades;
 using System.Data.SqlClient;
+using CustomMessageBox;
+using Data_Access.Interfaces;
 
 namespace Presentation.Views
 {
     public partial class FormPuestos : Form
     {
-        private PositionsRepository repository;
+        private IPositionsRepository repository;
         private Positions position;
         int dtgPrevIndex = -1;
         int positionId = -1;
@@ -65,7 +66,6 @@ namespace Presentation.Views
         {
             PositionState = EntityState.Add;
             ListPositions();
-
             dtgPositions.DoubleBuffered(true);
         }
 
@@ -76,11 +76,11 @@ namespace Presentation.Views
 
             if (result.State == ValidationState.Error)
             {
-                MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ListPositions();
             ClearForm();
         }
@@ -92,18 +92,18 @@ namespace Presentation.Views
 
             if (result.State == ValidationState.Error)
             {
-                MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ListPositions();
             ClearForm();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?", 
+            DialogResult res = RJMessageBox.Show("¿Está seguro que desea realizar esta acción?", 
                 "Advertencia", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             if (res == DialogResult.No)
@@ -116,11 +116,11 @@ namespace Presentation.Views
 
             if (result.State == ValidationState.Error)
             {
-                MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ListPositions();
             ClearForm();
         }
@@ -140,14 +140,7 @@ namespace Presentation.Views
 
         private void txtFilter_TextChanged(object sender, EventArgs e)
         {
-            try
-            {
-                dtgPositions.DataSource = repository.Read(txtFilter.Text, Session.companyId);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
+            ListPositions();
         }
 
         public ValidationResult AddPosition()
@@ -262,18 +255,18 @@ namespace Presentation.Views
         {
             try
             {
-                dtgPositions.DataSource = repository.Read(string.Empty, Session.companyId);
+                dtgPositions.DataSource = repository.Read(txtFilter.Text.Trim(), Session.companyId);
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
-                MessageBox.Show(ex.ToString());
+                RJMessageBox.Show(ex.ToString());
             }
         }
 
         public void FillPosition()
         {
             position.PositionId = positionId;
-            position.Name = txtName.Text;
+            position.Name = txtName.Text.Trim();
             position.WageLevel = nudWageLevel.Value;
             position.CompanyId = Session.companyId;
         }
@@ -282,8 +275,7 @@ namespace Presentation.Views
         {
             positionId = -1;
             txtName.Clear();
-            nudWageLevel.Value = 0.0m;
-            txtFilter.Clear();
+            nudWageLevel.Value = decimal.Zero;
 
             PositionState = EntityState.Add;
             dtgPrevIndex = -1;
@@ -291,7 +283,6 @@ namespace Presentation.Views
 
         public void FillForm(int index)
         {
-            // Si esta fuera del rango del Data Grid View regresa
             if (index < 0 || index > dtgPositions.RowCount)
             {
                 return;
@@ -305,6 +296,5 @@ namespace Presentation.Views
             PositionState = EntityState.Modify;
             dtgPrevIndex = index;
         }
-
     }
 }

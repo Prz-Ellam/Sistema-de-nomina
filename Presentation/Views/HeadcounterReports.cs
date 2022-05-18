@@ -95,14 +95,7 @@ namespace Presentation.Views
         private void ListDepartments()
         {
             DepartmentsRepository departmentsRepository = new DepartmentsRepository();
-            List<DepartmentsViewModel> departments = departmentsRepository.Read(string.Empty, Session.companyId);
-            List<PairItem> departmentsName = new List<PairItem>();
-            departmentsName.Add(new PairItem("Todos", -1));
-            foreach (var department in departments)
-            {
-                departmentsName.Add(new PairItem(department.Name, department.Id));
-            }
-            cbDepartments.DataSource = departmentsName;
+            cbDepartments.DataSource = departmentsRepository.ReadPair(false);
         }
 
         private void InitDates()

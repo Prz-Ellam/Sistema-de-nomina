@@ -31,6 +31,7 @@ namespace Presentation.Views
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.txtName = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
@@ -41,12 +42,12 @@ namespace Presentation.Views
             this.btnAdd = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.dtgPositions = new System.Windows.Forms.DataGridView();
-            this.label4 = new System.Windows.Forms.Label();
-            this.lblFilter = new System.Windows.Forms.Label();
-            this.txtFilter = new System.Windows.Forms.TextBox();
             this.id2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.name2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nivel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label4 = new System.Windows.Forms.Label();
+            this.lblFilter = new System.Windows.Forms.Label();
+            this.txtFilter = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudWageLevel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtgPositions)).BeginInit();
             this.SuspendLayout();
@@ -66,7 +67,7 @@ namespace Presentation.Views
             this.lblName.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblName.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lblName.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.lblName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.lblName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(85)))), ((int)(((byte)(85)))));
             this.lblName.Location = new System.Drawing.Point(20, 90);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(73, 21);
@@ -79,7 +80,7 @@ namespace Presentation.Views
             this.lblWageLevel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblWageLevel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lblWageLevel.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.lblWageLevel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.lblWageLevel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(85)))), ((int)(((byte)(85)))));
             this.lblWageLevel.Location = new System.Drawing.Point(20, 190);
             this.lblWageLevel.Name = "lblWageLevel";
             this.lblWageLevel.Size = new System.Drawing.Size(105, 21);
@@ -148,7 +149,7 @@ namespace Presentation.Views
             this.label3.AutoSize = true;
             this.label3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label3.Font = new System.Drawing.Font("Microsoft YaHei", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(85)))), ((int)(((byte)(85)))));
             this.label3.Location = new System.Drawing.Point(20, 20);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(110, 31);
@@ -159,7 +160,8 @@ namespace Presentation.Views
             // 
             this.dtgPositions.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
             this.dtgPositions.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dtgPositions.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.dtgPositions.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.dtgPositions.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
@@ -177,7 +179,7 @@ namespace Presentation.Views
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
@@ -187,44 +189,18 @@ namespace Presentation.Views
             this.dtgPositions.Location = new System.Drawing.Point(20, 402);
             this.dtgPositions.Name = "dtgPositions";
             this.dtgPositions.ReadOnly = true;
-            this.dtgPositions.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.dtgPositions.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dtgPositions.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dtgPositions.Size = new System.Drawing.Size(851, 241);
             this.dtgPositions.TabIndex = 6;
             this.dtgPositions.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgPositions_CellDoubleClick);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.BackColor = System.Drawing.Color.Transparent;
-            this.label4.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label4.Location = new System.Drawing.Point(22, 220);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(24, 21);
-            this.label4.TabIndex = 41;
-            this.label4.Text = "%";
-            // 
-            // lblFilter
-            // 
-            this.lblFilter.AutoSize = true;
-            this.lblFilter.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblFilter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lblFilter.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.lblFilter.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.lblFilter.Location = new System.Drawing.Point(500, 357);
-            this.lblFilter.Name = "lblFilter";
-            this.lblFilter.Size = new System.Drawing.Size(58, 21);
-            this.lblFilter.TabIndex = 43;
-            this.lblFilter.Text = "Filtrar:";
-            // 
-            // txtFilter
-            // 
-            this.txtFilter.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.txtFilter.Location = new System.Drawing.Point(564, 354);
-            this.txtFilter.Name = "txtFilter";
-            this.txtFilter.Size = new System.Drawing.Size(307, 29);
-            this.txtFilter.TabIndex = 7;
-            this.txtFilter.TextChanged += new System.EventHandler(this.txtFilter_TextChanged);
             // 
             // id2
             // 
@@ -251,6 +227,40 @@ namespace Presentation.Views
             this.nivel.Name = "nivel";
             this.nivel.ReadOnly = true;
             this.nivel.Width = 310;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.BackColor = System.Drawing.Color.Transparent;
+            this.label4.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.label4.Location = new System.Drawing.Point(22, 220);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(24, 21);
+            this.label4.TabIndex = 41;
+            this.label4.Text = "%";
+            // 
+            // lblFilter
+            // 
+            this.lblFilter.AutoSize = true;
+            this.lblFilter.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblFilter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lblFilter.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.lblFilter.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(85)))), ((int)(((byte)(85)))));
+            this.lblFilter.Location = new System.Drawing.Point(500, 357);
+            this.lblFilter.Name = "lblFilter";
+            this.lblFilter.Size = new System.Drawing.Size(58, 21);
+            this.lblFilter.TabIndex = 43;
+            this.lblFilter.Text = "Filtrar:";
+            // 
+            // txtFilter
+            // 
+            this.txtFilter.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.txtFilter.Location = new System.Drawing.Point(564, 354);
+            this.txtFilter.Name = "txtFilter";
+            this.txtFilter.Size = new System.Drawing.Size(307, 29);
+            this.txtFilter.TabIndex = 7;
+            this.txtFilter.TextChanged += new System.EventHandler(this.txtFilter_TextChanged);
             // 
             // FormPuestos
             // 

@@ -16,6 +16,6 @@ namespace Data_Access.Interfaces
 
         bool Delete(int id);
 
-        List<U> Read(string filter, int companyId);
+        IEnumerable<U> Read(string filter, int companyId);
     }
 }

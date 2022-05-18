@@ -62,7 +62,7 @@ namespace Data_Access.Repositorios
             return (rowCount > 0) ? true : false;
         }
 
-        public List<DeductionViewModel> Read(string filter, int companyId)
+        public IEnumerable<DeductionViewModel> Read(string filter, int companyId)
         {
             sqlParams.Start();
             sqlParams.Add("@filtro", filter);

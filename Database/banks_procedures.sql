@@ -1,10 +1,10 @@
 USE sistema_de_nomina;
 
-IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerBancos')
-	DROP PROCEDURE sp_LeerBancos;
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerBancosPar')
+	DROP PROCEDURE sp_LeerBancosPar;
 GO
 
-CREATE PROCEDURE sp_LeerBancos
+CREATE PROCEDURE sp_LeerBancosPar
 AS
 
 	SELECT 

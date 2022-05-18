@@ -32,7 +32,7 @@ namespace Data_Access.Repositorios
             getHiringDate = "sp_ObtenerFechaContratacion";
         }
 
-        public bool Create(Empleados employee)
+        public bool Create(Employees employee)
         {
             sqlParams.Start();
             sqlParams.Add("@nombre", employee.Nombre);
@@ -73,7 +73,7 @@ namespace Data_Access.Repositorios
             return (rowCount > 0) ? true : false;
         }
 
-        public bool Update(Empleados employee)
+        public bool Update(Employees employee)
         {
             sqlParams.Start();
             sqlParams.Add("@numero_empleado", employee.NumeroEmpleado);
@@ -115,7 +115,7 @@ namespace Data_Access.Repositorios
             return (rowCount > 0) ? true : false;
         }
 
-        public bool UpdateByEmployee(Empleados employee)
+        public bool UpdateByEmployee(Employees employee)
         {
             sqlParams.Start();
             sqlParams.Add("@numero_empleado", employee.NumeroEmpleado);
@@ -166,7 +166,7 @@ namespace Data_Access.Repositorios
             return (rowCount > 0) ? true : false;
         }
 
-        public List<EmployeesViewModel> Read(string filter, int companyId)
+        public IEnumerable<EmployeesViewModel> Read(string filter, int companyId)
         {
             sqlParams.Start();
             sqlParams.Add("@filtro", filter);

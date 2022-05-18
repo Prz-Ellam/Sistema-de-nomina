@@ -13,6 +13,7 @@ using Presentation.Helpers;
 using Data_Access.Entidades;
 using Data_Access.ViewModels;
 using System.Data.SqlClient;
+using CustomMessageBox;
 
 namespace Presentation.Views
 {
@@ -78,11 +79,11 @@ namespace Presentation.Views
 
             if (result.State == ValidationState.Error)
             {
-                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                RJMessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            RJMessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
             InitCompanyId(); // Carga en el Session el id de la empresa recien creada
             ListCompany();
         }
@@ -94,11 +95,11 @@ namespace Presentation.Views
 
             if (result.State == ValidationState.Error)
             {
-                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                RJMessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            RJMessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ListCompany();
         }
 

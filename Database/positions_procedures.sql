@@ -134,3 +134,26 @@ AS
 			nombre LIKE CONCAT('%', @filtro, '%');
 
 GO
+
+
+
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_LeerPuestosPar')
+	DROP PROCEDURE sp_LeerPuestosPar;
+GO
+
+CREATE PROCEDURE sp_LeerPuestosPar
+AS
+
+	SELECT
+			'Seleccionar'		[Nombre],
+			-1					[ID Puesto]
+	UNION
+	SELECT
+			nombre				[Nombre],
+			id_puesto			[ID Puesto]
+	FROM
+			puestos
+	WHERE
+			activo = 1;
+
+GO

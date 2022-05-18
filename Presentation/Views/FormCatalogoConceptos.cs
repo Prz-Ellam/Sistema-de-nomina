@@ -8,17 +8,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CustomMessageBox;
 using Data_Access.Entidades;
+using Data_Access.Interfaces;
 using Data_Access.Repositorios;
-using Data_Access.ViewModels;
 using Presentation.Helpers;
 
 namespace Presentation.Views
 {
     public partial class FormCatalogoConceptos : Form
     {
-        private PerceptionsRepository perceptionRepository;
-        private DeductionsRepository deductionRepository;
+        private IPerceptionsRepository perceptionRepository;
+        private IDeductionsRepository deductionRepository;
         private Perceptions percepcion;
         private Deductions deduccion;
         int perceptionId = -1;
@@ -88,11 +89,11 @@ namespace Presentation.Views
 
                 if (result.State == ValidationState.Error)
                 {
-                    MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ListPerceptions();
                 ClearForm();
             }
@@ -103,17 +104,17 @@ namespace Presentation.Views
 
                 if (result.State == ValidationState.Error)
                 {
-                    MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ListDeductions();
                 ClearForm();
             }
             else
             {
-                MessageBox.Show("No escogió un tipo de concepto", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                RJMessageBox.Show("No escogió un tipo de concepto", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -126,11 +127,11 @@ namespace Presentation.Views
 
                 if (result.State == ValidationState.Error)
                 {
-                    MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ListPerceptions();
                 ClearForm();
             }
@@ -141,17 +142,17 @@ namespace Presentation.Views
 
                 if (result.State == ValidationState.Error)
                 {
-                    MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ListDeductions();
                 ClearForm();
             }
             else
             {
-                MessageBox.Show("No escogió un tipo de concepto", "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                RJMessageBox.Show("No escogió un tipo de concepto", "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -159,7 +160,7 @@ namespace Presentation.Views
         {
             if (rbPerception.Checked)
             {
-                DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?",
+                DialogResult res = RJMessageBox.Show("¿Está seguro que desea realizar esta acción?",
                     "Sistema de nómina dice:", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                 if (res == DialogResult.No)
@@ -172,17 +173,17 @@ namespace Presentation.Views
 
                 if (result.State == ValidationState.Error)
                 {
-                    MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ListPerceptions();
                 ClearForm();
             }
             else if (rbDeduction.Checked)
             {
-                DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?",
+                DialogResult res = RJMessageBox.Show("¿Está seguro que desea realizar esta acción?",
                     "Sistema de nómina dice:", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                 if (res == DialogResult.No)
@@ -195,17 +196,17 @@ namespace Presentation.Views
 
                 if (result.State == ValidationState.Error)
                 {
-                    MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                MessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ListDeductions();
                 ClearForm();
             }
             else
             {
-                MessageBox.Show("No escogió un tipo de concepto", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                RJMessageBox.Show("No escogió un tipo de concepto", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -429,11 +430,11 @@ namespace Presentation.Views
         {
             try
             {
-                dtgPerceptions.DataSource = perceptionRepository.Read(string.Empty, Session.companyId);
+                dtgPerceptions.DataSource = perceptionRepository.Read(txtFilterPerception.Text.Trim(), Session.companyId);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                RJMessageBox.Show(ex.ToString());
             }
         }
 
@@ -441,11 +442,11 @@ namespace Presentation.Views
         {
             try
             {
-                dtgDeductions.DataSource = deductionRepository.Read(string.Empty, Session.companyId);
+                dtgDeductions.DataSource = deductionRepository.Read(txtFilterDeduction.Text.Trim(), Session.companyId);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                RJMessageBox.Show(ex.ToString());
             }
         }
 
@@ -581,26 +582,12 @@ namespace Presentation.Views
 
         private void txtFilterPerception_TextChanged(object sender, EventArgs e)
         {
-            try
-            {
-                dtgPerceptions.DataSource = perceptionRepository.Read(txtFilterPerception.Text, Session.companyId);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
+            ListPerceptions();
         }
 
         private void txtFilterDeduction_TextChanged(object sender, EventArgs e)
         {
-            try
-            {
-                dtgDeductions.DataSource = deductionRepository.Read(txtFilterDeduction.Text, Session.companyId);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
+            ListDeductions();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Data_Access.Connections;
 using Data_Access.Entidades;
+using Data_Access.Helpers;
 using Data_Access.Interfaces;
 using Data_Access.ViewModels;
 using System;
@@ -13,7 +14,7 @@ namespace Data_Access.Repositorios
 {
     public class PositionsRepository : IPositionsRepository
     {
-        private readonly string create, update, delete, read;
+        private readonly string create, update, delete, read, readPair;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams;
 
@@ -25,6 +26,7 @@ namespace Data_Access.Repositorios
             update = "sp_ActualizarPuesto";
             delete = "sp_EliminarPuesto";
             read = "sp_LeerPuestos";
+            readPair = "sp_LeerPuestosPar";
         }
 
         public bool Create(Positions position)
@@ -58,7 +60,7 @@ namespace Data_Access.Repositorios
             return (rowCount > 0) ? true : false;
         }
 
-        public List<PositionsViewModel> Read(string filter, int companyId)
+        public IEnumerable<PositionsViewModel> Read(string filter, int companyId)
         {
             sqlParams.Start();
             sqlParams.Add("@filtro", filter);
@@ -80,5 +82,21 @@ namespace Data_Access.Repositorios
             return departments;
         }
 
+        public IEnumerable<PairItem> ReadPair()
+        {
+            sqlParams.Start();
+
+            DataTable table = mainRepository.ExecuteReader(readPair, sqlParams);
+            List<PairItem> positions = new List<PairItem>();
+            foreach (DataRow row in table.Rows)
+            {
+                positions.Add(new PairItem(
+                    row["Nombre"].ToString(),
+                    Convert.ToInt32(row["ID Puesto"])
+                ));
+            }
+
+            return positions;
+        }
     }
 }

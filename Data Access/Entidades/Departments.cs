@@ -12,23 +12,36 @@ namespace Data_Access.Entidades
         private int departmentId;
         private string name;
         private decimal baseSalary;
-        private bool active;
         private int companyId;
 
-        public int DepartmentId { get => departmentId; set => departmentId = value; }
+        public int DepartmentId 
+        { 
+            get => departmentId;
+            set => departmentId = value; 
+        }
 
         [Required(ErrorMessage = "El nombre del departamento es requerido")]
         [RegularExpression(@"^[a-zA-Z \u00C0-\u00FF]+$", ErrorMessage = "El nombre del departamento solo puede contener letras y espacios")]
-        [MaxLength(30, ErrorMessage = "El nombre del departamento es muy largo")]
-        public string Name { get => name; set => name = value; }
+        [MaxLength(30, ErrorMessage = "El nombre del departamento no puede tener más de 30 caracteres")]
+        public string Name
+        { 
+            get => name;
+            set => name = value; 
+        }
 
         [Required(ErrorMessage = "El sueldo base del departamento es requerido")]
         [Range(double.Epsilon, double.MaxValue, ErrorMessage = "El sueldo base del departamento no puede ser 0")]
-        public decimal BaseSalary { get => baseSalary; set => baseSalary = value; }
-
-        public bool Active { get => active; set => active = value; }
+        public decimal BaseSalary 
+        { 
+            get => baseSalary; 
+            set => baseSalary = value; 
+        }
 
         [Required]
-        public int CompanyId { get => companyId; set => companyId = value; }
+        public int CompanyId 
+        { 
+            get => companyId;
+            set => companyId = value; 
+        }
     }
 }

@@ -286,6 +286,10 @@
     <None Include="Resources\CSV_Logo.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CustomMessageBox\CustomMessageBox.csproj">
+      <Project>{99054420-de83-4af4-9f65-7ce1d51a5561}</Project>
+      <Name>CustomMessageBox</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Data Access\Data Access.csproj">
       <Project>{76ccd7a2-660c-4e5b-9fb9-0872838b7da7}</Project>
       <Name>Data Access</Name>

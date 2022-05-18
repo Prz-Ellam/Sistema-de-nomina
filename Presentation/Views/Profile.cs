@@ -1,4 +1,5 @@
-﻿using Data_Access.Entidades;
+﻿using CustomMessageBox;
+using Data_Access.Entidades;
 using Data_Access.Entities;
 using Data_Access.Helpers;
 using Data_Access.Repositorios;
@@ -21,7 +22,7 @@ namespace Presentation.Views
     {
         private EmployeesRepository employeeRepository;
         private RepositorioTelefonos phonesRepository;
-        private Empleados employee;
+        private Employees employee;
         private List<States> states;
 
         public Profile()
@@ -29,7 +30,7 @@ namespace Presentation.Views
             InitializeComponent();
             employeeRepository = new EmployeesRepository();
             phonesRepository = new RepositorioTelefonos();
-            employee = new Empleados();
+            employee = new Employees();
         }
 
         private void Profile_Load(object sender, EventArgs e)
@@ -174,14 +175,15 @@ namespace Presentation.Views
 
         private void ListBanks()
         {
-            RepositorioBancos bankRepository = new RepositorioBancos();
-            List<Banks> bancos = bankRepository.ReadAll();
-            List<PairItem> nombres = new List<PairItem>();
-            foreach (var banco in bancos)
+            try
             {
-                nombres.Add(new PairItem(banco.Name, banco.BankId));
+                BanksRepository repository = new BanksRepository();
+                cbBank.DataSource = repository.ReadPair();
             }
-            cbBank.DataSource = nombres;
+            catch (SqlException ex)
+            {
+                RJMessageBox.Show(ex.ToString(), "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void ListStates()

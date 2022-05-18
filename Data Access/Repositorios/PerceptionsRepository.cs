@@ -63,7 +63,7 @@ namespace Data_Access.Repositorios
             return (rowCount > 0) ? true : false;
         }
 
-        public List<PerceptionViewModel> Read(string filter, int companyId)
+        public IEnumerable<PerceptionViewModel> Read(string filter, int companyId)
         {
             sqlParams.Start();
             sqlParams.Add("@filtro", filter);

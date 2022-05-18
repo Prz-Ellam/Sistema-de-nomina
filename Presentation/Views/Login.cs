@@ -11,12 +11,14 @@ using Presentation.Helpers;
 using Data_Access.Entities;
 using Data_Access.Repositorios;
 using System.Data.SqlClient;
+using CustomMessageBox;
+using Data_Access.Interfaces;
 
 namespace Presentation.Views
 {
     public partial class Login : Form
     {
-        UsersRepository repository;
+        IUsersRepository repository;
 
         public Login()
         {
@@ -26,8 +28,6 @@ namespace Presentation.Views
 
         private void Login_Load(object sender, EventArgs e)
         {
-            //WinAPI.SendMessage(txtEmail.Handle, WinAPI.EM_SETCUEBANNER, 0, "CORREO ELECTRONICO");
-            //WinAPI.SendMessage(txtPassword.Handle, WinAPI.EM_SETCUEBANNER, 0, "CONTRASEÑA");
         }
 
         private void lblEmail_Click(object sender, EventArgs e)
@@ -47,7 +47,7 @@ namespace Presentation.Views
 
             if (email == string.Empty || password == string.Empty)
             {
-                MessageBox.Show("Todos los campos son obligatorios", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                RJMessageBox.Show("Todos los campos son obligatorios", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -57,7 +57,7 @@ namespace Presentation.Views
 
                 if (user == null)
                 {
-                    MessageBox.Show("Sus credenciales no coinciden", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    RJMessageBox.Show("Sus credenciales no coinciden", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
@@ -66,9 +66,8 @@ namespace Presentation.Views
             }
             catch (SqlException ex)
             {
-
+                RJMessageBox.Show(ex.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
 
         private void ShowMenu(Users user)
@@ -85,7 +84,7 @@ namespace Presentation.Views
 
         private void fadeIn_Tick(object sender, EventArgs e)
         {
-            Opacity = Opacity + 0.2f % 1;
+            Opacity = Opacity + 0.15f % 1;
         }
 
         private void pbClosed_Click(object sender, EventArgs e)
@@ -122,6 +121,19 @@ namespace Presentation.Views
         private void txtPassword_Enter(object sender, EventArgs e)
         {
             linePassword.BackColor = Color.FromArgb(255, 0, 123, 255);
+        }
+
+
+        private void panel_MouseDown(object sender, MouseEventArgs e)
+        {
+            WinAPI.ReleaseCapture();
+            WinAPI.SendMessage(this.Handle, WinAPI.WM_SYSCOMMAND, 0xf012, 0);
+        }
+
+        private void pbLogo_MouseDown(object sender, MouseEventArgs e)
+        {
+            WinAPI.ReleaseCapture();
+            WinAPI.SendMessage(this.Handle, WinAPI.WM_SYSCOMMAND, 0xf012, 0);
         }
     }
 }

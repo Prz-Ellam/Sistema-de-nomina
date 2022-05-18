@@ -29,10 +29,10 @@ namespace Presentation.Views
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.txtName = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
             this.lblBaseSalary = new System.Windows.Forms.Label();
@@ -67,7 +67,7 @@ namespace Presentation.Views
             this.lblName.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblName.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lblName.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.lblName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.lblName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(85)))), ((int)(((byte)(85)))));
             this.lblName.Location = new System.Drawing.Point(20, 90);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(73, 21);
@@ -80,7 +80,7 @@ namespace Presentation.Views
             this.lblBaseSalary.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblBaseSalary.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lblBaseSalary.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.lblBaseSalary.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.lblBaseSalary.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(85)))), ((int)(((byte)(85)))));
             this.lblBaseSalary.Location = new System.Drawing.Point(22, 190);
             this.lblBaseSalary.Name = "lblBaseSalary";
             this.lblBaseSalary.Size = new System.Drawing.Size(102, 21);
@@ -156,7 +156,7 @@ namespace Presentation.Views
             this.lblDepartments.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(237)))), ((int)(((byte)(237)))));
             this.lblDepartments.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lblDepartments.Font = new System.Drawing.Font("Microsoft YaHei", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDepartments.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.lblDepartments.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(85)))), ((int)(((byte)(85)))));
             this.lblDepartments.Location = new System.Drawing.Point(20, 20);
             this.lblDepartments.Name = "lblDepartments";
             this.lblDepartments.Size = new System.Drawing.Size(203, 31);
@@ -179,43 +179,44 @@ namespace Presentation.Views
             // 
             this.dtgDepartaments.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
             this.dtgDepartaments.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dtgDepartaments.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dtgDepartaments.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            this.dtgDepartaments.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.dtgDepartaments.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dtgDepartaments.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dtgDepartaments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgDepartaments.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.id,
             this.name,
             this.baseSalary});
             this.dtgDepartaments.Cursor = System.Windows.Forms.Cursors.Arrow;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dtgDepartaments.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dtgDepartaments.DefaultCellStyle = dataGridViewCellStyle3;
             this.dtgDepartaments.EnableHeadersVisualStyles = false;
             this.dtgDepartaments.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.dtgDepartaments.Location = new System.Drawing.Point(20, 402);
             this.dtgDepartaments.Name = "dtgDepartaments";
             this.dtgDepartaments.ReadOnly = true;
-            this.dtgDepartaments.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dtgDepartaments.RowHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            this.dtgDepartaments.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dtgDepartaments.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dtgDepartaments.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dtgDepartaments.Size = new System.Drawing.Size(851, 241);
             this.dtgDepartaments.TabIndex = 6;
@@ -224,6 +225,7 @@ namespace Presentation.Views
             // id
             // 
             this.id.DataPropertyName = "id";
+            this.id.FillWeight = 74.07407F;
             this.id.HeaderText = "ID Departamento";
             this.id.Name = "id";
             this.id.ReadOnly = true;
@@ -232,20 +234,22 @@ namespace Presentation.Views
             // name
             // 
             this.name.DataPropertyName = "name";
+            this.name.FillWeight = 120.6973F;
             this.name.HeaderText = "Nombre";
             this.name.Name = "name";
             this.name.ReadOnly = true;
-            this.name.Width = 310;
+            this.name.Width = 326;
             // 
             // baseSalary
             // 
             this.baseSalary.DataPropertyName = "baseSalary";
-            dataGridViewCellStyle6.Format = "c";
-            this.baseSalary.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Format = "c";
+            this.baseSalary.DefaultCellStyle = dataGridViewCellStyle2;
+            this.baseSalary.FillWeight = 105.2287F;
             this.baseSalary.HeaderText = "Sueldo base";
             this.baseSalary.Name = "baseSalary";
             this.baseSalary.ReadOnly = true;
-            this.baseSalary.Width = 300;
+            this.baseSalary.Width = 284;
             // 
             // txtFilter
             // 
@@ -263,7 +267,7 @@ namespace Presentation.Views
             this.lblFilter.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblFilter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lblFilter.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.lblFilter.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.lblFilter.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(85)))), ((int)(((byte)(85)))));
             this.lblFilter.Location = new System.Drawing.Point(500, 357);
             this.lblFilter.Name = "lblFilter";
             this.lblFilter.Size = new System.Drawing.Size(58, 21);
