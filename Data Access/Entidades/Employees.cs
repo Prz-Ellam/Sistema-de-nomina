@@ -160,6 +160,7 @@ namespace Data_Access.Entidades
         public string CodigoPostal { get => codigoPostal; set => codigoPostal = value; }
         //[Required]
         //[RegularExpression(@"^\d{10}$", ErrorMessage = "El teléfono no es válido")]
+        [PhoneList(ErrorMessage = "Los teléfonos no son válidos")]
         public List<string> Telefonos { get => telefonos; set => telefonos = value; }
     }
 }

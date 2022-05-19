@@ -158,7 +158,7 @@ AS
 			departamentos
 	WHERE
 			activo = 1
-			OR @activos = 0
+			OR @activos = 0;
 
 GO
 

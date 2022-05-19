@@ -91,6 +91,7 @@
     <Compile Include="Entidades\States.cs" />
     <Compile Include="Entidades\Telefonos.cs" />
     <Compile Include="Entidades\Users.cs" />
+    <Compile Include="Helpers\ApplyConceptType.cs" />
     <Compile Include="Helpers\BlackList.cs" />
     <Compile Include="Helpers\CURP.cs" />
     <Compile Include="Helpers\PairItem.cs" />
@@ -110,7 +111,7 @@
     <Compile Include="Repositorios\DeductionsRepository.cs" />
     <Compile Include="Repositorios\RepositorioDeduccionesAplicadas.cs" />
     <Compile Include="Repositorios\RepositorioDomicilios.cs" />
-    <Compile Include="Repositorios\RepositorioEmpresas.cs" />
+    <Compile Include="Repositorios\CompaniesRepository.cs" />
     <Compile Include="Repositorios\RepositorioNominas.cs" />
     <Compile Include="Repositorios\PerceptionsRepository.cs" />
     <Compile Include="Connections\Connection.cs" />

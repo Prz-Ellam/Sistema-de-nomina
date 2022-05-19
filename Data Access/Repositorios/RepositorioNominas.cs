@@ -29,16 +29,17 @@ namespace Data_Access.Repositorios
             payrollProcess = "sp_NominaEnProceso";
         }
 
-        public int GeneratePayrolls(DateTime date, int companyId)
+        public bool GeneratePayrolls(DateTime date, int companyId)
         {
             sqlParams.Start();
             sqlParams.Add("@id_empresa", companyId);
             sqlParams.Add("@fecha", date);
 
-            return mainRepository.ExecuteNonQuery(generate, sqlParams);
+            int rowCount = mainRepository.ExecuteNonQuery(generate, sqlParams);
+            return (rowCount > 0) ? true : false;
         }
 
-        public List<PayrollViewModel> ReadByDate(DateTime date)
+        public IEnumerable<PayrollViewModel> ReadByDate(DateTime date)
         {
             sqlParams.Start();
             sqlParams.Add("@fecha", date);

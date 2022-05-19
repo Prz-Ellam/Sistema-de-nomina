@@ -59,6 +59,7 @@ namespace Presentation.Views
             this.dtpDate.MaxDate = new System.DateTime(2038, 12, 31, 0, 0, 0, 0);
             this.dtpDate.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
             this.dtpDate.Name = "dtpDate";
+            this.dtpDate.ShowUpDown = true;
             this.dtpDate.Size = new System.Drawing.Size(224, 29);
             this.dtpDate.TabIndex = 13;
             // 

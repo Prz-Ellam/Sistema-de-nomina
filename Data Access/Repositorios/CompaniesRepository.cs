@@ -12,13 +12,13 @@ using Data_Access.ViewModels;
 
 namespace Data_Access.Repositorios
 {
-    public class RepositorioEmpresas
+    public class CompaniesRepository : ICompaniesRepository
     {
         private readonly string create, update, read, getCompany, getCreationDate;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams;
 
-        public RepositorioEmpresas()
+        public CompaniesRepository()
         {
             mainRepository = MainConnection.GetInstance();
             sqlParams = new RepositoryParameters();
@@ -48,12 +48,10 @@ namespace Data_Access.Repositorios
             DataTable telefonos = new DataTable();
             telefonos.Columns.Add("row_count");
             telefonos.Columns.Add("telefono");
-
             for (int i = 0; i < company.Phones.Count; i++)
             {
                 telefonos.Rows.Add(i.ToString(), company.Phones[i]);
             }
-
             sqlParams.Add("@telefonos", telefonos);
 
             int rowCount = mainRepository.ExecuteNonQuery(create, sqlParams);
@@ -79,29 +77,25 @@ namespace Data_Access.Repositorios
             DataTable telefonos = new DataTable();
             telefonos.Columns.Add("row_count");
             telefonos.Columns.Add("telefono");
-
             for (int i = 0; i < company.Phones.Count; i++)
             {
                 telefonos.Rows.Add(i.ToString(), company.Phones[i]);
             }
-
             sqlParams.Add("@telefonos", telefonos);
 
             int rowCount = mainRepository.ExecuteNonQuery(update, sqlParams);
             return (rowCount > 0) ? true : false;
         }
 
-        public CompaniesViewModel Read(int id)
+        public CompaniesViewModel Read(int companyId)
         {
             sqlParams.Start();
-            sqlParams.Add("@id_empresa", id);
+            sqlParams.Add("@id_empresa", companyId);
 
             DataTable table = mainRepository.ExecuteReader(read, sqlParams);
-
-            CompaniesViewModel company;
             foreach (DataRow row in table.Rows)
             {
-                company = new CompaniesViewModel {
+                return new CompaniesViewModel {
                     IdEmpresa = Convert.ToInt32(row["ID Empresa"]),
                     RazonSocial = row["Razon social"].ToString(),
                     Calle = row["Calle"].ToString(),
@@ -115,8 +109,6 @@ namespace Data_Access.Repositorios
                     Rfc = row["RFC"].ToString(),
                     FechaInicio = Convert.ToDateTime(row["Fecha de Inicio"])
                 };
-
-                return company;
             }
 
             return null;
@@ -126,8 +118,8 @@ namespace Data_Access.Repositorios
         {
             sqlParams.Start();
             sqlParams.Add("@id_administrador", id);
-            DataTable table = mainRepository.ExecuteReader(getCompany, sqlParams);
 
+            DataTable table = mainRepository.ExecuteReader(getCompany, sqlParams);
             foreach (DataRow row in table.Rows)
             {
                 return Convert.ToInt32(row[0]);
@@ -141,8 +133,8 @@ namespace Data_Access.Repositorios
             sqlParams.Start();
             sqlParams.Add("@id_empresa", companyId);
             sqlParams.Add("@primer_dia", firstDay);
-            DataTable table = mainRepository.ExecuteReader(getCreationDate, sqlParams);
 
+            DataTable table = mainRepository.ExecuteReader(getCreationDate, sqlParams);
             foreach (DataRow row in table.Rows)
             {
                 return Convert.ToDateTime(row["Fecha de inicio"]);

@@ -1,5 +1,6 @@
 ﻿using CustomMessageBox;
 using Data_Access.Entidades;
+using Data_Access.Interfaces;
 using Data_Access.Repositorios;
 using Data_Access.ViewModels;
 using Presentation.Helpers;
@@ -20,13 +21,8 @@ namespace Presentation.Views
     {
         private RepositorioPercepcionesAplicadas applyPerceptionsRepository;
         private RepositorioDeduccionesAplicadas applyDeductionsRepository;
-        private int departmentId = -1;
-        private int employeeId = -1;
-        private int perceptionId = -1;
-        private int deductionId = -1;
-
-        private int perceptionRadioId = -1;
-        private int deductionRadioId = -1;
+        private int entityId = -1;
+        private int conceptId = -1;
 
         private int dtgPerceptionPrevIndex = -1;
         private int dtgDeductionPrevIndex = -1;
@@ -35,22 +31,32 @@ namespace Presentation.Views
 
         private DateTime payrollDate;
         private bool isPayrollDate;
-        private ApplyConceptType conceptType;
+        private EntityType entityType;
+        private ConceptType conceptType;
+
+        Dictionary<string, int> dictionary = new Dictionary<string, int>();
 
         public FormAplicarConceptos()
         {
             InitializeComponent();
             applyPerceptionsRepository = new RepositorioPercepcionesAplicadas();
             applyDeductionsRepository = new RepositorioDeduccionesAplicadas();
+            rbPerceptionsFilterAll.CheckedChanged += new EventHandler(perceptionsRadioButtons_CheckedChange);
+            rbPerceptionsFilterApply.CheckedChanged += new EventHandler(perceptionsRadioButtons_CheckedChange);
+            rbPerceptionsFilterNotApply.CheckedChanged += new EventHandler(perceptionsRadioButtons_CheckedChange);
+            rbDeductionsFilterAll.CheckedChanged += new EventHandler(deductionsRadioButtons_CheckedChange);
+            rbDeductionsFilterApply.CheckedChanged += new EventHandler(deductionsRadioButtons_CheckedChange);
+            rbDeductionsFilterNotApply.CheckedChanged += new EventHandler(deductionsRadioButtons_CheckedChange);
         }
 
         private void Concepts_Load(object sender, EventArgs e)
         {
-            rbPerceptionsFilterAll.Checked = true;
-            perceptionRadioId = 1;
+            dictionary.Add("Todas", 1);
+            dictionary.Add("Aplicadas", 2);
+            dictionary.Add("No aplicadas", 3);
 
+            rbPerceptionsFilterAll.Checked = true;
             rbDeductionsFilterAll.Checked = true;
-            deductionRadioId = 1;
 
             btnApply.Enabled = false;
             btnDelete.Enabled = false;
@@ -58,12 +64,12 @@ namespace Presentation.Views
             try
             {
                 RepositorioNominas payrollRepository = new RepositorioNominas();
-                RepositorioEmpresas companyRepository = new RepositorioEmpresas();
+                ICompaniesRepository companyRepository = new CompaniesRepository();
                 DateTime creationDate = companyRepository.GetCreationDate(Session.companyId, true);
                 payrollDate = payrollRepository.GetDate(Session.companyId, true);
-                dtpDate.Value = payrollDate;
                 dtpDate.MinDate = creationDate;
                 dtpDate.MaxDate = payrollDate;
+                dtpDate.Value = payrollDate;
             }
             catch (SqlException ex)
             {
@@ -71,10 +77,6 @@ namespace Presentation.Views
                 {
                     RJMessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-            }
-            catch (Exception ex)
-            {
-
             }
 
             dtgEmployees.DoubleBuffered(true);
@@ -94,20 +96,20 @@ namespace Presentation.Views
             {
                 var row = dtgEmployees.Rows[e.RowIndex];
 
-                employeeId = Convert.ToInt32(row.Cells[0].Value);
-                departmentId = -1;
+                entityType = EntityType.Employee;
+                entityId = Convert.ToInt32(row.Cells[0].Value);
                 txtEntity.Text = row.Cells[1].Value.ToString();
 
                 dtgEmployeePrevIndex = index;
                 dtgDepartmentPrevIndex = -1;
 
-                conceptType = ApplyConceptType.Employee;
+                ClearConcept();
 
                 rbPerceptionsFilterAll.Checked = true;
                 rbDeductionsFilterAll.Checked = true;
 
-                dtgPerceptions.DataSource = applyPerceptionsRepository.ReadApplyPerceptions(1, employeeId, dtpDate.Value);
-                dtgDeductions.DataSource = applyDeductionsRepository.ReadApplyDeductions(1, employeeId, dtpDate.Value);
+                dtgPerceptions.DataSource = applyPerceptionsRepository.ReadEmployeePerceptions(1, entityId, dtpDate.Value);
+                dtgDeductions.DataSource = applyDeductionsRepository.ReadEmployeeDeductions(1, entityId, dtpDate.Value);
             }
         }
 
@@ -122,24 +124,20 @@ namespace Presentation.Views
             {
                 var row = dtgDepartaments.Rows[e.RowIndex];
 
-                departmentId = Convert.ToInt32(row.Cells[0].Value);
-                employeeId = -1;
-
+                entityType = EntityType.Department;
+                entityId = Convert.ToInt32(row.Cells[0].Value);
                 txtEntity.Text = row.Cells[1].Value.ToString();
 
                 dtgEmployeePrevIndex = -1;
                 dtgDepartmentPrevIndex = index;
 
-                conceptType = ApplyConceptType.Department;
+                ClearConcept();
 
                 rbPerceptionsFilterAll.Checked = true;
-                perceptionRadioId = 1;
-
                 rbDeductionsFilterAll.Checked = true;
-                deductionRadioId = 1;
 
-                dtgPerceptions.DataSource = applyPerceptionsRepository.ReadApplyDepartmentPerceptions(1, departmentId, dtpDate.Value);
-                dtgDeductions.DataSource = applyDeductionsRepository.ReadApplyDepartmentDeductions(1, departmentId, dtpDate.Value);
+                dtgPerceptions.DataSource = applyPerceptionsRepository.ReadDepartmentPerceptions(1, entityId, dtpDate.Value);
+                dtgDeductions.DataSource = applyDeductionsRepository.ReadDepartmentDeductions(1, entityId, dtpDate.Value);
             }
         }
 
@@ -154,36 +152,22 @@ namespace Presentation.Views
             int index = e.RowIndex;
             if (index == dtgPerceptionPrevIndex || index == -1)
             {
-                perceptionId = -1;
-                deductionId = -1;
-                txtConcept.Clear();
-                dtgPerceptionPrevIndex = -1;
-                dtgDeductionPrevIndex = -1;
-
-                btnApply.Enabled = false;
-                btnDelete.Enabled = false;
+                ClearConcept();
             }
             else
             {
                 var row = dtgPerceptions.Rows[e.RowIndex];
-                perceptionId = Convert.ToInt32(row.Cells[1].Value);
-                deductionId = -1;
+
+                conceptType = ConceptType.Perception;
+                conceptId = Convert.ToInt32(row.Cells[1].Value);
                 txtConcept.Text = row.Cells[2].Value.ToString();
+
                 dtgPerceptionPrevIndex = index;
                 dtgDeductionPrevIndex = -1;
 
                 bool apply = Convert.ToBoolean(row.Cells[0].Value);
-                if (apply)
-                {
-                    btnApply.Enabled = false;
-                    btnDelete.Enabled = true;
-                }
-                else
-                {
-                    btnApply.Enabled = true;
-                    btnDelete.Enabled = false;
-                }
-
+                btnApply.Enabled = !apply;
+                btnDelete.Enabled = apply;
             }
         }
 
@@ -198,185 +182,198 @@ namespace Presentation.Views
             int index = e.RowIndex;
             if (index == dtgDeductionPrevIndex || index == -1)
             {
-                perceptionId = -1;
-                deductionId = -1;
-                txtConcept.Clear();
-                dtgPerceptionPrevIndex = -1;
-                dtgDeductionPrevIndex = -1;
-
-                btnApply.Enabled = false;
-                btnDelete.Enabled = false;
+                ClearConcept();
             }
             else
             {
                 var row = dtgDeductions.Rows[e.RowIndex];
-                perceptionId = -1;
-                deductionId = Convert.ToInt32(row.Cells[1].Value);
+
+                conceptType = ConceptType.Deduction;
+                conceptId = Convert.ToInt32(row.Cells[1].Value);
+
                 txtConcept.Text = row.Cells[2].Value.ToString();
                 dtgPerceptionPrevIndex = -1;
                 dtgDeductionPrevIndex = index;
 
                 bool apply = Convert.ToBoolean(row.Cells[0].Value);
-                if (apply)
-                {
-                    btnApply.Enabled = false;
-                    btnDelete.Enabled = true;
-                }
-                else
-                {
-                    btnApply.Enabled = true;
-                    btnDelete.Enabled = false;
-                }
+                btnApply.Enabled = !apply;
+                btnDelete.Enabled = apply;
             }
         }
 
         private void btnApply_Click(object sender, EventArgs e)
         {
-            if (perceptionId != -1)
+            try
             {
+                bool result = false;
                 switch (conceptType)
                 {
-                    case ApplyConceptType.Employee:
+                    case ConceptType.Perception:
                     {
-                        bool result = applyPerceptionsRepository.ApplyEmployeePerception(
-                            employeeId, perceptionId, dtpDate.Value);
+                        switch (entityType)
+                        {
+                            case EntityType.Employee:
+                            {
+                                result = applyPerceptionsRepository.ApplyEmployeePerception(
+                                    entityId, conceptId, dtpDate.Value);
+                                break;
+                            }
+                            case EntityType.Department:
+                            {
+                                result = applyPerceptionsRepository.ApplyDepartmentPerception(
+                                    entityId, conceptId, dtpDate.Value);
+                                break;
+                            }
+                        }
                         break;
                     }
-                    case ApplyConceptType.Department:
+                    case ConceptType.Deduction:
                     {
-                        bool result = applyPerceptionsRepository.ApplyDepartmentPerception(
-                            departmentId, perceptionId, dtpDate.Value);
+                        switch (entityType)
+                        {
+                            case EntityType.Employee:
+                            {
+                                result = applyDeductionsRepository.ApplyEmployeeDeduction(
+                                    entityId, conceptId, dtpDate.Value);
+                                break;
+                            }
+                            case EntityType.Department:
+                            {
+                                result = applyDeductionsRepository.ApplyDepartmentDeduction(
+                                    entityId, conceptId, dtpDate.Value);
+                                break;
+                            }
+                        }
                         break;
                     }
                 }
-            }
-            else if (deductionId != -1)
-            {
-                switch (conceptType)
+
+                if (!result)
                 {
-                    case ApplyConceptType.Employee:
-                    {
-                        bool result = applyDeductionsRepository.ApplyEmployeeDeduction(
-                            employeeId, deductionId, dtpDate.Value);
-                        break;
-                    }
-                    case ApplyConceptType.Department:
-                    {
-                        bool result = applyDeductionsRepository.ApplyDepartmentDeduction(
-                            departmentId, deductionId, dtpDate.Value);
-                        break;
-                    }
-                }     
+
+                }
             }
-            else
+            catch (SqlException ex)
             {
-                // ?
-                return;
+
             }
 
-            switch (conceptType)
+            string perceptionName = gpPerceptions.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked).Text;
+            string deductionName = gpDeductions.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked).Text;
+            int perceptionType = dictionary[perceptionName];
+            int deductionType = dictionary[deductionName];
+
+            switch (entityType)
             {
-                case ApplyConceptType.Employee:
-                {
-                    ListEmployees();
-                    dtgPerceptions.DataSource = applyPerceptionsRepository.ReadApplyPerceptions(perceptionRadioId, employeeId, dtpDate.Value);
-                    dtgDeductions.DataSource = applyDeductionsRepository.ReadApplyDeductions(deductionRadioId, employeeId, dtpDate.Value);
-                    ClearConcept();
+                case EntityType.Employee:
+                { 
+                    dtgPerceptions.DataSource = applyPerceptionsRepository.ReadEmployeePerceptions(perceptionType, entityId, dtpDate.Value);
+                    dtgDeductions.DataSource = applyDeductionsRepository.ReadEmployeeDeductions(deductionType, entityId, dtpDate.Value);
                     break;
                 }
-                case ApplyConceptType.Department:
+                case EntityType.Department:
                 {
-                    ListDepartments();
-                    dtgPerceptions.DataSource = applyPerceptionsRepository.ReadApplyDepartmentPerceptions(perceptionRadioId, departmentId, dtpDate.Value);
-                    dtgDeductions.DataSource = applyDeductionsRepository.ReadApplyDepartmentDeductions(deductionRadioId, departmentId, dtpDate.Value);
-                    ClearConcept();
+                    dtgPerceptions.DataSource = applyPerceptionsRepository.ReadDepartmentPerceptions(perceptionType, entityId, dtpDate.Value);
+                    dtgDeductions.DataSource = applyDeductionsRepository.ReadDepartmentDeductions(deductionType, entityId, dtpDate.Value);
                     break;
                 }
             }
-            
+
+            ListEmployees();
+            ListDepartments();
+            ClearConcept();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (perceptionId != -1)
+            try
             {
+                bool result = false;
                 switch (conceptType)
                 {
-                    case ApplyConceptType.Employee:
+                    case ConceptType.Perception:
                     {
-                        bool result = applyPerceptionsRepository.UndoEmployeePerception(
-                            employeeId, perceptionId, dtpDate.Value);
+                        switch (entityType)
+                        {
+                            case EntityType.Employee:
+                            {
+                                result = applyPerceptionsRepository.UndoEmployeePerception(
+                                    entityId, conceptId, dtpDate.Value);
+                                break;
+                            }
+                            case EntityType.Department:
+                            {
+                                result = applyPerceptionsRepository.UndoDepartmentPerception(
+                                    entityId, conceptId, dtpDate.Value);
+                                break;
+                            }
+                        }
                         break;
                     }
-                    case ApplyConceptType.Department:
+                    case ConceptType.Deduction:
                     {
-                        bool result = applyPerceptionsRepository.UndoDepartmentPerception(
-                            departmentId, perceptionId, dtpDate.Value);
+                        switch (entityType)
+                        {
+                            case EntityType.Employee:
+                            {
+                                result = applyDeductionsRepository.UndoEmployeeDeduction(
+                                    entityId, conceptId, dtpDate.Value);
+                                break;
+                            }
+                            case EntityType.Department:
+                            {
+                                result = applyDeductionsRepository.UndoDepartmentDeduction(
+                                    entityId, conceptId, dtpDate.Value);
+                                break;
+                            }
+                        }
                         break;
                     }
                 }
-            }
-            else if (deductionId != -1)
-            {
-                switch (conceptType)
-                {
-                    case ApplyConceptType.Employee:
-                    {
-                        bool result = applyDeductionsRepository.UndoEmployeeDeduction(
-                            employeeId, deductionId, dtpDate.Value);
-                        break;
-                    }
-                    case ApplyConceptType.Department:
-                    {
-                        bool result = applyDeductionsRepository.UndoDepartmentDeduction(
-                            departmentId, deductionId, dtpDate.Value);
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                // ?
-                return;
-            }
 
-            switch (conceptType)
-            {
-                case ApplyConceptType.Employee:
+                if (!result)
                 {
-                    ListEmployees();
-                    dtgPerceptions.DataSource = applyPerceptionsRepository.ReadApplyPerceptions(perceptionRadioId, employeeId, dtpDate.Value);
-                    dtgDeductions.DataSource = applyDeductionsRepository.ReadApplyDeductions(deductionRadioId, employeeId, dtpDate.Value);
-                    ClearConcept();
+
+                }
+            }
+            catch (SqlException ex)
+            {
+
+            }
+            
+            switch (entityType)
+            {
+                case EntityType.Employee:
+                {
+                    dtgPerceptions.DataSource = applyPerceptionsRepository.ReadEmployeePerceptions(1, entityId, dtpDate.Value);
+                    dtgDeductions.DataSource = applyDeductionsRepository.ReadEmployeeDeductions(1, entityId, dtpDate.Value);
                     break;
                 }
-                case ApplyConceptType.Department:
+                case EntityType.Department:
                 {
-                    ListDepartments();
-                    dtgPerceptions.DataSource = applyPerceptionsRepository.ReadApplyDepartmentPerceptions(perceptionRadioId, departmentId, dtpDate.Value);
-                    dtgDeductions.DataSource = applyDeductionsRepository.ReadApplyDepartmentDeductions(deductionRadioId, departmentId, dtpDate.Value);
-                    ClearConcept();
+                    dtgPerceptions.DataSource = applyPerceptionsRepository.ReadDepartmentPerceptions(1, entityId, dtpDate.Value);
+                    dtgDeductions.DataSource = applyDeductionsRepository.ReadDepartmentDeductions(1, entityId, dtpDate.Value);
                     break;
                 }
             }
+            
+            ListEmployees();
+            ListDepartments();
+            ClearConcept();
         }
 
         private void ClearForm()
         {
-            employeeId = -1;
-            departmentId = -1;
-
+            entityId = -1;
             txtEntity.Clear();
-            txtConcept.Clear();
 
             dtgEmployeePrevIndex = -1;
             dtgDepartmentPrevIndex = -1;
 
-            rbPerceptionsFilterAll.Checked = true;
-            perceptionRadioId = 1;
+            ClearConcept();
 
+            rbPerceptionsFilterAll.Checked = true;
             rbDeductionsFilterAll.Checked = true;
-            deductionRadioId = 1;
 
             dtgPerceptions.DataSource = new List<ApplyPerceptionViewModel>();
             dtgDeductions.DataSource = new List<ApplyDeductionsViewModel>();
@@ -384,9 +381,11 @@ namespace Presentation.Views
 
         private void ClearConcept()
         {
+            conceptId = -1;
             txtConcept.Clear();
-            rbPerceptionsFilterAll.Checked = true;
-            rbDeductionsFilterAll.Checked = true;
+
+            dtgPerceptionPrevIndex = -1;
+            dtgDeductionPrevIndex = -1;
 
             btnApply.Enabled = false;
             btnDelete.Enabled = false;
@@ -403,13 +402,11 @@ namespace Presentation.Views
             {
                 if (ex.Number == 50000)
                 {
-                    RJMessageBox.Show(ex.Message, "Sistema de nómina dice:", MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
+                    RJMessageBox.Show(ex.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
-                    RJMessageBox.Show("No se pudo realizar la operación", "Sistema de nómina dice:",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    RJMessageBox.Show("No se pudo realizar la operación", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -425,151 +422,11 @@ namespace Presentation.Views
             {
                 if (ex.Number == 50000)
                 {
-                    RJMessageBox.Show(ex.Message, "Sistema de nómina dice:", MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
+                    RJMessageBox.Show(ex.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
-                    RJMessageBox.Show("No se pudo realizar la operación", "Sistema de nómina dice:",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-
-        private void rbPerceptionsFilterAll_CheckedChanged(object sender, EventArgs e)
-        {
-            if (rbPerceptionsFilterAll.Checked)
-            {
-                perceptionRadioId = 1;
-                switch (conceptType)
-                {
-                    case ApplyConceptType.Employee:
-                    {
-                        dtgPerceptions.DataSource = applyPerceptionsRepository.ReadApplyPerceptions(
-                            perceptionRadioId, employeeId, dtpDate.Value);
-                        break;
-                    }
-                    case ApplyConceptType.Department:
-                    {
-                        dtgPerceptions.DataSource = applyPerceptionsRepository.ReadApplyDepartmentPerceptions(
-                            perceptionRadioId, departmentId, dtpDate.Value);
-                        break;
-                    }
-                }
-            }
-        }
-
-        private void rbPerceptionsFilterApply_CheckedChanged(object sender, EventArgs e)
-        { 
-            if (rbPerceptionsFilterApply.Checked)
-            {
-                perceptionRadioId = 2;
-                switch (conceptType)
-                {
-                    case ApplyConceptType.Employee:
-                    {
-                        dtgPerceptions.DataSource = applyPerceptionsRepository.ReadApplyPerceptions(
-                            perceptionRadioId, employeeId, dtpDate.Value);
-                        break;
-                    }
-                    case ApplyConceptType.Department:
-                    {
-                        dtgPerceptions.DataSource = applyPerceptionsRepository.ReadApplyDepartmentPerceptions(
-                            perceptionRadioId, departmentId, dtpDate.Value);
-                        break;
-                    }
-                } 
-            }
-        }
-
-        private void rbPerceptionsFilterNotApply_CheckedChanged(object sender, EventArgs e)
-        {
-            if (rbPerceptionsFilterNotApply.Checked)
-            {
-                perceptionRadioId = 3;
-                switch (conceptType)
-                {
-                    case ApplyConceptType.Employee:
-                    {
-                        dtgPerceptions.DataSource = applyPerceptionsRepository.ReadApplyPerceptions(
-                            perceptionRadioId, employeeId, dtpDate.Value);
-                        break;
-                    }
-                    case ApplyConceptType.Department:
-                    {
-                        dtgPerceptions.DataSource = applyPerceptionsRepository.ReadApplyDepartmentPerceptions(
-                            perceptionRadioId, departmentId, dtpDate.Value);
-                        break;
-                    }
-                }
-            }
-        }
-
-        private void rbDeductionsFilterAll_CheckedChanged(object sender, EventArgs e)
-        {
-            if (rbDeductionsFilterAll.Checked)
-            {
-                deductionRadioId = 1;
-                switch (conceptType)
-                {
-                    case ApplyConceptType.Employee:
-                    {
-                        dtgDeductions.DataSource = applyDeductionsRepository.ReadApplyDeductions(
-                            deductionRadioId, employeeId, dtpDate.Value);
-                        break;
-                    }
-                    case ApplyConceptType.Department:
-                    {
-                        dtgDeductions.DataSource = applyDeductionsRepository.ReadApplyDepartmentDeductions(
-                            deductionRadioId, departmentId, dtpDate.Value);
-                        break;
-                    }
-                }
-            }
-        }
-
-        private void rbDeductionsFilterApply_CheckedChanged(object sender, EventArgs e)
-        {
-            if (rbDeductionsFilterApply.Checked)
-            {
-                deductionRadioId = 2;
-                switch (conceptType)
-                {
-                    case ApplyConceptType.Employee:
-                    {
-                        dtgDeductions.DataSource = applyDeductionsRepository.ReadApplyDeductions(
-                            deductionRadioId, employeeId, dtpDate.Value);
-                        break;
-                    }
-                    case ApplyConceptType.Department:
-                    {
-                        dtgDeductions.DataSource = applyDeductionsRepository.ReadApplyDepartmentDeductions(
-                            deductionRadioId, departmentId, dtpDate.Value);
-                        break;
-                    }
-                }
-            }
-        }
-
-        private void rbDeductionsFilterNotApply_CheckedChanged(object sender, EventArgs e)
-        {
-            if (rbDeductionsFilterNotApply.Checked)
-            {
-                deductionRadioId = 3;
-                switch (conceptType)
-                {
-                    case ApplyConceptType.Employee:
-                    {
-                        dtgDeductions.DataSource = applyDeductionsRepository.ReadApplyDeductions(
-                            deductionRadioId, employeeId, dtpDate.Value);
-                        break;
-                    }
-                    case ApplyConceptType.Department:
-                    {
-                        dtgDeductions.DataSource = applyDeductionsRepository.ReadApplyDepartmentDeductions(
-                            deductionRadioId, departmentId, dtpDate.Value);
-                        break;
-                    }
+                    RJMessageBox.Show("No se pudo realizar la operación", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -580,7 +437,7 @@ namespace Presentation.Views
             { 
                 if (Convert.ToDecimal(row.Cells[9].Value) <= 0.0m) 
                 {
-                    row.DefaultCellStyle.BackColor = Color.FromArgb(255, 220, 53, 69);
+                    row.DefaultCellStyle.BackColor = Color.FromArgb(220, 53, 69);
                     row.DefaultCellStyle.ForeColor = Color.White;
                 }
             }
@@ -593,12 +450,14 @@ namespace Presentation.Views
 
             if (requestDate.CompareTo(actualDate) < 0)
             {
-                RJMessageBox.Show("No se pueden cargar conceptos debido a que ya fue cerrada la nómina de este periodo");
+                RJMessageBox.Show("No se pueden cargar conceptos debido a que ya fue cerrada la nómina de este periodo",
+                    "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 isPayrollDate = false;
             }
             else if (requestDate.CompareTo(actualDate) > 0)
             {
-                RJMessageBox.Show("No se pueden cargar conceptos antes del periodo de actual nómina");
+                RJMessageBox.Show("No se pueden cargar conceptos antes del periodo de actual nómina",
+                    "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 isPayrollDate = false;
             }
             else
@@ -616,54 +475,58 @@ namespace Presentation.Views
         {
             RepositorioNominas payrollRepository = new RepositorioNominas();
             DateTime requestDate = dtpDate.Value;
-
-            // Tal vez indicar si es antes o despues, si es antes un error distinto del tipo ya se realizo
-
-            if (payrollDate.Year != requestDate.Year || payrollDate.Month != requestDate.Month)
-            {
-                RJMessageBox.Show("No se puede iniciar una nómina fuera del periodo actual de nómina", 
-                    "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            bool status = payrollRepository.IsPayrollProcess(Session.companyId);
-
-            if (status)
-            {
-                RJMessageBox.Show("Ya hay una nómina en proceso", "Sistema de nómina dice: ", 
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
             try
             {
                 bool result = payrollRepository.StartPayroll(Session.companyId, requestDate);
+                if (!result)
+                {
+                    RJMessageBox.Show("No se pudo iniciar la nómina", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
-                if (result)
-                {
-                    RJMessageBox.Show("La nómina se ha iniciado correctamente", "Sistema de nómina dice: ",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    isPayrollDate = true;
-                    ListEmployees();
-                    ListDepartments();
-                    ClearForm();
-                }
-                else
-                {
-                    RJMessageBox.Show("No se pudo iniciar la nómina", "Sistema de nómina dice: ",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                RJMessageBox.Show("La nómina se ha iniciado correctamente", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                isPayrollDate = true;
+                ListEmployees();
+                ListDepartments();
+                ClearForm();
             }
             catch (SqlException ex)
             {
                 if (ex.Number == 50000)
                 {
-                    RJMessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
+                    RJMessageBox.Show(ex.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-
         }
 
+        private void perceptionsRadioButtons_CheckedChange(object sender, EventArgs e)
+        {
+            RadioButton radioButton = sender as RadioButton;
+            if (!radioButton.Checked)
+            {
+                return;
+            }
+
+            string name = gpPerceptions.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked).Text;
+            int perceptionType = dictionary[name];
+
+            dtgPerceptions.DataSource = applyPerceptionsRepository.ReadPerceptions(
+                perceptionType, entityId, entityType, dtpDate.Value);
+        }
+
+        private void deductionsRadioButtons_CheckedChange(object sender, EventArgs e)
+        {
+            RadioButton radioButton = sender as RadioButton;
+            if (!radioButton.Checked)
+            {
+                return;
+            }
+
+            string name = gpDeductions.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked).Text;
+            int deductionType = dictionary[name];
+
+            dtgDeductions.DataSource = applyDeductionsRepository.ReadDeductions(
+                deductionType, entityId, entityType, dtpDate.Value);
+        }
     }
 }

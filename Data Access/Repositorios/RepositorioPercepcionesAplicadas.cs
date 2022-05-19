@@ -1,5 +1,6 @@
 ﻿using Data_Access.Connections;
 using Data_Access.ViewModels;
+using Presentation.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -19,6 +20,7 @@ namespace Data_Access.Repositorios
         public RepositorioPercepcionesAplicadas()
         {
             mainRepository = MainConnection.GetInstance();
+            sqlParams = new RepositoryParameters();
             applyEmployee = "sp_AplicarEmpleadoPercepcion";
             undoEmployee = "sp_EliminarEmpleadoPercepcion";
 
@@ -29,8 +31,6 @@ namespace Data_Access.Repositorios
             readApplyDepartment = "sp_LeerDepartamentosPercepcionesAplicadas";
 
             perceptionsReceipt = "sp_LeerPercepcionesRecibo";
-
-            sqlParams = new RepositoryParameters();
         }
 
         public bool ApplyEmployeePerception(int employeeNumber, int perceptionId, DateTime date)
@@ -77,7 +77,26 @@ namespace Data_Access.Repositorios
             return (rowCount > 0) ? true : false;
         }
 
-        public List<ApplyPerceptionViewModel> ReadApplyPerceptions(int filter, int employeeNumber, DateTime date)
+        public List<ApplyPerceptionViewModel> ReadPerceptions(int filter, int entityId, EntityType entityType, DateTime date)
+        {
+            switch (entityType)
+            {
+                case EntityType.Employee:
+                {
+                    return ReadEmployeePerceptions(filter, entityId, date);
+                }
+                case EntityType.Department:
+                {
+                    return ReadDepartmentPerceptions(filter, entityId, date);
+                }
+                default:
+                {
+                    return null;
+                }
+            }
+        }
+
+        public List<ApplyPerceptionViewModel> ReadEmployeePerceptions(int filter, int employeeNumber, DateTime date)
         {
             sqlParams.Start();
             sqlParams.Add("@filtro", filter);
@@ -86,7 +105,6 @@ namespace Data_Access.Repositorios
 
             DataTable table = mainRepository.ExecuteReader(readApplyEmployee, sqlParams);
             List<ApplyPerceptionViewModel> applyPerceptions = new List<ApplyPerceptionViewModel>();
-
             foreach(DataRow row in table.Rows)
             {
                 applyPerceptions.Add(new ApplyPerceptionViewModel
@@ -94,16 +112,13 @@ namespace Data_Access.Repositorios
                     Aplicada = Convert.ToBoolean(row[0]),
                     IdPercepcion = Convert.ToInt32(row[1]),
                     Nombre = row[2].ToString(),
-                    //TipoMonto = Convert.ToChar(row[3]),
-                    //Fijo = Convert.ToDecimal(row[4]),
-                    //Porcentual = Convert.ToDecimal(row[5])
                 });
             }
 
             return applyPerceptions;
         }
 
-        public List<ApplyPerceptionViewModel> ReadApplyDepartmentPerceptions(int filter, int departmentId, DateTime date)
+        public List<ApplyPerceptionViewModel> ReadDepartmentPerceptions(int filter, int departmentId, DateTime date)
         {
             sqlParams.Start();
             sqlParams.Add("@filtro", filter);
@@ -136,7 +151,6 @@ namespace Data_Access.Repositorios
 
             DataTable table = mainRepository.ExecuteReader(perceptionsReceipt, sqlParams);
             List<PayrollPerceptionViewModel> perceptions = new List<PayrollPerceptionViewModel>();
-
             foreach (DataRow row in table.Rows)
             {
                 perceptions.Add(new PayrollPerceptionViewModel

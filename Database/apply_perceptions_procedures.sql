@@ -220,7 +220,7 @@ AS
 	IF @filtro = 1
 
 		SELECT 
-				IIF(ISNULL(dpa.[Cantidad empleados], 0) >= dc.Cantidad AND ISNULL(dpa.[Cantidad empleados], 0) <> 0, 'true', 'false') [Aplicada],
+				IIF(ISNULL(dpa.[Cantidad empleados], 0) >= hc.[Cantidad] AND ISNULL(dpa.[Cantidad empleados], 0) <> 0, 'true', 'false') [Aplicada],
 				dpf.id_percepcion,
 				p.nombre
 		FROM 
@@ -231,8 +231,8 @@ AS
 				dbo.PRIMERDIAFECHA(dpa.fecha) = dbo.PRIMERDIAFECHA(dpf.fecha)
 				INNER JOIN percepciones AS p
 				ON dpf.id_percepcion = p.id_percepcion
-				INNER JOIN vw_DepartmentsCount AS dc
-				ON dpf.id_departamento = dc.id_departamento AND dpf.fecha = dc.Fecha
+				INNER JOIN vw_Headcounter2 AS hc
+				ON dpf.id_departamento = hc.[ID Departamento] AND dpf.fecha = hc.[Fecha]
 		WHERE
 				dpf.fecha = @fecha AND
 				dpf.id_departamento = @id_departamento AND
@@ -242,7 +242,7 @@ AS
 	ELSE IF @filtro = 2
 
 		SELECT 
-				IIF(ISNULL(dpa.[Cantidad empleados], 0) >= dc.Cantidad AND ISNULL(dpa.[Cantidad empleados], 0) <> 0, 'true', 'false') [Aplicada],
+				IIF(ISNULL(dpa.[Cantidad empleados], 0) >= hc.[Cantidad] AND ISNULL(dpa.[Cantidad empleados], 0) <> 0, 'true', 'false') [Aplicada],
 				dpf.id_percepcion,
 				p.nombre
 		FROM 
@@ -253,19 +253,19 @@ AS
 				dbo.PRIMERDIAFECHA(dpa.fecha) = dbo.PRIMERDIAFECHA(dpf.fecha)
 				INNER JOIN percepciones AS p
 				ON dpf.id_percepcion = p.id_percepcion
-				INNER JOIN vw_DepartmentsCount AS dc
-				ON dpf.id_departamento = dc.id_departamento AND dpf.fecha = dc.Fecha
+				INNER JOIN vw_Headcounter2 AS hc
+				ON dpf.id_departamento = hc.[ID Departamento] AND dpf.fecha = hc.[Fecha]
 		WHERE
 				dpf.fecha = @fecha AND
 				dpf.id_departamento = @id_departamento AND
 				dbo.PRIMERDIAFECHA(p.fecha_creacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
 				(p.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR p.fecha_eliminacion IS NULL) AND
-				IIF(ISNULL(dpa.[Cantidad empleados], 0) >= dc.Cantidad AND ISNULL(dpa.[Cantidad empleados], 0) <> 0, 'true', 'false') = 'true'
+				IIF(ISNULL(dpa.[Cantidad empleados], 0) >= hc.[Cantidad] AND ISNULL(dpa.[Cantidad empleados], 0) <> 0, 'true', 'false') = 'true'
 
 	ELSE IF @filtro = 3
 
 				SELECT 
-				IIF(ISNULL(dpa.[Cantidad empleados], 0) >= dc.Cantidad AND ISNULL(dpa.[Cantidad empleados], 0) <> 0, 'true', 'false') [Aplicada],
+				IIF(ISNULL(dpa.[Cantidad empleados], 0) >= hc.[Cantidad] AND ISNULL(dpa.[Cantidad empleados], 0) <> 0, 'true', 'false') [Aplicada],
 				dpf.id_percepcion,
 				p.nombre
 		FROM 
@@ -276,14 +276,14 @@ AS
 				dbo.PRIMERDIAFECHA(dpa.fecha) = dbo.PRIMERDIAFECHA(dpf.fecha)
 				INNER JOIN percepciones AS p
 				ON dpf.id_percepcion = p.id_percepcion
-				INNER JOIN vw_DepartmentsCount AS dc
-				ON dpf.id_departamento = dc.id_departamento AND dpf.fecha = dc.Fecha
+				INNER JOIN vw_Headcounter2 AS hc
+				ON dpf.id_departamento = hc.[ID Departamento] AND dpf.fecha = hc.[Fecha]
 		WHERE
 				dpf.fecha = @fecha AND
 				dpf.id_departamento = @id_departamento AND
 				dbo.PRIMERDIAFECHA(p.fecha_creacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
 				(p.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR p.fecha_eliminacion IS NULL) AND
-				IIF(ISNULL(dpa.[Cantidad empleados], 0) >= dc.Cantidad AND ISNULL(dpa.[Cantidad empleados], 0) <> 0, 'true', 'false') = 'false'
+				IIF(ISNULL(dpa.[Cantidad empleados], 0) >= hc.[Cantidad] AND ISNULL(dpa.[Cantidad empleados], 0) <> 0, 'true', 'false') = 'false'
 
 	ELSE
 		RAISERROR('Filtro inválido', 11, 1);

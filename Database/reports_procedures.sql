@@ -118,26 +118,3 @@ AS
 	SET LANGUAGE 'us_english';
 
 GO
-
-
-
-CREATE VIEW vw_DepartmentsCount
-AS
-SELECT
-		df.id_departamento,
-		df.nombre,
-		dbo.PRIMERDIAFECHA(df.fecha) [Fecha],
-		ISNULL(df2.Cantidad, 0) [Cantidad]
-FROM
-		vw_DepartamentosFechas AS df
-		LEFT JOIN vw_EmpleadosDepartamentosCantidad AS df2
-		ON df.id_departamento = df2.id_departamento AND
-		df.fecha = df2.fecha
-UNION ALL
-SELECT
-		id_departamento,
-		nombre,
-		dbo.PRIMERDIAFECHA(dbo.OBTENERFECHAACTUAL((SELECT TOP 1 id_empresa FROM empresas))) [Fecha],
-		ISNULL(Cantidad, 0) [Cantidad]
-FROM
-		vw_DepartamentosFechaActual;

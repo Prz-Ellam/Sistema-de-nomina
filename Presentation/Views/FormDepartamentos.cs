@@ -161,7 +161,7 @@ namespace Presentation.Views
                 bool result = repository.Create(department);
                 if (result)
                 {
-                    return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
+                    return new ValidationResult("El departamento se agregó éxitosamente", ValidationState.Success);
                 }
                 else
                 {
@@ -199,7 +199,7 @@ namespace Presentation.Views
                 bool result = repository.Update(department);
                 if (result)
                 {
-                    return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
+                    return new ValidationResult("El departamento se modificó éxitosamente", ValidationState.Success);
                 }
                 else
                 {
@@ -231,7 +231,7 @@ namespace Presentation.Views
                 bool result = repository.Delete(department.DepartmentId);
                 if (result)
                 {
-                    return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
+                    return new ValidationResult("El departamento se eliminó éxitosamente", ValidationState.Success);
                 }
                 else
                 {

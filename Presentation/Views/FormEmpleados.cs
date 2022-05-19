@@ -23,7 +23,7 @@ namespace Presentation.Views
     {
         private IEmployeesRepository repository;
         private RepositorioTelefonos phonesRepository;
-        private RepositorioEmpresas companyRepository;
+        private CompaniesRepository companyRepository;
         private Employees employee;
         int dtgPrevIndex = -1;
         int employeeId = -1;
@@ -93,7 +93,7 @@ namespace Presentation.Views
             InitializeComponent();
             repository = new EmployeesRepository();
             phonesRepository = new RepositorioTelefonos();
-            companyRepository = new RepositorioEmpresas();
+            companyRepository = new CompaniesRepository();
             employee = new Employees();
         }
 

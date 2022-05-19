@@ -14,12 +14,13 @@ using Data_Access.Entidades;
 using Data_Access.ViewModels;
 using System.Data.SqlClient;
 using CustomMessageBox;
+using Data_Access.Interfaces;
 
 namespace Presentation.Views
 {
     public partial class FormEmpresas : Form
     {
-        private RepositorioEmpresas repository;
+        private ICompaniesRepository repository;
         private RepositorioTelefonos phonesRepository;
         private Companies company;
         private List<States> states;
@@ -61,7 +62,7 @@ namespace Presentation.Views
         public FormEmpresas()
         {
             InitializeComponent();
-            repository = new RepositorioEmpresas();
+            repository = new CompaniesRepository();
             phonesRepository = new RepositorioTelefonos();
             company = new Companies();
         }
@@ -79,11 +80,11 @@ namespace Presentation.Views
 
             if (result.State == ValidationState.Error)
             {
-                RJMessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            RJMessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
             InitCompanyId(); // Carga en el Session el id de la empresa recien creada
             ListCompany();
         }
@@ -95,11 +96,11 @@ namespace Presentation.Views
 
             if (result.State == ValidationState.Error)
             {
-                RJMessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            RJMessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            RJMessageBox.Show(result.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ListCompany();
         }
 
@@ -135,7 +136,7 @@ namespace Presentation.Views
                 bool result = repository.Create(company);
                 if (result)
                 {
-                    return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
+                    return new ValidationResult("La empresa se agregó éxitosamente", ValidationState.Success);
                 }
                 else
                 {
@@ -168,7 +169,7 @@ namespace Presentation.Views
                 bool result = repository.Update(company);
                 if (result)
                 {
-                    return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
+                    return new ValidationResult("La empresa se modificó éxitosamente", ValidationState.Success);
                 }
                 else
                 {
@@ -190,14 +191,33 @@ namespace Presentation.Views
 
         private void ListCompany()
         {
-            // Verify regresa -1 si el administrador aun no ha creado su empresa
             if (Session.companyId == -1)
             {
                 CompanyState = EntityState.Add;
             }
             else
             {
-                InitCompanyData();
+                CompaniesViewModel company = repository.Read(Session.companyId);
+                txtBusinessName.Text = company.RazonSocial;
+                txtEmployerRegistration.Text = company.RegistroPatronal;
+                txtRfc.Text = company.Rfc;
+                dtpStartDate.Value = company.FechaInicio;
+                txtEmail.Text = company.CorreoElectronico;
+
+                cbPhones.Items.Clear();
+                cbPhones.SelectedIndex = -1;
+                List<string> phones = phonesRepository.ReadCompanyPhones(Session.companyId);
+                foreach (string phone in phones)
+                {
+                    cbPhones.Items.Add(phone);
+                }
+
+                txtStreet.Text = company.Calle;
+                txtNumber.Text = company.Numero;
+                txtSuburb.Text = company.Colonia;
+                txtPostalCode.Text = company.CodigoPostal;
+                cbStates.SelectedIndex = cbStates.FindString(company.Estado);
+                cbCities.SelectedIndex = cbCities.FindString(company.Ciudad);
                 CompanyState = EntityState.Modify;
             }
         }
@@ -206,7 +226,6 @@ namespace Presentation.Views
         {
             company.CompanyId = Session.companyId;
             company.AdministratorId = Session.id;
-
             company.BusinessName = txtBusinessName.Text.Trim();
             company.EmployerRegistration = txtEmployerRegistration.Text.Trim();
             company.Rfc = txtRfc.Text.Trim();
@@ -227,37 +246,15 @@ namespace Presentation.Views
             company.PostalCode = txtPostalCode.Text.Trim();
         }
 
-        private void InitCompanyData()
-        {
-            CompaniesViewModel company = repository.Read(Session.companyId);
-            txtBusinessName.Text = company.RazonSocial;
-            txtEmployerRegistration.Text = company.RegistroPatronal;
-            txtRfc.Text = company.Rfc;
-            dtpStartDate.Value = company.FechaInicio;
-            txtEmail.Text = company.CorreoElectronico;
-
-            cbPhones.Items.Clear();
-            cbPhones.SelectedIndex = -1;
-            List<string> phones = phonesRepository.ReadCompanyPhones(Session.companyId);
-            foreach (string phone in phones)
-            {
-                cbPhones.Items.Add(phone);
-            }
-
-            txtStreet.Text = company.Calle;
-            txtNumber.Text = company.Numero;
-            txtSuburb.Text = company.Colonia;
-            txtPostalCode.Text = company.CodigoPostal;
-            cbStates.SelectedIndex = cbStates.FindString(company.Estado);
-            cbCities.SelectedIndex = cbCities.FindString(company.Ciudad);
-        }
-
         private void InitCompanyId()
         {
-            if (Session.position == "Administrador")
+            try
             {
-                RepositorioEmpresas companiesRepository = new RepositorioEmpresas();
-                Session.companyId = companiesRepository.Verify(Session.id);
+                Session.companyId = repository.Verify(Session.id);
+            }
+            catch (SqlException ex)
+            {
+                RJMessageBox.Show(ex.ToString(), "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

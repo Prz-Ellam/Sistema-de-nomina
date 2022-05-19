@@ -30,7 +30,6 @@ namespace Presentation.Views
         {
             ListDepartments();
             InitDates();
-
             dtgHeadcounter1.DoubleBuffered(true);
             dtgHeadcounter2.DoubleBuffered(true);
         }
@@ -49,10 +48,10 @@ namespace Presentation.Views
 
         private void ListHeadcounter1()
         {
-            PairItem item;
+            int departmentId = -1;
             try
             {
-                item = (PairItem)cbDepartments.SelectedItem;
+                departmentId = ((PairItem)cbDepartments.SelectedItem).HiddenValue;
             }
             catch (Exception ex)
             {
@@ -62,7 +61,7 @@ namespace Presentation.Views
             try
             {
                 dtgHeadcounter1.DataSource = reportsRepository.Headcounter1(Session.companyId,
-                   item.HiddenValue, dtpDate.Value);
+                   departmentId, dtpDate.Value);
             }
             catch (SqlException ex)
             {
@@ -72,10 +71,10 @@ namespace Presentation.Views
 
         private void ListHeadcounter2()
         {
-            PairItem item;
+            int departmentId = -1;
             try
             {
-                item = (PairItem)cbDepartments.SelectedItem;
+                departmentId = ((PairItem)cbDepartments.SelectedItem).HiddenValue;
             }
             catch (Exception ex)
             {
@@ -85,7 +84,7 @@ namespace Presentation.Views
             try
             {
                 dtgHeadcounter2.DataSource = reportsRepository.Headcounter2(Session.companyId,
-                   item.HiddenValue, dtpDate.Value);
+                   departmentId, dtpDate.Value);
             }
             catch (SqlException ex)
             {
@@ -110,7 +109,7 @@ namespace Presentation.Views
         {
             try
             {
-                RepositorioEmpresas companyRepository = new RepositorioEmpresas();
+                CompaniesRepository companyRepository = new CompaniesRepository();
                 RepositorioNominas payrollRepository = new RepositorioNominas();
                 DateTime creationDate = companyRepository.GetCreationDate(Session.companyId, true);
                 DateTime payrollDate = payrollRepository.GetDate(Session.companyId, true);

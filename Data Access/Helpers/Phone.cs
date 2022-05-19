@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Data_Access.Helpers
 {
-    public class Phone : ValidationAttribute
+    public class PhoneList : ValidationAttribute
     {
         
         public override bool IsValid(object phones)
@@ -20,7 +20,7 @@ namespace Data_Access.Helpers
                 return false;
             }
 
-            if (listPhones.Count > 10)
+            if (listPhones.Count < 1 || listPhones.Count > 10)
             {
                 return false;
             }

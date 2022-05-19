@@ -29,22 +29,23 @@ namespace Presentation.Views
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dtgHeadcounter1 = new System.Windows.Forms.DataGridView();
+            this.departamento = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.puesto = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.count = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.dtgHeadcounter2 = new System.Windows.Forms.DataGridView();
+            this.depa2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cantu = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cbDepartments = new System.Windows.Forms.ComboBox();
             this.lblState = new System.Windows.Forms.Label();
             this.dtpDate = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
-            this.departamento = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.puesto = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.count = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.depa2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cantu = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dtgHeadcounter1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtgHeadcounter2)).BeginInit();
             this.SuspendLayout();
@@ -53,36 +54,69 @@ namespace Presentation.Views
             // 
             this.dtgHeadcounter1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
             this.dtgHeadcounter1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dtgHeadcounter1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dtgHeadcounter1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            this.dtgHeadcounter1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
+            this.dtgHeadcounter1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dtgHeadcounter1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dtgHeadcounter1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgHeadcounter1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.departamento,
             this.puesto,
             this.count});
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dtgHeadcounter1.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dtgHeadcounter1.DefaultCellStyle = dataGridViewCellStyle2;
             this.dtgHeadcounter1.EnableHeadersVisualStyles = false;
             this.dtgHeadcounter1.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.dtgHeadcounter1.Location = new System.Drawing.Point(20, 170);
             this.dtgHeadcounter1.Name = "dtgHeadcounter1";
             this.dtgHeadcounter1.ReadOnly = true;
             this.dtgHeadcounter1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(115)))), ((int)(((byte)(169)))), ((int)(((byte)(229)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dtgHeadcounter1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dtgHeadcounter1.Size = new System.Drawing.Size(793, 227);
             this.dtgHeadcounter1.TabIndex = 0;
+            // 
+            // departamento
+            // 
+            this.departamento.DataPropertyName = "departamento";
+            this.departamento.HeaderText = "Departamento";
+            this.departamento.Name = "departamento";
+            this.departamento.ReadOnly = true;
+            this.departamento.Width = 250;
+            // 
+            // puesto
+            // 
+            this.puesto.DataPropertyName = "puesto";
+            this.puesto.HeaderText = "Puesto";
+            this.puesto.Name = "puesto";
+            this.puesto.ReadOnly = true;
+            this.puesto.Width = 250;
+            // 
+            // count
+            // 
+            this.count.DataPropertyName = "cantidadEmpleados";
+            this.count.HeaderText = "Cantidad de empleados";
+            this.count.Name = "count";
+            this.count.ReadOnly = true;
+            this.count.Width = 250;
             // 
             // label1
             // 
@@ -101,26 +135,26 @@ namespace Presentation.Views
             this.dtgHeadcounter2.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
             this.dtgHeadcounter2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dtgHeadcounter2.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dtgHeadcounter2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dtgHeadcounter2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dtgHeadcounter2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgHeadcounter2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.depa2,
             this.cantu});
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dtgHeadcounter2.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dtgHeadcounter2.DefaultCellStyle = dataGridViewCellStyle5;
             this.dtgHeadcounter2.EnableHeadersVisualStyles = false;
             this.dtgHeadcounter2.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.dtgHeadcounter2.Location = new System.Drawing.Point(20, 420);
@@ -129,6 +163,22 @@ namespace Presentation.Views
             this.dtgHeadcounter2.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dtgHeadcounter2.Size = new System.Drawing.Size(793, 216);
             this.dtgHeadcounter2.TabIndex = 2;
+            // 
+            // depa2
+            // 
+            this.depa2.DataPropertyName = "departamento";
+            this.depa2.HeaderText = "Departamento";
+            this.depa2.Name = "depa2";
+            this.depa2.ReadOnly = true;
+            this.depa2.Width = 400;
+            // 
+            // cantu
+            // 
+            this.cantu.DataPropertyName = "cantidadEmpleados";
+            this.cantu.HeaderText = "Cantidad de empleados";
+            this.cantu.Name = "cantu";
+            this.cantu.ReadOnly = true;
+            this.cantu.Width = 350;
             // 
             // cbDepartments
             // 
@@ -177,46 +227,6 @@ namespace Presentation.Views
             this.label3.Size = new System.Drawing.Size(55, 21);
             this.label3.TabIndex = 48;
             this.label3.Text = "Fecha";
-            // 
-            // departamento
-            // 
-            this.departamento.DataPropertyName = "departamento";
-            this.departamento.HeaderText = "Departamento";
-            this.departamento.Name = "departamento";
-            this.departamento.ReadOnly = true;
-            this.departamento.Width = 250;
-            // 
-            // puesto
-            // 
-            this.puesto.DataPropertyName = "puesto";
-            this.puesto.HeaderText = "Puesto";
-            this.puesto.Name = "puesto";
-            this.puesto.ReadOnly = true;
-            this.puesto.Width = 250;
-            // 
-            // count
-            // 
-            this.count.DataPropertyName = "cantidadEmpleados";
-            this.count.HeaderText = "Cantidad de empleados";
-            this.count.Name = "count";
-            this.count.ReadOnly = true;
-            this.count.Width = 250;
-            // 
-            // depa2
-            // 
-            this.depa2.DataPropertyName = "departamento";
-            this.depa2.HeaderText = "Departamento";
-            this.depa2.Name = "depa2";
-            this.depa2.ReadOnly = true;
-            this.depa2.Width = 400;
-            // 
-            // cantu
-            // 
-            this.cantu.DataPropertyName = "cantidadEmpleados";
-            this.cantu.HeaderText = "Cantidad de empleados";
-            this.cantu.Name = "cantu";
-            this.cantu.ReadOnly = true;
-            this.cantu.Width = 350;
             // 
             // HeadcounterReports
             // 

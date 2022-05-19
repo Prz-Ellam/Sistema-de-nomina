@@ -1,4 +1,5 @@
-﻿using Data_Access.Repositorios;
+﻿using Data_Access.Interfaces;
+using Data_Access.Repositorios;
 using Presentation.Helpers;
 using System;
 using System.Collections.Generic;
@@ -26,34 +27,21 @@ namespace Presentation.Views
         private void PayrollReports_Load(object sender, EventArgs e)
         {
             InitDates();
-            ListReport();
             dtgPayrollReport.DoubleBuffered(true);
         }
 
-        private void nudYear_ValueChanged(object sender, EventArgs e)
+        private void dtpYear_ValueChanged(object sender, EventArgs e)
         {
             ListReport();
-        }
-
-        private void ListReport()
-        {
-            try
-            {
-                dtgPayrollReport.DataSource = reportsRepository.PayrollReport(dtpYear.Value.Year);
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
         private void InitDates()
         {
             try
             {
-                RepositorioEmpresas companyRepository = new RepositorioEmpresas();
+                ICompaniesRepository companiesRepository = new CompaniesRepository();
                 RepositorioNominas payrollRepository = new RepositorioNominas();
-                DateTime creationDate = companyRepository.GetCreationDate(Session.companyId, true);
+                DateTime creationDate = companiesRepository.GetCreationDate(Session.companyId, true);
                 DateTime payrollDate = payrollRepository.GetDate(Session.companyId, true);
                 dtpYear.MinDate = creationDate;
                 dtpYear.MaxDate = (creationDate == payrollDate) ? payrollDate : payrollDate.AddMonths(-1);
@@ -68,9 +56,16 @@ namespace Presentation.Views
             }
         }
 
-        private void dtpYear_ValueChanged(object sender, EventArgs e)
+        private void ListReport()
         {
-            ListReport();
+            try
+            {
+                dtgPayrollReport.DataSource = reportsRepository.PayrollReport(dtpYear.Value.Year);
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

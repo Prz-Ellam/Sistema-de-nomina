@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CustomMessageBox;
+using Data_Access.Interfaces;
 using Data_Access.Repositorios;
 using Presentation.Helpers;
 
@@ -35,27 +36,14 @@ namespace Presentation.Views
             ListReport();
         }
 
-        private void ListReport()
-        {
-            try
-            {
-                dtgGeneralPayroll.DataSource = reportsRepository.GeneralPayrollReport(dtpDate.Value);
-            }
-            catch (SqlException ex)
-            {
-                RJMessageBox.Show(ex.ToString(), "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
         private void InitDates()
         {
             try
             {
-                RepositorioEmpresas companyRepository = new RepositorioEmpresas();
-                RepositorioNominas payrollRepository = new RepositorioNominas();
-                DateTime creationDate = companyRepository.GetCreationDate(Session.companyId, true);
-                DateTime payrollDate = payrollRepository.GetDate(Session.companyId, true);
-                // El Value se adapta al MinDate o MaxDate antes de ponerlo
+                ICompaniesRepository companiesRepository = new CompaniesRepository();
+                RepositorioNominas payrollsRepository = new RepositorioNominas();
+                DateTime creationDate = companiesRepository.GetCreationDate(Session.companyId, true);
+                DateTime payrollDate = payrollsRepository.GetDate(Session.companyId, true);
                 dtpDate.MinDate = creationDate;
                 dtpDate.MaxDate = payrollDate;
                 dtpDate.Value = creationDate;
@@ -69,5 +57,16 @@ namespace Presentation.Views
             }
         }
 
+        private void ListReport()
+        {
+            try
+            {
+                dtgGeneralPayroll.DataSource = reportsRepository.GeneralPayrollReport(dtpDate.Value);
+            }
+            catch (SqlException ex)
+            {
+                RJMessageBox.Show(ex.ToString(), "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

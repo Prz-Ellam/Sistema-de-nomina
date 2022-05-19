@@ -31,38 +31,11 @@ namespace Presentation.Views
         private void Payroll_Load(object sender, EventArgs e)
         {
             InitDates();
-
             dtgPayrolls.DoubleBuffered(true);
         }
 
         private void btnGeneratePayroll_Click(object sender, EventArgs e)
         {
-            //if (dtpDate.Value != payrollDate)
-            //{
-            //    RJMessageBox.Show("No se puede generar la nómina fuera del periodo actual de nómina",
-            //   "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    return;
-            //}
-
-            try
-            {
-                bool payrollStatus = payrollRepository.IsPayrollProcess(Session.companyId);
-                if (!payrollStatus)
-                {
-                    RJMessageBox.Show("No se puede realizar esta acción, no hay una nómina en proceso",
-                        "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-            }
-            catch (SqlException ex)
-            {
-                if (ex.Number == 50000)
-                {
-                    RJMessageBox.Show(ex.Message, "Sistema de nómina dice:", 
-                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-
             DialogResult res = RJMessageBox.Show("¿Está seguro que desea realizar esta acción?\nAl cerrarse la nómina, está no podrá volver a ser editada",
                "Sistema de nómina dice:", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
@@ -71,9 +44,18 @@ namespace Presentation.Views
                 return;
             }
 
+            DateTime requestDate = dtpDate.Value;
             try
             {
-                payrollRepository.GeneratePayrolls(dtpDate.Value, Session.companyId);
+                bool result = payrollRepository.GeneratePayrolls(requestDate, Session.companyId);
+                if (result)
+                {
+                    RJMessageBox.Show("La nómina se ha generado éxitosamente", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    RJMessageBox.Show("No se pudo generar la nómina", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             catch (SqlException ex)
             {
@@ -85,17 +67,19 @@ namespace Presentation.Views
                             "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
+                else if (ex.Number == 50000)
+                {
+                    RJMessageBox.Show(ex.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
                 else
                 {
-                    RJMessageBox.Show("No se pudo realizar la operación", "Sistema de nómina dice: ",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    RJMessageBox.Show("No se pudo realizar la operación", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 return;
             }
 
-            ListPayrolls(dtpDate.Value);
             InitDates();
-            //dtpConsult.Value = dtpDate.Value;
+            dtpConsult.Value = requestDate;
             GenerateCSV();
         }
 
@@ -109,35 +93,39 @@ namespace Presentation.Views
                 return;
             }
 
-            DateTime requestDate = dtpDate.Value;
             try
             {
-                bool result = payrollRepository.DeletePayroll(Session.companyId, requestDate);
+                bool result = payrollRepository.DeletePayroll(Session.companyId, dtpDate.Value);
                 if (result)
                 {
-                    RJMessageBox.Show("La nómina fue eliminada éxitosamente", "Sistema de nómina dice:",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    RJMessageBox.Show("La nómina fue eliminada éxitosamente", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    RJMessageBox.Show("No se pudo eliminar la nómina", "Sistema de nómina dice:",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    RJMessageBox.Show("No se pudo eliminar la nómina", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (SqlException ex)
             {
-                RJMessageBox.Show(ex.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (ex.Number == 50000)
+                {
+                    RJMessageBox.Show(ex.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    RJMessageBox.Show("No se pudo realizar la operación", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-        }
-
-        private void btnConsult_Click(object sender, EventArgs e)
-        {
-            ListPayrolls(dtpConsult.Value);
         }
 
         private void btnCSV_Click(object sender, EventArgs e)
         {
             GenerateCSV();
+        }
+
+        private void dtpConsult_ValueChanged(object sender, EventArgs e)
+        {
+            ListPayrolls();
         }
 
         private void GenerateCSV()
@@ -149,33 +137,31 @@ namespace Presentation.Views
                 var writer = new StreamWriter(ofnPayrollCSV.FileName);
                 var csvWriter = new CsvWriter(writer, CultureInfo.InvariantCulture);
 
-                List<PayrollViewModel> payrolls = dtgPayrolls.DataSource as List<PayrollViewModel>;
+                IEnumerable<PayrollViewModel> payrolls = dtgPayrolls.DataSource as IEnumerable<PayrollViewModel>;
                 if (payrolls == null)
                 {
-                    RJMessageBox.Show("Error inesperado", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    RJMessageBox.Show("No se pudo generar el reporte", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
                 csvWriter.WriteRecords(payrolls);
                 csvWriter.Dispose();
                 writer.Close();
+
+                RJMessageBox.Show("El reporte se generó éxitosamente", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                System.Diagnostics.Process.Start(ofnPayrollCSV.FileName);
             }
         }
 
-        private void ListPayrolls(DateTime request)
+        private void ListPayrolls()
         {
             try
             {
-                dtgPayrolls.DataSource = payrollRepository.ReadByDate(request);
+                dtgPayrolls.DataSource = payrollRepository.ReadByDate(dtpConsult.Value);
             }
             catch (SqlException ex)
             {
-                RJMessageBox.Show(ex.Message);
-            }
-
-            if (dtgPayrolls.RowCount > 0)
-            {
-                btnCSV.Enabled = true;
+                RJMessageBox.Show(ex.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -186,7 +172,7 @@ namespace Presentation.Views
                 // Obtiene la fecha de creacion de la empresa como la fecha minima y la nomina mas
                 // reciente como la fecha maxima, solo si coinciden la creacion de la empresa con la nomina
                 // reciente se omite el restar un mes
-                RepositorioEmpresas companiesRepository = new RepositorioEmpresas();
+                CompaniesRepository companiesRepository = new CompaniesRepository();
                 DateTime creationDate = companiesRepository.GetCreationDate(Session.companyId, true);
                 DateTime payrollDate = payrollRepository.GetDate(Session.companyId, true);
                 dtpDate.Value = payrollDate;
@@ -198,7 +184,8 @@ namespace Presentation.Views
             {
                 if (ex.Number == 50000)
                 {
-                    RJMessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    RJMessageBox.Show(ex.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ListPayrolls();
                 }
             }
         }

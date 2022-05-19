@@ -29,9 +29,9 @@ namespace Presentation.Views
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dtpDate = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.btnGeneratePayroll = new System.Windows.Forms.Button();
@@ -46,7 +46,6 @@ namespace Presentation.Views
             this.accountNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dtpConsult = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
-            this.btnConsult = new System.Windows.Forms.Button();
             this.ofnPayrollCSV = new System.Windows.Forms.SaveFileDialog();
             this.btnDeletePayroll = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dtgPayrolls)).BeginInit();
@@ -99,7 +98,6 @@ namespace Presentation.Views
             // 
             this.btnCSV.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
             this.btnCSV.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnCSV.Enabled = false;
             this.btnCSV.FlatAppearance.BorderSize = 0;
             this.btnCSV.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCSV.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
@@ -130,14 +128,14 @@ namespace Presentation.Views
             this.dtgPayrolls.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
             this.dtgPayrolls.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dtgPayrolls.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dtgPayrolls.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dtgPayrolls.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.dtgPayrolls.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgPayrolls.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.number,
@@ -146,14 +144,14 @@ namespace Presentation.Views
             this.amountemp,
             this.bank,
             this.accountNumber});
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dtgPayrolls.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dtgPayrolls.DefaultCellStyle = dataGridViewCellStyle9;
             this.dtgPayrolls.EnableHeadersVisualStyles = false;
             this.dtgPayrolls.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.dtgPayrolls.Location = new System.Drawing.Point(12, 349);
@@ -190,8 +188,8 @@ namespace Presentation.Views
             // amountemp
             // 
             this.amountemp.DataPropertyName = "cantidad";
-            dataGridViewCellStyle2.Format = "c";
-            this.amountemp.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.Format = "c";
+            this.amountemp.DefaultCellStyle = dataGridViewCellStyle8;
             this.amountemp.HeaderText = "Cantidad";
             this.amountemp.Name = "amountemp";
             this.amountemp.ReadOnly = true;
@@ -225,6 +223,7 @@ namespace Presentation.Views
             this.dtpConsult.ShowUpDown = true;
             this.dtpConsult.Size = new System.Drawing.Size(200, 29);
             this.dtpConsult.TabIndex = 13;
+            this.dtpConsult.ValueChanged += new System.EventHandler(this.dtpConsult_ValueChanged);
             // 
             // label3
             // 
@@ -238,22 +237,6 @@ namespace Presentation.Views
             this.label3.Size = new System.Drawing.Size(55, 21);
             this.label3.TabIndex = 14;
             this.label3.Text = "Fecha";
-            // 
-            // btnConsult
-            // 
-            this.btnConsult.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
-            this.btnConsult.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnConsult.FlatAppearance.BorderSize = 0;
-            this.btnConsult.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnConsult.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.btnConsult.ForeColor = System.Drawing.Color.White;
-            this.btnConsult.Location = new System.Drawing.Point(241, 303);
-            this.btnConsult.Name = "btnConsult";
-            this.btnConsult.Size = new System.Drawing.Size(129, 29);
-            this.btnConsult.TabIndex = 28;
-            this.btnConsult.Text = "Consultar";
-            this.btnConsult.UseVisualStyleBackColor = false;
-            this.btnConsult.Click += new System.EventHandler(this.btnConsult_Click);
             // 
             // ofnPayrollCSV
             // 
@@ -282,7 +265,6 @@ namespace Presentation.Views
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(1064, 670);
             this.Controls.Add(this.btnDeletePayroll);
-            this.Controls.Add(this.btnConsult);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.dtpConsult);
             this.Controls.Add(this.dtgPayrolls);
@@ -311,7 +293,6 @@ namespace Presentation.Views
         private System.Windows.Forms.DataGridView dtgPayrolls;
         private System.Windows.Forms.DateTimePicker dtpConsult;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button btnConsult;
         private System.Windows.Forms.SaveFileDialog ofnPayrollCSV;
         private System.Windows.Forms.Button btnDeletePayroll;
         private System.Windows.Forms.DataGridViewTextBoxColumn number;

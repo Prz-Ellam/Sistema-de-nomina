@@ -1,5 +1,6 @@
 ﻿using Data_Access.Connections;
 using Data_Access.ViewModels;
+using Presentation.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -77,7 +78,26 @@ namespace Data_Access.Repositorios
             return (rowCount > 0) ? true : false;
         }
 
-        public List<ApplyDeductionsViewModel> ReadApplyDeductions(int filter, int employeeNumber, DateTime date)
+        public List<ApplyDeductionsViewModel> ReadDeductions(int filter, int entityId, EntityType entityType, DateTime date)
+        {
+            switch (entityType)
+            {
+                case EntityType.Employee:
+                {
+                    return ReadEmployeeDeductions(filter, entityId, date);
+                }
+                case EntityType.Department:
+                {
+                    return ReadDepartmentDeductions(filter, entityId, date);
+                }
+                default:
+                {
+                    return null;
+                }
+            }
+        }
+
+        public List<ApplyDeductionsViewModel> ReadEmployeeDeductions(int filter, int employeeNumber, DateTime date)
         {
             sqlParams.Start();
             sqlParams.Add("@filtro", filter);
@@ -103,7 +123,7 @@ namespace Data_Access.Repositorios
             return applyDeductions;
         }
 
-        public List<ApplyDeductionsViewModel> ReadApplyDepartmentDeductions(int filter, int departmentId, DateTime date)
+        public List<ApplyDeductionsViewModel> ReadDepartmentDeductions(int filter, int departmentId, DateTime date)
         {
             sqlParams.Start();
             sqlParams.Add("@filtro", filter);

@@ -2,6 +2,7 @@
 using Data_Access.Entidades;
 using Data_Access.Entities;
 using Data_Access.Helpers;
+using Data_Access.Interfaces;
 using Data_Access.Repositorios;
 using Data_Access.ViewModels;
 using Presentation.Helpers;
@@ -20,7 +21,7 @@ namespace Presentation.Views
 {
     public partial class Profile : Form
     {
-        private EmployeesRepository employeeRepository;
+        private IEmployeesRepository employeeRepository;
         private RepositorioTelefonos phonesRepository;
         private Employees employee;
         private List<States> states;
@@ -35,7 +36,7 @@ namespace Presentation.Views
 
         private void Profile_Load(object sender, EventArgs e)
         {
-            RepositorioEmpresas companiesRepository = new RepositorioEmpresas();
+            CompaniesRepository companiesRepository = new CompaniesRepository();
             dtpHiringDate.MinDate = companiesRepository.GetCreationDate(Session.companyId, false);
             dtpDateOfBirth.MaxDate = employeeRepository.GetHiringDate(Session.id, false).AddYears(-18);
             
@@ -51,11 +52,11 @@ namespace Presentation.Views
 
             if (result.State == ValidationState.Error)
             {
-                MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                RJMessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            MessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            RJMessageBox.Show(result.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ListProfile();
         }
 
@@ -81,7 +82,45 @@ namespace Presentation.Views
             }
             catch (SqlException ex)
             {
-                return new ValidationResult(ex.Message, ValidationState.Error);
+                if (ex.Number == 50000) // Unique Constraint
+                {
+                    string uniqueName = GetUniqueName(ex.Message);
+                    switch (uniqueName)
+                    {
+                        case "unique_curp":
+                        {
+                            return new ValidationResult("El CURP que ingresó ya está siendo utilizado por otro usuario", ValidationState.Error);
+                        }
+                        case "unique_rfc_empleado":
+                        {
+                            return new ValidationResult("El RFC que ingresó ya está siendo utilizado por otro usuario", ValidationState.Error);
+                        }
+                        case "unique_nss":
+                        {
+                            return new ValidationResult("El NSS que ingresó ya está siendo utilizado por otro usuario", ValidationState.Error);
+                        }
+                        case "unique_numero_cuenta":
+                        {
+                            return new ValidationResult("El Número de cuenta que ingresó ya está siendo utilizado por otro usuario", ValidationState.Error);
+                        }
+                        case "unique_correo_electronico":
+                        {
+                            return new ValidationResult("El correo electrónico que ingresó ya está siendo utilizado por otro usuario", ValidationState.Error);
+                        }
+                        default:
+                        {
+                            return new ValidationResult(ex.Message, ValidationState.Error);
+                        }
+                    }
+                }
+                else if (ex.Number == 50000)
+                {
+                    return new ValidationResult(ex.Message, ValidationState.Error);
+                }
+                else
+                {
+                    return new ValidationResult("No se pudo realizar la operación", ValidationState.Error);
+                }
             }
         }
 
@@ -201,6 +240,17 @@ namespace Presentation.Views
         private void dtpHiringDate_ValueChanged(object sender, EventArgs e)
         {
             dtpDateOfBirth.MaxDate = dtpHiringDate.Value.AddYears(-18);
+        }
+
+        private string GetUniqueName(string message)
+        {
+            int startIndex = message.IndexOf("'");
+            if (startIndex <= 1)
+            {
+                return string.Empty;
+            }
+            int endIndex = message.Substring(++startIndex).IndexOf("'");
+            return message.Substring(startIndex, endIndex);
         }
     }
 }
