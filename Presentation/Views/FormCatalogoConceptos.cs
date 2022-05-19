@@ -20,8 +20,8 @@ namespace Presentation.Views
     {
         private IPerceptionsRepository perceptionRepository;
         private IDeductionsRepository deductionRepository;
-        private Perceptions percepcion;
-        private Deductions deduccion;
+        private Perceptions perception;
+        private Deductions deduction;
         int perceptionId = -1;
         int deductionId = -1;
         int dtgPerceptionPrevIndex = -1;
@@ -66,8 +66,8 @@ namespace Presentation.Views
             InitializeComponent();
             perceptionRepository = new PerceptionsRepository();
             deductionRepository = new DeductionsRepository();
-            percepcion = new Perceptions();
-            deduccion = new Deductions();
+            perception = new Perceptions();
+            deduction = new Deductions();
         }
 
         private void FormCatalogoConceptos_Load(object sender, EventArgs e)
@@ -219,13 +219,13 @@ namespace Presentation.Views
 
             try
             {
-                Tuple<bool, string> feedback = new DataValidation(percepcion).Validate();
+                Tuple<bool, string> feedback = new DataValidation(perception).Validate();
                 if (!feedback.Item1)
                 {
                     return new ValidationResult(feedback.Item2, ValidationState.Error);
                 }
 
-                bool result = perceptionRepository.Create(percepcion);
+                bool result = perceptionRepository.Create(perception);
                 if (result)
                 {
                     return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
@@ -257,13 +257,13 @@ namespace Presentation.Views
 
             try
             {
-                Tuple<bool, string> feedback = new DataValidation(percepcion).Validate();
+                Tuple<bool, string> feedback = new DataValidation(perception).Validate();
                 if (!feedback.Item1)
                 {
                     return new ValidationResult(feedback.Item2, ValidationState.Error);
                 }
 
-                bool result = perceptionRepository.Update(percepcion);
+                bool result = perceptionRepository.Update(perception);
                 if (result)
                 {
                     return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
@@ -295,7 +295,7 @@ namespace Presentation.Views
 
             try
             {
-                bool result = perceptionRepository.Delete(perceptionId);
+                bool result = perceptionRepository.Delete(perception.PerceptionId);
                 if (result)
                 {
                     return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
@@ -327,13 +327,13 @@ namespace Presentation.Views
 
             try
             {
-                Tuple<bool, string> feedback = new DataValidation(deduccion).Validate();
+                Tuple<bool, string> feedback = new DataValidation(deduction).Validate();
                 if (!feedback.Item1)
                 {
                     return new ValidationResult(feedback.Item2, ValidationState.Error);
                 }
 
-                bool result = deductionRepository.Create(deduccion);
+                bool result = deductionRepository.Create(deduction);
                 if (result)
                 {
                     return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
@@ -365,13 +365,13 @@ namespace Presentation.Views
 
             try
             {
-                Tuple<bool, string> feedback = new DataValidation(deduccion).Validate();
+                Tuple<bool, string> feedback = new DataValidation(deduction).Validate();
                 if (!feedback.Item1)
                 {
                     return new ValidationResult(feedback.Item2, ValidationState.Error);
                 }
 
-                bool result = deductionRepository.Update(deduccion);
+                bool result = deductionRepository.Update(deduction);
                 if (result)
                 {
                     return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
@@ -403,7 +403,7 @@ namespace Presentation.Views
 
             try
             {
-                bool result = deductionRepository.Delete(deductionId);
+                bool result = deductionRepository.Delete(deduction.DeductionId);
                 if (result)
                 {
                     return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
@@ -434,7 +434,7 @@ namespace Presentation.Views
             }
             catch (Exception ex)
             {
-                RJMessageBox.Show(ex.ToString());
+                MessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -446,29 +446,29 @@ namespace Presentation.Views
             }
             catch (Exception ex)
             {
-                RJMessageBox.Show(ex.ToString());
+                MessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
 
         public void FillPerception()
         {
-            percepcion.PerceptionId = perceptionId;
-            percepcion.Name = txtName.Text;
-            percepcion.AmountType = rbFijo.Checked ? 'F' : (rbPorcentual.Checked ? 'P' : ' ');
-            percepcion.Fixed = nudFijo.Value;
-            percepcion.Porcentual = nudPorcentual.Value;
-            percepcion.CompanyId = Session.companyId;
+            perception.PerceptionId = perceptionId;
+            perception.Name = txtName.Text;
+            perception.AmountType = rbFijo.Checked ? 'F' : (rbPorcentual.Checked ? 'P' : ' ');
+            perception.Fixed = nudFijo.Value;
+            perception.Porcentual = nudPorcentual.Value;
+            perception.CompanyId = Session.companyId;
         }
 
         public void FillDeduction()
         {
-            deduccion.DeductionId = deductionId;
-            deduccion.Name = txtName.Text;
-            deduccion.AmountType = rbFijo.Checked ? 'F' : (rbPorcentual.Checked ? 'P' : ' ');
-            deduccion.Fixed = nudFijo.Value;
-            deduccion.Porcentual = nudPorcentual.Value;
-            deduccion.CompanyId = Session.companyId;
+            deduction.DeductionId = deductionId;
+            deduction.Name = txtName.Text;
+            deduction.AmountType = rbFijo.Checked ? 'F' : (rbPorcentual.Checked ? 'P' : ' ');
+            deduction.Fixed = nudFijo.Value;
+            deduction.Porcentual = nudPorcentual.Value;
+            deduction.CompanyId = Session.companyId;
         }
 
         public void ClearForm()
@@ -476,8 +476,8 @@ namespace Presentation.Views
             perceptionId = -1;
             deductionId = -1;
             txtName.Clear();
-            nudFijo.Value = 0.0m;
-            nudPorcentual.Value = 0.0m;
+            nudFijo.Value = decimal.Zero;
+            nudPorcentual.Value = decimal.Zero;
             rbPerception.Checked = false;
             rbDeduction.Checked = false;
             rbFijo.Checked = false;

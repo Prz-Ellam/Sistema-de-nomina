@@ -1,4 +1,5 @@
 ﻿using Data_Access.Helpers;
+using Data_Access.Interfaces;
 using Data_Access.Repositorios;
 using Data_Access.ViewModels;
 using Presentation.Helpers;
@@ -65,7 +66,7 @@ namespace Presentation.Views
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -88,14 +89,21 @@ namespace Presentation.Views
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void ListDepartments()
         {
-            DepartmentsRepository departmentsRepository = new DepartmentsRepository();
-            cbDepartments.DataSource = departmentsRepository.ReadPair(false);
+            try
+            {
+                IDepartmentsRepository departmentsRepository = new DepartmentsRepository();
+                cbDepartments.DataSource = departmentsRepository.ReadPair(false);
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void InitDates()
@@ -118,6 +126,5 @@ namespace Presentation.Views
                 }
             }
         }
-
     }
 }

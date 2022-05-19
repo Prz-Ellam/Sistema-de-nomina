@@ -177,12 +177,6 @@
     <Compile Include="Views\FormNominas.Designer.cs">
       <DependentUpon>FormNominas.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\ModalPayroll.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\ModalPayroll.Designer.cs">
-      <DependentUpon>ModalPayroll.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\PayrollReceipts.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -246,9 +240,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\FormNominas.resx">
       <DependentUpon>FormNominas.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\ModalPayroll.resx">
-      <DependentUpon>ModalPayroll.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\PayrollReceipts.resx">
       <DependentUpon>PayrollReceipts.cs</DependentUpon>

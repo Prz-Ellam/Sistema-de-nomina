@@ -1,27 +1,71 @@
 USE sistema_de_nomina;
 
---IF EXISTS (SELECT name FROM sysobjects WHERE type = 'TR' AND name = 'tr_')
-
-IF EXISTS (SELECT name FROM sysobjects WHERE type = 'TR' AND name = 'tr_AsignarNominaPercepciones')
-	DROP TRIGGER tr_AsignarNominaPercepciones;
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'TR' AND name = 'tr_TipoMontoPercepciones')
+	DROP TRIGGER tr_TipoMontoPercepciones;
 GO
 
-CREATE TRIGGER tr_AsignarNominaPercepciones
+CREATE TRIGGER tr_TipoMontoPercepciones
+ON percepciones
+AFTER INSERT, UPDATE
+AS
+
+	UPDATE
+			p
+	SET
+			p.fijo			= IIF(p.tipo_monto = 'F', p.fijo, 0),
+			p.porcentual	= IIF(p.tipo_monto = 'P', p.porcentual, 0)
+	FROM
+			percepciones AS p
+			INNER JOIN inserted AS i
+			ON p.id_percepcion = i.id_percepcion;
+
+GO
+
+
+
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'TR' AND name = 'tr_TipoMontoDeducciones')
+	DROP TRIGGER tr_TipoMontoDeducciones;
+GO
+
+CREATE TRIGGER tr_TipoMontoDeducciones
+ON deducciones
+AFTER INSERT, UPDATE
+AS
+
+	UPDATE
+			d
+	SET
+			d.fijo			= IIF(d.tipo_monto = 'F', d.fijo, 0),
+			d.porcentual	= IIF(d.tipo_monto = 'P', d.porcentual, 0)
+	FROM
+			deducciones AS d
+			INNER JOIN inserted AS i
+			ON d.id_deduccion = i.id_deduccion;
+
+GO
+
+
+
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'TR' AND name = 'tr_AsignarNominaConceptos')
+	DROP TRIGGER tr_AsignarNominaConceptos;
+GO
+
+CREATE TRIGGER tr_AsignarNominaConceptos
 ON nominas
 AFTER INSERT
 AS
 
 	UPDATE
-		percepciones_aplicadas
+			percepciones_aplicadas
 	SET
-		id_nomina = n.id_nomina
+			id_nomina = n.id_nomina
 	FROM
-		percepciones_aplicadas AS pa
-		INNER JOIN inserted AS n
-		ON dbo.PRIMERDIAFECHA(pa.fecha) = dbo.PRIMERDIAFECHA(n.fecha) AND 
-		pa.numero_empleado = n.numero_empleado
+			percepciones_aplicadas AS pa
+			INNER JOIN inserted AS n
+			ON dbo.PRIMERDIAFECHA(pa.fecha) = dbo.PRIMERDIAFECHA(n.fecha) 
+			AND pa.numero_empleado = n.numero_empleado
 	WHERE
-		dbo.PRIMERDIAFECHA(pa.fecha) = dbo.PRIMERDIAFECHA(n.fecha);
+			dbo.PRIMERDIAFECHA(pa.fecha) = dbo.PRIMERDIAFECHA(n.fecha);
 
 
 	UPDATE 
@@ -31,8 +75,8 @@ AS
 	FROM
 		deducciones_aplicadas AS da
 		INNER JOIN inserted AS n
-		ON dbo.PRIMERDIAFECHA(da.fecha) = dbo.PRIMERDIAFECHA(n.fecha) AND 
-		da.numero_empleado = n.numero_empleado
+		ON dbo.PRIMERDIAFECHA(da.fecha) = dbo.PRIMERDIAFECHA(n.fecha)
+		AND da.numero_empleado = n.numero_empleado
 	WHERE
 		dbo.PRIMERDIAFECHA(da.fecha) = dbo.PRIMERDIAFECHA(n.fecha);
 		
@@ -55,9 +99,9 @@ AS
 			sueldo_diario = d.sueldo_base * p.nivel_salarial
 	FROM
 			empleados AS e
-			JOIN inserted AS d
+			INNER JOIN inserted AS d
 			ON e.id_departamento = d.id_departamento 
-			JOIN puestos AS p
+			INNER JOIN puestos AS p
 			ON e.id_puesto = p.id_puesto;
 
 GO
@@ -79,9 +123,9 @@ AS
 			sueldo_diario = d.sueldo_base * p.nivel_salarial
 	FROM
 			empleados AS e
-			JOIN departamentos AS d
+			INNER JOIN departamentos AS d
 			ON e.id_departamento = d.id_departamento 
-			JOIN inserted AS p
+			INNER JOIN inserted AS p
 			ON e.id_puesto = p.id_puesto;
 
 GO

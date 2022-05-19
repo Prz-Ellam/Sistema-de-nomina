@@ -56,11 +56,6 @@ namespace Presentation.Views
                     break;
             }
 
-
-            
-
-
-
         }
 
         private void OpenFormChild(object son)
@@ -127,6 +122,16 @@ namespace Presentation.Views
             OpenFormChild(new PayrollReports());
         }
 
+        private void btnEmployeeReceipts_Click(object sender, EventArgs e)
+        {
+            OpenFormChild(new PayrollReceipts());
+        }
+
+        private void btnProfile_Click(object sender, EventArgs e)
+        {
+            OpenFormChild(new Profile());
+        }
+
         private void fadeIn_Tick(object sender, EventArgs e)
         {
             Opacity = Opacity + 0.2f % 1;
@@ -135,11 +140,6 @@ namespace Presentation.Views
         private void pbClose_Click(object sender, EventArgs e)
         {
             Application.Exit();
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void btnConceptsApply_Click(object sender, EventArgs e)
@@ -158,21 +158,6 @@ namespace Presentation.Views
         private void pbMinimized_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
-        }
-
-        private void panel11_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void btnEmployeeReceipts_Click(object sender, EventArgs e)
-        {
-            OpenFormChild(new PayrollReceipts());
-        }
-
-        private void btnProfile_Click(object sender, EventArgs e)
-        {
-            OpenFormChild(new Profile());
         }
     }
 }

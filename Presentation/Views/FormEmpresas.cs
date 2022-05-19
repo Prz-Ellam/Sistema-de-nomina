@@ -207,24 +207,24 @@ namespace Presentation.Views
             company.CompanyId = Session.companyId;
             company.AdministratorId = Session.id;
 
-            company.BusinessName = txtBusinessName.Text;
-            company.EmployerRegistration = txtEmployerRegistration.Text;
-            company.Rfc = txtRfc.Text;
+            company.BusinessName = txtBusinessName.Text.Trim();
+            company.EmployerRegistration = txtEmployerRegistration.Text.Trim();
+            company.Rfc = txtRfc.Text.Trim();
             company.StartDate = dtpStartDate.Value;
-            company.Email = txtEmail.Text;
+            company.Email = txtEmail.Text.Trim();
 
             company.Phones.Clear();
             foreach (var phone in cbPhones.Items)
             {
-                company.Phones.Add(phone.ToString());
+                company.Phones.Add(phone.ToString().Trim());
             }
 
-            company.Street = txtStreet.Text;
-            company.Number = txtNumber.Text;
-            company.Suburb = txtSuburb.Text;
-            company.City = cbCities.Text;
-            company.State = cbStates.Text;
-            company.PostalCode = txtPostalCode.Text;
+            company.Street = txtStreet.Text.Trim();
+            company.Number = txtNumber.Text.Trim();
+            company.Suburb = txtSuburb.Text.Trim();
+            company.City = cbCities.Text.Trim();
+            company.State = cbStates.Text.Trim();
+            company.PostalCode = txtPostalCode.Text.Trim();
         }
 
         private void InitCompanyData()

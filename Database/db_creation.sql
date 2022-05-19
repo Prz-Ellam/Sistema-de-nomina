@@ -378,51 +378,6 @@ ALTER TABLE telefonos_empleados
 
 
 
-
-/*
-ALTER TABLE empresas
-	DROP CONSTRAINT fk_empresa_domicilio;
-
-ALTER TABLE empresas
-	DROP CONSTRAINT fk_administrador_empresa;
-
-ALTER TABLE departamentos
-	DROP CONSTRAINT fk_departmento_empresa;
-
-ALTER TABLE puestos
-	DROP CONSTRAINT fk_puesto_empresa;
-
-ALTER TABLE empleados
-	DROP CONSTRAINT fk_empleado_domicilio,
-		CONSTRAINT fk_empleado_banco,
-		CONSTRAINT fk_empleado_departamento,
-		CONSTRAINT fk_empleado_puesto;
-
-ALTER TABLE percepciones_aplicadas
-	DROP CONSTRAINT fk_percepcion_empleado,
-		CONSTRAINT fk_percepcion_percepcion,
-		CONSTRAINT fk_percepcion_nomina;
-
-ALTER TABLE deducciones_aplicadas
-	DROP CONSTRAINT fk_deduccion_empleado,
-		CONSTRAINT fk_deduccion_deduccion,
-		CONSTRAINT fk_deduccion_nomina;
-
-ALTER TABLE nominas
-	DROP CONSTRAINT fk_nomina_banco,
-		CONSTRAINT fk_nomina_empleado,
-		CONSTRAINT fk_nomina_departamento,
-		CONSTRAINT fk_nomina_puesto;
-
-ALTER TABLE telefonos_empresas
-	DROP CONSTRAINT fk_telefono_empresa;
-
-ALTER TABLE telefonos_empleados
-	DROP CONSTRAINT fk_telefono_empleado;
-
-*/
-
-
 /*
 SELECT all_objects.name AS TableName,
 syscolumns.name AS ColumnName ,systypes.name AS DataType

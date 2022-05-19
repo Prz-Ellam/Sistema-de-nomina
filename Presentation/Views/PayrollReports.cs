@@ -27,7 +27,6 @@ namespace Presentation.Views
         {
             InitDates();
             ListReport();
-
             dtgPayrollReport.DoubleBuffered(true);
         }
 
@@ -44,7 +43,7 @@ namespace Presentation.Views
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -67,6 +66,11 @@ namespace Presentation.Views
                     MessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private void dtpYear_ValueChanged(object sender, EventArgs e)
+        {
+            ListReport();
         }
     }
 }

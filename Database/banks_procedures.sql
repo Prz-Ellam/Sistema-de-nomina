@@ -7,9 +7,13 @@ GO
 CREATE PROCEDURE sp_LeerBancosPar
 AS
 
-	SELECT 
-			id_banco [ID Banco],
-			nombre [Nombre]
+	SELECT
+			'Seleccionar'	[Nombre],
+			-1				[ID Banco]
+	UNION
+	SELECT
+			nombre			[Nombre],
+			id_banco		[ID Banco]
 	FROM 
 			bancos;
 

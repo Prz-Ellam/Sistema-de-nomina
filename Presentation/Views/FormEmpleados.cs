@@ -339,7 +339,7 @@ namespace Presentation.Views
 
             try
             {
-                bool result = repository.Delete(employeeId);
+                bool result = repository.Delete(employee.NumeroEmpleado);
                 if (result)
                 {
                     return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
@@ -377,14 +377,14 @@ namespace Presentation.Views
         public void FillEmployee()
         {
             employee.NumeroEmpleado = employeeId; 
-            employee.Nombre = txtNames.Text;
-            employee.ApellidoPaterno = txtFatherLastName.Text;
-            employee.ApellidoMaterno = txtMotherLastName.Text;
+            employee.Nombre = txtNames.Text.Trim();
+            employee.ApellidoPaterno = txtFatherLastName.Text.Trim();
+            employee.ApellidoMaterno = txtMotherLastName.Text.Trim();
 
             employee.FechaNacimiento = dtpDateOfBirth.Value;
-            employee.Curp = txtCURP.Text;
-            employee.Nss = txtNSS.Text;
-            employee.Rfc = txtRFC.Text;
+            employee.Curp = txtCURP.Text.Trim();
+            employee.Nss = txtNSS.Text.Trim();
+            employee.Rfc = txtRFC.Text.Trim();
 
             // Estos PairItem pueden provocar excepcion si no hay registros, asi que hay que validar
             // que los haya
@@ -397,9 +397,9 @@ namespace Presentation.Views
                 employee.Banco = -1;
             }
 
-            employee.NumeroCuenta = txtAccountNumber.Text;
-            employee.CorreoElectronico = txtEmail.Text;
-            employee.Contrasena = txtPassword.Text;
+            employee.NumeroCuenta = txtAccountNumber.Text.Trim();
+            employee.CorreoElectronico = txtEmail.Text.Trim();
+            employee.Contrasena = txtPassword.Text.Trim();
 
             if (cbDepartments.Items.Count > 0)
             {
@@ -421,17 +421,17 @@ namespace Presentation.Views
 
             employee.FechaContratacion = dtpHiringDate.Value;
 
-            employee.Calle = txtStreet.Text;
-            employee.Numero = txtNumber.Text;
-            employee.Colonia = txtSuburb.Text;
-            employee.Ciudad = cbCity.Text;
-            employee.Estado = cbState.Text;
-            employee.CodigoPostal = txtPostalCode.Text;
+            employee.Calle = txtStreet.Text.Trim();
+            employee.Numero = txtNumber.Text.Trim();
+            employee.Colonia = txtSuburb.Text.Trim();
+            employee.Ciudad = cbCity.Text.Trim();
+            employee.Estado = cbState.Text.Trim();
+            employee.CodigoPostal = txtPostalCode.Text.Trim();
 
             employee.Telefonos.Clear();
             for (int i = 0; i < cbPhones.Items.Count; i++)
             {
-                employee.Telefonos.Add(cbPhones.Items[i].ToString());
+                employee.Telefonos.Add(cbPhones.Items[i].ToString().Trim());
             }
 
         }

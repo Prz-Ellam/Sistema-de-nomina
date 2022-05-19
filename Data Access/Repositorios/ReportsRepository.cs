@@ -25,7 +25,7 @@ namespace Data_Access.Repositorios
             headcounter2 = "sp_Headcounter2";
         }
 
-        public List<GeneralPayrollReportsViewModel> GeneralPayrollReport(DateTime date)
+        public IEnumerable<GeneralPayrollReportsViewModel> GeneralPayrollReport(DateTime date)
         {
             sqlParams.Start();
             sqlParams.Add("@fecha", date);
@@ -48,7 +48,7 @@ namespace Data_Access.Repositorios
             return report;
         }
 
-        public List<Headcounter1ViewModel> Headcounter1(int companyId, int departmentId, DateTime date)
+        public IEnumerable<Headcounter1ViewModel> Headcounter1(int companyId, int departmentId, DateTime date)
         {
             sqlParams.Start();
             sqlParams.Add("@id_empresa", companyId);
@@ -70,7 +70,7 @@ namespace Data_Access.Repositorios
             return report;
         }
 
-        public List<Headcounter2ViewModel> Headcounter2(int companyId, int departmentId, DateTime date)
+        public IEnumerable<Headcounter2ViewModel> Headcounter2(int companyId, int departmentId, DateTime date)
         {
             sqlParams.Start();
             sqlParams.Add("@id_empresa", companyId);
@@ -91,7 +91,7 @@ namespace Data_Access.Repositorios
             return report;
         }
 
-        public List<PayrollReportsViewModel> PayrollReport(int year)
+        public IEnumerable<PayrollReportsViewModel> PayrollReport(int year)
         {
             sqlParams.Start();
             sqlParams.Add("@anio", year);

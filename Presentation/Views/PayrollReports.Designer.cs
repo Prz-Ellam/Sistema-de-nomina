@@ -34,14 +34,14 @@ namespace Presentation.Views
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dtgPayrollReport = new System.Windows.Forms.DataGridView();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.dtpYear = new System.Windows.Forms.DateTimePicker();
             this.departamento = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.anio = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mes = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sueldoBruto = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sueldoNeto = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.dtpYear = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.dtgPayrollReport)).BeginInit();
             this.SuspendLayout();
             // 
@@ -81,40 +81,6 @@ namespace Presentation.Views
             this.dtgPayrollReport.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dtgPayrollReport.Size = new System.Drawing.Size(1017, 454);
             this.dtgPayrollReport.TabIndex = 0;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label1.Font = new System.Drawing.Font("Microsoft YaHei", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label1.Location = new System.Drawing.Point(20, 20);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(260, 31);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Reportes de nómina";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label2.Location = new System.Drawing.Point(20, 90);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(41, 21);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "Año";
-            // 
-            // dtpYear
-            // 
-            this.dtpYear.CustomFormat = "yyyy";
-            this.dtpYear.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.dtpYear.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpYear.Location = new System.Drawing.Point(20, 120);
-            this.dtpYear.Name = "dtpYear";
-            this.dtpYear.ShowUpDown = true;
-            this.dtpYear.Size = new System.Drawing.Size(200, 29);
-            this.dtpYear.TabIndex = 9;
             // 
             // departamento
             // 
@@ -158,6 +124,41 @@ namespace Presentation.Views
             this.sueldoNeto.Name = "sueldoNeto";
             this.sueldoNeto.ReadOnly = true;
             this.sueldoNeto.Width = 225;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label1.Font = new System.Drawing.Font("Microsoft YaHei", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.label1.Location = new System.Drawing.Point(20, 20);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(260, 31);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Reportes de nómina";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.label2.Location = new System.Drawing.Point(20, 90);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(41, 21);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "Año";
+            // 
+            // dtpYear
+            // 
+            this.dtpYear.CustomFormat = "yyyy";
+            this.dtpYear.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.dtpYear.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpYear.Location = new System.Drawing.Point(20, 120);
+            this.dtpYear.Name = "dtpYear";
+            this.dtpYear.ShowUpDown = true;
+            this.dtpYear.Size = new System.Drawing.Size(200, 29);
+            this.dtpYear.TabIndex = 9;
+            this.dtpYear.ValueChanged += new System.EventHandler(this.dtpYear_ValueChanged);
             // 
             // PayrollReports
             // 

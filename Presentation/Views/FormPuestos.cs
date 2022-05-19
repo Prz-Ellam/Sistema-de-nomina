@@ -228,7 +228,7 @@ namespace Presentation.Views
 
             try
             {
-                bool result = repository.Delete(positionId);
+                bool result = repository.Delete(position.PositionId);
                 if (result)
                 {
                     return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);

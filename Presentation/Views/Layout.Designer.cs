@@ -32,10 +32,15 @@ namespace Presentation.Views
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Layout));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.pbMinimized = new System.Windows.Forms.PictureBox();
+            this.pbClose = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.btnProfile = new System.Windows.Forms.Button();
             this.panel11 = new System.Windows.Forms.Panel();
+            this.btnEmployeeReceipts = new System.Windows.Forms.Button();
             this.panelApplyConcepts = new System.Windows.Forms.Panel();
+            this.btnConceptsApply = new System.Windows.Forms.Button();
             this.panelSubmenuReports = new System.Windows.Forms.Panel();
             this.panelConsumptionsReport = new System.Windows.Forms.Panel();
             this.btnPayrollReports = new System.Windows.Forms.Button();
@@ -53,11 +58,6 @@ namespace Presentation.Views
             this.panelEmployees = new System.Windows.Forms.Panel();
             this.panelPositions = new System.Windows.Forms.Panel();
             this.btnLogout = new System.Windows.Forms.Button();
-            this.panelStorage = new System.Windows.Forms.Panel();
-            this.fadeIn = new System.Windows.Forms.Timer(this.components);
-            this.btnProfile = new System.Windows.Forms.Button();
-            this.btnEmployeeReceipts = new System.Windows.Forms.Button();
-            this.btnConceptsApply = new System.Windows.Forms.Button();
             this.btnCompanies = new System.Windows.Forms.Button();
             this.btnDepartments = new System.Windows.Forms.Button();
             this.btnReports = new System.Windows.Forms.Button();
@@ -65,13 +65,13 @@ namespace Presentation.Views
             this.btnPayroll = new System.Windows.Forms.Button();
             this.btnEmployees = new System.Windows.Forms.Button();
             this.btnConcepts = new System.Windows.Forms.Button();
-            this.pbMinimized = new System.Windows.Forms.PictureBox();
-            this.pbClose = new System.Windows.Forms.PictureBox();
+            this.panelStorage = new System.Windows.Forms.Panel();
+            this.fadeIn = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
-            this.panelSubmenuReports.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbMinimized)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).BeginInit();
+            this.panel2.SuspendLayout();
+            this.panelSubmenuReports.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -84,6 +84,30 @@ namespace Presentation.Views
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1280, 36);
             this.panel1.TabIndex = 7;
+            // 
+            // pbMinimized
+            // 
+            this.pbMinimized.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbMinimized.Image = global::Presentation.Properties.Resources.Minimized_Button_Logo;
+            this.pbMinimized.Location = new System.Drawing.Point(1223, 8);
+            this.pbMinimized.Name = "pbMinimized";
+            this.pbMinimized.Size = new System.Drawing.Size(20, 20);
+            this.pbMinimized.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbMinimized.TabIndex = 10;
+            this.pbMinimized.TabStop = false;
+            this.pbMinimized.Click += new System.EventHandler(this.pbMinimized_Click);
+            // 
+            // pbClose
+            // 
+            this.pbClose.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbClose.Image = global::Presentation.Properties.Resources.Close_Button_Logo;
+            this.pbClose.Location = new System.Drawing.Point(1249, 8);
+            this.pbClose.Name = "pbClose";
+            this.pbClose.Size = new System.Drawing.Size(20, 20);
+            this.pbClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbClose.TabIndex = 9;
+            this.pbClose.TabStop = false;
+            this.pbClose.Click += new System.EventHandler(this.pbClose_Click);
             // 
             // panel2
             // 
@@ -126,6 +150,24 @@ namespace Presentation.Views
             this.panel4.Size = new System.Drawing.Size(8, 41);
             this.panel4.TabIndex = 1;
             // 
+            // btnProfile
+            // 
+            this.btnProfile.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnProfile.FlatAppearance.BorderSize = 0;
+            this.btnProfile.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnProfile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnProfile.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.btnProfile.ForeColor = System.Drawing.Color.White;
+            this.btnProfile.Image = global::Presentation.Properties.Resources.Profile_Logo;
+            this.btnProfile.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnProfile.Location = new System.Drawing.Point(8, 138);
+            this.btnProfile.Name = "btnProfile";
+            this.btnProfile.Size = new System.Drawing.Size(191, 41);
+            this.btnProfile.TabIndex = 2;
+            this.btnProfile.Text = "Perfil";
+            this.btnProfile.UseVisualStyleBackColor = true;
+            this.btnProfile.Click += new System.EventHandler(this.btnProfile_Click);
+            // 
             // panel11
             // 
             this.panel11.BackColor = System.Drawing.Color.Black;
@@ -133,7 +175,24 @@ namespace Presentation.Views
             this.panel11.Name = "panel11";
             this.panel11.Size = new System.Drawing.Size(8, 41);
             this.panel11.TabIndex = 2;
-            this.panel11.Paint += new System.Windows.Forms.PaintEventHandler(this.panel11_Paint);
+            // 
+            // btnEmployeeReceipts
+            // 
+            this.btnEmployeeReceipts.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnEmployeeReceipts.FlatAppearance.BorderSize = 0;
+            this.btnEmployeeReceipts.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnEmployeeReceipts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEmployeeReceipts.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.btnEmployeeReceipts.ForeColor = System.Drawing.Color.White;
+            this.btnEmployeeReceipts.Image = global::Presentation.Properties.Resources.Receipt_Logo;
+            this.btnEmployeeReceipts.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnEmployeeReceipts.Location = new System.Drawing.Point(8, 89);
+            this.btnEmployeeReceipts.Name = "btnEmployeeReceipts";
+            this.btnEmployeeReceipts.Size = new System.Drawing.Size(192, 41);
+            this.btnEmployeeReceipts.TabIndex = 1;
+            this.btnEmployeeReceipts.Text = "Recibos";
+            this.btnEmployeeReceipts.UseVisualStyleBackColor = true;
+            this.btnEmployeeReceipts.Click += new System.EventHandler(this.btnEmployeeReceipts_Click);
             // 
             // panelApplyConcepts
             // 
@@ -142,6 +201,24 @@ namespace Presentation.Views
             this.panelApplyConcepts.Name = "panelApplyConcepts";
             this.panelApplyConcepts.Size = new System.Drawing.Size(8, 41);
             this.panelApplyConcepts.TabIndex = 6;
+            // 
+            // btnConceptsApply
+            // 
+            this.btnConceptsApply.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnConceptsApply.FlatAppearance.BorderSize = 0;
+            this.btnConceptsApply.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnConceptsApply.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnConceptsApply.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.btnConceptsApply.ForeColor = System.Drawing.Color.White;
+            this.btnConceptsApply.Image = global::Presentation.Properties.Resources.Apply_Logo;
+            this.btnConceptsApply.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnConceptsApply.Location = new System.Drawing.Point(8, 331);
+            this.btnConceptsApply.Name = "btnConceptsApply";
+            this.btnConceptsApply.Size = new System.Drawing.Size(192, 41);
+            this.btnConceptsApply.TabIndex = 6;
+            this.btnConceptsApply.Text = "     Aplicar conceptos";
+            this.btnConceptsApply.UseVisualStyleBackColor = true;
+            this.btnConceptsApply.Click += new System.EventHandler(this.btnConceptsApply_Click);
             // 
             // panelSubmenuReports
             // 
@@ -348,72 +425,6 @@ namespace Presentation.Views
             this.btnLogout.UseVisualStyleBackColor = true;
             this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
             // 
-            // panelStorage
-            // 
-            this.panelStorage.Location = new System.Drawing.Point(206, 42);
-            this.panelStorage.Name = "panelStorage";
-            this.panelStorage.Size = new System.Drawing.Size(1064, 670);
-            this.panelStorage.TabIndex = 9;
-            // 
-            // fadeIn
-            // 
-            this.fadeIn.Enabled = true;
-            this.fadeIn.Tick += new System.EventHandler(this.fadeIn_Tick);
-            // 
-            // btnProfile
-            // 
-            this.btnProfile.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnProfile.FlatAppearance.BorderSize = 0;
-            this.btnProfile.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
-            this.btnProfile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnProfile.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.btnProfile.ForeColor = System.Drawing.Color.White;
-            this.btnProfile.Image = global::Presentation.Properties.Resources.Profile_Logo;
-            this.btnProfile.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnProfile.Location = new System.Drawing.Point(8, 138);
-            this.btnProfile.Name = "btnProfile";
-            this.btnProfile.Size = new System.Drawing.Size(191, 41);
-            this.btnProfile.TabIndex = 2;
-            this.btnProfile.Text = "Perfil";
-            this.btnProfile.UseVisualStyleBackColor = true;
-            this.btnProfile.Click += new System.EventHandler(this.btnProfile_Click);
-            // 
-            // btnEmployeeReceipts
-            // 
-            this.btnEmployeeReceipts.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnEmployeeReceipts.FlatAppearance.BorderSize = 0;
-            this.btnEmployeeReceipts.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
-            this.btnEmployeeReceipts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEmployeeReceipts.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.btnEmployeeReceipts.ForeColor = System.Drawing.Color.White;
-            this.btnEmployeeReceipts.Image = global::Presentation.Properties.Resources.Receipt_Logo;
-            this.btnEmployeeReceipts.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEmployeeReceipts.Location = new System.Drawing.Point(8, 89);
-            this.btnEmployeeReceipts.Name = "btnEmployeeReceipts";
-            this.btnEmployeeReceipts.Size = new System.Drawing.Size(192, 41);
-            this.btnEmployeeReceipts.TabIndex = 1;
-            this.btnEmployeeReceipts.Text = "Recibos";
-            this.btnEmployeeReceipts.UseVisualStyleBackColor = true;
-            this.btnEmployeeReceipts.Click += new System.EventHandler(this.btnEmployeeReceipts_Click);
-            // 
-            // btnConceptsApply
-            // 
-            this.btnConceptsApply.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnConceptsApply.FlatAppearance.BorderSize = 0;
-            this.btnConceptsApply.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
-            this.btnConceptsApply.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnConceptsApply.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.btnConceptsApply.ForeColor = System.Drawing.Color.White;
-            this.btnConceptsApply.Image = global::Presentation.Properties.Resources.Apply_Logo;
-            this.btnConceptsApply.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnConceptsApply.Location = new System.Drawing.Point(8, 331);
-            this.btnConceptsApply.Name = "btnConceptsApply";
-            this.btnConceptsApply.Size = new System.Drawing.Size(192, 41);
-            this.btnConceptsApply.TabIndex = 6;
-            this.btnConceptsApply.Text = "     Aplicar conceptos";
-            this.btnConceptsApply.UseVisualStyleBackColor = true;
-            this.btnConceptsApply.Click += new System.EventHandler(this.btnConceptsApply_Click);
-            // 
             // btnCompanies
             // 
             this.btnCompanies.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -540,29 +551,17 @@ namespace Presentation.Views
             this.btnConcepts.UseVisualStyleBackColor = true;
             this.btnConcepts.Click += new System.EventHandler(this.btnConcepts_Click);
             // 
-            // pbMinimized
+            // panelStorage
             // 
-            this.pbMinimized.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pbMinimized.Image = global::Presentation.Properties.Resources.Minimized_Button_Logo;
-            this.pbMinimized.Location = new System.Drawing.Point(1223, 8);
-            this.pbMinimized.Name = "pbMinimized";
-            this.pbMinimized.Size = new System.Drawing.Size(20, 20);
-            this.pbMinimized.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbMinimized.TabIndex = 10;
-            this.pbMinimized.TabStop = false;
-            this.pbMinimized.Click += new System.EventHandler(this.pbMinimized_Click);
+            this.panelStorage.Location = new System.Drawing.Point(206, 42);
+            this.panelStorage.Name = "panelStorage";
+            this.panelStorage.Size = new System.Drawing.Size(1064, 670);
+            this.panelStorage.TabIndex = 9;
             // 
-            // pbClose
+            // fadeIn
             // 
-            this.pbClose.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pbClose.Image = global::Presentation.Properties.Resources.Close_Button_Logo;
-            this.pbClose.Location = new System.Drawing.Point(1249, 8);
-            this.pbClose.Name = "pbClose";
-            this.pbClose.Size = new System.Drawing.Size(20, 20);
-            this.pbClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbClose.TabIndex = 9;
-            this.pbClose.TabStop = false;
-            this.pbClose.Click += new System.EventHandler(this.pbClose_Click);
+            this.fadeIn.Enabled = true;
+            this.fadeIn.Tick += new System.EventHandler(this.fadeIn_Tick);
             // 
             // Layout
             // 
@@ -581,11 +580,11 @@ namespace Presentation.Views
             this.Text = "Layout";
             this.Load += new System.EventHandler(this.Layout_Load);
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbMinimized)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbClose)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panelSubmenuReports.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pbMinimized)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbClose)).EndInit();
             this.ResumeLayout(false);
 
         }

@@ -114,7 +114,7 @@ namespace CustomMessageBox.Private
                     //OK Button
                     button1.Visible = true;
                     button1.Location = new Point(xCenter, yCenter);
-                    button1.Text = "Ok";
+                    button1.Text = "OK";
                     button1.DialogResult = DialogResult.OK;//Set DialogResult
 
                     //Set Default Button
@@ -124,13 +124,13 @@ namespace CustomMessageBox.Private
                     //OK Button
                     button1.Visible = true;
                     button1.Location = new Point(xCenter - (button1.Width / 2) - 5, yCenter);
-                    button1.Text = "Ok";
+                    button1.Text = "OK";
                     button1.DialogResult = DialogResult.OK;//Set DialogResult
 
                     //Cancel Button
                     button2.Visible = true;
                     button2.Location = new Point(xCenter + (button2.Width / 2) + 5, yCenter);
-                    button2.Text = "Cancel";
+                    button2.Text = "Cancelar";
                     button2.DialogResult = DialogResult.Cancel;//Set DialogResult
                     button2.BackColor = Color.DimGray;
 
@@ -164,7 +164,7 @@ namespace CustomMessageBox.Private
                     //Yes Button
                     button1.Visible = true;
                     button1.Location = new Point(xCenter - (button1.Width / 2) - 5, yCenter);
-                    button1.Text = "Yes";
+                    button1.Text = "Si";
                     button1.DialogResult = DialogResult.Yes;//Set DialogResult
 
                     //No Button
@@ -183,7 +183,7 @@ namespace CustomMessageBox.Private
                     //Yes Button
                     button1.Visible = true;
                     button1.Location = new Point(xCenter - button1.Width - 5, yCenter);
-                    button1.Text = "Yes";
+                    button1.Text = "Si";
                     button1.DialogResult = DialogResult.Yes;//Set DialogResult
 
                     //No Button
