@@ -17,12 +17,12 @@ namespace Presentation.Views
 {
     public partial class PayrollReceipts : Form
     {
-        private RepositorioNominas repository;
+        private PayrollsRepository repository;
 
         public PayrollReceipts()
         {
             InitializeComponent();
-            repository = new RepositorioNominas();
+            repository = new PayrollsRepository();
         }
 
         private void PayrollReceipts_Load(object sender, EventArgs e)
@@ -45,8 +45,8 @@ namespace Presentation.Views
                 return;
             }
 
-            var applyPerceptions = new RepositorioPercepcionesAplicadas();
-            var applyDeductions = new RepositorioDeduccionesAplicadas();
+            var applyPerceptions = new ApplyPerceptionsRepository();
+            var applyDeductions = new ApplyDeductionsRepository();
 
             var perceptions = applyPerceptions.ReadPayrollPerceptions(report.IdNomina);
             var deductions = applyDeductions.ReadPayrollDeductions(report.IdNomina);
@@ -70,8 +70,8 @@ namespace Presentation.Views
                     return;
                 }
 
-                var applyPerceptions = new RepositorioPercepcionesAplicadas();
-                var applyDeductions = new RepositorioDeduccionesAplicadas();
+                var applyPerceptions = new ApplyPerceptionsRepository();
+                var applyDeductions = new ApplyDeductionsRepository();
 
                 var perceptions = applyPerceptions.ReadPayrollPerceptions(report.IdNomina);
                 var deductions = applyDeductions.ReadPayrollDeductions(report.IdNomina);

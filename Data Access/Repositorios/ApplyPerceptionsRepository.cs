@@ -10,85 +10,84 @@ using System.Threading.Tasks;
 
 namespace Data_Access.Repositorios
 {
-    public class RepositorioDeduccionesAplicadas
+    public class ApplyPerceptionsRepository
     {
-        private readonly string applyEmployee, undoEmployee, applyDepartment, undoDepartment;
-        private readonly string readApplyEmployee, readApplyDepartment, deductionsReceipt;
+        private readonly string applyEmployee, applyDepartment, undoEmployee, undoDepartment;
+        private readonly string readApplyEmployee, readApplyDepartment, perceptionsReceipt;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams;
 
-        public RepositorioDeduccionesAplicadas()
+        public ApplyPerceptionsRepository()
         {
             mainRepository = MainConnection.GetInstance();
-            applyEmployee = "sp_AplicarEmpleadoDeduccion";
-            undoEmployee = "sp_EliminarEmpleadoDeduccion";
-
-            applyDepartment = "sp_AplicarDepartamentoDeduccion";
-            undoDepartment = "sp_EliminarDepartamentoDeduccion";
-
-            readApplyEmployee = "sp_LeerDeduccionesAplicadas";
-            readApplyDepartment = "sp_LeerDepartamentosDeduccionesAplicadas";
-
-            deductionsReceipt = "sp_LeerDeduccionesRecibo";
-
             sqlParams = new RepositoryParameters();
+            applyEmployee = "sp_AplicarEmpleadoPercepcion";
+            undoEmployee = "sp_EliminarEmpleadoPercepcion";
+
+            applyDepartment = "sp_AplicarDepartamentoPercepcion";
+            undoDepartment = "sp_EliminarDepartamentoPercepcion";
+
+            readApplyEmployee = "sp_LeerPercepcionesAplicadas";
+            readApplyDepartment = "sp_LeerDepartamentosPercepcionesAplicadas";
+
+            perceptionsReceipt = "sp_LeerPercepcionesRecibo";
         }
 
-        public bool ApplyEmployeeDeduction(int employeeNumber, int deductionId, DateTime date)
+        public bool ApplyEmployeePerception(int employeeNumber, int perceptionId, DateTime date)
         {
             sqlParams.Start();
             sqlParams.Add("@numero_empleado", employeeNumber);
-            sqlParams.Add("@id_deduccion", deductionId);
+            sqlParams.Add("@id_percepcion", perceptionId);
             sqlParams.Add("@fecha", date);
 
             int rowCount = mainRepository.ExecuteNonQuery(applyEmployee, sqlParams);
             return (rowCount > 0) ? true : false;
         }
 
-        public bool ApplyDepartmentDeduction(int departmentId, int deductionId, DateTime date)
+        public bool ApplyDepartmentPerception(int departmentId, int perceptionId, DateTime date)
         {
             sqlParams.Start();
             sqlParams.Add("@id_departamento", departmentId);
-            sqlParams.Add("@id_deduccion", deductionId);
+            sqlParams.Add("@id_percepcion", perceptionId);
             sqlParams.Add("@fecha", date);
 
             int rowCount = mainRepository.ExecuteNonQuery(applyDepartment, sqlParams);
             return (rowCount > 0) ? true : false;
         }
 
-        public bool UndoEmployeeDeduction(int employeeNumber, int deductionId, DateTime date)
+        public bool UndoEmployeePerception(int employeeNumber, int perceptionId, DateTime date)
         {
             sqlParams.Start();
             sqlParams.Add("@numero_empleado", employeeNumber);
-            sqlParams.Add("@id_deduccion", deductionId);
+            sqlParams.Add("@id_percepcion", perceptionId);
             sqlParams.Add("@fecha", date);
 
             int rowCount = mainRepository.ExecuteNonQuery(undoEmployee, sqlParams);
             return (rowCount > 0) ? true : false;
         }
 
-        public bool UndoDepartmentDeduction(int departmentId, int deductionId, DateTime date)
+        public bool UndoDepartmentPerception(int departmentId, int perceptionId, DateTime date)
         {
             sqlParams.Start();
             sqlParams.Add("@id_departamento", departmentId);
-            sqlParams.Add("@id_percepcion", deductionId);
+            sqlParams.Add("@id_percepcion", perceptionId);
             sqlParams.Add("@fecha", date);
 
             int rowCount = mainRepository.ExecuteNonQuery(undoDepartment, sqlParams);
             return (rowCount > 0) ? true : false;
         }
 
-        public List<ApplyDeductionsViewModel> ReadDeductions(int filter, int entityId, EntityType entityType, DateTime date)
+        public List<ApplyPerceptionViewModel> ReadPerceptions(int filter, int entityId, EntityType entityType, DateTime date)
         {
             switch (entityType)
             {
                 case EntityType.Employee:
                 {
-                    return ReadEmployeeDeductions(filter, entityId, date);
+                    return ReadEmployeePerceptions(filter, entityId, date);
                 }
                 case EntityType.Department:
                 {
-                    return ReadDepartmentDeductions(filter, entityId, date);
+                    return ReadDepartmentPerceptions(filter, entityId, date);
                 }
                 default:
                 {
@@ -97,7 +96,7 @@ namespace Data_Access.Repositorios
             }
         }
 
-        public List<ApplyDeductionsViewModel> ReadEmployeeDeductions(int filter, int employeeNumber, DateTime date)
+        public List<ApplyPerceptionViewModel> ReadEmployeePerceptions(int filter, int employeeNumber, DateTime date)
         {
             sqlParams.Start();
             sqlParams.Add("@filtro", filter);
@@ -105,25 +104,21 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@fecha", date);
 
             DataTable table = mainRepository.ExecuteReader(readApplyEmployee, sqlParams);
-            List<ApplyDeductionsViewModel> applyDeductions = new List<ApplyDeductionsViewModel>();
-
-            foreach (DataRow row in table.Rows)
+            List<ApplyPerceptionViewModel> applyPerceptions = new List<ApplyPerceptionViewModel>();
+            foreach(DataRow row in table.Rows)
             {
-                applyDeductions.Add(new ApplyDeductionsViewModel
+                applyPerceptions.Add(new ApplyPerceptionViewModel
                 {
                     Aplicada = Convert.ToBoolean(row[0]),
-                    IdDeduccion = Convert.ToInt32(row[1]),
+                    IdPercepcion = Convert.ToInt32(row[1]),
                     Nombre = row[2].ToString(),
-                    //TipoMonto = Convert.ToChar(row[3]),
-                    //Fijo = Convert.ToDecimal(row[4]),
-                    //Porcentual = Convert.ToDecimal(row[5])
                 });
             }
 
-            return applyDeductions;
+            return applyPerceptions;
         }
 
-        public List<ApplyDeductionsViewModel> ReadDepartmentDeductions(int filter, int departmentId, DateTime date)
+        public List<ApplyPerceptionViewModel> ReadDepartmentPerceptions(int filter, int departmentId, DateTime date)
         {
             sqlParams.Start();
             sqlParams.Add("@filtro", filter);
@@ -131,14 +126,14 @@ namespace Data_Access.Repositorios
             sqlParams.Add("@fecha", date);
 
             DataTable table = mainRepository.ExecuteReader(readApplyDepartment, sqlParams);
-            List<ApplyDeductionsViewModel> applyDeductions = new List<ApplyDeductionsViewModel>();
+            List<ApplyPerceptionViewModel> applyPerceptions = new List<ApplyPerceptionViewModel>();
 
             foreach (DataRow row in table.Rows)
             {
-                applyDeductions.Add(new ApplyDeductionsViewModel
+                applyPerceptions.Add(new ApplyPerceptionViewModel
                 {
                     Aplicada = Convert.ToBoolean(row[0]),
-                    IdDeduccion = Convert.ToInt32(row[1]),
+                    IdPercepcion = Convert.ToInt32(row[1]),
                     Nombre = row[2].ToString(),
                     //TipoMonto = Convert.ToChar(row[3]),
                     //Fijo = Convert.ToDecimal(row[4]),
@@ -146,28 +141,27 @@ namespace Data_Access.Repositorios
                 });
             }
 
-            return applyDeductions;
+            return applyPerceptions;
         }
 
-        public List<PayrollDeductionViewModel> ReadPayrollDeductions(int payrollId)
+        public List<PayrollPerceptionViewModel> ReadPayrollPerceptions(int payrollId)
         {
             sqlParams.Start();
             sqlParams.Add("@id_nomina", payrollId);
 
-            DataTable table = mainRepository.ExecuteReader(deductionsReceipt, sqlParams);
-            List<PayrollDeductionViewModel> deductions = new List<PayrollDeductionViewModel>();
-
+            DataTable table = mainRepository.ExecuteReader(perceptionsReceipt, sqlParams);
+            List<PayrollPerceptionViewModel> perceptions = new List<PayrollPerceptionViewModel>();
             foreach (DataRow row in table.Rows)
             {
-                deductions.Add(new PayrollDeductionViewModel
+                perceptions.Add(new PayrollPerceptionViewModel
                 {
-                    IdDeduccion = Convert.ToInt32(row["Clave"]),
+                    IdPercepcion = Convert.ToInt32(row["Clave"]),
                     Concepto = row["Concepto"].ToString(),
                     Importe = Convert.ToDecimal(row["Importe"]),
                 });
             }
 
-            return deductions;
+            return perceptions;
         }
 
     }

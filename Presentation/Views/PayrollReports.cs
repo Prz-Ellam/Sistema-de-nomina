@@ -40,7 +40,7 @@ namespace Presentation.Views
             try
             {
                 ICompaniesRepository companiesRepository = new CompaniesRepository();
-                RepositorioNominas payrollRepository = new RepositorioNominas();
+                PayrollsRepository payrollRepository = new PayrollsRepository();
                 DateTime creationDate = companiesRepository.GetCreationDate(Session.companyId, true);
                 DateTime payrollDate = payrollRepository.GetDate(Session.companyId, true);
                 dtpYear.MinDate = creationDate;

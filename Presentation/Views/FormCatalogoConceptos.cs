@@ -432,7 +432,7 @@ namespace Presentation.Views
             {
                 dtgPerceptions.DataSource = perceptionRepository.Read(txtFilterPerception.Text.Trim(), Session.companyId);
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 MessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -444,17 +444,16 @@ namespace Presentation.Views
             {
                 dtgDeductions.DataSource = deductionRepository.Read(txtFilterDeduction.Text.Trim(), Session.companyId);
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 MessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-
         public void FillPerception()
         {
             perception.PerceptionId = perceptionId;
-            perception.Name = txtName.Text;
+            perception.Name = txtName.Text.Trim();
             perception.AmountType = rbFijo.Checked ? 'F' : (rbPorcentual.Checked ? 'P' : ' ');
             perception.Fixed = nudFijo.Value;
             perception.Porcentual = nudPorcentual.Value;
@@ -464,7 +463,7 @@ namespace Presentation.Views
         public void FillDeduction()
         {
             deduction.DeductionId = deductionId;
-            deduction.Name = txtName.Text;
+            deduction.Name = txtName.Text.Trim();
             deduction.AmountType = rbFijo.Checked ? 'F' : (rbPorcentual.Checked ? 'P' : ' ');
             deduction.Fixed = nudFijo.Value;
             deduction.Porcentual = nudPorcentual.Value;

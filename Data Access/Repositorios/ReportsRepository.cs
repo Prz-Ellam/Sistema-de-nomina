@@ -1,4 +1,5 @@
 ﻿using Data_Access.Connections;
+using Data_Access.Interfaces;
 using Data_Access.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Data_Access.Repositorios
 {
-    public class ReportsRepository
+    public class ReportsRepository : IReportsRepository
     {
         private readonly string generalPayrollReport, payrollReport, headcounter1, headcounter2;
         private MainConnection mainRepository;

@@ -1,4 +1,5 @@
 ﻿using Data_Access.Connections;
+using Data_Access.Interfaces;
 using Data_Access.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -9,14 +10,14 @@ using System.Threading.Tasks;
 
 namespace Data_Access.Repositorios
 {
-    public class RepositorioNominas
+    public class PayrollsRepository : IPayrollsRepository
     {
         private readonly string startPayroll, deletePayroll, generate;
         private readonly string readByDate, getDate, getPayrollReceipt, payrollProcess;
         private MainConnection mainRepository;
         private RepositoryParameters sqlParams;
 
-        public RepositorioNominas()
+        public PayrollsRepository()
         {
             mainRepository = MainConnection.GetInstance();
             sqlParams = new RepositoryParameters();

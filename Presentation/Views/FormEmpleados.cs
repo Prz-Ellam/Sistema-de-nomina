@@ -65,7 +65,7 @@ namespace Presentation.Views
                         btnAdd.Enabled = false;
                         btnEdit.Enabled = true;
                         btnDelete.Enabled = true;
-                        RepositorioNominas payrollsRepository = new RepositorioNominas();
+                        PayrollsRepository payrollsRepository = new PayrollsRepository();
                         DateTime payrollDate = payrollsRepository.GetDate(Session.companyId, false);
                         DateTime hiringDate = repository.GetHiringDate(employeeId, false);
 
@@ -101,7 +101,7 @@ namespace Presentation.Views
         {
             try
             {
-                RepositorioNominas payrollRepository = new RepositorioNominas();
+                PayrollsRepository payrollRepository = new PayrollsRepository();
                 payrollDate = payrollRepository.GetDate(Session.companyId, false);
             }
             catch (SqlException ex)

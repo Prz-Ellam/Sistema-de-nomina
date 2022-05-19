@@ -19,8 +19,8 @@ namespace Presentation.Views
 {
     public partial class FormAplicarConceptos : Form
     {
-        private RepositorioPercepcionesAplicadas applyPerceptionsRepository;
-        private RepositorioDeduccionesAplicadas applyDeductionsRepository;
+        private ApplyPerceptionsRepository applyPerceptionsRepository;
+        private ApplyDeductionsRepository applyDeductionsRepository;
         private int entityId = -1;
         private int conceptId = -1;
 
@@ -39,8 +39,8 @@ namespace Presentation.Views
         public FormAplicarConceptos()
         {
             InitializeComponent();
-            applyPerceptionsRepository = new RepositorioPercepcionesAplicadas();
-            applyDeductionsRepository = new RepositorioDeduccionesAplicadas();
+            applyPerceptionsRepository = new ApplyPerceptionsRepository();
+            applyDeductionsRepository = new ApplyDeductionsRepository();
             rbPerceptionsFilterAll.CheckedChanged += new EventHandler(perceptionsRadioButtons_CheckedChange);
             rbPerceptionsFilterApply.CheckedChanged += new EventHandler(perceptionsRadioButtons_CheckedChange);
             rbPerceptionsFilterNotApply.CheckedChanged += new EventHandler(perceptionsRadioButtons_CheckedChange);
@@ -63,7 +63,7 @@ namespace Presentation.Views
 
             try
             {
-                RepositorioNominas payrollRepository = new RepositorioNominas();
+                PayrollsRepository payrollRepository = new PayrollsRepository();
                 ICompaniesRepository companyRepository = new CompaniesRepository();
                 DateTime creationDate = companyRepository.GetCreationDate(Session.companyId, true);
                 payrollDate = payrollRepository.GetDate(Session.companyId, true);
@@ -473,7 +473,7 @@ namespace Presentation.Views
 
         private void btnStartPayroll_Click(object sender, EventArgs e)
         {
-            RepositorioNominas payrollRepository = new RepositorioNominas();
+            PayrollsRepository payrollRepository = new PayrollsRepository();
             DateTime requestDate = dtpDate.Value;
             try
             {

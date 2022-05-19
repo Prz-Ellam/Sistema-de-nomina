@@ -41,7 +41,7 @@ namespace Presentation.Views
             try
             {
                 ICompaniesRepository companiesRepository = new CompaniesRepository();
-                RepositorioNominas payrollsRepository = new RepositorioNominas();
+                PayrollsRepository payrollsRepository = new PayrollsRepository();
                 DateTime creationDate = companiesRepository.GetCreationDate(Session.companyId, true);
                 DateTime payrollDate = payrollsRepository.GetDate(Session.companyId, true);
                 dtpDate.MinDate = creationDate;

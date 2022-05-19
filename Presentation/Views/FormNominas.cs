@@ -1,5 +1,6 @@
 ﻿using CsvHelper;
 using CustomMessageBox;
+using Data_Access.Interfaces;
 using Data_Access.Repositorios;
 using Data_Access.ViewModels;
 using Presentation.Helpers;
@@ -20,12 +21,12 @@ namespace Presentation.Views
 {
     public partial class FormNominas : Form
     {
-        RepositorioNominas payrollRepository;
+        IPayrollsRepository payrollRepository;
 
         public FormNominas()
         {
             InitializeComponent();
-            payrollRepository = new RepositorioNominas();
+            payrollRepository = new PayrollsRepository();
         }
 
         private void Payroll_Load(object sender, EventArgs e)
