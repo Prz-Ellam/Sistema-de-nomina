@@ -58,7 +58,7 @@ namespace Presentation.Views
             this.txtName.Location = new System.Drawing.Point(20, 120);
             this.txtName.MaxLength = 30;
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(400, 29);
+            this.txtName.Size = new System.Drawing.Size(485, 29);
             this.txtName.TabIndex = 1;
             // 
             // lblName
@@ -93,7 +93,7 @@ namespace Presentation.Views
             this.nudWageLevel.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.nudWageLevel.Location = new System.Drawing.Point(46, 220);
             this.nudWageLevel.Name = "nudWageLevel";
-            this.nudWageLevel.Size = new System.Drawing.Size(374, 29);
+            this.nudWageLevel.Size = new System.Drawing.Size(459, 29);
             this.nudWageLevel.TabIndex = 2;
             // 
             // btnDelete
@@ -160,7 +160,7 @@ namespace Presentation.Views
             // 
             this.dtgPositions.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
             this.dtgPositions.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dtgPositions.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.dtgPositions.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
             this.dtgPositions.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));

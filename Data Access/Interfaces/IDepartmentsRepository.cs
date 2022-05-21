@@ -12,6 +12,6 @@ namespace Data_Access.Interfaces
     public interface IDepartmentsRepository : IGenericRepository<Departments, DepartmentsViewModel>
     {
         IEnumerable<PairItem> ReadPair(bool actives);
-        List<DepartmentsPayrollViewModel> ReadPayrolls(int companyId, DateTime date);
+        IEnumerable<DepartmentsPayrollViewModel> ReadPayrolls(int companyId, DateTime date);
     }
 }

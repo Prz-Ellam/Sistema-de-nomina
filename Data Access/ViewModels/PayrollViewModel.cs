@@ -3,23 +3,37 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CsvHelper.Configuration.Attributes;
 
 namespace Data_Access.ViewModels
 {
     public class PayrollViewModel
     {
-        private int numeroEmpleado;
-        private string nombreEmpleado;
-        private DateTime fecha;
-        private decimal cantidad;
-        private string banco;
-        private string numeroCuenta;
+        private int employeeNumber;
+        private string employeeName;
+        private DateTime date;
+        private decimal amount;
+        private string bank;
+        private string accountNumber;
 
-        public int NumeroEmpleado { get => numeroEmpleado; set => numeroEmpleado = value; }
-        public string NombreEmpleado { get => nombreEmpleado; set => nombreEmpleado = value; }
-        public DateTime Fecha { get => fecha; set => fecha = value; }
-        public decimal Cantidad { get => cantidad; set => cantidad = value; }
-        public string Banco { get => banco; set => banco = value; }
-        public string NumeroCuenta { get => numeroCuenta; set => numeroCuenta = value; }
+        [Name("Numero de empleado")]
+        public int EmployeeNumber { get => employeeNumber; set => employeeNumber = value; }
+
+        [Name("Nombre del empleado")]
+        public string EmployeeName { get => employeeName; set => employeeName = value; }
+
+        [Name("Fecha")]
+        [Format("yyyy-MM")]
+        public DateTime Date { get => date; set => date = value; }
+
+        [Name("Cantidad a depositar")]
+        [Format("c")]
+        public decimal Amount { get => amount; set => amount = value; }
+
+        [Name("Banco")]
+        public string Bank { get => bank; set => bank = value; }
+
+        [Name("Número de cuenta")]
+        public string AccountNumber { get => accountNumber; set => accountNumber = value; }
     }
 }

@@ -136,7 +136,7 @@ AS
 			deducciones
 	WHERE 
 			activo = 1 AND
-			tipo_duracion = 'S' AND
+			--tipo_duracion = 'S' AND
 			id_empresa = @id_empresa AND
 			nombre LIKE CONCAT('%', @filtro, '%');
 

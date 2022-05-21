@@ -122,7 +122,8 @@ namespace Data_Access.Entidades
         }
 
         [Required(ErrorMessage = "El correo electrónico del empleado es requerido")]
-        [EmailAddress(ErrorMessage = "El correo electrónico que ingresó no es válido")]
+        [RegularExpression(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$", ErrorMessage = "El correo electrónico que ingresó no es válido")]
+        [MaxLength(60, ErrorMessage = "El correo electrónico es demasiado largo")]
         public string CorreoElectronico { get => correoElectronico; set => correoElectronico = value; }
 
         [Required(ErrorMessage = "La contraseña del empleado es requerida")]

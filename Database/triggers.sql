@@ -1,5 +1,70 @@
 USE sistema_de_nomina;
 
+IF EXISTS (SELECT name FROM sysobjects WHERE type = 'TR' AND name = 'tr_InsertarEmpresa')
+	DROP TRIGGER tr_InsertarEmpresa;
+GO
+
+CREATE TRIGGER tr_InsertarEmpresa
+ON empresas
+AFTER INSERT
+AS
+
+	DECLARE @id_empresa INT = (SELECT TOP 1 id_empresa FROM inserted);
+
+	INSERT INTO percepciones(
+			nombre,
+			tipo_monto,
+			fijo,
+			porcentual,
+			tipo_duracion,
+			id_empresa
+	)
+	VALUES(
+			'Salario',
+			'P',
+			0,
+			1.0,
+			'B',
+			 @id_empresa
+	);
+
+	INSERT INTO deducciones(
+			nombre,
+			tipo_monto,
+			fijo,
+			porcentual,
+			tipo_duracion,
+			id_empresa
+	)
+	VALUES(
+			'ISR',
+			'P',
+			0,
+			0.12,
+			'B',
+			 @id_empresa
+	);
+
+	INSERT INTO deducciones(
+			nombre,
+			tipo_monto,
+			fijo,
+			porcentual,
+			tipo_duracion,
+			id_empresa
+	)
+	VALUES(
+			'IMSS',
+			'F',
+			200.0,
+			0,
+			'B',
+			 @id_empresa
+	);
+
+GO
+
+
 IF EXISTS (SELECT name FROM sysobjects WHERE type = 'TR' AND name = 'tr_TipoMontoPercepciones')
 	DROP TRIGGER tr_TipoMontoPercepciones;
 GO

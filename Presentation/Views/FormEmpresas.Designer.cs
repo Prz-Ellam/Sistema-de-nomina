@@ -29,6 +29,7 @@ namespace Presentation.Views
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.txtBusinessName = new System.Windows.Forms.TextBox();
             this.txtEmployerRegistration = new System.Windows.Forms.TextBox();
             this.txtRfc = new System.Windows.Forms.TextBox();
@@ -56,6 +57,9 @@ namespace Presentation.Views
             this.label1 = new System.Windows.Forms.Label();
             this.cbPhones = new System.Windows.Forms.ComboBox();
             this.btnAdd = new System.Windows.Forms.Button();
+            this.pbHelp = new System.Windows.Forms.PictureBox();
+            this.helpInfo = new System.Windows.Forms.ToolTip(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.pbHelp)).BeginInit();
             this.SuspendLayout();
             // 
             // txtBusinessName
@@ -73,7 +77,7 @@ namespace Presentation.Views
             this.txtEmployerRegistration.BackColor = System.Drawing.Color.White;
             this.txtEmployerRegistration.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.txtEmployerRegistration.Location = new System.Drawing.Point(20, 190);
-            this.txtEmployerRegistration.MaxLength = 60;
+            this.txtEmployerRegistration.MaxLength = 11;
             this.txtEmployerRegistration.Name = "txtEmployerRegistration";
             this.txtEmployerRegistration.Size = new System.Drawing.Size(400, 29);
             this.txtEmployerRegistration.TabIndex = 2;
@@ -360,10 +364,10 @@ namespace Presentation.Views
             this.cbPhones.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.cbPhones.FormattingEnabled = true;
             this.cbPhones.Location = new System.Drawing.Point(20, 470);
+            this.cbPhones.MaxLength = 10;
             this.cbPhones.Name = "cbPhones";
             this.cbPhones.Size = new System.Drawing.Size(400, 29);
             this.cbPhones.TabIndex = 6;
-            this.cbPhones.SelectedIndexChanged += new System.EventHandler(this.cbPhones_SelectedIndexChanged);
             this.cbPhones.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cbPhones_KeyDown);
             // 
             // btnAdd
@@ -382,12 +386,26 @@ namespace Presentation.Views
             this.btnAdd.UseVisualStyleBackColor = false;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
+            // pbHelp
+            // 
+            this.pbHelp.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbHelp.Image = global::Presentation.Properties.Resources.Help;
+            this.pbHelp.Location = new System.Drawing.Point(103, 442);
+            this.pbHelp.Name = "pbHelp";
+            this.pbHelp.Size = new System.Drawing.Size(20, 20);
+            this.pbHelp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbHelp.TabIndex = 47;
+            this.pbHelp.TabStop = false;
+            this.helpInfo.SetToolTip(this.pbHelp, "Ingrese su teléfono y presione Enter para añadirlo, si desea eliminar un teléfono" +
+        ", seleccionelo y pulse Delete");
+            // 
             // FormEmpresas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(1064, 670);
+            this.Controls.Add(this.pbHelp);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.cbPhones);
             this.Controls.Add(this.label1);
@@ -419,6 +437,7 @@ namespace Presentation.Views
             this.Name = "FormEmpresas";
             this.Text = "Companies";
             this.Load += new System.EventHandler(this.Companies_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.pbHelp)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -453,5 +472,7 @@ namespace Presentation.Views
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cbPhones;
         private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.PictureBox pbHelp;
+        private System.Windows.Forms.ToolTip helpInfo;
     }
 }

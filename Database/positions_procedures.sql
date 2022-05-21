@@ -57,7 +57,7 @@ AS
 
 	IF @status_nomina = 1
 		BEGIN
-			RAISERROR('No se puede editar el departamento debido a que hay una nómina en proceso', 11, 1);
+			RAISERROR('No se puede editar el puesto debido a que hay una nómina en proceso', 11, 1);
 			RETURN;
 		END
 
@@ -94,7 +94,7 @@ AS
 
 	IF @status_nomina = 1
 		BEGIN
-			RAISERROR('No se puede eliminar el departamento debido a que hay una nómina en proceso', 11, 1);
+			RAISERROR('No se puede eliminar el puesto debido a que hay una nómina en proceso', 11, 1);
 			RETURN;
 		END
 	

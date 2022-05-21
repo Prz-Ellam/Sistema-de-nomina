@@ -36,8 +36,14 @@
     <Reference Include="ceTe.DynamicPDF.40, Version=8.0.0.40, Culture=neutral, PublicKeyToken=09b5ce0d5c0a9d8b, processorArchitecture=MSIL">
       <HintPath>..\packages\DynamicPDF.8.0.0.0\lib\net40\ceTe.DynamicPDF.40.dll</HintPath>
     </Reference>
+    <Reference Include="CsvHelper, Version=27.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.27.2.1\lib\net47\CsvHelper.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.6.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.HashCode, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.HashCode.1.0.0\lib\net461\Microsoft.Bcl.HashCode.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -103,6 +109,7 @@
     <Compile Include="Interfaces\IGenericRepository.cs" />
     <Compile Include="Interfaces\IPayrollsRepository.cs" />
     <Compile Include="Interfaces\IPerceptionsRepository.cs" />
+    <Compile Include="Interfaces\IPhonesRepository.cs" />
     <Compile Include="Interfaces\IPositionsRepository.cs" />
     <Compile Include="Interfaces\IReportsRepository.cs" />
     <Compile Include="Interfaces\IUsersRepository.cs" />
@@ -121,7 +128,7 @@
     <Compile Include="Repositorios\PositionsRepository.cs" />
     <Compile Include="Connections\MainConnection.cs" />
     <Compile Include="Repositorios\ApplyPerceptionsRepository.cs" />
-    <Compile Include="Repositorios\RepositorioTelefonos.cs" />
+    <Compile Include="Repositorios\PhonesRepository.cs" />
     <Compile Include="Repositorios\RepositoryParameters.cs" />
     <Compile Include="Repositorios\StatesRepository.cs" />
     <Compile Include="Repositorios\UsersRepository.cs" />

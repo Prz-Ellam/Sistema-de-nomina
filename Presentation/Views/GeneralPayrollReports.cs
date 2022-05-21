@@ -28,6 +28,7 @@ namespace Presentation.Views
         private void GeneralPayrollReports_Load(object sender, EventArgs e)
         {
             InitDates();
+            ListReport();
             dtgGeneralPayroll.DoubleBuffered(true);
         }
 

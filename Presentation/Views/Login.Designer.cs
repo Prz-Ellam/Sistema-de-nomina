@@ -36,10 +36,7 @@ namespace Presentation.Views
             this.lblEmail = new System.Windows.Forms.Label();
             this.lblPassword = new System.Windows.Forms.Label();
             this.btnLogin = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.pbMinimized = new System.Windows.Forms.PictureBox();
-            this.pbClosed = new System.Windows.Forms.PictureBox();
+            this.titleBar = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pbClose = new System.Windows.Forms.PictureBox();
             this.fadeIn = new System.Windows.Forms.Timer(this.components);
@@ -49,15 +46,19 @@ namespace Presentation.Views
             this.linePassword = new System.Windows.Forms.Panel();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbMinimized)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbClosed)).BeginInit();
+            this.btnClose = new System.Windows.Forms.Button();
+            this.btnMinimized = new System.Windows.Forms.Button();
+            this.lblTitleBar = new System.Windows.Forms.Label();
+            this.pbSmallIcon = new System.Windows.Forms.PictureBox();
+            this.lblLogin = new System.Windows.Forms.Label();
+            this.titleBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).BeginInit();
             this.panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbSmallIcon)).BeginInit();
             this.SuspendLayout();
             // 
             // txtEmail
@@ -65,11 +66,12 @@ namespace Presentation.Views
             this.txtEmail.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.txtEmail.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtEmail.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.txtEmail.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(85)))), ((int)(((byte)(85)))));
             this.txtEmail.Location = new System.Drawing.Point(230, 152);
             this.txtEmail.MaxLength = 60;
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(350, 22);
-            this.txtEmail.TabIndex = 2;
+            this.txtEmail.TabIndex = 1;
             this.txtEmail.Enter += new System.EventHandler(this.txtEmail_Enter);
             this.txtEmail.Leave += new System.EventHandler(this.txtEmail_Leave);
             // 
@@ -78,11 +80,12 @@ namespace Presentation.Views
             this.txtPassword.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.txtPassword.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtPassword.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.txtPassword.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(85)))), ((int)(((byte)(85)))));
             this.txtPassword.Location = new System.Drawing.Point(230, 233);
             this.txtPassword.MaxLength = 30;
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(350, 22);
-            this.txtPassword.TabIndex = 5;
+            this.txtPassword.TabIndex = 2;
             this.txtPassword.UseSystemPasswordChar = true;
             this.txtPassword.Enter += new System.EventHandler(this.txtPassword_Enter);
             this.txtPassword.Leave += new System.EventHandler(this.txtPassword_Leave);
@@ -126,59 +129,25 @@ namespace Presentation.Views
             this.btnLogin.Location = new System.Drawing.Point(185, 295);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(395, 40);
-            this.btnLogin.TabIndex = 8;
+            this.btnLogin.TabIndex = 3;
             this.btnLogin.Text = "Iniciar sesión";
             this.btnLogin.UseVisualStyleBackColor = false;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 
-            // label3
+            // titleBar
             // 
-            this.label3.AutoSize = true;
-            this.label3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label3.Font = new System.Drawing.Font("Microsoft YaHei", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label3.Location = new System.Drawing.Point(284, 57);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(183, 35);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Iniciar sesión";
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
-            this.panel1.Controls.Add(this.pbMinimized);
-            this.panel1.Controls.Add(this.pbClosed);
-            this.panel1.Controls.Add(this.pictureBox1);
-            this.panel1.Controls.Add(this.pbClose);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(600, 36);
-            this.panel1.TabIndex = 9;
-            // 
-            // pbMinimized
-            // 
-            this.pbMinimized.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pbMinimized.Image = global::Presentation.Properties.Resources.Minimized_Button_Logo;
-            this.pbMinimized.Location = new System.Drawing.Point(540, 9);
-            this.pbMinimized.Name = "pbMinimized";
-            this.pbMinimized.Size = new System.Drawing.Size(20, 20);
-            this.pbMinimized.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbMinimized.TabIndex = 12;
-            this.pbMinimized.TabStop = false;
-            this.pbMinimized.Click += new System.EventHandler(this.pbMinimized_Click);
-            // 
-            // pbClosed
-            // 
-            this.pbClosed.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pbClosed.Image = global::Presentation.Properties.Resources.Close_Button_Logo;
-            this.pbClosed.Location = new System.Drawing.Point(566, 9);
-            this.pbClosed.Name = "pbClosed";
-            this.pbClosed.Size = new System.Drawing.Size(20, 20);
-            this.pbClosed.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbClosed.TabIndex = 11;
-            this.pbClosed.TabStop = false;
-            this.pbClosed.Click += new System.EventHandler(this.pbClosed_Click);
+            this.titleBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            this.titleBar.Controls.Add(this.pbSmallIcon);
+            this.titleBar.Controls.Add(this.lblTitleBar);
+            this.titleBar.Controls.Add(this.btnMinimized);
+            this.titleBar.Controls.Add(this.btnClose);
+            this.titleBar.Controls.Add(this.pictureBox1);
+            this.titleBar.Controls.Add(this.pbClose);
+            this.titleBar.Dock = System.Windows.Forms.DockStyle.Top;
+            this.titleBar.Location = new System.Drawing.Point(0, 0);
+            this.titleBar.Name = "titleBar";
+            this.titleBar.Size = new System.Drawing.Size(600, 35);
+            this.titleBar.TabIndex = 9;
             // 
             // pictureBox1
             // 
@@ -212,11 +181,10 @@ namespace Presentation.Views
             this.panel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
             this.panel.Controls.Add(this.pbLogo);
             this.panel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel.Location = new System.Drawing.Point(0, 36);
+            this.panel.Location = new System.Drawing.Point(0, 35);
             this.panel.Name = "panel";
-            this.panel.Size = new System.Drawing.Size(170, 334);
+            this.panel.Size = new System.Drawing.Size(170, 335);
             this.panel.TabIndex = 10;
-            this.panel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel_MouseDown);
             // 
             // pbLogo
             // 
@@ -227,7 +195,6 @@ namespace Presentation.Views
             this.pbLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbLogo.TabIndex = 15;
             this.pbLogo.TabStop = false;
-            this.pbLogo.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbLogo_MouseDown);
             // 
             // lineEmail
             // 
@@ -265,6 +232,73 @@ namespace Presentation.Views
             this.pictureBox2.TabIndex = 13;
             this.pictureBox2.TabStop = false;
             // 
+            // btnClose
+            // 
+            this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnClose.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnClose.FlatAppearance.BorderSize = 0;
+            this.btnClose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(79)))), ((int)(((byte)(95)))));
+            this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClose.ForeColor = System.Drawing.Color.White;
+            this.btnClose.Location = new System.Drawing.Point(560, 0);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(40, 35);
+            this.btnClose.TabIndex = 4;
+            this.btnClose.Text = "X";
+            this.btnClose.UseVisualStyleBackColor = false;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
+            // btnMinimized
+            // 
+            this.btnMinimized.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnMinimized.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnMinimized.FlatAppearance.BorderSize = 0;
+            this.btnMinimized.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(79)))), ((int)(((byte)(95)))));
+            this.btnMinimized.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMinimized.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMinimized.ForeColor = System.Drawing.Color.White;
+            this.btnMinimized.Location = new System.Drawing.Point(520, 0);
+            this.btnMinimized.Name = "btnMinimized";
+            this.btnMinimized.Size = new System.Drawing.Size(40, 35);
+            this.btnMinimized.TabIndex = 5;
+            this.btnMinimized.Text = "−";
+            this.btnMinimized.UseVisualStyleBackColor = false;
+            this.btnMinimized.Click += new System.EventHandler(this.btnMinimized_Click);
+            // 
+            // lblTitleBar
+            // 
+            this.lblTitleBar.AutoSize = true;
+            this.lblTitleBar.Font = new System.Drawing.Font("Microsoft YaHei", 10F);
+            this.lblTitleBar.ForeColor = System.Drawing.Color.White;
+            this.lblTitleBar.Location = new System.Drawing.Point(41, 9);
+            this.lblTitleBar.Name = "lblTitleBar";
+            this.lblTitleBar.Size = new System.Drawing.Size(138, 20);
+            this.lblTitleBar.TabIndex = 11;
+            this.lblTitleBar.Text = "Sistema de nómina";
+            // 
+            // pbSmallIcon
+            // 
+            this.pbSmallIcon.Image = global::Presentation.Properties.Resources.Logo;
+            this.pbSmallIcon.Location = new System.Drawing.Point(10, 6);
+            this.pbSmallIcon.Name = "pbSmallIcon";
+            this.pbSmallIcon.Size = new System.Drawing.Size(25, 25);
+            this.pbSmallIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbSmallIcon.TabIndex = 16;
+            this.pbSmallIcon.TabStop = false;
+            // 
+            // lblLogin
+            // 
+            this.lblLogin.AutoSize = true;
+            this.lblLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lblLogin.Font = new System.Drawing.Font("Microsoft YaHei", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLogin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.lblLogin.Location = new System.Drawing.Point(287, 56);
+            this.lblLogin.Name = "lblLogin";
+            this.lblLogin.Size = new System.Drawing.Size(183, 35);
+            this.lblLogin.TabIndex = 0;
+            this.lblLogin.Text = "Iniciar sesión";
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -276,8 +310,8 @@ namespace Presentation.Views
             this.Controls.Add(this.linePassword);
             this.Controls.Add(this.lineEmail);
             this.Controls.Add(this.panel);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.titleBar);
+            this.Controls.Add(this.lblLogin);
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.lblPassword);
             this.Controls.Add(this.lblEmail);
@@ -290,16 +324,15 @@ namespace Presentation.Views
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login";
             this.Load += new System.EventHandler(this.Login_Load);
-            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Login_MouseDown);
-            this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pbMinimized)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbClosed)).EndInit();
+            this.titleBar.ResumeLayout(false);
+            this.titleBar.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).EndInit();
             this.panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbSmallIcon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -312,12 +345,9 @@ namespace Presentation.Views
         private System.Windows.Forms.Label lblEmail;
         private System.Windows.Forms.Label lblPassword;
         private System.Windows.Forms.Button btnLogin;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel titleBar;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pbClose;
-        private System.Windows.Forms.PictureBox pbMinimized;
-        private System.Windows.Forms.PictureBox pbClosed;
         private System.Windows.Forms.Timer fadeIn;
         private System.Windows.Forms.Panel panel;
         private System.Windows.Forms.Panel lineEmail;
@@ -325,5 +355,10 @@ namespace Presentation.Views
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pbLogo;
+        private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.Button btnMinimized;
+        private System.Windows.Forms.Label lblTitleBar;
+        private System.Windows.Forms.PictureBox pbSmallIcon;
+        private System.Windows.Forms.Label lblLogin;
     }
 }

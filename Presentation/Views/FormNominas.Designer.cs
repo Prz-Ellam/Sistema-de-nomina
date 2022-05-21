@@ -29,25 +29,26 @@ namespace Presentation.Views
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dtpDate = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.btnGeneratePayroll = new System.Windows.Forms.Button();
             this.btnCSV = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.dtgPayrolls = new System.Windows.Forms.DataGridView();
+            this.dtpConsult = new System.Windows.Forms.DateTimePicker();
+            this.label3 = new System.Windows.Forms.Label();
+            this.ofnPayrollCSV = new System.Windows.Forms.SaveFileDialog();
+            this.btnDeletePayroll = new System.Windows.Forms.Button();
             this.number = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.empName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.amountemp = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bank = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.accountNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dtpConsult = new System.Windows.Forms.DateTimePicker();
-            this.label3 = new System.Windows.Forms.Label();
-            this.ofnPayrollCSV = new System.Windows.Forms.SaveFileDialog();
-            this.btnDeletePayroll = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dtgPayrolls)).BeginInit();
             this.SuspendLayout();
             // 
@@ -127,15 +128,16 @@ namespace Presentation.Views
             // 
             this.dtgPayrolls.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
             this.dtgPayrolls.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dtgPayrolls.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dtgPayrolls.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            this.dtgPayrolls.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
+            this.dtgPayrolls.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dtgPayrolls.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dtgPayrolls.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgPayrolls.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.number,
@@ -144,72 +146,30 @@ namespace Presentation.Views
             this.amountemp,
             this.bank,
             this.accountNumber});
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dtgPayrolls.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(115)))), ((int)(((byte)(169)))), ((int)(((byte)(229)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dtgPayrolls.DefaultCellStyle = dataGridViewCellStyle3;
             this.dtgPayrolls.EnableHeadersVisualStyles = false;
             this.dtgPayrolls.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.dtgPayrolls.Location = new System.Drawing.Point(12, 349);
             this.dtgPayrolls.Name = "dtgPayrolls";
             this.dtgPayrolls.ReadOnly = true;
             this.dtgPayrolls.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(115)))), ((int)(((byte)(169)))), ((int)(((byte)(229)))));
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dtgPayrolls.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dtgPayrolls.Size = new System.Drawing.Size(1040, 309);
             this.dtgPayrolls.TabIndex = 12;
-            // 
-            // number
-            // 
-            this.number.DataPropertyName = "numeroEmpleado";
-            this.number.HeaderText = "Número de empleado";
-            this.number.Name = "number";
-            this.number.ReadOnly = true;
-            this.number.Width = 150;
-            // 
-            // empName
-            // 
-            this.empName.DataPropertyName = "nombreEmpleado";
-            this.empName.HeaderText = "Nombre del empleado";
-            this.empName.Name = "empName";
-            this.empName.ReadOnly = true;
-            this.empName.Width = 250;
-            // 
-            // date
-            // 
-            this.date.DataPropertyName = "fecha";
-            this.date.HeaderText = "Fecha";
-            this.date.Name = "date";
-            this.date.ReadOnly = true;
-            this.date.Width = 200;
-            // 
-            // amountemp
-            // 
-            this.amountemp.DataPropertyName = "cantidad";
-            dataGridViewCellStyle8.Format = "c";
-            this.amountemp.DefaultCellStyle = dataGridViewCellStyle8;
-            this.amountemp.HeaderText = "Cantidad";
-            this.amountemp.Name = "amountemp";
-            this.amountemp.ReadOnly = true;
-            this.amountemp.Width = 200;
-            // 
-            // bank
-            // 
-            this.bank.DataPropertyName = "banco";
-            this.bank.HeaderText = "Banco";
-            this.bank.Name = "bank";
-            this.bank.ReadOnly = true;
-            this.bank.Width = 200;
-            // 
-            // accountNumber
-            // 
-            this.accountNumber.DataPropertyName = "numeroCuenta";
-            this.accountNumber.HeaderText = "Número de cuenta";
-            this.accountNumber.Name = "accountNumber";
-            this.accountNumber.ReadOnly = true;
-            this.accountNumber.Width = 200;
             // 
             // dtpConsult
             // 
@@ -257,6 +217,56 @@ namespace Presentation.Views
             this.btnDeletePayroll.Text = "Eliminar nómina";
             this.btnDeletePayroll.UseVisualStyleBackColor = false;
             this.btnDeletePayroll.Click += new System.EventHandler(this.btnDeletePayroll_Click);
+            // 
+            // number
+            // 
+            this.number.DataPropertyName = "employeeNumber";
+            this.number.HeaderText = "Número de empleado";
+            this.number.Name = "number";
+            this.number.ReadOnly = true;
+            this.number.Width = 150;
+            // 
+            // empName
+            // 
+            this.empName.DataPropertyName = "employeeName";
+            this.empName.HeaderText = "Nombre del empleado";
+            this.empName.Name = "empName";
+            this.empName.ReadOnly = true;
+            this.empName.Width = 250;
+            // 
+            // date
+            // 
+            this.date.DataPropertyName = "date";
+            this.date.HeaderText = "Fecha";
+            this.date.Name = "date";
+            this.date.ReadOnly = true;
+            this.date.Width = 200;
+            // 
+            // amountemp
+            // 
+            this.amountemp.DataPropertyName = "amount";
+            dataGridViewCellStyle2.Format = "c";
+            this.amountemp.DefaultCellStyle = dataGridViewCellStyle2;
+            this.amountemp.HeaderText = "Cantidad";
+            this.amountemp.Name = "amountemp";
+            this.amountemp.ReadOnly = true;
+            this.amountemp.Width = 200;
+            // 
+            // bank
+            // 
+            this.bank.DataPropertyName = "bank";
+            this.bank.HeaderText = "Banco";
+            this.bank.Name = "bank";
+            this.bank.ReadOnly = true;
+            this.bank.Width = 200;
+            // 
+            // accountNumber
+            // 
+            this.accountNumber.DataPropertyName = "accountNumber";
+            this.accountNumber.HeaderText = "Número de cuenta";
+            this.accountNumber.Name = "accountNumber";
+            this.accountNumber.ReadOnly = true;
+            this.accountNumber.Width = 200;
             // 
             // FormNominas
             // 

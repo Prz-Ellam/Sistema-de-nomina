@@ -21,10 +21,9 @@ namespace Presentation.Views
     public partial class FormEmpresas : Form
     {
         private ICompaniesRepository repository;
-        private RepositorioTelefonos phonesRepository;
+        private IPhonesRepository phonesRepository;
         private Companies company;
         private List<States> states;
-        int cbPhonesPrevIndex = -1;
 
         private EntityState companyState;
 
@@ -63,18 +62,28 @@ namespace Presentation.Views
         {
             InitializeComponent();
             repository = new CompaniesRepository();
-            phonesRepository = new RepositorioTelefonos();
+            phonesRepository = new PhonesRepository();
             company = new Companies();
         }
 
         private void Companies_Load(object sender, EventArgs e)
         {
+            WinAPI.SendMessage(txtEmail.Handle, WinAPI.EM_SETCUEBANNER, 0, "ejemplo@correo.com");
+
             ListStates();
             ListCompany();
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
+            DialogResult res = RJMessageBox.Show("Una vez creada la empresa, la fecha de inicio no podrá volver a ser modificada, ¿Está seguro que desea continuar?",
+                "Sistema de nómina dice:", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (res == DialogResult.No)
+            {
+                return;
+            }
+
             FillCompany();
             ValidationResult result = AddCompany();
 
@@ -206,7 +215,7 @@ namespace Presentation.Views
 
                 cbPhones.Items.Clear();
                 cbPhones.SelectedIndex = -1;
-                List<string> phones = phonesRepository.ReadCompanyPhones(Session.companyId);
+                List<string> phones = phonesRepository.ReadCompanyPhones(Session.companyId).ToList();
                 foreach (string phone in phones)
                 {
                     cbPhones.Items.Add(phone);
@@ -260,36 +269,43 @@ namespace Presentation.Views
 
         private void cbPhones_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
-            {
-                if (cbPhonesPrevIndex != -1)
-                {
-                    // Si dejo vacio se borra, si escribio un telefono que ya existe, igual se borra para
-                    // que quede el que ya estaba
-                    if (cbPhones.Text == string.Empty || cbPhones.FindString(cbPhones.Text) != -1)
-                    {
-                        cbPhones.Items.RemoveAt(cbPhonesPrevIndex);
-                    }
-                    else
-                    {
-                        cbPhones.Items[cbPhonesPrevIndex] = cbPhones.Text;
-                    }
-                    cbPhonesPrevIndex = -1;
-                }
-                else
-                {
-                    if (cbPhones.FindString(cbPhones.Text) == -1 && cbPhones.Text != string.Empty)
-                    {
-                        cbPhones.Items.Add(cbPhones.Text);
-                    }
-                }
-                cbPhones.Text = "";
-            }
-        }
+            ComboBox comboBox = sender as ComboBox;
 
-        private void cbPhones_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            cbPhonesPrevIndex = cbPhones.SelectedIndex;
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                {
+                    if (comboBox.Items.Count > 9)
+                    {
+                        RJMessageBox.Show("Solo se aceptan máximo 10 teléfonos", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    if (comboBox.Text.Length != 10)
+                    {
+                        RJMessageBox.Show("Los teléfonos deben contener 10 dígitos", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    if (comboBox.FindString(comboBox.Text) == -1 && comboBox.Text != string.Empty &&
+                        comboBox.SelectedItem == null)
+                    {
+                        comboBox.Items.Add(comboBox.Text);
+                    }
+                    comboBox.Text = string.Empty;
+                    comboBox.SelectedIndex = -1;
+                    break;
+                }
+                case Keys.Delete:
+                {
+                    if (comboBox.SelectedItem != null && comboBox.DroppedDown == false)
+                    {
+                        comboBox.Items.Remove(comboBox.SelectedItem);
+                    }
+                    comboBox.SelectedIndex = -1;
+                    break;
+                }
+            }
         }
 
         private void ListStates()

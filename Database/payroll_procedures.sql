@@ -45,9 +45,9 @@ AS
 				empleados AS e
 				CROSS JOIN percepciones AS p
 		WHERE 
-				dbo.PRIMERDIAFECHA(e.fecha_contratacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
-				e.activo = 1 AND
-				p.tipo_duracion = 'B';
+				dbo.PRIMERDIAFECHA(e.fecha_contratacion) <= dbo.PRIMERDIAFECHA(@fecha) 
+				AND e.activo = 1
+				AND p.tipo_duracion = 'B';
 
 
 		INSERT INTO deducciones_aplicadas(
@@ -65,9 +65,9 @@ AS
 				empleados AS e
 				CROSS JOIN deducciones AS d
 		WHERE 
-				dbo.PRIMERDIAFECHA(e.fecha_contratacion) <= dbo.PRIMERDIAFECHA(@fecha) AND
-				e.activo = 1 AND
-				d.tipo_duracion = 'B';
+				dbo.PRIMERDIAFECHA(e.fecha_contratacion) <= dbo.PRIMERDIAFECHA(@fecha) 
+				AND e.activo = 1
+				AND d.tipo_duracion = 'B';
 
 		COMMIT TRAN
 

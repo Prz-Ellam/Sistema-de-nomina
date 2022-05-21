@@ -228,7 +228,7 @@ namespace Presentation.Views
                 bool result = perceptionRepository.Create(perception);
                 if (result)
                 {
-                    return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
+                    return new ValidationResult("La percepción se agregó éxitosamente", ValidationState.Success);
                 }
                 else
                 {
@@ -266,7 +266,7 @@ namespace Presentation.Views
                 bool result = perceptionRepository.Update(perception);
                 if (result)
                 {
-                    return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
+                    return new ValidationResult("La percepción se modificó éxitosamente", ValidationState.Success);
                 }
                 else
                 {
@@ -298,7 +298,7 @@ namespace Presentation.Views
                 bool result = perceptionRepository.Delete(perception.PerceptionId);
                 if (result)
                 {
-                    return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
+                    return new ValidationResult("La percepción se eliminó éxitosamente", ValidationState.Success);
                 }
                 else
                 {
@@ -336,7 +336,7 @@ namespace Presentation.Views
                 bool result = deductionRepository.Create(deduction);
                 if (result)
                 {
-                    return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
+                    return new ValidationResult("La deducción se agregó éxitosamente", ValidationState.Success);
                 }
                 else
                 {
@@ -374,7 +374,7 @@ namespace Presentation.Views
                 bool result = deductionRepository.Update(deduction);
                 if (result)
                 {
-                    return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
+                    return new ValidationResult("La deducción se modificó éxitosamente", ValidationState.Success);
                 }
                 else
                 {
@@ -406,7 +406,7 @@ namespace Presentation.Views
                 bool result = deductionRepository.Delete(deduction.DeductionId);
                 if (result)
                 {
-                    return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
+                    return new ValidationResult("La deducción se eliminó éxitosamente", ValidationState.Success);
                 }
                 else
                 {

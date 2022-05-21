@@ -23,11 +23,11 @@ namespace Presentation.Views
             lblPositionLogged.Text = Session.position;
             lblEmailLogged.Text = Session.email;
 
+            // Habilitar o deshabilitar opciones de acuerdo al tipo de usuario
             switch (Session.position)
             {
                 case "Administrador":
                 {
-                    // Habilitar o deshabilitar opciones de acuerdo al tipo de usuario
                     btnProfile.Visible = false;
                     btnEmployeeReceipts.Visible = false;
                     break;
@@ -37,25 +37,24 @@ namespace Presentation.Views
                     btnCompanies.Visible = false;
                     btnDepartments.Visible = false;
                     btnPositions.Visible = false;
-                    panelPositions.Visible = false;
                     btnEmployees.Visible = false;
-                    panelEmployees.Visible = false;
                     btnConcepts.Visible = false;
-                    panelConcepts.Visible = false;
                     btnConceptsApply.Visible = false;
-                    panelApplyConcepts.Visible = false;
                     btnPayroll.Visible = false;
-                    panelPayroll.Visible = false;
                     btnReports.Visible = false;
+
+                    panelPositions.Visible = false;
+                    panelEmployees.Visible = false;
+                    panelConcepts.Visible = false;
+                    panelApplyConcepts.Visible = false;
+                    panelPayroll.Visible = false;
                     panelReports.Visible = false;
                     panelSubmenuReports.Visible = false;
-                    // Habilitar o deshabilitar opciones de acuerdo al tipo de usuario
                     break;
                 }
                 default:
                     break;
             }
-
         }
 
         private void OpenFormChild(object son)
@@ -95,6 +94,11 @@ namespace Presentation.Views
         private void btnConcepts_Click(object sender, EventArgs e)
         {
             OpenFormChild(new FormCatalogoConceptos());
+        }
+
+        private void btnConceptsApply_Click(object sender, EventArgs e)
+        {
+            OpenFormChild(new FormAplicarConceptos());
         }
 
         private void btnPayroll_Click(object sender, EventArgs e)
@@ -137,16 +141,6 @@ namespace Presentation.Views
             Opacity = Opacity + 0.2f % 1;
         }
 
-        private void pbClose_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        private void btnConceptsApply_Click(object sender, EventArgs e)
-        {
-            OpenFormChild(new FormAplicarConceptos());
-        }
-
         private void btnLogout_Click(object sender, EventArgs e)
         {
             Session.LogOut();
@@ -155,9 +149,14 @@ namespace Presentation.Views
             this.Close();
         }
 
-        private void pbMinimized_Click(object sender, EventArgs e)
+        private void btnMinimized_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

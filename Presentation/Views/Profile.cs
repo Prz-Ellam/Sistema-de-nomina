@@ -22,7 +22,7 @@ namespace Presentation.Views
     public partial class Profile : Form
     {
         private IEmployeesRepository employeeRepository;
-        private RepositorioTelefonos phonesRepository;
+        private PhonesRepository phonesRepository;
         private Employees employee;
         private List<States> states;
 
@@ -30,7 +30,7 @@ namespace Presentation.Views
         {
             InitializeComponent();
             employeeRepository = new EmployeesRepository();
-            phonesRepository = new RepositorioTelefonos();
+            phonesRepository = new PhonesRepository();
             employee = new Employees();
         }
 
@@ -142,11 +142,7 @@ namespace Presentation.Views
 
             cbPhones.SelectedIndex = -1;
             cbPhones.Items.Clear();
-            List<string> phones = phonesRepository.ReadEmployeePhones(employee.EmployeeNumber);
-            foreach (string phone in phones)
-            {
-                cbPhones.Items.Add(phone);
-            }
+            cbPhones.DataSource = phonesRepository.ReadEmployeePhones(employee.EmployeeNumber);
 
             txtStreet.Text = employee.Street;
             txtNumber.Text = employee.Number;

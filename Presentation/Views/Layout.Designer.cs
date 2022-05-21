@@ -31,10 +31,8 @@ namespace Presentation.Views
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Layout));
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.pbMinimized = new System.Windows.Forms.PictureBox();
-            this.pbClose = new System.Windows.Forms.PictureBox();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.titleBar = new System.Windows.Forms.Panel();
+            this.panel = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.btnProfile = new System.Windows.Forms.Button();
             this.panel11 = new System.Windows.Forms.Panel();
@@ -67,80 +65,61 @@ namespace Presentation.Views
             this.btnConcepts = new System.Windows.Forms.Button();
             this.panelStorage = new System.Windows.Forms.Panel();
             this.fadeIn = new System.Windows.Forms.Timer(this.components);
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbMinimized)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbClose)).BeginInit();
-            this.panel2.SuspendLayout();
+            this.btnClose = new System.Windows.Forms.Button();
+            this.btnMinimized = new System.Windows.Forms.Button();
+            this.pbSmallIcon = new System.Windows.Forms.PictureBox();
+            this.lblTitleBar = new System.Windows.Forms.Label();
+            this.titleBar.SuspendLayout();
+            this.panel.SuspendLayout();
             this.panelSubmenuReports.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbSmallIcon)).BeginInit();
             this.SuspendLayout();
             // 
-            // panel1
+            // titleBar
             // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
-            this.panel1.Controls.Add(this.pbMinimized);
-            this.panel1.Controls.Add(this.pbClose);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1280, 36);
-            this.panel1.TabIndex = 7;
+            this.titleBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            this.titleBar.Controls.Add(this.pbSmallIcon);
+            this.titleBar.Controls.Add(this.lblTitleBar);
+            this.titleBar.Controls.Add(this.btnMinimized);
+            this.titleBar.Controls.Add(this.btnClose);
+            this.titleBar.Dock = System.Windows.Forms.DockStyle.Top;
+            this.titleBar.Location = new System.Drawing.Point(0, 0);
+            this.titleBar.Name = "titleBar";
+            this.titleBar.Size = new System.Drawing.Size(1280, 35);
+            this.titleBar.TabIndex = 7;
             // 
-            // pbMinimized
+            // panel
             // 
-            this.pbMinimized.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pbMinimized.Image = global::Presentation.Properties.Resources.Minimized_Button_Logo;
-            this.pbMinimized.Location = new System.Drawing.Point(1223, 8);
-            this.pbMinimized.Name = "pbMinimized";
-            this.pbMinimized.Size = new System.Drawing.Size(20, 20);
-            this.pbMinimized.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbMinimized.TabIndex = 10;
-            this.pbMinimized.TabStop = false;
-            this.pbMinimized.Click += new System.EventHandler(this.pbMinimized_Click);
-            // 
-            // pbClose
-            // 
-            this.pbClose.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pbClose.Image = global::Presentation.Properties.Resources.Close_Button_Logo;
-            this.pbClose.Location = new System.Drawing.Point(1249, 8);
-            this.pbClose.Name = "pbClose";
-            this.pbClose.Size = new System.Drawing.Size(20, 20);
-            this.pbClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbClose.TabIndex = 9;
-            this.pbClose.TabStop = false;
-            this.pbClose.Click += new System.EventHandler(this.pbClose_Click);
-            // 
-            // panel2
-            // 
-            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
-            this.panel2.Controls.Add(this.panel4);
-            this.panel2.Controls.Add(this.btnProfile);
-            this.panel2.Controls.Add(this.panel11);
-            this.panel2.Controls.Add(this.btnEmployeeReceipts);
-            this.panel2.Controls.Add(this.panelApplyConcepts);
-            this.panel2.Controls.Add(this.btnConceptsApply);
-            this.panel2.Controls.Add(this.panelSubmenuReports);
-            this.panel2.Controls.Add(this.lblEmailLogged);
-            this.panel2.Controls.Add(this.lblPositionLogged);
-            this.panel2.Controls.Add(this.lblPosition);
-            this.panel2.Controls.Add(this.lblEmail);
-            this.panel2.Controls.Add(this.panelReports);
-            this.panel2.Controls.Add(this.panelPayroll);
-            this.panel2.Controls.Add(this.panelConcepts);
-            this.panel2.Controls.Add(this.panelEmployees);
-            this.panel2.Controls.Add(this.panelPositions);
-            this.panel2.Controls.Add(this.btnLogout);
-            this.panel2.Controls.Add(this.btnCompanies);
-            this.panel2.Controls.Add(this.btnDepartments);
-            this.panel2.Controls.Add(this.btnReports);
-            this.panel2.Controls.Add(this.btnPositions);
-            this.panel2.Controls.Add(this.btnPayroll);
-            this.panel2.Controls.Add(this.btnEmployees);
-            this.panel2.Controls.Add(this.btnConcepts);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel2.Location = new System.Drawing.Point(0, 36);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(200, 684);
-            this.panel2.TabIndex = 8;
+            this.panel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
+            this.panel.Controls.Add(this.panel4);
+            this.panel.Controls.Add(this.btnProfile);
+            this.panel.Controls.Add(this.panel11);
+            this.panel.Controls.Add(this.btnEmployeeReceipts);
+            this.panel.Controls.Add(this.panelApplyConcepts);
+            this.panel.Controls.Add(this.btnConceptsApply);
+            this.panel.Controls.Add(this.panelSubmenuReports);
+            this.panel.Controls.Add(this.lblEmailLogged);
+            this.panel.Controls.Add(this.lblPositionLogged);
+            this.panel.Controls.Add(this.lblPosition);
+            this.panel.Controls.Add(this.lblEmail);
+            this.panel.Controls.Add(this.panelReports);
+            this.panel.Controls.Add(this.panelPayroll);
+            this.panel.Controls.Add(this.panelConcepts);
+            this.panel.Controls.Add(this.panelEmployees);
+            this.panel.Controls.Add(this.panelPositions);
+            this.panel.Controls.Add(this.btnLogout);
+            this.panel.Controls.Add(this.btnCompanies);
+            this.panel.Controls.Add(this.btnDepartments);
+            this.panel.Controls.Add(this.btnReports);
+            this.panel.Controls.Add(this.btnPositions);
+            this.panel.Controls.Add(this.btnPayroll);
+            this.panel.Controls.Add(this.btnEmployees);
+            this.panel.Controls.Add(this.btnConcepts);
+            this.panel.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel.Location = new System.Drawing.Point(0, 35);
+            this.panel.Name = "panel";
+            this.panel.Size = new System.Drawing.Size(200, 685);
+            this.panel.TabIndex = 8;
             // 
             // panel4
             // 
@@ -435,7 +414,7 @@ namespace Presentation.Views
             this.btnCompanies.ForeColor = System.Drawing.Color.White;
             this.btnCompanies.Image = global::Presentation.Properties.Resources.Company_Logo;
             this.btnCompanies.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCompanies.Location = new System.Drawing.Point(9, 89);
+            this.btnCompanies.Location = new System.Drawing.Point(8, 89);
             this.btnCompanies.Name = "btnCompanies";
             this.btnCompanies.Size = new System.Drawing.Size(192, 41);
             this.btnCompanies.TabIndex = 1;
@@ -563,6 +542,61 @@ namespace Presentation.Views
             this.fadeIn.Enabled = true;
             this.fadeIn.Tick += new System.EventHandler(this.fadeIn_Tick);
             // 
+            // btnClose
+            // 
+            this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnClose.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnClose.FlatAppearance.BorderSize = 0;
+            this.btnClose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(79)))), ((int)(((byte)(95)))));
+            this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClose.ForeColor = System.Drawing.Color.White;
+            this.btnClose.Location = new System.Drawing.Point(1240, 0);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(40, 35);
+            this.btnClose.TabIndex = 5;
+            this.btnClose.Text = "X";
+            this.btnClose.UseVisualStyleBackColor = false;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
+            // btnMinimized
+            // 
+            this.btnMinimized.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnMinimized.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnMinimized.FlatAppearance.BorderSize = 0;
+            this.btnMinimized.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(79)))), ((int)(((byte)(95)))));
+            this.btnMinimized.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMinimized.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMinimized.ForeColor = System.Drawing.Color.White;
+            this.btnMinimized.Location = new System.Drawing.Point(1200, 0);
+            this.btnMinimized.Name = "btnMinimized";
+            this.btnMinimized.Size = new System.Drawing.Size(40, 35);
+            this.btnMinimized.TabIndex = 6;
+            this.btnMinimized.Text = "−";
+            this.btnMinimized.UseVisualStyleBackColor = false;
+            this.btnMinimized.Click += new System.EventHandler(this.btnMinimized_Click);
+            // 
+            // pbSmallIcon
+            // 
+            this.pbSmallIcon.Image = global::Presentation.Properties.Resources.Logo;
+            this.pbSmallIcon.Location = new System.Drawing.Point(10, 5);
+            this.pbSmallIcon.Name = "pbSmallIcon";
+            this.pbSmallIcon.Size = new System.Drawing.Size(25, 25);
+            this.pbSmallIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbSmallIcon.TabIndex = 18;
+            this.pbSmallIcon.TabStop = false;
+            // 
+            // lblTitleBar
+            // 
+            this.lblTitleBar.AutoSize = true;
+            this.lblTitleBar.Font = new System.Drawing.Font("Microsoft YaHei", 10F);
+            this.lblTitleBar.ForeColor = System.Drawing.Color.White;
+            this.lblTitleBar.Location = new System.Drawing.Point(41, 8);
+            this.lblTitleBar.Name = "lblTitleBar";
+            this.lblTitleBar.Size = new System.Drawing.Size(138, 20);
+            this.lblTitleBar.TabIndex = 17;
+            this.lblTitleBar.Text = "Sistema de nómina";
+            // 
             // Layout
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -570,8 +604,8 @@ namespace Presentation.Views
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(1280, 720);
             this.Controls.Add(this.panelStorage);
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.panel);
+            this.Controls.Add(this.titleBar);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Layout";
@@ -579,12 +613,12 @@ namespace Presentation.Views
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Layout";
             this.Load += new System.EventHandler(this.Layout_Load);
-            this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pbMinimized)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbClose)).EndInit();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
+            this.titleBar.ResumeLayout(false);
+            this.titleBar.PerformLayout();
+            this.panel.ResumeLayout(false);
+            this.panel.PerformLayout();
             this.panelSubmenuReports.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbSmallIcon)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -598,10 +632,9 @@ namespace Presentation.Views
         private System.Windows.Forms.Button btnConcepts;
         private System.Windows.Forms.Button btnPayroll;
         private System.Windows.Forms.Button btnReports;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel titleBar;
+        private System.Windows.Forms.Panel panel;
         private System.Windows.Forms.Button btnLogout;
-        private System.Windows.Forms.PictureBox pbClose;
         private System.Windows.Forms.Panel panelStorage;
         private System.Windows.Forms.Timer fadeIn;
         private System.Windows.Forms.Panel panelPositions;
@@ -622,10 +655,13 @@ namespace Presentation.Views
         private System.Windows.Forms.Button btnGeneralPayrollReport;
         private System.Windows.Forms.Panel panelApplyConcepts;
         private System.Windows.Forms.Button btnConceptsApply;
-        private System.Windows.Forms.PictureBox pbMinimized;
         private System.Windows.Forms.Button btnEmployeeReceipts;
         private System.Windows.Forms.Panel panel11;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Button btnProfile;
+        private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.Button btnMinimized;
+        private System.Windows.Forms.PictureBox pbSmallIcon;
+        private System.Windows.Forms.Label lblTitleBar;
     }
 }

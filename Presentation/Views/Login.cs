@@ -28,22 +28,18 @@ namespace Presentation.Views
 
         private void Login_Load(object sender, EventArgs e)
         {
-        }
+            WinAPI.SendMessage(txtEmail.Handle, WinAPI.EM_SETCUEBANNER, 0, "ejemplo@correo.com");
 
-        private void lblEmail_Click(object sender, EventArgs e)
-        {
-            txtEmail.Focus();
-        }
-
-        private void lblPassword_Click(object sender, EventArgs e)
-        {
-            txtPassword.Focus();
+            this.MouseDown += Moveable;
+            panel.MouseDown += Moveable;
+            titleBar.MouseDown += Moveable;
+            pbLogo.MouseDown += Moveable;
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            string email = txtEmail.Text;
-            string password = txtPassword.Text;
+            string email = txtEmail.Text.Trim();
+            string password = txtPassword.Text.Trim();
 
             if (email == string.Empty || password == string.Empty)
             {
@@ -82,25 +78,19 @@ namespace Presentation.Views
             this.Hide();
         }
 
+        private void lblEmail_Click(object sender, EventArgs e)
+        {
+            txtEmail.Focus();
+        }
+
+        private void lblPassword_Click(object sender, EventArgs e)
+        {
+            txtPassword.Focus();
+        }
+
         private void fadeIn_Tick(object sender, EventArgs e)
         {
             Opacity = Opacity + 0.15f % 1;
-        }
-
-        private void pbClosed_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        private void pbMinimized_Click(object sender, EventArgs e)
-        {
-            this.WindowState = FormWindowState.Minimized;
-        }
-
-        private void Login_MouseDown(object sender, MouseEventArgs e)
-        {
-            WinAPI.ReleaseCapture();
-            WinAPI.SendMessage(this.Handle, WinAPI.WM_SYSCOMMAND, 0xf012, 0);
         }
 
         private void txtEmail_Enter(object sender, EventArgs e)
@@ -113,27 +103,30 @@ namespace Presentation.Views
             lineEmail.BackColor = Color.FromArgb(255, 47, 47, 47);
         }
 
-        private void txtPassword_Leave(object sender, EventArgs e)
-        {
-            linePassword.BackColor = Color.FromArgb(255, 47, 47, 47);
-        }
-
         private void txtPassword_Enter(object sender, EventArgs e)
         {
             linePassword.BackColor = Color.FromArgb(255, 0, 123, 255);
         }
 
+        private void txtPassword_Leave(object sender, EventArgs e)
+        {
+            linePassword.BackColor = Color.FromArgb(255, 47, 47, 47);
+        }
 
-        private void panel_MouseDown(object sender, MouseEventArgs e)
+        private void Moveable(object sender, MouseEventArgs e)
         {
             WinAPI.ReleaseCapture();
             WinAPI.SendMessage(this.Handle, WinAPI.WM_SYSCOMMAND, 0xf012, 0);
         }
 
-        private void pbLogo_MouseDown(object sender, MouseEventArgs e)
+        private void btnMinimized_Click(object sender, EventArgs e)
         {
-            WinAPI.ReleaseCapture();
-            WinAPI.SendMessage(this.Handle, WinAPI.WM_SYSCOMMAND, 0xf012, 0);
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

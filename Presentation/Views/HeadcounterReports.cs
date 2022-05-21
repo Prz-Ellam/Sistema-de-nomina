@@ -1,4 +1,5 @@
-﻿using Data_Access.Helpers;
+﻿using CustomMessageBox;
+using Data_Access.Helpers;
 using Data_Access.Interfaces;
 using Data_Access.Repositorios;
 using Data_Access.ViewModels;
@@ -65,7 +66,7 @@ namespace Presentation.Views
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                RJMessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -88,7 +89,7 @@ namespace Presentation.Views
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                RJMessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -101,7 +102,7 @@ namespace Presentation.Views
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                RJMessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -121,7 +122,7 @@ namespace Presentation.Views
             {
                 if (ex.Number == 50000)
                 {
-                    MessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    RJMessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

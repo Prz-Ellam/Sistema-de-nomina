@@ -1,4 +1,5 @@
-﻿using Data_Access.Interfaces;
+﻿using CustomMessageBox;
+using Data_Access.Interfaces;
 using Data_Access.Repositorios;
 using Presentation.Helpers;
 using System;
@@ -27,6 +28,7 @@ namespace Presentation.Views
         private void PayrollReports_Load(object sender, EventArgs e)
         {
             InitDates();
+            ListReport();
             dtgPayrollReport.DoubleBuffered(true);
         }
 
@@ -51,7 +53,7 @@ namespace Presentation.Views
             {
                 if (ex.Number == 50000)
                 {
-                    MessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    RJMessageBox.Show(ex.Message, "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -64,7 +66,7 @@ namespace Presentation.Views
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                RJMessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

@@ -58,7 +58,7 @@ namespace Presentation.Views
             this.txtName.Location = new System.Drawing.Point(20, 120);
             this.txtName.MaxLength = 30;
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(400, 29);
+            this.txtName.Size = new System.Drawing.Size(485, 29);
             this.txtName.TabIndex = 1;
             // 
             // lblName
@@ -146,7 +146,7 @@ namespace Presentation.Views
             0,
             0});
             this.nudBaseSalary.Name = "nudBaseSalary";
-            this.nudBaseSalary.Size = new System.Drawing.Size(377, 29);
+            this.nudBaseSalary.Size = new System.Drawing.Size(462, 29);
             this.nudBaseSalary.TabIndex = 2;
             this.nudBaseSalary.ThousandsSeparator = true;
             // 
@@ -179,7 +179,7 @@ namespace Presentation.Views
             // 
             this.dtgDepartaments.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
             this.dtgDepartaments.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dtgDepartaments.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.dtgDepartaments.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
             this.dtgDepartaments.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));

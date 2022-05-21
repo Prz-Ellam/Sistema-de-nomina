@@ -1,5 +1,4 @@
-﻿using CsvHelper;
-using CustomMessageBox;
+﻿using CustomMessageBox;
 using Data_Access.Interfaces;
 using Data_Access.Repositorios;
 using Data_Access.ViewModels;
@@ -16,6 +15,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CsvHelper;
 
 namespace Presentation.Views
 {
@@ -80,6 +80,7 @@ namespace Presentation.Views
             }
 
             InitDates();
+            ListPayrolls();
             dtpConsult.Value = requestDate;
             GenerateCSV();
         }
@@ -136,7 +137,7 @@ namespace Presentation.Views
             if (ofnPayrollCSV.ShowDialog() == DialogResult.OK)
             {
                 var writer = new StreamWriter(ofnPayrollCSV.FileName);
-                var csvWriter = new CsvWriter(writer, CultureInfo.InvariantCulture);
+                var csvWriter = new CsvWriter(writer, CultureInfo.GetCultureInfo("es-MX"));
 
                 IEnumerable<PayrollViewModel> payrolls = dtgPayrolls.DataSource as IEnumerable<PayrollViewModel>;
                 if (payrolls == null)

@@ -14,7 +14,6 @@ using Data_Access.Entities;
 using Data_Access.Helpers;
 using Data_Access.Interfaces;
 using Data_Access.Repositorios;
-using Data_Access.ViewModels;
 using Presentation.Helpers;
 
 namespace Presentation.Views
@@ -22,7 +21,7 @@ namespace Presentation.Views
     public partial class FormEmpleados : Form
     {
         private IEmployeesRepository repository;
-        private RepositorioTelefonos phonesRepository;
+        private IPhonesRepository phonesRepository;
         private CompaniesRepository companyRepository;
         private Employees employee;
         int dtgPrevIndex = -1;
@@ -81,7 +80,7 @@ namespace Presentation.Views
                             dtpHiringDate.Enabled = true;
                         }
 
-                        dtpDateOfBirth.MaxDate = hiringDate.AddYears(-18);
+                        dtpDateOfBirth.MaxDate = hiringDate.AddYears(-18).AddDays(-1);
                         break;
                     }
                 }
@@ -92,13 +91,15 @@ namespace Presentation.Views
         {
             InitializeComponent();
             repository = new EmployeesRepository();
-            phonesRepository = new RepositorioTelefonos();
+            phonesRepository = new PhonesRepository();
             companyRepository = new CompaniesRepository();
             employee = new Employees();
         }
 
         private void Employees_Load(object sender, EventArgs e)
         {
+            WinAPI.SendMessage(txtEmail.Handle, WinAPI.EM_SETCUEBANNER, 0, "ejemplo@correo.com");
+
             try
             {
                 PayrollsRepository payrollRepository = new PayrollsRepository();
@@ -125,6 +126,14 @@ namespace Presentation.Views
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
+            DialogResult res = RJMessageBox.Show("Al generarse la primera nómina del empleado, la fecha de ingresó no podrá volver a ser modificada, ¿Está seguro que desea continuar?",
+                "Sistema de nómina dice:", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (res == DialogResult.No)
+            {
+                return;
+            }
+
             FillEmployee();
             ValidationResult result = AddEmployee();
 
@@ -210,7 +219,7 @@ namespace Presentation.Views
                 bool result = repository.Create(employee);
                 if (result)
                 {
-                    return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
+                    return new ValidationResult("El empleado se agregó éxitosamente", ValidationState.Success);
                 }
                 else
                 {
@@ -279,7 +288,7 @@ namespace Presentation.Views
                 bool result = repository.Update(employee);
                 if (result)
                 {
-                    return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
+                    return new ValidationResult("El empleado se modificó éxitosamente", ValidationState.Success);
                 }
                 else
                 {
@@ -342,7 +351,7 @@ namespace Presentation.Views
                 bool result = repository.Delete(employee.NumeroEmpleado);
                 if (result)
                 {
-                    return new ValidationResult("La operación se realizó éxitosamente", ValidationState.Success);
+                    return new ValidationResult("El empleado se eliminó éxitosamente", ValidationState.Success);
                 }
                 else
                 {
@@ -509,7 +518,7 @@ namespace Presentation.Views
 
             cbPhones.SelectedIndex = -1;
             cbPhones.Items.Clear();
-            List<string> phones = phonesRepository.ReadEmployeePhones(employeeId);
+            List<string> phones = phonesRepository.ReadEmployeePhones(employeeId).ToList();
             foreach(string phone in phones)
             {
                 cbPhones.Items.Add(phone);
@@ -641,7 +650,7 @@ namespace Presentation.Views
 
         private void dtpHiringDate_ValueChanged(object sender, EventArgs e)
         {
-            dtpDateOfBirth.MaxDate = dtpHiringDate.Value.AddYears(-18);
+            dtpDateOfBirth.MaxDate = dtpHiringDate.Value.AddYears(-18).AddDays(-1);
         }
     }
 }

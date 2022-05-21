@@ -51,12 +51,12 @@ namespace Data_Access.Repositorios
             {
                 payrolls.Add(new PayrollViewModel
                 {
-                    NumeroEmpleado = Convert.ToInt32(row["Numero de empleado"]),
-                    NombreEmpleado = row["Nombre"].ToString(),
-                    Fecha = Convert.ToDateTime(row["Fecha"]),
-                    Cantidad = Convert.ToDecimal(row["Sueldo neto"]),
-                    Banco = row["Banco"].ToString(),
-                    NumeroCuenta = row["Numero de cuenta"].ToString()
+                    EmployeeNumber  = Convert.ToInt32(row["Numero de empleado"]),
+                    EmployeeName    = row["Nombre"].ToString(),
+                    Date            = Convert.ToDateTime(row["Fecha"]),
+                    Amount          = Convert.ToDecimal(row["Sueldo neto"]),
+                    Bank            = row["Banco"].ToString(),
+                    AccountNumber   = row["Numero de cuenta"].ToString()
                 });
             }
 

@@ -103,7 +103,7 @@ namespace Data_Access.Repositorios
             return departments;
         }
 
-        public List<DepartmentsPayrollViewModel> ReadPayrolls(int companyId, DateTime date)
+        public IEnumerable<DepartmentsPayrollViewModel> ReadPayrolls(int companyId, DateTime date)
         {
             sqlParams.Start();
             sqlParams.Add("@id_empresa", companyId);
