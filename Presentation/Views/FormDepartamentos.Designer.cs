@@ -141,7 +141,7 @@ namespace Presentation.Views
             this.nudBaseSalary.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.nudBaseSalary.Location = new System.Drawing.Point(43, 220);
             this.nudBaseSalary.Maximum = new decimal(new int[] {
-            10000,
+            100000,
             0,
             0,
             0});

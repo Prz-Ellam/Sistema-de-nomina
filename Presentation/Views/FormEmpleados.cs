@@ -30,7 +30,6 @@ namespace Presentation.Views
         // Esto podría tronar si entra y aun no tiene ninguna empresa
         DateTime payrollDate; 
 
-        int cbPhonesPrevIndex = -1;
         private List<States> states;
 
         private EntityState employeeState;
@@ -52,8 +51,9 @@ namespace Presentation.Views
                         btnAdd.Enabled = true;
                         btnEdit.Enabled = false;
                         btnDelete.Enabled = false;
+
                         dtpHiringDate.MinDate = payrollDate;
-                        dtpHiringDate.MaxDate = payrollDate.AddMonths(1).AddDays(-1);
+                        dtpHiringDate.MaxDate = new DateTime(payrollDate.Year, payrollDate.Month, DateTime.DaysInMonth(payrollDate.Year, payrollDate.Month));
                         dtpHiringDate.Value = payrollDate;
                         dtpHiringDate.Enabled = true;
                         dtpDateOfBirth.MaxDate = payrollDate.AddDays(-1).AddYears(-18);
@@ -64,6 +64,7 @@ namespace Presentation.Views
                         btnAdd.Enabled = false;
                         btnEdit.Enabled = true;
                         btnDelete.Enabled = true;
+
                         PayrollsRepository payrollsRepository = new PayrollsRepository();
                         DateTime payrollDate = payrollsRepository.GetDate(Session.companyId, false);
                         DateTime hiringDate = repository.GetHiringDate(employeeId, false);
@@ -98,7 +99,10 @@ namespace Presentation.Views
 
         private void Employees_Load(object sender, EventArgs e)
         {
+            WinAPI.SendMessage(txtNames.Handle, WinAPI.EM_SETCUEBANNER, 0, "John");
+            WinAPI.SendMessage(txtFatherLastName.Handle, WinAPI.EM_SETCUEBANNER, 0, "Doe");
             WinAPI.SendMessage(txtEmail.Handle, WinAPI.EM_SETCUEBANNER, 0, "ejemplo@correo.com");
+            WinAPI.SendMessage(txtAccountNumber.Handle, WinAPI.EM_SETCUEBANNER, 0, "0000000000000000");
 
             try
             {
@@ -561,36 +565,43 @@ namespace Presentation.Views
 
         private void cbPhones_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
-            {
-                if (cbPhonesPrevIndex != -1)
-                {
-                    // Si dejo vacio se borra, si escribio un telefono que ya existe, igual se borra para
-                    // que quede el que ya estaba
-                    if (cbPhones.Text == string.Empty || cbPhones.FindString(cbPhones.Text) != -1)
-                    {
-                        cbPhones.Items.RemoveAt(cbPhonesPrevIndex);
-                    }
-                    else
-                    {
-                        cbPhones.Items[cbPhonesPrevIndex] = cbPhones.Text;
-                    }
-                    cbPhonesPrevIndex = -1;
-                }
-                else
-                {
-                    if (cbPhones.FindString(cbPhones.Text) == -1 && cbPhones.Text != string.Empty)
-                    {
-                        cbPhones.Items.Add(cbPhones.Text);
-                    }
-                }
-                cbPhones.Text = "";
-            }
-        }
+            ComboBox comboBox = sender as ComboBox;
 
-        private void cbPhones_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            cbPhonesPrevIndex = cbPhones.SelectedIndex;
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                {
+                    if (comboBox.Items.Count > 9)
+                    {
+                        RJMessageBox.Show("Solo se aceptan máximo 10 teléfonos", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    if (comboBox.Text.Length != 10)
+                    {
+                        RJMessageBox.Show("Los teléfonos deben contener 10 dígitos", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    if (comboBox.FindString(comboBox.Text) == -1 && comboBox.Text != string.Empty &&
+                        comboBox.SelectedItem == null)
+                    {
+                        comboBox.Items.Add(comboBox.Text);
+                    }
+                    comboBox.Text = string.Empty;
+                    comboBox.SelectedIndex = -1;
+                    break;
+                }
+                case Keys.Delete:
+                {
+                    if (comboBox.SelectedItem != null && comboBox.DroppedDown == false)
+                    {
+                        comboBox.Items.Remove(comboBox.SelectedItem);
+                    }
+                    comboBox.SelectedIndex = -1;
+                    break;
+                }
+            }
         }
 
         private void ListBanks()

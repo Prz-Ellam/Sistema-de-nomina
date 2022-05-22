@@ -34,15 +34,17 @@ namespace Presentation.Views
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dtgGeneralPayroll = new System.Windows.Forms.DataGridView();
+            this.lblGeneralPayrollReport = new System.Windows.Forms.Label();
+            this.lblDate = new System.Windows.Forms.Label();
+            this.dtpDate = new System.Windows.Forms.DateTimePicker();
+            this.btnCSV = new System.Windows.Forms.Button();
+            this.ofnPayrollCSV = new System.Windows.Forms.SaveFileDialog();
             this.departamento = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.puesto = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.edad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.salario = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lblGeneralPayrollReport = new System.Windows.Forms.Label();
-            this.lblDate = new System.Windows.Forms.Label();
-            this.dtpDate = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.dtgGeneralPayroll)).BeginInit();
             this.SuspendLayout();
             // 
@@ -90,56 +92,8 @@ namespace Presentation.Views
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dtgGeneralPayroll.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
-            this.dtgGeneralPayroll.Size = new System.Drawing.Size(1017, 454);
+            this.dtgGeneralPayroll.Size = new System.Drawing.Size(1017, 377);
             this.dtgGeneralPayroll.TabIndex = 0;
-            // 
-            // departamento
-            // 
-            this.departamento.DataPropertyName = "departamento";
-            this.departamento.HeaderText = "Departamento";
-            this.departamento.Name = "departamento";
-            this.departamento.ReadOnly = true;
-            this.departamento.Width = 150;
-            // 
-            // puesto
-            // 
-            this.puesto.DataPropertyName = "puesto";
-            this.puesto.HeaderText = "Puesto";
-            this.puesto.Name = "puesto";
-            this.puesto.ReadOnly = true;
-            // 
-            // nombre
-            // 
-            this.nombre.DataPropertyName = "nombreEmpleado";
-            this.nombre.HeaderText = "Nombre del empleado";
-            this.nombre.Name = "nombre";
-            this.nombre.ReadOnly = true;
-            this.nombre.Width = 225;
-            // 
-            // date
-            // 
-            this.date.DataPropertyName = "fechaIngreso";
-            this.date.HeaderText = "Fecha de ingreso";
-            this.date.Name = "date";
-            this.date.ReadOnly = true;
-            this.date.Width = 200;
-            // 
-            // edad
-            // 
-            this.edad.DataPropertyName = "edad";
-            this.edad.HeaderText = "Edad";
-            this.edad.Name = "edad";
-            this.edad.ReadOnly = true;
-            // 
-            // salario
-            // 
-            this.salario.DataPropertyName = "salarioDiario";
-            dataGridViewCellStyle2.Format = "c";
-            this.salario.DefaultCellStyle = dataGridViewCellStyle2;
-            this.salario.HeaderText = "Salario diario";
-            this.salario.Name = "salario";
-            this.salario.ReadOnly = true;
-            this.salario.Width = 200;
             // 
             // lblGeneralPayrollReport
             // 
@@ -177,12 +131,83 @@ namespace Presentation.Views
             this.dtpDate.TabIndex = 6;
             this.dtpDate.ValueChanged += new System.EventHandler(this.dtpDate_ValueChanged);
             // 
+            // btnCSV
+            // 
+            this.btnCSV.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            this.btnCSV.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCSV.FlatAppearance.BorderSize = 0;
+            this.btnCSV.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCSV.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.btnCSV.ForeColor = System.Drawing.Color.White;
+            this.btnCSV.Image = global::Presentation.Properties.Resources.CSV_Logo;
+            this.btnCSV.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnCSV.Location = new System.Drawing.Point(813, 565);
+            this.btnCSV.Name = "btnCSV";
+            this.btnCSV.Size = new System.Drawing.Size(224, 81);
+            this.btnCSV.TabIndex = 11;
+            this.btnCSV.Text = "       Generar CSV";
+            this.btnCSV.UseVisualStyleBackColor = false;
+            this.btnCSV.Click += new System.EventHandler(this.btnCSV_Click);
+            // 
+            // ofnPayrollCSV
+            // 
+            this.ofnPayrollCSV.Filter = "CSV (*.csv)|.csv";
+            // 
+            // departamento
+            // 
+            this.departamento.DataPropertyName = "department";
+            this.departamento.HeaderText = "Departamento";
+            this.departamento.Name = "departamento";
+            this.departamento.ReadOnly = true;
+            this.departamento.Width = 150;
+            // 
+            // puesto
+            // 
+            this.puesto.DataPropertyName = "position";
+            this.puesto.HeaderText = "Puesto";
+            this.puesto.Name = "puesto";
+            this.puesto.ReadOnly = true;
+            // 
+            // nombre
+            // 
+            this.nombre.DataPropertyName = "employeeName";
+            this.nombre.HeaderText = "Nombre del empleado";
+            this.nombre.Name = "nombre";
+            this.nombre.ReadOnly = true;
+            this.nombre.Width = 225;
+            // 
+            // date
+            // 
+            this.date.DataPropertyName = "startDate";
+            this.date.HeaderText = "Fecha de ingreso";
+            this.date.Name = "date";
+            this.date.ReadOnly = true;
+            this.date.Width = 200;
+            // 
+            // edad
+            // 
+            this.edad.DataPropertyName = "age";
+            this.edad.HeaderText = "Edad";
+            this.edad.Name = "edad";
+            this.edad.ReadOnly = true;
+            // 
+            // salario
+            // 
+            this.salario.DataPropertyName = "baseSalary";
+            dataGridViewCellStyle2.Format = "c";
+            this.salario.DefaultCellStyle = dataGridViewCellStyle2;
+            this.salario.HeaderText = "Salario diario";
+            this.salario.Name = "salario";
+            this.salario.ReadOnly = true;
+            this.salario.Width = 200;
+            // 
             // GeneralPayrollReports
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(1064, 670);
+            this.Controls.Add(this.btnCSV);
             this.Controls.Add(this.dtpDate);
             this.Controls.Add(this.lblDate);
             this.Controls.Add(this.lblGeneralPayrollReport);
@@ -204,6 +229,8 @@ namespace Presentation.Views
         private System.Windows.Forms.Label lblGeneralPayrollReport;
         private System.Windows.Forms.Label lblDate;
         private System.Windows.Forms.DateTimePicker dtpDate;
+        private System.Windows.Forms.Button btnCSV;
+        private System.Windows.Forms.SaveFileDialog ofnPayrollCSV;
         private System.Windows.Forms.DataGridViewTextBoxColumn departamento;
         private System.Windows.Forms.DataGridViewTextBoxColumn puesto;
         private System.Windows.Forms.DataGridViewTextBoxColumn nombre;

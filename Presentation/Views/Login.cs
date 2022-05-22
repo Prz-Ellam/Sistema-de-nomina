@@ -95,22 +95,22 @@ namespace Presentation.Views
 
         private void txtEmail_Enter(object sender, EventArgs e)
         {
-            lineEmail.BackColor = Color.FromArgb(255, 0, 123, 255);
+            lineEmail.BackColor = Color.FromArgb(0, 123, 255);
         }
 
         private void txtEmail_Leave(object sender, EventArgs e)
         {
-            lineEmail.BackColor = Color.FromArgb(255, 47, 47, 47);
+            lineEmail.BackColor = Color.FromArgb(47, 47, 47);
         }
 
         private void txtPassword_Enter(object sender, EventArgs e)
         {
-            linePassword.BackColor = Color.FromArgb(255, 0, 123, 255);
+            linePassword.BackColor = Color.FromArgb(0, 123, 255);
         }
 
         private void txtPassword_Leave(object sender, EventArgs e)
         {
-            linePassword.BackColor = Color.FromArgb(255, 47, 47, 47);
+            linePassword.BackColor = Color.FromArgb(47, 47, 47);
         }
 
         private void Moveable(object sender, MouseEventArgs e)

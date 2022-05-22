@@ -16,12 +16,3 @@ INSERT INTO Bancos (Nombre) VALUES ('Citibanamex');
 INSERT INTO Bancos (Nombre) VALUES ('Afirme');
 INSERT INTO Bancos (Nombre) VALUES ('HSBC');
 INSERT INTO Bancos (Nombre) VALUES ('Banamex');
-
-/*
-INSERT INTO percepciones(nombre, tipo_monto, fijo, porcentual, tipo_duracion)
-VALUES('Salario', 'P', 0, 1.0, 'B');
-INSERT INTO deducciones(nombre, tipo_monto, fijo, porcentual, tipo_duracion)
-VALUES('ISR', 'P', 0, 0.12, 'B');
-INSERT INTO deducciones(nombre, tipo_monto, fijo, porcentual, tipo_duracion)
-VALUES('IMSS', 'F', 200.0, 0, 'B');
-*/

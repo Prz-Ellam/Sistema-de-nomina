@@ -37,12 +37,12 @@ namespace Data_Access.Repositorios
             {
                 report.Add(new GeneralPayrollReportsViewModel
                 {
-                    Departamento = row[0].ToString(),
-                    Puesto = row[1].ToString(),
-                    NombreEmpleado = row[2].ToString(),
-                    FechaIngreso = Convert.ToDateTime(row[3]),
-                    Edad = Convert.ToUInt32(row[4]),
-                    SalarioDiario = Convert.ToDecimal(row[5])
+                    Department = row["Departamento"].ToString(),
+                    Position = row["Puesto"].ToString(),
+                    EmployeeName = row["Nombre del empleado"].ToString(),
+                    StartDate = Convert.ToDateTime(row["Fecha de ingreso"]),
+                    Age = Convert.ToUInt32(row["Edad"]),
+                    BaseSalary = Convert.ToDecimal(row["Sueldo diario"])
                 });
             }
 
@@ -103,11 +103,11 @@ namespace Data_Access.Repositorios
             {
                 report.Add(new PayrollReportsViewModel
                 {
-                    Departamento = row[0].ToString(),
-                    Anio = row[1].ToString(),
-                    Mes = row[2].ToString(),
-                    SueldoBruto = Convert.ToDecimal(row[3]),
-                    SueldoNeto = Convert.ToDecimal(row[4])
+                    Department = row["Departamento"].ToString(),
+                    Year = row["Año"].ToString(),
+                    Month = row["Mes"].ToString(),
+                    GrossSalary = Convert.ToDecimal(row["Sueldo bruto"]),
+                    NetSalary = Convert.ToDecimal(row["Sueldo neto"])
                 });
             }
 

@@ -79,7 +79,8 @@ namespace Data_Access.Repositorios
                     Nombre = row["Nombre"].ToString(),
                     TipoMonto = Convert.ToChar(row["Tipo de monto"]),
                     Fijo = Convert.ToDecimal(row["Fijo"]),
-                    Porcentual = Convert.ToDecimal(row["Porcentual"])
+                    Porcentual = Convert.ToDecimal(row["Porcentual"]),
+                    TipoDuracion = Convert.ToChar(row["Tipo de duración"])
                 });
             }
 

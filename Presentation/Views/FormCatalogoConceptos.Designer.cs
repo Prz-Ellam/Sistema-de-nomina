@@ -32,13 +32,13 @@ namespace Presentation.Views
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label3 = new System.Windows.Forms.Label();
             this.rbPerception = new System.Windows.Forms.RadioButton();
             this.rbDeduction = new System.Windows.Forms.RadioButton();
@@ -50,11 +50,6 @@ namespace Presentation.Views
             this.gbTipoConcepto = new System.Windows.Forms.GroupBox();
             this.gbTipoMonto = new System.Windows.Forms.GroupBox();
             this.dtgDeductions = new System.Windows.Forms.DataGridView();
-            this.id2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.name2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.type2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.amount2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.porcentuald = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnAgregar = new System.Windows.Forms.Button();
             this.nudPorcentual = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
@@ -62,17 +57,24 @@ namespace Presentation.Views
             this.btnEliminar = new System.Windows.Forms.Button();
             this.btnActualizar = new System.Windows.Forms.Button();
             this.dtgPerceptions = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.porcentual = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lblFilter = new System.Windows.Forms.Label();
             this.txtFilterPerception = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.txtFilterDeduction = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.porcentual = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.durationType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.id2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.name2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.type2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.amount2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.porcentuald = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.durationType2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.nudFijo)).BeginInit();
             this.gbTipoConcepto.SuspendLayout();
             this.gbTipoMonto.SuspendLayout();
@@ -228,7 +230,8 @@ namespace Presentation.Views
             this.name2,
             this.type2,
             this.amount2,
-            this.porcentuald});
+            this.porcentuald,
+            this.durationType2});
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
@@ -254,48 +257,6 @@ namespace Presentation.Views
             this.dtgDeductions.Size = new System.Drawing.Size(643, 200);
             this.dtgDeductions.TabIndex = 15;
             this.dtgDeductions.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgDeductions_CellDoubleClick);
-            // 
-            // id2
-            // 
-            this.id2.DataPropertyName = "idDeduccion";
-            this.id2.HeaderText = "ID";
-            this.id2.Name = "id2";
-            this.id2.ReadOnly = true;
-            // 
-            // name2
-            // 
-            this.name2.DataPropertyName = "nombre";
-            this.name2.HeaderText = "Nombre";
-            this.name2.Name = "name2";
-            this.name2.ReadOnly = true;
-            this.name2.Width = 200;
-            // 
-            // type2
-            // 
-            this.type2.DataPropertyName = "tipoMonto";
-            this.type2.HeaderText = "Tipo de monto";
-            this.type2.Name = "type2";
-            this.type2.ReadOnly = true;
-            this.type2.Width = 150;
-            // 
-            // amount2
-            // 
-            this.amount2.DataPropertyName = "fijo";
-            dataGridViewCellStyle2.Format = "c";
-            this.amount2.DefaultCellStyle = dataGridViewCellStyle2;
-            this.amount2.HeaderText = "Fijo";
-            this.amount2.Name = "amount2";
-            this.amount2.ReadOnly = true;
-            this.amount2.Width = 150;
-            // 
-            // porcentuald
-            // 
-            this.porcentuald.DataPropertyName = "porcentual";
-            dataGridViewCellStyle3.Format = "0.0000";
-            this.porcentuald.DefaultCellStyle = dataGridViewCellStyle3;
-            this.porcentuald.HeaderText = "Porcentual";
-            this.porcentuald.Name = "porcentuald";
-            this.porcentuald.ReadOnly = true;
             // 
             // btnAgregar
             // 
@@ -399,7 +360,8 @@ namespace Presentation.Views
             this.dataGridViewTextBoxColumn2,
             this.dataGridViewTextBoxColumn3,
             this.dataGridViewTextBoxColumn4,
-            this.porcentual});
+            this.porcentual,
+            this.durationType});
             dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
@@ -425,48 +387,6 @@ namespace Presentation.Views
             this.dtgPerceptions.Size = new System.Drawing.Size(643, 200);
             this.dtgPerceptions.TabIndex = 13;
             this.dtgPerceptions.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgPerceptions_CellDoubleClick);
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.DataPropertyName = "idPercepcion";
-            this.dataGridViewTextBoxColumn1.HeaderText = "ID";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.DataPropertyName = "nombre";
-            this.dataGridViewTextBoxColumn2.HeaderText = "Nombre";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
-            this.dataGridViewTextBoxColumn2.Width = 200;
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.DataPropertyName = "tipoMonto";
-            this.dataGridViewTextBoxColumn3.HeaderText = "Tipo de monto";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.ReadOnly = true;
-            this.dataGridViewTextBoxColumn3.Width = 150;
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            this.dataGridViewTextBoxColumn4.DataPropertyName = "fijo";
-            dataGridViewCellStyle7.Format = "c";
-            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle7;
-            this.dataGridViewTextBoxColumn4.HeaderText = "Fijo";
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            this.dataGridViewTextBoxColumn4.ReadOnly = true;
-            this.dataGridViewTextBoxColumn4.Width = 150;
-            // 
-            // porcentual
-            // 
-            this.porcentual.DataPropertyName = "porcentual";
-            dataGridViewCellStyle8.Format = "0.0000";
-            this.porcentual.DefaultCellStyle = dataGridViewCellStyle8;
-            this.porcentual.HeaderText = "Porcentual";
-            this.porcentual.Name = "porcentual";
-            this.porcentual.ReadOnly = true;
             // 
             // lblFilter
             // 
@@ -539,6 +459,106 @@ namespace Presentation.Views
             this.label7.TabIndex = 51;
             this.label7.Text = "Percepciones:";
             // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "idPercepcion";
+            this.dataGridViewTextBoxColumn1.HeaderText = "ID";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.DataPropertyName = "nombre";
+            this.dataGridViewTextBoxColumn2.HeaderText = "Nombre";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            this.dataGridViewTextBoxColumn2.Width = 200;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.DataPropertyName = "tipoMonto";
+            this.dataGridViewTextBoxColumn3.HeaderText = "Tipo de monto";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.ReadOnly = true;
+            this.dataGridViewTextBoxColumn3.Width = 150;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.DataPropertyName = "fijo";
+            dataGridViewCellStyle7.Format = "c";
+            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle7;
+            this.dataGridViewTextBoxColumn4.HeaderText = "Fijo";
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.ReadOnly = true;
+            this.dataGridViewTextBoxColumn4.Width = 150;
+            // 
+            // porcentual
+            // 
+            this.porcentual.DataPropertyName = "porcentual";
+            dataGridViewCellStyle8.Format = "0.0000";
+            this.porcentual.DefaultCellStyle = dataGridViewCellStyle8;
+            this.porcentual.HeaderText = "Porcentual";
+            this.porcentual.Name = "porcentual";
+            this.porcentual.ReadOnly = true;
+            // 
+            // durationType
+            // 
+            this.durationType.DataPropertyName = "tipoDuracion";
+            this.durationType.HeaderText = "Tipo de duración";
+            this.durationType.Name = "durationType";
+            this.durationType.ReadOnly = true;
+            this.durationType.Width = 170;
+            // 
+            // id2
+            // 
+            this.id2.DataPropertyName = "idDeduccion";
+            this.id2.HeaderText = "ID";
+            this.id2.Name = "id2";
+            this.id2.ReadOnly = true;
+            // 
+            // name2
+            // 
+            this.name2.DataPropertyName = "nombre";
+            this.name2.HeaderText = "Nombre";
+            this.name2.Name = "name2";
+            this.name2.ReadOnly = true;
+            this.name2.Width = 200;
+            // 
+            // type2
+            // 
+            this.type2.DataPropertyName = "tipoMonto";
+            this.type2.HeaderText = "Tipo de monto";
+            this.type2.Name = "type2";
+            this.type2.ReadOnly = true;
+            this.type2.Width = 150;
+            // 
+            // amount2
+            // 
+            this.amount2.DataPropertyName = "fijo";
+            dataGridViewCellStyle2.Format = "c";
+            this.amount2.DefaultCellStyle = dataGridViewCellStyle2;
+            this.amount2.HeaderText = "Fijo";
+            this.amount2.Name = "amount2";
+            this.amount2.ReadOnly = true;
+            this.amount2.Width = 150;
+            // 
+            // porcentuald
+            // 
+            this.porcentuald.DataPropertyName = "porcentual";
+            dataGridViewCellStyle3.Format = "0.0000";
+            this.porcentuald.DefaultCellStyle = dataGridViewCellStyle3;
+            this.porcentuald.HeaderText = "Porcentual";
+            this.porcentuald.Name = "porcentuald";
+            this.porcentuald.ReadOnly = true;
+            // 
+            // durationType2
+            // 
+            this.durationType2.DataPropertyName = "tipoDuracion";
+            this.durationType2.HeaderText = "Tipo de duración";
+            this.durationType2.Name = "durationType2";
+            this.durationType2.ReadOnly = true;
+            this.durationType2.Width = 170;
+            // 
             // FormCatalogoConceptos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -609,15 +629,17 @@ namespace Presentation.Views
         private System.Windows.Forms.TextBox txtFilterDeduction;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn id2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn name2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn type2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn amount2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn porcentuald;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.DataGridViewTextBoxColumn porcentual;
+        private System.Windows.Forms.DataGridViewTextBoxColumn durationType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn id2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn name2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn type2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn amount2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn porcentuald;
+        private System.Windows.Forms.DataGridViewTextBoxColumn durationType2;
     }
 }

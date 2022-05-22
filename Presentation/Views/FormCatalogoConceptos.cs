@@ -483,6 +483,7 @@ namespace Presentation.Views
             rbPorcentual.Checked = false;
 
             ConceptsState = EntityState.Add;
+            txtName.Enabled = true;
             dtgPerceptionPrevIndex = -1;
             dtgDeductionPrevIndex = -1;
         }
@@ -522,6 +523,7 @@ namespace Presentation.Views
             var row = dtgPerceptions.Rows[index];
             rbPerception.Checked = true;
             perceptionId = Convert.ToInt32(row.Cells[0].Value);
+            deductionId = -1;
             txtName.Text = row.Cells[1].Value.ToString();
             char type = Convert.ToChar(row.Cells[2].Value);
             if (type == 'F')
@@ -536,7 +538,19 @@ namespace Presentation.Views
             }
 
             ConceptsState = EntityState.Modify;
+            char duration = Convert.ToChar(row.Cells[5].Value);
+            if (duration == 'B')
+            {
+                txtName.Enabled = false;
+                btnEliminar.Enabled = false;
+            }
+            else
+            {
+                txtName.Enabled = true;
+            }
+
             dtgPerceptionPrevIndex = index;
+            dtgDeductionPrevIndex = -1;
         }
 
         private void dtgDeductions_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -562,6 +576,7 @@ namespace Presentation.Views
             var row = dtgDeductions.Rows[index];
             rbDeduction.Checked = true;
             deductionId = Convert.ToInt32(row.Cells[0].Value);
+            perceptionId = -1;
             txtName.Text = row.Cells[1].Value.ToString();
             char type = Convert.ToChar(row.Cells[2].Value);
             if (type == 'F')
@@ -576,6 +591,18 @@ namespace Presentation.Views
             }
 
             ConceptsState = EntityState.Modify;
+            char duration = Convert.ToChar(row.Cells[5].Value);
+            if (duration == 'B')
+            {
+                txtName.Enabled = false;
+                btnEliminar.Enabled = false;
+            }
+            else
+            {
+                txtName.Enabled = true;
+            }
+
+            dtgPerceptionPrevIndex = -1;
             dtgDeductionPrevIndex = index;
         }
 

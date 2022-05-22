@@ -18,6 +18,12 @@ ALTER TABLE empleados
 		CONSTRAINT fk_empleado_departamento,
 		CONSTRAINT fk_empleado_puesto;
 
+ALTER TABLE percepciones
+	DROP CONSTRAINT fk_percepcion_empresa;
+
+ALTER TABLE deducciones
+	DROP CONSTRAINT fk_deduccion_empresa;
+
 ALTER TABLE percepciones_aplicadas
 	DROP CONSTRAINT fk_percepcion_empleado,
 		CONSTRAINT fk_percepcion_percepcion,
@@ -40,44 +46,44 @@ ALTER TABLE telefonos_empresas
 ALTER TABLE telefonos_empleados
 	DROP CONSTRAINT fk_telefono_empleado;
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'empresas' AND type = 'u')
+IF EXISTS (SELECT name FROM sysobjects WHERE name = 'empresas' AND type = 'u')
 	DROP TABLE empresas;
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'administradores' AND type = 'u')
+IF EXISTS (SELECT name FROM sysobjects WHERE name = 'administradores' AND type = 'u')
 	DROP TABLE administradores;
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'departamentos' AND type = 'u')
+IF EXISTS (SELECT name FROM sysobjects WHERE name = 'departamentos' AND type = 'u')
 	DROP TABLE departamentos;
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'puestos' AND type = 'u')
+IF EXISTS (SELECT name FROM sysobjects WHERE name = 'puestos' AND type = 'u')
 	DROP TABLE puestos;
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'empleados' AND type = 'u')
+IF EXISTS (SELECT name FROM sysobjects WHERE name = 'empleados' AND type = 'u')
 	DROP TABLE empleados;
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'percepciones' AND type = 'u')
+IF EXISTS (SELECT name FROM sysobjects WHERE name = 'percepciones' AND type = 'u')
 	DROP TABLE percepciones;
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'deducciones' AND type = 'u')
+IF EXISTS (SELECT name FROM sysobjects WHERE name = 'deducciones' AND type = 'u')
 	DROP TABLE deducciones;
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'nominas' AND type = 'u')
+IF EXISTS (SELECT name FROM sysobjects WHERE name = 'nominas' AND type = 'u')
 	DROP TABLE nominas;
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'percepciones_aplicadas' AND type = 'u')
+IF EXISTS (SELECT name FROM sysobjects WHERE name = 'percepciones_aplicadas' AND type = 'u')
 	DROP TABLE percepciones_aplicadas;
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'deducciones_aplicadas' AND type = 'u')
+IF EXISTS (SELECT name FROM sysobjects WHERE name = 'deducciones_aplicadas' AND type = 'u')
 	DROP TABLE deducciones_aplicadas;
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'domicilios' AND type = 'u')
+IF EXISTS (SELECT name FROM sysobjects WHERE name = 'domicilios' AND type = 'u')
 	DROP TABLE domicilios;
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'telefonos_empresas' AND type = 'u')
+IF EXISTS (SELECT name FROM sysobjects WHERE name = 'telefonos_empresas' AND type = 'u')
 	DROP TABLE telefonos_empresas;
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'telefonos_empleados' AND type = 'u')
+IF EXISTS (SELECT name FROM sysobjects WHERE name = 'telefonos_empleados' AND type = 'u')
 	DROP TABLE telefonos_empleados;
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'bancos' AND type = 'u')
+IF EXISTS (SELECT name FROM sysobjects WHERE name = 'bancos' AND type = 'u')
 	DROP TABLE bancos;

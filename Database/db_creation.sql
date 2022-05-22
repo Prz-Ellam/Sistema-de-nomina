@@ -2,8 +2,9 @@
 USE sistema_de_nomina;
 
 -- Tablas primas
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'empresas' AND type = 'u')
+IF EXISTS (SELECT name FROM sysobjects WHERE name = 'empresas' AND type = 'U')
 	DROP TABLE empresas;
+GO
 
 CREATE TABLE empresas(
 	id_empresa					INT IDENTITY(1,1) NOT NULL,
@@ -30,34 +31,34 @@ CREATE TABLE empresas(
 
 
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'administradores' AND type = 'u')
+IF EXISTS(SELECT name FROM sysobjects WHERE name = 'administradores' AND type = 'U')
 	DROP TABLE administradores;
+GO
 
 CREATE TABLE administradores(
-	id_administrador			INT IDENTITY(1,1),
+	id_administrador			INT IDENTITY(1,1) NOT NULL,
 	correo_electronico			VARCHAR(60) UNIQUE NOT NULL,
 	contrasena					VARCHAR(30) NOT NULL,
-	activo						BIT DEFAULT 1,
-	fecha_eliminacion			DATE,
-	id_eliminado				UNIQUEIDENTIFIER DEFAULT NULL,
+	activo						BIT DEFAULT 1
 	
 	CONSTRAINT pk_administradores
 		PRIMARY KEY (id_administrador)
 );
 
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'departamentos' AND type = 'u')
+IF EXISTS (SELECT name FROM sysobjects WHERE name = 'departamentos' AND type = 'U')
 	DROP TABLE departamentos;
+GO
 
 CREATE TABLE departamentos(
-	id_departamento				INT IDENTITY(1,1),
+	id_departamento				INT IDENTITY(1,1) NOT NULL,
 	nombre						VARCHAR(30) NOT NULL,
 	sueldo_base					MONEY NOT NULL,
+	id_empresa					INT NOT NULL,
 	activo						BIT DEFAULT 1 NOT NULL,
 	fecha_creacion				DATE,
 	fecha_eliminacion			DATE,
-	id_eliminado				UNIQUEIDENTIFIER DEFAULT NULL,
-	id_empresa					INT NOT NULL
+	id_eliminado				UNIQUEIDENTIFIER DEFAULT NULL
 
 	CONSTRAINT pk_departamentos
 		PRIMARY KEY (id_departamento)
@@ -65,18 +66,19 @@ CREATE TABLE departamentos(
 
 
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'puestos' AND type = 'u')
+IF EXISTS(SELECT name FROM sysobjects WHERE name = 'puestos' AND type = 'U')
 	DROP TABLE puestos;
+GO
 
 CREATE TABLE puestos(
 	id_puesto					INT IDENTITY(1,1) NOT NULL,
 	nombre						VARCHAR(30) NOT NULL,
 	nivel_salarial				FLOAT NOT NULL,
+	id_empresa					INT NOT NULL,
 	activo						BIT DEFAULT 1 NOT NULL,
 	fecha_creacion				DATE,
 	fecha_eliminacion			DATE,
-	id_eliminado				UNIQUEIDENTIFIER DEFAULT NULL,
-	id_empresa					INT NOT NULL
+	id_eliminado				UNIQUEIDENTIFIER DEFAULT NULL
 
 	CONSTRAINT pk_puestos
 		PRIMARY KEY (id_puesto)
@@ -84,11 +86,12 @@ CREATE TABLE puestos(
 
 
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'empleados' AND type = 'u')
+IF EXISTS(SELECT name FROM sysobjects WHERE name = 'empleados' AND type = 'U')
 	DROP TABLE empleados;
+GO
 
 CREATE TABLE empleados(
-	numero_empleado				INT IDENTITY(1,1),
+	numero_empleado				INT IDENTITY(1,1) NOT NULL,
 	nombre						VARCHAR(30) NOT NULL,
 	apellido_paterno			VARCHAR(30) NOT NULL,
 	apellido_materno			VARCHAR(30) NOT NULL,
@@ -125,17 +128,18 @@ CREATE TABLE empleados(
 
 
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'percepciones' AND type = 'u')
+IF EXISTS (SELECT name FROM sysobjects WHERE name = 'percepciones' AND type = 'U')
 	DROP TABLE percepciones;
+GO
 
 CREATE TABLE percepciones(
-	id_percepcion				INT IDENTITY(1,1),
+	id_percepcion				INT IDENTITY(1,1) NOT NULL,
 	nombre						VARCHAR(30) NOT NULL,
 	tipo_monto					CHAR NOT NULL,
 	fijo						MONEY,
 	porcentual					FLOAT,
 	tipo_duracion				CHAR DEFAULT 'S' NOT NULL, -- 'B' es de basic (basico) y 'S' es de special (Especial)
-	id_empresa					INT,
+	id_empresa					INT NOT NULL,
 	activo						BIT DEFAULT 1 NOT NULL,
 	fecha_creacion				DATE,
 	fecha_eliminacion			DATE,
@@ -151,17 +155,18 @@ CREATE TABLE percepciones(
 
 
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'deducciones' AND type = 'u')
+IF EXISTS (SELECT name FROM sysobjects WHERE name = 'deducciones' AND type = 'U')
 	DROP TABLE deducciones;
+GO
 
 CREATE TABLE deducciones(
-	id_deduccion				INT IDENTITY(1,1),
+	id_deduccion				INT IDENTITY(1,1) NOT NULL,
 	nombre						VARCHAR(30) NOT NULL,
 	tipo_monto					CHAR NOT NULL,
 	fijo						MONEY,
 	porcentual					FLOAT,
 	tipo_duracion				CHAR DEFAULT 'S' NOT NULL,
-	id_empresa					INT,
+	id_empresa					INT NOT NULL,
 	activo						BIT DEFAULT 1 NOT NULL,
 	fecha_creacion				DATE,
 	fecha_eliminacion			DATE,
@@ -177,8 +182,9 @@ CREATE TABLE deducciones(
 
 
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'nominas' AND type = 'u')
+IF EXISTS (SELECT name FROM sysobjects WHERE name = 'nominas' AND type = 'U')
 	DROP TABLE nominas;
+GO
 
 CREATE TABLE nominas(
 	id_nomina					INT IDENTITY(1,1) NOT NULL,
@@ -201,11 +207,12 @@ CREATE TABLE nominas(
 
 
 -- Tablas asociativas
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'percepciones_aplicadas' AND type = 'u')
+IF EXISTS (SELECT name FROM sysobjects WHERE name = 'percepciones_aplicadas' AND type = 'U')
 	DROP TABLE percepciones_aplicadas;
+GO
 
 CREATE TABLE percepciones_aplicadas(
-	id_percepcion_aplicada		INT IDENTITY(1,1),
+	id_percepcion_aplicada		INT IDENTITY(1,1) NOT NULL,
 	numero_empleado				INT NOT NULL,
 	id_percepcion				INT NOT NULL,
 	id_nomina					INT,
@@ -218,11 +225,12 @@ CREATE TABLE percepciones_aplicadas(
 
 
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'deducciones_aplicadas' AND type = 'u')
+IF EXISTS (SELECT name FROM sysobjects WHERE name = 'deducciones_aplicadas' AND type = 'U')
 	DROP TABLE deducciones_aplicadas;
+GO
 
 CREATE TABLE deducciones_aplicadas(
-	id_deduccion_aplicada		INT IDENTITY(1,1),
+	id_deduccion_aplicada		INT IDENTITY(1,1) NOT NULL,
 	numero_empleado				INT NOT NULL,
 	id_deduccion				INT NOT NULL,
 	id_nomina					INT,
@@ -236,16 +244,17 @@ CREATE TABLE deducciones_aplicadas(
 
 
 -- Tablas de Normalizacion
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'domicilios' AND type = 'u')
+IF EXISTS (SELECT name FROM sysobjects WHERE name = 'domicilios' AND type = 'U')
 	DROP TABLE domicilios;
+GO
 
 CREATE TABLE domicilios(
-	id_domicilio				INT IDENTITY(1,1),
+	id_domicilio				INT IDENTITY(1,1) NOT NULL,
 	calle						VARCHAR(30) NOT NULL,
 	numero						VARCHAR(10) NOT NULL,
 	colonia						VARCHAR(30) NOT NULL,
-	ciudad						VARCHAR(30) NOT NULL,
-	estado						VARCHAR(30) NOT NULL,
+	ciudad						VARCHAR(60) NOT NULL,
+	estado						VARCHAR(60) NOT NULL,
 	codigo_postal				VARCHAR(5) NOT NULL
 
 	CONSTRAINT pk_domicilios
@@ -254,11 +263,12 @@ CREATE TABLE domicilios(
 
 
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'telefonos_empresas' AND type = 'u')
+IF EXISTS (SELECT name FROM sysobjects WHERE name = 'telefonos_empresas' AND type = 'U')
 	DROP TABLE telefonos_empresas;
+GO
 
 CREATE TABLE telefonos_empresas(
-	id_telefono_empresa			INT IDENTITY(1,1),
+	id_telefono_empresa			INT IDENTITY(1,1) NOT NULL,
 	telefono					VARCHAR(12) NOT NULL,
 	id_empresa					INT NOT NULL
 
@@ -268,8 +278,9 @@ CREATE TABLE telefonos_empresas(
 
 
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'telefonos_empleados' AND type = 'u')
+IF EXISTS (SELECT name FROM sysobjects WHERE name = 'telefonos_empleados' AND type = 'U')
 	DROP TABLE telefonos_empleados;
+GO
 
 CREATE TABLE telefonos_empleados(
 	id_telefono_empleado		INT IDENTITY(1,1),
@@ -282,7 +293,7 @@ CREATE TABLE telefonos_empleados(
 
 
 
-IF EXISTS(SELECT 1 FROM sysobjects WHERE name = 'bancos' AND type = 'u')
+IF EXISTS (SELECT name FROM sysobjects WHERE name = 'bancos' AND type = 'U')
 	DROP TABLE bancos;
 
 CREATE TABLE bancos(
@@ -329,6 +340,16 @@ ALTER TABLE empleados
 		CONSTRAINT fk_empleado_puesto
 		FOREIGN KEY (id_puesto)
 		REFERENCES puestos(id_puesto);
+
+ALTER TABLE percepciones
+	ADD CONSTRAINT fk_percepcion_empresa
+		FOREIGN KEY (id_empresa)
+		REFERENCES empresas(id_empresa);
+
+ALTER TABLE deducciones
+	ADD CONSTRAINT fk_deduccion_empresa
+		FOREIGN KEY (id_empresa)
+		REFERENCES empresas(id_empresa);
 
 ALTER TABLE percepciones_aplicadas
 	ADD CONSTRAINT fk_percepcion_empleado

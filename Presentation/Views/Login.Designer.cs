@@ -44,8 +44,8 @@ namespace Presentation.Views
             this.pbLogo = new System.Windows.Forms.PictureBox();
             this.lineEmail = new System.Windows.Forms.Panel();
             this.linePassword = new System.Windows.Forms.Panel();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pbPassword = new System.Windows.Forms.PictureBox();
+            this.pbUsername = new System.Windows.Forms.PictureBox();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnMinimized = new System.Windows.Forms.Button();
             this.lblTitleBar = new System.Windows.Forms.Label();
@@ -56,8 +56,8 @@ namespace Presentation.Views
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).BeginInit();
             this.panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPassword)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbUsername)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbSmallIcon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -66,7 +66,7 @@ namespace Presentation.Views
             this.txtEmail.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.txtEmail.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtEmail.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.txtEmail.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(85)))), ((int)(((byte)(85)))));
+            this.txtEmail.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.txtEmail.Location = new System.Drawing.Point(230, 152);
             this.txtEmail.MaxLength = 60;
             this.txtEmail.Name = "txtEmail";
@@ -80,7 +80,7 @@ namespace Presentation.Views
             this.txtPassword.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.txtPassword.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtPassword.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.txtPassword.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(85)))), ((int)(((byte)(85)))));
+            this.txtPassword.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.txtPassword.Location = new System.Drawing.Point(230, 233);
             this.txtPassword.MaxLength = 30;
             this.txtPassword.Name = "txtPassword";
@@ -212,25 +212,25 @@ namespace Presentation.Views
             this.linePassword.Size = new System.Drawing.Size(350, 1);
             this.linePassword.TabIndex = 12;
             // 
-            // pictureBox3
+            // pbPassword
             // 
-            this.pictureBox3.Image = global::Presentation.Properties.Resources.Password_Logo;
-            this.pictureBox3.Location = new System.Drawing.Point(186, 229);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(30, 30);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox3.TabIndex = 14;
-            this.pictureBox3.TabStop = false;
+            this.pbPassword.Image = global::Presentation.Properties.Resources.Password_Logo;
+            this.pbPassword.Location = new System.Drawing.Point(186, 229);
+            this.pbPassword.Name = "pbPassword";
+            this.pbPassword.Size = new System.Drawing.Size(30, 30);
+            this.pbPassword.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbPassword.TabIndex = 14;
+            this.pbPassword.TabStop = false;
             // 
-            // pictureBox2
+            // pbUsername
             // 
-            this.pictureBox2.Image = global::Presentation.Properties.Resources.Username_Logo;
-            this.pictureBox2.Location = new System.Drawing.Point(186, 148);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(30, 30);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 13;
-            this.pictureBox2.TabStop = false;
+            this.pbUsername.Image = global::Presentation.Properties.Resources.Username_Logo;
+            this.pbUsername.Location = new System.Drawing.Point(186, 148);
+            this.pbUsername.Name = "pbUsername";
+            this.pbUsername.Size = new System.Drawing.Size(30, 30);
+            this.pbUsername.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbUsername.TabIndex = 13;
+            this.pbUsername.TabStop = false;
             // 
             // btnClose
             // 
@@ -305,8 +305,8 @@ namespace Presentation.Views
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(600, 370);
-            this.Controls.Add(this.pictureBox3);
-            this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.pbPassword);
+            this.Controls.Add(this.pbUsername);
             this.Controls.Add(this.linePassword);
             this.Controls.Add(this.lineEmail);
             this.Controls.Add(this.panel);
@@ -330,8 +330,8 @@ namespace Presentation.Views
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).EndInit();
             this.panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPassword)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbUsername)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbSmallIcon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -352,8 +352,8 @@ namespace Presentation.Views
         private System.Windows.Forms.Panel panel;
         private System.Windows.Forms.Panel lineEmail;
         private System.Windows.Forms.Panel linePassword;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.PictureBox pbUsername;
+        private System.Windows.Forms.PictureBox pbPassword;
         private System.Windows.Forms.PictureBox pbLogo;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Button btnMinimized;

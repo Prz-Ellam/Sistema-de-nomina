@@ -124,9 +124,11 @@ namespace Presentation.Views
             this.cbPhones.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
             this.cbPhones.FormattingEnabled = true;
             this.cbPhones.Location = new System.Drawing.Point(501, 248);
+            this.cbPhones.MaxLength = 10;
             this.cbPhones.Name = "cbPhones";
             this.cbPhones.Size = new System.Drawing.Size(200, 27);
             this.cbPhones.TabIndex = 90;
+            this.cbPhones.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cbPhones_KeyDown);
             // 
             // label20
             // 

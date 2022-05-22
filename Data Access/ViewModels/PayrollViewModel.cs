@@ -16,14 +16,14 @@ namespace Data_Access.ViewModels
         private string bank;
         private string accountNumber;
 
-        [Name("Numero de empleado")]
+        [Name("Número de empleado")]
         public int EmployeeNumber { get => employeeNumber; set => employeeNumber = value; }
 
         [Name("Nombre del empleado")]
         public string EmployeeName { get => employeeName; set => employeeName = value; }
 
         [Name("Fecha")]
-        [Format("yyyy-MM")]
+        [Format("MMMM yyyy")]
         public DateTime Date { get => date; set => date = value; }
 
         [Name("Cantidad a depositar")]
@@ -34,6 +34,7 @@ namespace Data_Access.ViewModels
         public string Bank { get => bank; set => bank = value; }
 
         [Name("Número de cuenta")]
+        [Format("\"{0}\"")]
         public string AccountNumber { get => accountNumber; set => accountNumber = value; }
     }
 }

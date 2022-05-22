@@ -22,7 +22,7 @@ namespace Presentation.Views
     public partial class Profile : Form
     {
         private IEmployeesRepository employeeRepository;
-        private PhonesRepository phonesRepository;
+        private IPhonesRepository phonesRepository;
         private Employees employee;
         private List<States> states;
 
@@ -142,7 +142,11 @@ namespace Presentation.Views
 
             cbPhones.SelectedIndex = -1;
             cbPhones.Items.Clear();
-            cbPhones.DataSource = phonesRepository.ReadEmployeePhones(employee.EmployeeNumber);
+            List<string> phones = phonesRepository.ReadEmployeePhones(Session.id).ToList();
+            foreach (string phone in phones)
+            {
+                cbPhones.Items.Add(phone);
+            }
 
             txtStreet.Text = employee.Street;
             txtNumber.Text = employee.Number;
@@ -235,7 +239,7 @@ namespace Presentation.Views
 
         private void dtpHiringDate_ValueChanged(object sender, EventArgs e)
         {
-            dtpDateOfBirth.MaxDate = dtpHiringDate.Value.AddYears(-18);
+            dtpDateOfBirth.MaxDate = dtpHiringDate.Value.AddYears(-18).AddDays(-1);
         }
 
         private string GetUniqueName(string message)
@@ -247,6 +251,47 @@ namespace Presentation.Views
             }
             int endIndex = message.Substring(++startIndex).IndexOf("'");
             return message.Substring(startIndex, endIndex);
+        }
+
+        private void cbPhones_KeyDown(object sender, KeyEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                {
+                    if (comboBox.Items.Count > 9)
+                    {
+                        RJMessageBox.Show("Solo se aceptan máximo 10 teléfonos", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    if (comboBox.Text.Length != 10)
+                    {
+                        RJMessageBox.Show("Los teléfonos deben contener 10 dígitos", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    if (comboBox.FindString(comboBox.Text) == -1 && comboBox.Text != string.Empty &&
+                        comboBox.SelectedItem == null)
+                    {
+                        comboBox.Items.Add(comboBox.Text);
+                    }
+                    comboBox.Text = string.Empty;
+                    comboBox.SelectedIndex = -1;
+                    break;
+                }
+                case Keys.Delete:
+                {
+                    if (comboBox.SelectedItem != null && comboBox.DroppedDown == false)
+                    {
+                        comboBox.Items.Remove(comboBox.SelectedItem);
+                    }
+                    comboBox.SelectedIndex = -1;
+                    break;
+                }
+            }
         }
     }
 }

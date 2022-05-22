@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CsvHelper;
+using CsvHelper.Configuration;
 
 namespace Presentation.Views
 {
@@ -132,27 +133,28 @@ namespace Presentation.Views
 
         private void GenerateCSV()
         {
-            ofnPayrollCSV.FileName = Guid.NewGuid().ToString();
+            ofnPayrollCSV.FileName = $"Nomina {dtpConsult.Value.ToString("MMMM-yyyy")}";
+            ofnPayrollCSV.ShowDialog();
 
-            if (ofnPayrollCSV.ShowDialog() == DialogResult.OK)
+            using (var writer = new StreamWriter(ofnPayrollCSV.FileName))
             {
-                var writer = new StreamWriter(ofnPayrollCSV.FileName);
-                var csvWriter = new CsvWriter(writer, CultureInfo.GetCultureInfo("es-MX"));
-
-                IEnumerable<PayrollViewModel> payrolls = dtgPayrolls.DataSource as IEnumerable<PayrollViewModel>;
-                if (payrolls == null)
+                using (var csvWriter = new CsvWriter(writer, CultureInfo.GetCultureInfo("es-MX")))
                 {
-                    RJMessageBox.Show("No se pudo generar el reporte", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                    IEnumerable<PayrollViewModel> payrolls = dtgPayrolls.DataSource as IEnumerable<PayrollViewModel>;
+                    if (payrolls == null)
+                    {
+                        RJMessageBox.Show("No se pudo generar el reporte", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    csvWriter.WriteRecords(payrolls);
+                    csvWriter.Dispose();
+                    writer.Close();
                 }
-
-                csvWriter.WriteRecords(payrolls);
-                csvWriter.Dispose();
-                writer.Close();
-
-                RJMessageBox.Show("El reporte se generó éxitosamente", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                System.Diagnostics.Process.Start(ofnPayrollCSV.FileName);
             }
+
+            RJMessageBox.Show("El reporte se generó éxitosamente", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            System.Diagnostics.Process.Start(ofnPayrollCSV.FileName);
         }
 
         private void ListPayrolls()

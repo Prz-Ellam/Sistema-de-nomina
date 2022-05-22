@@ -110,7 +110,7 @@ AS
 			CROSS JOIN departamentos AS d
 	WHERE
 			dbo.PRIMERDIAFECHA(d.fecha_creacion) <= dbo.PRIMERDIAFECHA(n.fecha) AND 
-			(d.fecha_eliminacion > dbo.PRIMERDIAFECHA(n.fecha) OR d.fecha_eliminacion IS NULL)
+			(dbo.PRIMERDIAFECHA(d.fecha_eliminacion) > dbo.PRIMERDIAFECHA(n.fecha) OR d.fecha_eliminacion IS NULL)
 GO
 
 
@@ -135,10 +135,10 @@ AS
 			CROSS JOIN puestos AS p
 	WHERE
 			dbo.PRIMERDIAFECHA(d.fecha_creacion) <= dbo.PRIMERDIAFECHA(n.fecha) AND 
-			(d.fecha_eliminacion > dbo.PRIMERDIAFECHA(n.fecha) OR d.fecha_eliminacion IS NULL) 
+			(dbo.PRIMERDIAFECHA(d.fecha_eliminacion) > dbo.PRIMERDIAFECHA(n.fecha) OR d.fecha_eliminacion IS NULL) 
 			AND
 			dbo.PRIMERDIAFECHA(p.fecha_creacion) <= dbo.PRIMERDIAFECHA(n.fecha) AND
-			(p.fecha_eliminacion > dbo.PRIMERDIAFECHA(n.fecha) OR p.fecha_eliminacion IS NULL)
+			(dbo.PRIMERDIAFECHA(p.fecha_eliminacion) > dbo.PRIMERDIAFECHA(n.fecha) OR p.fecha_eliminacion IS NULL)
 GO
 
 
@@ -184,7 +184,8 @@ AS
 			INNER JOIN puestos AS p
 			ON p.id_puesto = n.id_puesto
 	WHERE
-			d.activo = 1 AND p.activo = 1
+			d.activo = 1
+			AND p.activo = 1
 	GROUP BY
 			d.id_departamento, p.id_puesto, d.nombre, p.nombre, n.fecha
 GO
@@ -206,7 +207,8 @@ AS
 	FROM
 			departamentos AS d
 			LEFT JOIN empleados AS e
-			ON d.id_departamento = e.id_departamento AND e.activo = 1
+			ON d.id_departamento = e.id_departamento
+			AND e.activo = 1
 	WHERE
 			d.activo = 1
 	GROUP BY
@@ -233,9 +235,9 @@ AS
 			INNER JOIN puestos AS p
 			ON d.id_empresa = p.id_empresa
 			LEFT JOIN empleados AS e
-			ON d.id_departamento = e.id_departamento AND 
-			p.id_puesto = e.id_puesto AND
-			e.activo = 1
+			ON d.id_departamento = e.id_departamento 
+			AND p.id_puesto = e.id_puesto 
+			AND e.activo = 1
 	WHERE
 			d.activo = 1 AND p.activo = 1
 	GROUP BY
@@ -325,7 +327,7 @@ AS
 			nominas AS n
 			RIGHT JOIN vw_DepartamentosFechas AS d
 			ON n.id_departamento = d.id_departamento AND 
-			n.fecha = d.fecha
+			dbo.PRIMERDIAFECHA(n.fecha) = dbo.PRIMERDIAFECHA(d.fecha)
 	GROUP BY 
 			d.nombre, d.fecha;
 GO

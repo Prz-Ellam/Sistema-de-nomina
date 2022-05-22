@@ -115,6 +115,8 @@ namespace Data_Access.Entidades
         }
 
         [Required(ErrorMessage = "El número de cuenta es requerido")]
+        [MinLength(16, ErrorMessage = "El número de cuenta debe contener 16 caracteres")]
+        [RegularExpression("([0-9]+)", ErrorMessage = "El número de cuenta solo acepta dígitos")]
         public string NumeroCuenta
         {
             get => numeroCuenta;

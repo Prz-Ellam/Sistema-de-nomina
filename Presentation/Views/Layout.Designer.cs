@@ -32,6 +32,10 @@ namespace Presentation.Views
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Layout));
             this.titleBar = new System.Windows.Forms.Panel();
+            this.pbSmallIcon = new System.Windows.Forms.PictureBox();
+            this.lblTitleBar = new System.Windows.Forms.Label();
+            this.btnMinimized = new System.Windows.Forms.Button();
+            this.btnClose = new System.Windows.Forms.Button();
             this.panel = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.btnProfile = new System.Windows.Forms.Button();
@@ -65,14 +69,10 @@ namespace Presentation.Views
             this.btnConcepts = new System.Windows.Forms.Button();
             this.panelStorage = new System.Windows.Forms.Panel();
             this.fadeIn = new System.Windows.Forms.Timer(this.components);
-            this.btnClose = new System.Windows.Forms.Button();
-            this.btnMinimized = new System.Windows.Forms.Button();
-            this.pbSmallIcon = new System.Windows.Forms.PictureBox();
-            this.lblTitleBar = new System.Windows.Forms.Label();
             this.titleBar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbSmallIcon)).BeginInit();
             this.panel.SuspendLayout();
             this.panelSubmenuReports.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbSmallIcon)).BeginInit();
             this.SuspendLayout();
             // 
             // titleBar
@@ -87,6 +87,61 @@ namespace Presentation.Views
             this.titleBar.Name = "titleBar";
             this.titleBar.Size = new System.Drawing.Size(1280, 35);
             this.titleBar.TabIndex = 7;
+            // 
+            // pbSmallIcon
+            // 
+            this.pbSmallIcon.Image = global::Presentation.Properties.Resources.Logo;
+            this.pbSmallIcon.Location = new System.Drawing.Point(10, 5);
+            this.pbSmallIcon.Name = "pbSmallIcon";
+            this.pbSmallIcon.Size = new System.Drawing.Size(25, 25);
+            this.pbSmallIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbSmallIcon.TabIndex = 18;
+            this.pbSmallIcon.TabStop = false;
+            // 
+            // lblTitleBar
+            // 
+            this.lblTitleBar.AutoSize = true;
+            this.lblTitleBar.Font = new System.Drawing.Font("Microsoft YaHei", 10F);
+            this.lblTitleBar.ForeColor = System.Drawing.Color.White;
+            this.lblTitleBar.Location = new System.Drawing.Point(41, 8);
+            this.lblTitleBar.Name = "lblTitleBar";
+            this.lblTitleBar.Size = new System.Drawing.Size(138, 20);
+            this.lblTitleBar.TabIndex = 17;
+            this.lblTitleBar.Text = "Sistema de nómina";
+            // 
+            // btnMinimized
+            // 
+            this.btnMinimized.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnMinimized.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnMinimized.FlatAppearance.BorderSize = 0;
+            this.btnMinimized.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(79)))), ((int)(((byte)(95)))));
+            this.btnMinimized.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMinimized.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMinimized.ForeColor = System.Drawing.Color.White;
+            this.btnMinimized.Location = new System.Drawing.Point(1200, 0);
+            this.btnMinimized.Name = "btnMinimized";
+            this.btnMinimized.Size = new System.Drawing.Size(40, 35);
+            this.btnMinimized.TabIndex = 6;
+            this.btnMinimized.Text = "−";
+            this.btnMinimized.UseVisualStyleBackColor = false;
+            this.btnMinimized.Click += new System.EventHandler(this.btnMinimized_Click);
+            // 
+            // btnClose
+            // 
+            this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnClose.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnClose.FlatAppearance.BorderSize = 0;
+            this.btnClose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(79)))), ((int)(((byte)(95)))));
+            this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClose.ForeColor = System.Drawing.Color.White;
+            this.btnClose.Location = new System.Drawing.Point(1240, 0);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(40, 35);
+            this.btnClose.TabIndex = 5;
+            this.btnClose.Text = "X";
+            this.btnClose.UseVisualStyleBackColor = false;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // panel
             // 
@@ -300,12 +355,12 @@ namespace Presentation.Views
             // 
             this.lblEmailLogged.AutoSize = true;
             this.lblEmailLogged.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblEmailLogged.Font = new System.Drawing.Font("Microsoft YaHei", 10F);
+            this.lblEmailLogged.Font = new System.Drawing.Font("Microsoft YaHei", 9F);
             this.lblEmailLogged.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.lblEmailLogged.Location = new System.Drawing.Point(7, 64);
             this.lblEmailLogged.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblEmailLogged.Name = "lblEmailLogged";
-            this.lblEmailLogged.Size = new System.Drawing.Size(90, 20);
+            this.lblEmailLogged.Size = new System.Drawing.Size(79, 17);
             this.lblEmailLogged.TabIndex = 21;
             this.lblEmailLogged.Text = "@Username";
             // 
@@ -542,61 +597,6 @@ namespace Presentation.Views
             this.fadeIn.Enabled = true;
             this.fadeIn.Tick += new System.EventHandler(this.fadeIn_Tick);
             // 
-            // btnClose
-            // 
-            this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnClose.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnClose.FlatAppearance.BorderSize = 0;
-            this.btnClose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(79)))), ((int)(((byte)(95)))));
-            this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClose.ForeColor = System.Drawing.Color.White;
-            this.btnClose.Location = new System.Drawing.Point(1240, 0);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(40, 35);
-            this.btnClose.TabIndex = 5;
-            this.btnClose.Text = "X";
-            this.btnClose.UseVisualStyleBackColor = false;
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-            // 
-            // btnMinimized
-            // 
-            this.btnMinimized.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnMinimized.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnMinimized.FlatAppearance.BorderSize = 0;
-            this.btnMinimized.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(79)))), ((int)(((byte)(95)))));
-            this.btnMinimized.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnMinimized.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnMinimized.ForeColor = System.Drawing.Color.White;
-            this.btnMinimized.Location = new System.Drawing.Point(1200, 0);
-            this.btnMinimized.Name = "btnMinimized";
-            this.btnMinimized.Size = new System.Drawing.Size(40, 35);
-            this.btnMinimized.TabIndex = 6;
-            this.btnMinimized.Text = "−";
-            this.btnMinimized.UseVisualStyleBackColor = false;
-            this.btnMinimized.Click += new System.EventHandler(this.btnMinimized_Click);
-            // 
-            // pbSmallIcon
-            // 
-            this.pbSmallIcon.Image = global::Presentation.Properties.Resources.Logo;
-            this.pbSmallIcon.Location = new System.Drawing.Point(10, 5);
-            this.pbSmallIcon.Name = "pbSmallIcon";
-            this.pbSmallIcon.Size = new System.Drawing.Size(25, 25);
-            this.pbSmallIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbSmallIcon.TabIndex = 18;
-            this.pbSmallIcon.TabStop = false;
-            // 
-            // lblTitleBar
-            // 
-            this.lblTitleBar.AutoSize = true;
-            this.lblTitleBar.Font = new System.Drawing.Font("Microsoft YaHei", 10F);
-            this.lblTitleBar.ForeColor = System.Drawing.Color.White;
-            this.lblTitleBar.Location = new System.Drawing.Point(41, 8);
-            this.lblTitleBar.Name = "lblTitleBar";
-            this.lblTitleBar.Size = new System.Drawing.Size(138, 20);
-            this.lblTitleBar.TabIndex = 17;
-            this.lblTitleBar.Text = "Sistema de nómina";
-            // 
             // Layout
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -615,10 +615,10 @@ namespace Presentation.Views
             this.Load += new System.EventHandler(this.Layout_Load);
             this.titleBar.ResumeLayout(false);
             this.titleBar.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbSmallIcon)).EndInit();
             this.panel.ResumeLayout(false);
             this.panel.PerformLayout();
             this.panelSubmenuReports.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pbSmallIcon)).EndInit();
             this.ResumeLayout(false);
 
         }

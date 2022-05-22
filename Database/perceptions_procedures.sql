@@ -131,12 +131,13 @@ AS
 			nombre					[Nombre],
 			tipo_monto				[Tipo de monto], 
 			ISNULL(fijo, 0)			[Fijo], 
-			ISNULL(porcentual, 0)	[Porcentual]
+			ISNULL(porcentual, 0)	[Porcentual],
+			tipo_duracion			[Tipo de duración]
 	FROM 
 			percepciones
 	WHERE 
 			activo = 1 AND
-			--tipo_duracion = 'S' AND
+			tipo_duracion = 'S' AND
 			id_empresa = @id_empresa AND
 			nombre LIKE CONCAT('%', @filtro, '%');
 

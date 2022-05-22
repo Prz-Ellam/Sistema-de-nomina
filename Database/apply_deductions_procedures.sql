@@ -158,7 +158,7 @@ AS
 		WHERE 
 				d.tipo_duracion = 'S' AND 
 				dbo.PRIMERDIAFECHA(d.fecha_creacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
-				(d.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR d.fecha_eliminacion IS NULL);
+				(dbo.PRIMERDIAFECHA(d.fecha_eliminacion) > dbo.PRIMERDIAFECHA(@fecha) OR d.fecha_eliminacion IS NULL);
 	ELSE IF @filtro = 2
 		SELECT 
 				IIF(da.id_deduccion_aplicada IS NULL, 'false', 'true') AS [Aplicada], 
@@ -177,7 +177,7 @@ AS
 				IIF(da.id_deduccion_aplicada IS NULL, 'false', 'true') = 'true' AND
 				d.tipo_duracion = 'S' AND 
 				dbo.PRIMERDIAFECHA(d.fecha_creacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
-				(d.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR d.fecha_eliminacion IS NULL);
+				(dbo.PRIMERDIAFECHA(d.fecha_eliminacion) > dbo.PRIMERDIAFECHA(@fecha) OR d.fecha_eliminacion IS NULL);
 	ELSE IF @filtro = 3
 		SELECT
 				IIF(da.id_deduccion_aplicada IS NULL, 'false', 'true') AS [Aplicada], 
@@ -196,7 +196,7 @@ AS
 				IIF(da.id_deduccion_aplicada IS NULL, 'false', 'true') = 'false' AND
 				d.tipo_duracion = 'S' AND 
 				dbo.PRIMERDIAFECHA(d.fecha_creacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
-				(d.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR d.fecha_eliminacion IS NULL);
+				(dbo.PRIMERDIAFECHA(d.fecha_eliminacion) > dbo.PRIMERDIAFECHA(@fecha) OR d.fecha_eliminacion IS NULL);
 	ELSE 
 		RAISERROR('Filtro inválido', 11, 1);
 
@@ -230,12 +230,12 @@ AS
 				INNER JOIN deducciones AS d
 				ON ddf.id_deduccion = d.id_deduccion
 				INNER JOIN vw_Headcounter2 AS hc
-				ON ddf.id_departamento = hc.[ID Departamento] AND ddf.fecha = hc.[Fecha]
+				ON ddf.id_departamento = hc.[ID Departamento] AND dbo.PRIMERDIAFECHA(ddf.fecha) = dbo.PRIMERDIAFECHA(hc.[Fecha])
 		WHERE
 				ddf.fecha = @fecha AND
 				ddf.id_departamento = @id_departamento AND
 				dbo.PRIMERDIAFECHA(d.fecha_creacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
-				(d.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR d.fecha_eliminacion IS NULL)
+				(dbo.PRIMERDIAFECHA(d.fecha_eliminacion) > dbo.PRIMERDIAFECHA(@fecha) OR d.fecha_eliminacion IS NULL)
 
 	ELSE IF @filtro = 2
 
@@ -252,12 +252,12 @@ AS
 				INNER JOIN deducciones AS d
 				ON ddf.id_deduccion = d.id_deduccion
 				INNER JOIN vw_Headcounter2 AS hc
-				ON ddf.id_departamento = hc.[ID Departamento] AND ddf.fecha = hc.[Fecha]
+				ON ddf.id_departamento = hc.[ID Departamento] AND dbo.PRIMERDIAFECHA(ddf.fecha) = dbo.PRIMERDIAFECHA(hc.[Fecha])
 		WHERE
 				ddf.fecha = @fecha AND
 				ddf.id_departamento = @id_departamento AND
 				dbo.PRIMERDIAFECHA(d.fecha_creacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
-				(d.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR d.fecha_eliminacion IS NULL) AND
+				(dbo.PRIMERDIAFECHA(d.fecha_eliminacion) > dbo.PRIMERDIAFECHA(@fecha) OR d.fecha_eliminacion IS NULL) AND
 				IIF(ISNULL(dda.[Cantidad empleados], 0) >= hc.[Cantidad] AND ISNULL(dda.[Cantidad empleados], 0) <> 0, 'true', 'false') = 'true';
 
 	ELSE IF @filtro = 3
@@ -275,12 +275,12 @@ AS
 				INNER JOIN deducciones AS d
 				ON ddf.id_deduccion = d.id_deduccion
 				INNER JOIN vw_Headcounter2 AS hc
-				ON ddf.id_departamento = hc.[ID Departamento] AND ddf.fecha = hc.[Fecha]
+				ON ddf.id_departamento = hc.[ID Departamento] AND dbo.PRIMERDIAFECHA(ddf.fecha) = dbo.PRIMERDIAFECHA(hc.[Fecha])
 		WHERE
 				ddf.fecha = @fecha AND
 				ddf.id_departamento = @id_departamento AND
 				dbo.PRIMERDIAFECHA(d.fecha_creacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
-				(d.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR d.fecha_eliminacion IS NULL) AND
+				(dbo.PRIMERDIAFECHA(d.fecha_eliminacion) > dbo.PRIMERDIAFECHA(@fecha) OR d.fecha_eliminacion IS NULL) AND
 				IIF(ISNULL(dda.[Cantidad empleados], 0) >= hc.[Cantidad] AND ISNULL(dda.[Cantidad empleados], 0) <> 0, 'true', 'false') = 'false';
 
 	ELSE

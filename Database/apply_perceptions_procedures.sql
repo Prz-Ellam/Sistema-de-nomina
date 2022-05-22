@@ -160,7 +160,7 @@ AS
 		WHERE 
 				p.tipo_duracion = 'S' AND 
 				dbo.PRIMERDIAFECHA(p.fecha_creacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
-				(p.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR p.fecha_eliminacion IS NULL);
+				(dbo.PRIMERDIAFECHA(p.fecha_eliminacion) > dbo.PRIMERDIAFECHA(@fecha) OR p.fecha_eliminacion IS NULL);
 	ELSE IF @filtro = 2
 		SELECT 
 				IIF(pa.id_percepcion_aplicada IS NULL, 'false', 'true') AS [Aplicada], 
@@ -179,7 +179,7 @@ AS
 				IIF(pa.id_percepcion_aplicada IS NULL, 'false', 'true') = 'true' AND 
 				p.tipo_duracion = 'S' AND 
 				dbo.PRIMERDIAFECHA(p.fecha_creacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
-				(p.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR p.fecha_eliminacion IS NULL);
+				(dbo.PRIMERDIAFECHA(p.fecha_eliminacion) >= dbo.PRIMERDIAFECHA(@fecha) OR p.fecha_eliminacion IS NULL);
 	ELSE IF @filtro = 3
 		SELECT 
 				IIF(pa.id_percepcion_aplicada IS NULL, 'false', 'true') AS [Aplicada], 
@@ -198,7 +198,7 @@ AS
 				IIF(pa.id_percepcion_aplicada IS NULL, 'false', 'true') = 'false' AND 
 				p.tipo_duracion = 'S' AND 
 				dbo.PRIMERDIAFECHA(p.fecha_creacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
-				(p.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR p.fecha_eliminacion IS NULL);
+				(dbo.PRIMERDIAFECHA(p.fecha_eliminacion) >= dbo.PRIMERDIAFECHA(@fecha) OR p.fecha_eliminacion IS NULL);
 	ELSE 
 		RAISERROR('Filtro inválido', 11, 1);
 
@@ -232,12 +232,12 @@ AS
 				INNER JOIN percepciones AS p
 				ON dpf.id_percepcion = p.id_percepcion
 				INNER JOIN vw_Headcounter2 AS hc
-				ON dpf.id_departamento = hc.[ID Departamento] AND dpf.fecha = hc.[Fecha]
+				ON dpf.id_departamento = hc.[ID Departamento] AND dbo.PRIMERDIAFECHA(dpf.fecha) = dbo.PRIMERDIAFECHA(hc.[Fecha])
 		WHERE
-				dpf.fecha = @fecha AND
+				dbo.PRIMERDIAFECHA(dpf.fecha) = dbo.PRIMERDIAFECHA(@fecha) AND
 				dpf.id_departamento = @id_departamento AND
 				dbo.PRIMERDIAFECHA(p.fecha_creacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
-				(p.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR p.fecha_eliminacion IS NULL)
+				(dbo.PRIMERDIAFECHA(p.fecha_eliminacion) > dbo.PRIMERDIAFECHA(@fecha) OR p.fecha_eliminacion IS NULL)
 
 	ELSE IF @filtro = 2
 
@@ -254,12 +254,12 @@ AS
 				INNER JOIN percepciones AS p
 				ON dpf.id_percepcion = p.id_percepcion
 				INNER JOIN vw_Headcounter2 AS hc
-				ON dpf.id_departamento = hc.[ID Departamento] AND dpf.fecha = hc.[Fecha]
+				ON dpf.id_departamento = hc.[ID Departamento] AND dbo.PRIMERDIAFECHA(dpf.fecha) = dbo.PRIMERDIAFECHA(hc.[Fecha])
 		WHERE
-				dpf.fecha = @fecha AND
+				dbo.PRIMERDIAFECHA(dpf.fecha) = dbo.PRIMERDIAFECHA(@fecha) AND
 				dpf.id_departamento = @id_departamento AND
 				dbo.PRIMERDIAFECHA(p.fecha_creacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
-				(p.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR p.fecha_eliminacion IS NULL) AND
+				(dbo.PRIMERDIAFECHA(p.fecha_eliminacion) > dbo.PRIMERDIAFECHA(@fecha) OR p.fecha_eliminacion IS NULL) AND
 				IIF(ISNULL(dpa.[Cantidad empleados], 0) >= hc.[Cantidad] AND ISNULL(dpa.[Cantidad empleados], 0) <> 0, 'true', 'false') = 'true'
 
 	ELSE IF @filtro = 3
@@ -277,12 +277,12 @@ AS
 				INNER JOIN percepciones AS p
 				ON dpf.id_percepcion = p.id_percepcion
 				INNER JOIN vw_Headcounter2 AS hc
-				ON dpf.id_departamento = hc.[ID Departamento] AND dpf.fecha = hc.[Fecha]
+				ON dpf.id_departamento = hc.[ID Departamento] AND dbo.PRIMERDIAFECHA(dpf.fecha) = dbo.PRIMERDIAFECHA(hc.[Fecha])
 		WHERE
-				dpf.fecha = @fecha AND
+				dbo.PRIMERDIAFECHA(dpf.fecha) = dbo.PRIMERDIAFECHA(@fecha) AND
 				dpf.id_departamento = @id_departamento AND
 				dbo.PRIMERDIAFECHA(p.fecha_creacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
-				(p.fecha_eliminacion > dbo.PRIMERDIAFECHA(@fecha) OR p.fecha_eliminacion IS NULL) AND
+				(dbo.PRIMERDIAFECHA(p.fecha_eliminacion) > dbo.PRIMERDIAFECHA(@fecha) OR p.fecha_eliminacion IS NULL) AND
 				IIF(ISNULL(dpa.[Cantidad empleados], 0) >= hc.[Cantidad] AND ISNULL(dpa.[Cantidad empleados], 0) <> 0, 'true', 'false') = 'false'
 
 	ELSE

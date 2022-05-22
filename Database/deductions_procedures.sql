@@ -131,7 +131,8 @@ AS
 			nombre					[Nombre],
 			tipo_monto				[Tipo de monto], 
 			ISNULL(fijo, 0)			[Fijo], 
-			ISNULL(porcentual, 0)	[Porcentual]
+			ISNULL(porcentual, 0)	[Porcentual],
+			tipo_duracion			[Tipo de duración]
 	FROM 
 			deducciones
 	WHERE 

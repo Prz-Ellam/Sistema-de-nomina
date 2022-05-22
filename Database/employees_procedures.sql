@@ -36,7 +36,7 @@ AS
 		DECLARE @status_nomina BIT = dbo.NOMINAENPROCESO((SELECT id_empresa FROM departamentos WHERE id_departamento = @id_departamento));
 		IF @status_nomina = 1
 			BEGIN
-				RAISERROR('No se puede añadir el puesto debido a que hay una nómina en proceso', 11, 1);
+				RAISERROR('No se puede añadir el empleado debido a que hay una nómina en proceso', 11, 1);
 				RETURN;
 			END
 
@@ -156,7 +156,7 @@ AS
 		DECLARE @status_nomina BIT = dbo.NOMINAENPROCESO((SELECT id_empresa FROM departamentos WHERE id_departamento = @id_departamento));
 		IF @status_nomina = 1
 			BEGIN
-				RAISERROR('No se puede añadir el puesto debido a que hay una nómina en proceso', 11, 1);
+				RAISERROR('No se puede editar el empleado debido a que hay una nómina en proceso', 11, 1);
 				RETURN;
 			END
 
@@ -245,7 +245,7 @@ AS
 	DECLARE @status_nomina BIT = dbo.NOMINAENPROCESO(@id_empresa);
 	IF @status_nomina = 1
 		BEGIN
-			RAISERROR('No se puede añadir el puesto debido a que hay una nómina en proceso', 11, 1);
+			RAISERROR('No se puede eliminar el empleado debido a que hay una nómina en proceso', 11, 1);
 			RETURN;
 		END
 

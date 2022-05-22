@@ -35,14 +35,16 @@ namespace Presentation.Views
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dtgPayrollReport = new System.Windows.Forms.DataGridView();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.dtpYear = new System.Windows.Forms.DateTimePicker();
+            this.btnCSV = new System.Windows.Forms.Button();
+            this.ofnPayrollCSV = new System.Windows.Forms.SaveFileDialog();
             this.departamento = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.anio = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mes = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sueldoBruto = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sueldoNeto = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.dtpYear = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.dtgPayrollReport)).BeginInit();
             this.SuspendLayout();
             // 
@@ -89,51 +91,8 @@ namespace Presentation.Views
             dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dtgPayrollReport.RowHeadersDefaultCellStyle = dataGridViewCellStyle5;
-            this.dtgPayrollReport.Size = new System.Drawing.Size(1017, 454);
+            this.dtgPayrollReport.Size = new System.Drawing.Size(1017, 377);
             this.dtgPayrollReport.TabIndex = 0;
-            // 
-            // departamento
-            // 
-            this.departamento.DataPropertyName = "departamento";
-            this.departamento.HeaderText = "Departamento";
-            this.departamento.Name = "departamento";
-            this.departamento.ReadOnly = true;
-            this.departamento.Width = 275;
-            // 
-            // anio
-            // 
-            this.anio.DataPropertyName = "anio";
-            this.anio.HeaderText = "Año";
-            this.anio.Name = "anio";
-            this.anio.ReadOnly = true;
-            // 
-            // mes
-            // 
-            this.mes.DataPropertyName = "mes";
-            this.mes.HeaderText = "Mes";
-            this.mes.Name = "mes";
-            this.mes.ReadOnly = true;
-            this.mes.Width = 150;
-            // 
-            // sueldoBruto
-            // 
-            this.sueldoBruto.DataPropertyName = "sueldoBruto";
-            dataGridViewCellStyle2.Format = "c";
-            this.sueldoBruto.DefaultCellStyle = dataGridViewCellStyle2;
-            this.sueldoBruto.HeaderText = " ∑ Sueldo bruto";
-            this.sueldoBruto.Name = "sueldoBruto";
-            this.sueldoBruto.ReadOnly = true;
-            this.sueldoBruto.Width = 225;
-            // 
-            // sueldoNeto
-            // 
-            this.sueldoNeto.DataPropertyName = "sueldoNeto";
-            dataGridViewCellStyle3.Format = "c";
-            this.sueldoNeto.DefaultCellStyle = dataGridViewCellStyle3;
-            this.sueldoNeto.HeaderText = " ∑ Sueldo neto";
-            this.sueldoNeto.Name = "sueldoNeto";
-            this.sueldoNeto.ReadOnly = true;
-            this.sueldoNeto.Width = 225;
             // 
             // label1
             // 
@@ -170,12 +129,78 @@ namespace Presentation.Views
             this.dtpYear.TabIndex = 9;
             this.dtpYear.ValueChanged += new System.EventHandler(this.dtpYear_ValueChanged);
             // 
+            // btnCSV
+            // 
+            this.btnCSV.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            this.btnCSV.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCSV.FlatAppearance.BorderSize = 0;
+            this.btnCSV.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCSV.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.btnCSV.ForeColor = System.Drawing.Color.White;
+            this.btnCSV.Image = global::Presentation.Properties.Resources.CSV_Logo;
+            this.btnCSV.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnCSV.Location = new System.Drawing.Point(813, 565);
+            this.btnCSV.Name = "btnCSV";
+            this.btnCSV.Size = new System.Drawing.Size(224, 81);
+            this.btnCSV.TabIndex = 12;
+            this.btnCSV.Text = "       Generar CSV";
+            this.btnCSV.UseVisualStyleBackColor = false;
+            this.btnCSV.Click += new System.EventHandler(this.btnCSV_Click);
+            // 
+            // ofnPayrollCSV
+            // 
+            this.ofnPayrollCSV.Filter = "CSV (*.csv)|.csv";
+            // 
+            // departamento
+            // 
+            this.departamento.DataPropertyName = "department";
+            this.departamento.HeaderText = "Departamento";
+            this.departamento.Name = "departamento";
+            this.departamento.ReadOnly = true;
+            this.departamento.Width = 275;
+            // 
+            // anio
+            // 
+            this.anio.DataPropertyName = "year";
+            this.anio.HeaderText = "Año";
+            this.anio.Name = "anio";
+            this.anio.ReadOnly = true;
+            // 
+            // mes
+            // 
+            this.mes.DataPropertyName = "month";
+            this.mes.HeaderText = "Mes";
+            this.mes.Name = "mes";
+            this.mes.ReadOnly = true;
+            this.mes.Width = 150;
+            // 
+            // sueldoBruto
+            // 
+            this.sueldoBruto.DataPropertyName = "grossSalary";
+            dataGridViewCellStyle2.Format = "c";
+            this.sueldoBruto.DefaultCellStyle = dataGridViewCellStyle2;
+            this.sueldoBruto.HeaderText = " ∑ Sueldo bruto";
+            this.sueldoBruto.Name = "sueldoBruto";
+            this.sueldoBruto.ReadOnly = true;
+            this.sueldoBruto.Width = 225;
+            // 
+            // sueldoNeto
+            // 
+            this.sueldoNeto.DataPropertyName = "netSalary";
+            dataGridViewCellStyle3.Format = "c";
+            this.sueldoNeto.DefaultCellStyle = dataGridViewCellStyle3;
+            this.sueldoNeto.HeaderText = " ∑ Sueldo neto";
+            this.sueldoNeto.Name = "sueldoNeto";
+            this.sueldoNeto.ReadOnly = true;
+            this.sueldoNeto.Width = 225;
+            // 
             // PayrollReports
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(1064, 670);
+            this.Controls.Add(this.btnCSV);
             this.Controls.Add(this.dtpYear);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -196,6 +221,8 @@ namespace Presentation.Views
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DateTimePicker dtpYear;
+        private System.Windows.Forms.Button btnCSV;
+        private System.Windows.Forms.SaveFileDialog ofnPayrollCSV;
         private System.Windows.Forms.DataGridViewTextBoxColumn departamento;
         private System.Windows.Forms.DataGridViewTextBoxColumn anio;
         private System.Windows.Forms.DataGridViewTextBoxColumn mes;
