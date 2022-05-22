@@ -37,7 +37,7 @@ namespace Data_Access.Entidades
             set => baseSalary = value; 
         }
 
-        [Required]
+        [Required(ErrorMessage = "El departamento debe pertenecer a una empresa")]
         public int CompanyId 
         { 
             get => companyId;

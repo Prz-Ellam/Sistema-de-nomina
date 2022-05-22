@@ -161,12 +161,12 @@ AS
 
 	DECLARE @fecha		DATE;
 
-	IF EXISTS (SELECT id_nomina FROM nominas)
-		SET @fecha = (SELECT DISTINCT TOP 1 DATEADD(MONTH, 1, DATEFROMPARTS(YEAR(fecha), MONTH(fecha), 1)) [Fecha]
+	IF EXISTS (SELECT id_nomina FROM nominas AS n INNER JOIN departamentos AS d ON n.id_departamento = d.id_departamento WHERE d.id_empresa = @id_empresa)
+		SET @fecha = (SELECT DISTINCT TOP 1 DATEADD(MONTH, 1, dbo.PRIMERDIAFECHA(fecha)) [Fecha]
 		FROM nominas AS n
-		JOIN empleados AS e
+		INNER JOIN empleados AS e
 		ON n.numero_empleado = e.numero_empleado
-		JOIN departamentos AS d
+		INNER JOIN departamentos AS d
 		ON d.id_departamento = e.id_departamento
 		WHERE d.id_empresa = @id_empresa
 		ORDER BY [Fecha] DESC);

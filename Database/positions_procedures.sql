@@ -1,6 +1,5 @@
 USE sistema_de_nomina;
 
--- Puestos
 IF EXISTS (SELECT name FROM sysobjects WHERE type = 'P' AND name = 'sp_AgregarPuesto')
 	DROP PROCEDURE sp_AgregarPuesto;
 GO
@@ -67,8 +66,8 @@ AS
 			nombre				= ISNULL(@nombre, nombre),
 			nivel_salarial		= ISNULL(@nivel_salarial, nivel_salarial)
 	WHERE 
-			id_puesto = @id_puesto AND
-			activo = 1;
+			id_puesto = @id_puesto
+			AND activo = 1;
 
 GO
 
@@ -105,8 +104,8 @@ AS
 			fecha_eliminacion = dbo.OBTENERFECHAACTUAL(id_empresa),
 			id_eliminado = NEWID()
 	WHERE
-			id_puesto = @id_puesto AND 
-			activo = 1;
+			id_puesto = @id_puesto 
+			AND activo = 1;
 
 GO
 
@@ -129,9 +128,9 @@ AS
 	FROM 
 			puestos
 	WHERE 
-			id_empresa = @id_empresa AND 
-			activo = 1 AND
-			nombre LIKE CONCAT('%', @filtro, '%');
+			id_empresa = @id_empresa 
+			AND activo = 1
+			AND nombre LIKE CONCAT('%', @filtro, '%');
 
 GO
 

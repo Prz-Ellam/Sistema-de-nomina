@@ -28,16 +28,16 @@ AS
 			e.numero_empleado,
 			d.id_deduccion,
 			@fecha,
-			IIF(d.tipo_monto = 'F', d.fijo, d.porcentual * e.sueldo_diario * dbo.DIASTRABAJADOSEMPLEADO(@fecha, e.numero_empleado))
+			sueldo_diario * dbo.DIASTRABAJADOSEMPLEADO(@fecha, numero_empleado) * d.porcentual + d.fijo
 	FROM
 			empleados AS e
 			INNER JOIN deducciones AS d
 			ON d.id_deduccion = @id_deduccion
 	WHERE
-			d.id_deduccion = @id_deduccion AND
-			e.numero_empleado = @numero_empleado AND
-			e.activo = 1 AND
-			d.activo = 1;
+			d.id_deduccion = @id_deduccion
+			AND e.numero_empleado = @numero_empleado
+			AND e.activo = 1
+			AND d.activo = 1;
 
 GO
 
@@ -64,15 +64,15 @@ AS
 			e.numero_empleado,
 			@id_deduccion,
 			@fecha,
-			sueldo_diario * dbo.DIASTRABAJADOSEMPLEADO(@fecha, numero_empleado) * p.porcentual + p.fijo
+			sueldo_diario * dbo.DIASTRABAJADOSEMPLEADO(@fecha, numero_empleado) * d.porcentual + d.fijo
 	FROM 
 			empleados AS e
-			INNER JOIN deducciones AS p
-			ON p.id_deduccion = @id_deduccion
+			INNER JOIN deducciones AS d
+			ON d.id_deduccion = @id_deduccion
 	WHERE
-			e.id_departamento = @id_departamento AND 
-			e.activo = 1 AND
-			(SELECT COUNT(0) FROM deducciones_aplicadas 
+			e.id_departamento = @id_departamento
+			AND e.activo = 1
+			AND (SELECT COUNT(0) FROM deducciones_aplicadas 
 			WHERE numero_empleado = e.numero_empleado AND id_deduccion = @id_deduccion AND fecha = @fecha) = 0;
 
 GO
@@ -93,9 +93,9 @@ AS
 	DELETE FROM 
 			deducciones_aplicadas
 	WHERE 
-			numero_empleado = @numero_empleado AND 
-			id_deduccion = @id_deduccion AND 
-			dbo.PRIMERDIAFECHA(fecha) = dbo.PRIMERDIAFECHA(@fecha);
+			numero_empleado = @numero_empleado
+			AND id_deduccion = @id_deduccion
+			AND dbo.PRIMERDIAFECHA(fecha) = dbo.PRIMERDIAFECHA(@fecha);
 
 GO
 
@@ -119,9 +119,9 @@ AS
 			INNER JOIN empleados AS e
 			ON da.numero_empleado = e.numero_empleado
 	WHERE 
-			e.id_departamento = @id_departamento AND 
-			da.id_deduccion = @id_percepcion AND 
-			dbo.PRIMERDIAFECHA(da.fecha) = dbo.PRIMERDIAFECHA(@fecha);
+			e.id_departamento = @id_departamento
+			AND da.id_deduccion = @id_percepcion
+			AND dbo.PRIMERDIAFECHA(da.fecha) = dbo.PRIMERDIAFECHA(@fecha);
 
 GO
 
@@ -216,7 +216,6 @@ CREATE PROCEDURE sp_LeerDepartamentosDeduccionesAplicadas(
 AS
 
 	IF @filtro = 1
-
 		SELECT 
 				IIF(ISNULL(dda.[Cantidad empleados], 0) >= hc.[Cantidad] AND ISNULL(dda.[Cantidad empleados], 0) <> 0, 'true', 'false') [Aplicada],
 				ddf.id_deduccion,
@@ -236,9 +235,7 @@ AS
 				ddf.id_departamento = @id_departamento AND
 				dbo.PRIMERDIAFECHA(d.fecha_creacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
 				(dbo.PRIMERDIAFECHA(d.fecha_eliminacion) > dbo.PRIMERDIAFECHA(@fecha) OR d.fecha_eliminacion IS NULL)
-
 	ELSE IF @filtro = 2
-
 		SELECT 
 				IIF(ISNULL(dda.[Cantidad empleados], 0) >= hc.[Cantidad] AND ISNULL(dda.[Cantidad empleados], 0) <> 0, 'true', 'false') [Aplicada],
 				ddf.id_deduccion,
@@ -259,9 +256,7 @@ AS
 				dbo.PRIMERDIAFECHA(d.fecha_creacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
 				(dbo.PRIMERDIAFECHA(d.fecha_eliminacion) > dbo.PRIMERDIAFECHA(@fecha) OR d.fecha_eliminacion IS NULL) AND
 				IIF(ISNULL(dda.[Cantidad empleados], 0) >= hc.[Cantidad] AND ISNULL(dda.[Cantidad empleados], 0) <> 0, 'true', 'false') = 'true';
-
 	ELSE IF @filtro = 3
-
 		SELECT 
 				IIF(ISNULL(dda.[Cantidad empleados], 0) >= hc.[Cantidad] AND ISNULL(dda.[Cantidad empleados], 0) <> 0, 'true', 'false') [Aplicada],
 				ddf.id_deduccion,
@@ -282,7 +277,6 @@ AS
 				dbo.PRIMERDIAFECHA(d.fecha_creacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
 				(dbo.PRIMERDIAFECHA(d.fecha_eliminacion) > dbo.PRIMERDIAFECHA(@fecha) OR d.fecha_eliminacion IS NULL) AND
 				IIF(ISNULL(dda.[Cantidad empleados], 0) >= hc.[Cantidad] AND ISNULL(dda.[Cantidad empleados], 0) <> 0, 'true', 'false') = 'false';
-
 	ELSE
 		RAISERROR('Filtro inválido', 11, 1);
 GO

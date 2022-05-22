@@ -126,41 +126,77 @@ namespace Data_Access.Entidades
         [Required(ErrorMessage = "El correo electrónico del empleado es requerido")]
         [RegularExpression(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$", ErrorMessage = "El correo electrónico que ingresó no es válido")]
         [MaxLength(60, ErrorMessage = "El correo electrónico es demasiado largo")]
-        public string CorreoElectronico { get => correoElectronico; set => correoElectronico = value; }
+        public string CorreoElectronico
+        {
+            get => correoElectronico;
+            set => correoElectronico = value;
+        }
 
         [Required(ErrorMessage = "La contraseña del empleado es requerida")]
-        public string Contrasena { get => contrasena; set => contrasena = value; }
+        public string Contrasena
+        {
+            get => contrasena;
+            set => contrasena = value;
+        }
 
         public decimal SueldoDiario { get => sueldoDiario; set => sueldoDiario = value; }
         [Required]
         public DateTime FechaContratacion { get => fechaContratacion; set => fechaContratacion = value; }
         public bool Activo { get => activo; set => activo = value; }
+
         [Required]
         [Range(0, int.MaxValue, ErrorMessage = "El departamento del empleado no es válido")]
         public int IdDepartamento { get => idDepartamento; set => idDepartamento = value; }
+
         [Required]
         [Range(0, int.MaxValue, ErrorMessage = "El puesto del empleado no es válido")]
         public int IdPuesto { get => idPuesto; set => idPuesto = value; }
-        [Required]
+
+        [Required(ErrorMessage = "La calle del empleado es requerida")]
         [RegularExpression(@"^[a-zA-Z0-9 \u00C0-\u00FF]+$", ErrorMessage = "La calle solo puede contener letras, números y espacios")]
-        public string Calle { get => calle; set => calle = value; }
-        [Required]
+        public string Calle
+        {
+            get => calle;
+            set => calle = value;
+        }
+
+        [Required(ErrorMessage = "El número del domicilio del empleado es requerido")]
         [RegularExpression(@"^[0-9]+$", ErrorMessage = "El número solo puede contener números")]
-        public string Numero { get => numero; set => numero = value; }
-        [Required]
+        public string Numero
+        {
+            get => numero;
+            set => numero = value;
+        }
+
+        [Required(ErrorMessage = "La colonia del empleado es requerida")]
         [RegularExpression(@"^[a-zA-Z0-9 \u00C0-\u00FF]+$", ErrorMessage = "La colonia solo puede contener letras, números y espacios")]
-        public string Colonia { get => colonia; set => colonia = value; }
-        [Required]
-        [Blacklist("Seleccionar")]
-        [RegularExpression(@"^[a-zA-Z0-9 \u00C0-\u00FF]+$", ErrorMessage = "La ciudad solo puede contener letras, números y espacios")]
-        public string Ciudad { get => ciudad; set => ciudad = value; }
-        [Required]
-        [Blacklist("Seleccionar")]
+        public string Colonia
+        {
+            get => colonia;
+            set => colonia = value;
+        }
+
+        [Required(ErrorMessage = "El municipio del empleado es requerido")]
+        [Blacklist("Seleccionar", ErrorMessage = "El municipio del empleado no es válido")]
+        [RegularExpression(@"^[a-zA-Z0-9 \u00C0-\u00FF]+$", ErrorMessage = "El municipio solo puede contener letras, números y espacios")]
+        public string Ciudad
+        {
+            get => ciudad;
+            set => ciudad = value;
+        }
+
+        [Required(ErrorMessage = "El estado del empleado es requerido")]
+        [Blacklist("Seleccionar", ErrorMessage = "El estado del empleado no es válido")]
         [RegularExpression(@"^[a-zA-Z0-9 \u00C0-\u00FF]+$", ErrorMessage = "El estado solo puede contener letras, números y espacios")]
         public string Estado { get => estado; set => estado = value; }
-        [Required]
+
+        [Required(ErrorMessage = "El código postal del empleado es requerido")]
         [RegularExpression(@"^\d{4,5}$", ErrorMessage = "El codigo postal no es válido")]
-        public string CodigoPostal { get => codigoPostal; set => codigoPostal = value; }
+        public string CodigoPostal
+        {
+            get => codigoPostal;
+            set => codigoPostal = value;
+        }
         //[Required]
         //[RegularExpression(@"^\d{10}$", ErrorMessage = "El teléfono no es válido")]
         [PhoneList(ErrorMessage = "Los teléfonos no son válidos")]

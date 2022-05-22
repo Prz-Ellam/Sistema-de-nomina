@@ -134,16 +134,16 @@ AS
 
 
 	UPDATE 
-		deducciones_aplicadas
+			deducciones_aplicadas
 	SET
-		id_nomina = n.id_nomina
+			id_nomina = n.id_nomina
 	FROM
-		deducciones_aplicadas AS da
-		INNER JOIN inserted AS n
-		ON dbo.PRIMERDIAFECHA(da.fecha) = dbo.PRIMERDIAFECHA(n.fecha)
-		AND da.numero_empleado = n.numero_empleado
+			deducciones_aplicadas AS da
+			INNER JOIN inserted AS n
+			ON dbo.PRIMERDIAFECHA(da.fecha) = dbo.PRIMERDIAFECHA(n.fecha)
+			AND da.numero_empleado = n.numero_empleado
 	WHERE
-		dbo.PRIMERDIAFECHA(da.fecha) = dbo.PRIMERDIAFECHA(n.fecha);
+			dbo.PRIMERDIAFECHA(da.fecha) = dbo.PRIMERDIAFECHA(n.fecha);
 		
 GO
 

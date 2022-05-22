@@ -306,6 +306,19 @@ CREATE TABLE bancos(
 
 
 
+IF EXISTS (SELECT name FROM sys.types WHERE is_table_type = 1 AND name ='Telefonos') 
+	DROP TYPE dbo.Telefonos;
+GO
+
+CREATE TYPE dbo.Telefonos
+AS TABLE
+(
+	row_count			INT,
+	telefono			VARCHAR(12)
+);
+
+
+
 -- Llaves foraneas
 ALTER TABLE empresas
 	ADD CONSTRAINT fk_empresa_domicilio

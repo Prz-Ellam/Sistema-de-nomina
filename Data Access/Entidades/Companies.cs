@@ -95,7 +95,7 @@ namespace Data_Access.Entidades
             set => street = value;
         }
        
-        [Required(ErrorMessage = "El número de la empresa es requerida")]
+        [Required(ErrorMessage = "El número del domicilio de la empresa es requerida")]
         [RegularExpression(@"^[0-9]+$", ErrorMessage = "El número solo puede contener números")]
         public string Number
         {
@@ -111,8 +111,8 @@ namespace Data_Access.Entidades
             set => suburb = value;
         }
         
-        [Required(ErrorMessage = "La ciudad de la empresa es requerida")]
-        [Blacklist("Seleccionar", ErrorMessage = "La ciudad de la empresa no es válida")]
+        [Required(ErrorMessage = "El municipio de la empresa es requerida")]
+        [Blacklist("Seleccionar", ErrorMessage = "El municipio de la empresa no es válido")]
         [RegularExpression(@"^[a-zA-Z0-9 \u00C0-\u00FF]+$", ErrorMessage = "La ciudad solo puede contener letras, números y espacios")]
         public string City
         {

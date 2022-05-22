@@ -95,7 +95,7 @@ AS
 
 	SELECT
 			[Departamento],
-			CAST([Año] AS VARCHAR),
+			CAST([Año] AS VARCHAR) [Año],
 			[Mes],
 			[Sueldo bruto],
 			[Sueldo neto]

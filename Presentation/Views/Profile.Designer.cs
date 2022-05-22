@@ -29,6 +29,7 @@ namespace Presentation.Views
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.cbCity = new System.Windows.Forms.ComboBox();
             this.cbState = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -82,9 +83,12 @@ namespace Presentation.Views
             this.label21 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.dtpHiringDate = new System.Windows.Forms.DateTimePicker();
+            this.helpInfo = new System.Windows.Forms.ToolTip(this.components);
+            this.pbHelp = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudDailySalary)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudWageLevel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudBaseSalary)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbHelp)).BeginInit();
             this.SuspendLayout();
             // 
             // cbCity
@@ -113,7 +117,7 @@ namespace Presentation.Views
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label1.Location = new System.Drawing.Point(419, 251);
+            this.label1.Location = new System.Drawing.Point(398, 252);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(68, 19);
             this.label1.TabIndex = 91;
@@ -176,7 +180,7 @@ namespace Presentation.Views
             this.label18.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label18.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label18.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label18.Location = new System.Drawing.Point(14, 251);
+            this.label18.Location = new System.Drawing.Point(58, 251);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(79, 19);
             this.label18.TabIndex = 84;
@@ -207,7 +211,7 @@ namespace Presentation.Views
             this.label17.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label17.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label17.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label17.Location = new System.Drawing.Point(14, 217);
+            this.label17.Location = new System.Drawing.Point(14, 214);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(123, 19);
             this.label17.TabIndex = 81;
@@ -352,7 +356,7 @@ namespace Presentation.Views
             this.label8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label8.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label8.Location = new System.Drawing.Point(12, 179);
+            this.label8.Location = new System.Drawing.Point(1, 179);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(136, 19);
             this.label8.TabIndex = 66;
@@ -406,7 +410,7 @@ namespace Presentation.Views
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label4.Location = new System.Drawing.Point(14, 141);
+            this.label4.Location = new System.Drawing.Point(23, 141);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(114, 19);
             this.label4.TabIndex = 61;
@@ -417,7 +421,7 @@ namespace Presentation.Views
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label3.Location = new System.Drawing.Point(12, 102);
+            this.label3.Location = new System.Drawing.Point(27, 107);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(110, 19);
             this.label3.TabIndex = 60;
@@ -428,7 +432,7 @@ namespace Presentation.Views
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label2.Location = new System.Drawing.Point(12, 71);
+            this.label2.Location = new System.Drawing.Point(63, 74);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(74, 19);
             this.label2.TabIndex = 59;
@@ -659,7 +663,7 @@ namespace Presentation.Views
             this.label22.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label22.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label22.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label22.Location = new System.Drawing.Point(4, 296);
+            this.label22.Location = new System.Drawing.Point(1, 295);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(146, 19);
             this.label22.TabIndex = 111;
@@ -677,11 +681,25 @@ namespace Presentation.Views
             this.dtpHiringDate.TabIndex = 110;
             this.dtpHiringDate.ValueChanged += new System.EventHandler(this.dtpHiringDate_ValueChanged);
             // 
+            // pbHelp
+            // 
+            this.pbHelp.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbHelp.Image = global::Presentation.Properties.Resources.Help;
+            this.pbHelp.Location = new System.Drawing.Point(465, 254);
+            this.pbHelp.Name = "pbHelp";
+            this.pbHelp.Size = new System.Drawing.Size(16, 16);
+            this.pbHelp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbHelp.TabIndex = 112;
+            this.pbHelp.TabStop = false;
+            this.helpInfo.SetToolTip(this.pbHelp, "Ingrese su teléfono y presione Enter para añadirlo, si desea eliminar un teléfono" +
+        ", seleccionelo y pulse Delete");
+            // 
             // Profile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1064, 670);
+            this.Controls.Add(this.pbHelp);
             this.Controls.Add(this.label22);
             this.Controls.Add(this.dtpHiringDate);
             this.Controls.Add(this.nudDailySalary);
@@ -742,6 +760,7 @@ namespace Presentation.Views
             ((System.ComponentModel.ISupportInitialize)(this.nudDailySalary)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudWageLevel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudBaseSalary)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbHelp)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -802,5 +821,7 @@ namespace Presentation.Views
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.DateTimePicker dtpHiringDate;
+        private System.Windows.Forms.ToolTip helpInfo;
+        private System.Windows.Forms.PictureBox pbHelp;
     }
 }

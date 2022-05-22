@@ -15,8 +15,8 @@ CREATE PROCEDURE sp_AgregarEmpleado(
 	@calle						VARCHAR(30),
 	@numero						VARCHAR(10),
 	@colonia					VARCHAR(30),
-	@ciudad						VARCHAR(30),
-	@estado						VARCHAR(30),
+	@ciudad						VARCHAR(60),
+	@estado						VARCHAR(60),
 	@codigo_postal				VARCHAR(5),
 	@banco						INT,
 	@numero_cuenta				VARCHAR(16),
@@ -135,8 +135,8 @@ CREATE PROCEDURE sp_ActualizarEmpleado(
 	@calle						VARCHAR(30),
 	@numero						VARCHAR(10),
 	@colonia					VARCHAR(30),
-	@ciudad						VARCHAR(30),
-	@estado						VARCHAR(30),
+	@ciudad						VARCHAR(60),
+	@estado						VARCHAR(60),
 	@codigo_postal				VARCHAR(5),
 	@banco						INT,
 	@numero_cuenta				VARCHAR(16),
@@ -194,7 +194,8 @@ AS
 				fecha_contratacion	= ISNULL(@fecha_contratacion, fecha_contratacion),
 				sueldo_diario		= ISNULL(@sueldo_diario, sueldo_diario)
 		WHERE 
-				numero_empleado = @numero_empleado AND activo = 1;
+				numero_empleado = @numero_empleado
+				AND activo = 1;
 
 		DELETE FROM 
 				telefonos_empleados
@@ -256,7 +257,8 @@ AS
 			fecha_eliminacion = dbo.OBTENERFECHAACTUAL(@id_empresa),
 			id_eliminado = NEWID()
 	WHERE 
-			numero_empleado = @numero_empleado;
+			numero_empleado = @numero_empleado
+			AND activo = 1;
 
 GO
 
@@ -303,9 +305,9 @@ AS
 	FROM 
 			vw_RegistroEmpleado
 	WHERE
-			[ID Empresa] = @id_empresa AND
-			[Activo] = 1 AND
-			([Nombre] LIKE CONCAT('%', @filtro, '%') OR
+			[ID Empresa] = @id_empresa
+			AND [Activo] = 1 
+			AND ([Nombre] LIKE CONCAT('%', @filtro, '%') OR
 			[Apellido paterno] LIKE CONCAT('%', @filtro, '%') OR
 			[Apellido materno] LIKE CONCAT('%', @filtro, '%'));
 
@@ -353,8 +355,8 @@ AS
 	FROM 
 			vw_RegistroEmpleado
 	WHERE
-			[Activo] = 1 AND
-			[Numero de empleado] = @numero_empleado;
+			[Numero de empleado] = @numero_empleado
+			AND [Activo] = 1;
 
 GO
 
@@ -391,13 +393,13 @@ AS
 				(dbo.TOTALPERCEPCIONES(@fecha, e.numero_empleado) - dbo.TOTALDEDUCCIONES(@fecha, e.numero_empleado)) [Sueldo neto]
 		FROM 
 				empleados AS e
-				JOIN departamentos AS d
+				INNER JOIN departamentos AS d
 				ON e.id_departamento = d.id_departamento
-				JOIN puestos AS p
+				INNER JOIN puestos AS p
 				ON e.id_puesto = p.id_puesto
 		WHERE
-				e.activo = 1 AND 
-				dbo.PRIMERDIAFECHA(e.fecha_contratacion) <=  dbo.PRIMERDIAFECHA(@fecha)
+				e.activo = 1
+				AND dbo.PRIMERDIAFECHA(e.fecha_contratacion) <=  dbo.PRIMERDIAFECHA(@fecha)
 	ELSE
 		SELECT
 				n.numero_empleado [Numero de empleado],
@@ -412,11 +414,11 @@ AS
 				n.sueldo_neto [Sueldo neto]
 		FROM
 				nominas AS n
-				JOIN departamentos AS d
+				INNER JOIN departamentos AS d
 				ON n.id_departamento = d.id_departamento
-				JOIN puestos AS p
+				INNER JOIN puestos AS p
 				ON n.id_puesto = p.id_puesto
-				JOIN empleados AS e
+				INNER JOIN empleados AS e
 				ON n.numero_empleado = e.numero_empleado
 		WHERE
 				dbo.PRIMERDIAFECHA(n.fecha) = dbo.PRIMERDIAFECHA(@fecha)

@@ -67,8 +67,8 @@ AS
 			nombre				= ISNULL(@nombre, nombre),
 			sueldo_base			= ISNULL(@sueldo_base, sueldo_base)
 	WHERE 
-			id_departamento	= @id_departamento AND 
-			activo = 1;
+			id_departamento	= @id_departamento
+			AND activo = 1;
 
 GO
 
@@ -106,8 +106,8 @@ AS
 			id_eliminado = NEWID()
 			
 	WHERE 
-			id_departamento = @id_departamento AND
-			activo = 1;
+			id_departamento = @id_departamento 
+			AND activo = 1;
 
 GO
 
@@ -130,9 +130,9 @@ AS
 	FROM 
 			departamentos
 	WHERE 
-			id_empresa = @id_empresa AND 
-			activo = 1 AND 
-			nombre LIKE CONCAT('%', @filtro, '%');
+			id_empresa = @id_empresa 
+			AND activo = 1 
+			AND nombre LIKE CONCAT('%', @filtro, '%');
 
 GO
 

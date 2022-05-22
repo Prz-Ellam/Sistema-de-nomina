@@ -77,8 +77,8 @@ AS
 			fijo				= ISNULL(@fijo, fijo),
 			porcentual			= ISNULL(@porcentual, porcentual)
 	WHERE
-			id_percepcion = @id_percepcion AND
-			activo = 1;
+			id_percepcion = @id_percepcion
+			AND activo = 1;
 
 GO
 
@@ -109,8 +109,8 @@ AS
 			fecha_eliminacion = dbo.OBTENERFECHAACTUAL(id_empresa),
 			id_eliminado = NEWID()
 	WHERE
-			id_percepcion = @id_percepcion AND
-			activo = 1;
+			id_percepcion = @id_percepcion
+			AND activo = 1;
 
 GO
 
@@ -136,9 +136,9 @@ AS
 	FROM 
 			percepciones
 	WHERE 
-			activo = 1 AND
-			tipo_duracion = 'S' AND
-			id_empresa = @id_empresa AND
-			nombre LIKE CONCAT('%', @filtro, '%');
+			activo = 1
+			AND tipo_duracion = 'S'
+			AND id_empresa = @id_empresa
+			AND nombre LIKE CONCAT('%', @filtro, '%');
 
 GO

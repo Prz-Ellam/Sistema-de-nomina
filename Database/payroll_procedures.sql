@@ -189,9 +189,9 @@ AS
 			INNER JOIN departamentos AS d
 			ON d.id_departamento = e.id_departamento
 	WHERE
-			d.id_empresa = @id_empresa AND 
-			dbo.PRIMERDIAFECHA(e.fecha_contratacion) <= dbo.PRIMERDIAFECHA(@fecha) AND 
-			e.activo = 1;
+			d.id_empresa = @id_empresa
+			AND dbo.PRIMERDIAFECHA(e.fecha_contratacion) <= dbo.PRIMERDIAFECHA(@fecha)
+			AND e.activo = 1;
 
 GO
 
@@ -235,16 +235,14 @@ CREATE PROCEDURE sp_ObtenerFechaActual
 	@primer_dia				BIT
 AS
 
-	IF EXISTS (SELECT id_nomina FROM nominas AS n 
-				INNER JOIN departamentos AS d ON n.id_departamento = d.id_departamento 
-				WHERE d.id_empresa = @id_empresa)
+	IF EXISTS (SELECT id_nomina FROM nominas AS n INNER JOIN departamentos AS d ON n.id_departamento = d.id_departamento WHERE d.id_empresa = @id_empresa)
 		SELECT DISTINCT TOP 1 
 				DATEADD(MONTH, 1, dbo.PRIMERDIAFECHA(fecha)) [Fecha]
 		FROM 
 				nominas AS n
-				JOIN empleados AS e
+				INNER JOIN empleados AS e
 				ON n.numero_empleado = e.numero_empleado
-				JOIN departamentos AS d
+				INNER JOIN departamentos AS d
 				ON d.id_departamento = e.id_departamento
 		WHERE
 				d.id_empresa = @id_empresa

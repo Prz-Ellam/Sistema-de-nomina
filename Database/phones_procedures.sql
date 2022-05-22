@@ -52,9 +52,9 @@ AS
 BEGIN
 
 	SELECT 
-			id_telefono_empleado [ID],
-			telefono [Telefono],
-			numero_empleado [Numero de empleado]
+			id_telefono_empleado	[ID],
+			telefono				[Telefono],
+			numero_empleado			[Numero de empleado]
 	FROM 
 			telefonos_empleados
 	WHERE 
@@ -76,9 +76,9 @@ AS
 BEGIN
 
 	SELECT 
-			id_telefono_empresa [ID],
-			telefono [Telefono],
-			id_empresa [ID Empresa]
+			id_telefono_empresa		[ID],
+			telefono				[Telefono],
+			id_empresa				[ID Empresa]
 	FROM 
 			telefonos_empresas
 	WHERE 

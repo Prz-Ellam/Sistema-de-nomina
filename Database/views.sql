@@ -263,9 +263,9 @@ AS
 	FROM
 			vw_DepartamentosPuestosFechas AS dpf
 			LEFT JOIN vw_EmpleadosDepartamentosPuestosCantidad AS dpf2
-			ON dpf.id_departamento = dpf2.id_departamento AND
-			dpf.id_puesto = dpf2.id_puesto AND
-			dbo.PRIMERDIAFECHA(dpf.fecha) = dbo.PRIMERDIAFECHA(dpf2.fecha)
+			ON dpf.id_departamento = dpf2.id_departamento
+			AND dpf.id_puesto = dpf2.id_puesto
+			AND dbo.PRIMERDIAFECHA(dpf.fecha) = dbo.PRIMERDIAFECHA(dpf2.fecha)
 	UNION
 	SELECT
 			id_empresa [ID Empresa],
@@ -296,8 +296,8 @@ AS
 	FROM
 			vw_DepartamentosFechas AS df
 			LEFT JOIN vw_EmpleadosDepartamentosCantidad AS df2
-			ON df.id_departamento = df2.id_departamento AND 
-			dbo.PRIMERDIAFECHA(df.fecha) = dbo.PRIMERDIAFECHA(df2.fecha)
+			ON df.id_departamento = df2.id_departamento
+			AND dbo.PRIMERDIAFECHA(df.fecha) = dbo.PRIMERDIAFECHA(df2.fecha)
 	UNION
 	SELECT
 			id_empresa [ID Empresa],
@@ -326,8 +326,8 @@ AS
 	FROM 
 			nominas AS n
 			RIGHT JOIN vw_DepartamentosFechas AS d
-			ON n.id_departamento = d.id_departamento AND 
-			dbo.PRIMERDIAFECHA(n.fecha) = dbo.PRIMERDIAFECHA(d.fecha)
+			ON n.id_departamento = d.id_departamento
+			AND dbo.PRIMERDIAFECHA(n.fecha) = dbo.PRIMERDIAFECHA(d.fecha)
 	GROUP BY 
 			d.nombre, d.fecha;
 GO
