@@ -39,7 +39,7 @@ CREATE TABLE administradores(
 	id_administrador			INT IDENTITY(1,1) NOT NULL,
 	correo_electronico			VARCHAR(60) UNIQUE NOT NULL,
 	contrasena					VARCHAR(30) NOT NULL,
-	activo						BIT DEFAULT 1
+	activo						BIT DEFAULT 1 NOT NULL
 	
 	CONSTRAINT pk_administradores
 		PRIMARY KEY (id_administrador)
