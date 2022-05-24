@@ -36,10 +36,17 @@ namespace Presentation.Views
 
         private void Profile_Load(object sender, EventArgs e)
         {
-            CompaniesRepository companiesRepository = new CompaniesRepository();
-            dtpHiringDate.MinDate = companiesRepository.GetCreationDate(Session.companyId, false);
-            dtpDateOfBirth.MaxDate = employeeRepository.GetHiringDate(Session.id, false).AddYears(-18);
-            
+            try
+            {
+                CompaniesRepository companiesRepository = new CompaniesRepository();
+                dtpHiringDate.MinDate = companiesRepository.GetCreationDate(Session.companyId, false);
+                dtpDateOfBirth.MaxDate = employeeRepository.GetHiringDate(Session.id, false).AddYears(-18);
+            }
+            catch (SqlException ex)
+            {
+                RJMessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
             ListBanks();
             ListStates();
             ListProfile();
@@ -126,39 +133,46 @@ namespace Presentation.Views
 
         private void ListProfile()
         {
-            EmployeesViewModel employee = employeeRepository.GetEmployeeById(Session.id);
-            txtNames.Text = employee.Name;
-            txtFatherLastName.Text = employee.FatherLastName;
-            txtMotherLastName.Text = employee.MotherLastName;
-            dtpDateOfBirth.Value = employee.DateOfBirth;
-            txtEmail.Text = employee.Email;
-            txtPassword.Text = employee.Password;
-            dtpHiringDate.Value = employee.HiringDate;
-            txtCURP.Text = employee.Curp;
-            txtRFC.Text = employee.Rfc;
-            txtNSS.Text = employee.Nss;
-            cbBank.SelectedItem = ComboBoxUtils.FindHiddenValue(employee.Bank.HiddenValue, ref cbBank);
-            txtAccountNumber.Text = employee.AccountNumber;
-
-            cbPhones.SelectedIndex = -1;
-            cbPhones.Items.Clear();
-            List<string> phones = phonesRepository.ReadEmployeePhones(Session.id).ToList();
-            foreach (string phone in phones)
+            try
             {
-                cbPhones.Items.Add(phone);
-            }
+                EmployeesViewModel employee = employeeRepository.GetEmployeeById(Session.id);
+                txtNames.Text = employee.Name;
+                txtFatherLastName.Text = employee.FatherLastName;
+                txtMotherLastName.Text = employee.MotherLastName;
+                dtpDateOfBirth.Value = employee.DateOfBirth;
+                txtEmail.Text = employee.Email;
+                txtPassword.Text = employee.Password;
+                dtpHiringDate.Value = employee.HiringDate;
+                txtCURP.Text = employee.Curp;
+                txtRFC.Text = employee.Rfc;
+                txtNSS.Text = employee.Nss;
+                cbBank.SelectedItem = ComboBoxUtils.FindHiddenValue(employee.Bank.HiddenValue, ref cbBank);
+                txtAccountNumber.Text = employee.AccountNumber;
 
-            txtStreet.Text = employee.Street;
-            txtNumber.Text = employee.Number;
-            txtSuburb.Text = employee.Suburb;
-            cbState.SelectedIndex = cbState.FindString(employee.State);
-            cbCity.SelectedIndex = cbCity.FindString(employee.City);
-            txtPostalCode.Text = employee.PostalCode;
-            txtDepartment.Text = employee.Department.ToString();
-            txtPosition.Text = employee.Position.ToString();
-            nudDailySalary.Value = employee.SueldoDiario;
-            nudBaseSalary.Value = employee.BaseSalary;
-            nudWageLevel.Value = employee.WageLevel;
+                cbPhones.SelectedIndex = -1;
+                cbPhones.Items.Clear();
+                List<string> phones = phonesRepository.ReadEmployeePhones(Session.id).ToList();
+                foreach (string phone in phones)
+                {
+                    cbPhones.Items.Add(phone);
+                }
+
+                txtStreet.Text = employee.Street;
+                txtNumber.Text = employee.Number;
+                txtSuburb.Text = employee.Suburb;
+                cbState.SelectedIndex = cbState.FindString(employee.State);
+                cbCity.SelectedIndex = cbCity.FindString(employee.City);
+                txtPostalCode.Text = employee.PostalCode;
+                txtDepartment.Text = employee.Department.ToString();
+                txtPosition.Text = employee.Position.ToString();
+                nudDailySalary.Value = employee.SueldoDiario;
+                nudBaseSalary.Value = employee.BaseSalary;
+                nudWageLevel.Value = employee.WageLevel;
+            }
+            catch (SqlException ex)
+            {
+                RJMessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void FillProfile()

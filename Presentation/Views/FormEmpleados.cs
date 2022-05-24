@@ -65,23 +65,30 @@ namespace Presentation.Views
                         btnEdit.Enabled = true;
                         btnDelete.Enabled = true;
 
-                        PayrollsRepository payrollsRepository = new PayrollsRepository();
-                        DateTime payrollDate = payrollsRepository.GetDate(Session.companyId, false);
-                        DateTime hiringDate = repository.GetHiringDate(employeeId, false);
-
-                        dtpHiringDate.MinDate = companyRepository.GetCreationDate(Session.companyId, false);
-
-                        if (payrollsRepository.GetDate(Session.companyId, true) !=
-                            repository.GetHiringDate(employeeId, true))
+                        try
                         {
-                            dtpHiringDate.Enabled = false;
-                        }
-                        else
-                        {
-                            dtpHiringDate.Enabled = true;
-                        }
+                            PayrollsRepository payrollsRepository = new PayrollsRepository();
+                            DateTime hiringDate = repository.GetHiringDate(employeeId, false);
 
-                        dtpDateOfBirth.MaxDate = hiringDate.AddYears(-18).AddDays(-1);
+
+                            dtpHiringDate.MinDate = companyRepository.GetCreationDate(Session.companyId, false);
+
+                            if (payrollsRepository.GetDate(Session.companyId, true) !=
+                                repository.GetHiringDate(employeeId, true))
+                            {
+                                dtpHiringDate.Enabled = false;
+                            }
+                            else
+                            {
+                                dtpHiringDate.Enabled = true;
+                            }
+
+                            dtpDateOfBirth.MaxDate = hiringDate.AddYears(-18).AddDays(-1);
+                        }
+                        catch (SqlException ex)
+                        {
+                            RJMessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                         break;
                     }
                 }
@@ -522,10 +529,17 @@ namespace Presentation.Views
 
             cbPhones.SelectedIndex = -1;
             cbPhones.Items.Clear();
-            List<string> phones = phonesRepository.ReadEmployeePhones(employeeId).ToList();
-            foreach(string phone in phones)
+            try
             {
-                cbPhones.Items.Add(phone);
+                List<string> phones = phonesRepository.ReadEmployeePhones(employeeId).ToList();
+                foreach (string phone in phones)
+                {
+                    cbPhones.Items.Add(phone);
+                }
+            }
+            catch (SqlException ex)
+            {
+                RJMessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             EmployeeState = EntityState.Modify;

@@ -108,8 +108,15 @@ namespace Presentation.Views
                 rbPerceptionsFilterAll.Checked = true;
                 rbDeductionsFilterAll.Checked = true;
 
-                dtgPerceptions.DataSource = applyPerceptionsRepository.ReadEmployeePerceptions(1, entityId, dtpDate.Value);
-                dtgDeductions.DataSource = applyDeductionsRepository.ReadEmployeeDeductions(1, entityId, dtpDate.Value);
+                try
+                {
+                    dtgPerceptions.DataSource = applyPerceptionsRepository.ReadEmployeePerceptions(1, entityId, dtpDate.Value);
+                    dtgDeductions.DataSource = applyDeductionsRepository.ReadEmployeeDeductions(1, entityId, dtpDate.Value);
+                }
+                catch (SqlException ex)
+                {
+                    RJMessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -136,8 +143,15 @@ namespace Presentation.Views
                 rbPerceptionsFilterAll.Checked = true;
                 rbDeductionsFilterAll.Checked = true;
 
-                dtgPerceptions.DataSource = applyPerceptionsRepository.ReadDepartmentPerceptions(1, entityId, dtpDate.Value);
-                dtgDeductions.DataSource = applyDeductionsRepository.ReadDepartmentDeductions(1, entityId, dtpDate.Value);
+                try {
+                    dtgPerceptions.DataSource = applyPerceptionsRepository.ReadDepartmentPerceptions(1, entityId, dtpDate.Value);
+                    dtgDeductions.DataSource = applyDeductionsRepository.ReadDepartmentDeductions(1, entityId, dtpDate.Value);
+                }
+                catch (SqlException ex)
+                {
+                    RJMessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
             }
         }
 
@@ -255,7 +269,7 @@ namespace Presentation.Views
             }
             catch (SqlException ex)
             {
-
+                RJMessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             string perceptionName = gpPerceptions.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked).Text;
@@ -263,20 +277,27 @@ namespace Presentation.Views
             int perceptionType = dictionary[perceptionName];
             int deductionType = dictionary[deductionName];
 
-            switch (entityType)
+            try
             {
-                case EntityType.Employee:
-                { 
-                    dtgPerceptions.DataSource = applyPerceptionsRepository.ReadEmployeePerceptions(perceptionType, entityId, dtpDate.Value);
-                    dtgDeductions.DataSource = applyDeductionsRepository.ReadEmployeeDeductions(deductionType, entityId, dtpDate.Value);
-                    break;
-                }
-                case EntityType.Department:
+                switch (entityType)
                 {
-                    dtgPerceptions.DataSource = applyPerceptionsRepository.ReadDepartmentPerceptions(perceptionType, entityId, dtpDate.Value);
-                    dtgDeductions.DataSource = applyDeductionsRepository.ReadDepartmentDeductions(deductionType, entityId, dtpDate.Value);
-                    break;
+                    case EntityType.Employee:
+                    {
+                        dtgPerceptions.DataSource = applyPerceptionsRepository.ReadEmployeePerceptions(perceptionType, entityId, dtpDate.Value);
+                        dtgDeductions.DataSource = applyDeductionsRepository.ReadEmployeeDeductions(deductionType, entityId, dtpDate.Value);
+                        break;
+                    }
+                    case EntityType.Department:
+                    {
+                        dtgPerceptions.DataSource = applyPerceptionsRepository.ReadDepartmentPerceptions(perceptionType, entityId, dtpDate.Value);
+                        dtgDeductions.DataSource = applyDeductionsRepository.ReadDepartmentDeductions(deductionType, entityId, dtpDate.Value);
+                        break;
+                    }
                 }
+            }
+            catch (SqlException ex)
+            {
+                RJMessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             ListEmployees();
@@ -340,23 +361,30 @@ namespace Presentation.Views
             {
 
             }
-            
-            switch (entityType)
+
+            try
             {
-                case EntityType.Employee:
+                switch (entityType)
                 {
-                    dtgPerceptions.DataSource = applyPerceptionsRepository.ReadEmployeePerceptions(1, entityId, dtpDate.Value);
-                    dtgDeductions.DataSource = applyDeductionsRepository.ReadEmployeeDeductions(1, entityId, dtpDate.Value);
-                    break;
-                }
-                case EntityType.Department:
-                {
-                    dtgPerceptions.DataSource = applyPerceptionsRepository.ReadDepartmentPerceptions(1, entityId, dtpDate.Value);
-                    dtgDeductions.DataSource = applyDeductionsRepository.ReadDepartmentDeductions(1, entityId, dtpDate.Value);
-                    break;
+                    case EntityType.Employee:
+                    {
+                        dtgPerceptions.DataSource = applyPerceptionsRepository.ReadEmployeePerceptions(1, entityId, dtpDate.Value);
+                        dtgDeductions.DataSource = applyDeductionsRepository.ReadEmployeeDeductions(1, entityId, dtpDate.Value);
+                        break;
+                    }
+                    case EntityType.Department:
+                    {
+                        dtgPerceptions.DataSource = applyPerceptionsRepository.ReadDepartmentPerceptions(1, entityId, dtpDate.Value);
+                        dtgDeductions.DataSource = applyDeductionsRepository.ReadDepartmentDeductions(1, entityId, dtpDate.Value);
+                        break;
+                    }
                 }
             }
-            
+            catch (SqlException ex)
+            {
+                RJMessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
             ListEmployees();
             ListDepartments();
             ClearConcept();
@@ -510,8 +538,15 @@ namespace Presentation.Views
             string name = gpPerceptions.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked).Text;
             int perceptionType = dictionary[name];
 
-            dtgPerceptions.DataSource = applyPerceptionsRepository.ReadPerceptions(
-                perceptionType, entityId, entityType, dtpDate.Value);
+            try
+            {
+                dtgPerceptions.DataSource = applyPerceptionsRepository.ReadPerceptions(
+                    perceptionType, entityId, entityType, dtpDate.Value);
+            }
+            catch (SqlException ex)
+            {
+                RJMessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void deductionsRadioButtons_CheckedChange(object sender, EventArgs e)
@@ -525,8 +560,15 @@ namespace Presentation.Views
             string name = gpDeductions.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked).Text;
             int deductionType = dictionary[name];
 
-            dtgDeductions.DataSource = applyDeductionsRepository.ReadDeductions(
-                deductionType, entityId, entityType, dtpDate.Value);
+            try
+            {
+                dtgDeductions.DataSource = applyDeductionsRepository.ReadDeductions(
+                    deductionType, entityId, entityType, dtpDate.Value);
+            }
+            catch (SqlException ex)
+            {
+                RJMessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

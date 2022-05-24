@@ -86,7 +86,7 @@ CREATE TABLE puestos(
 
 
 
-IF EXISTS(SELECT name FROM sysobjects WHERE name = 'empleados' AND type = 'U')
+IF EXISTS (SELECT name FROM sysobjects WHERE name = 'empleados' AND type = 'U')
 	DROP TABLE empleados;
 GO
 
@@ -306,19 +306,6 @@ CREATE TABLE bancos(
 
 
 
-IF EXISTS (SELECT name FROM sys.types WHERE is_table_type = 1 AND name ='Telefonos') 
-	DROP TYPE dbo.Telefonos;
-GO
-
-CREATE TYPE dbo.Telefonos
-AS TABLE
-(
-	row_count			INT,
-	telefono			VARCHAR(12)
-);
-
-
-
 -- Llaves foraneas
 ALTER TABLE empresas
 	ADD CONSTRAINT fk_empresa_domicilio
@@ -409,6 +396,18 @@ ALTER TABLE telefonos_empleados
 	ADD CONSTRAINT fk_telefono_empleado
 		FOREIGN KEY (numero_empleado)
 		REFERENCES empleados(numero_empleado);
+
+
+IF EXISTS (SELECT name FROM sys.types WHERE is_table_type = 1 AND name ='Telefonos') 
+	DROP TYPE dbo.Telefonos;
+GO
+
+CREATE TYPE dbo.Telefonos
+AS TABLE
+(
+	row_count			INT,
+	telefono			VARCHAR(12)
+);
 
 
 

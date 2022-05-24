@@ -206,28 +206,35 @@ namespace Presentation.Views
             }
             else
             {
-                CompaniesViewModel company = repository.Read(Session.companyId);
-                txtBusinessName.Text = company.RazonSocial;
-                txtEmployerRegistration.Text = company.RegistroPatronal;
-                txtRfc.Text = company.Rfc;
-                dtpStartDate.Value = company.FechaInicio;
-                txtEmail.Text = company.CorreoElectronico;
-
-                cbPhones.Items.Clear();
-                cbPhones.SelectedIndex = -1;
-                List<string> phones = phonesRepository.ReadCompanyPhones(Session.companyId).ToList();
-                foreach (string phone in phones)
+                try
                 {
-                    cbPhones.Items.Add(phone);
-                }
+                    CompaniesViewModel company = repository.Read(Session.companyId);
+                    txtBusinessName.Text = company.RazonSocial;
+                    txtEmployerRegistration.Text = company.RegistroPatronal;
+                    txtRfc.Text = company.Rfc;
+                    dtpStartDate.Value = company.FechaInicio;
+                    txtEmail.Text = company.CorreoElectronico;
 
-                txtStreet.Text = company.Calle;
-                txtNumber.Text = company.Numero;
-                txtSuburb.Text = company.Colonia;
-                txtPostalCode.Text = company.CodigoPostal;
-                cbStates.SelectedIndex = cbStates.FindString(company.Estado);
-                cbCities.SelectedIndex = cbCities.FindString(company.Ciudad);
-                CompanyState = EntityState.Modify;
+                    cbPhones.Items.Clear();
+                    cbPhones.SelectedIndex = -1;
+                    List<string> phones = phonesRepository.ReadCompanyPhones(Session.companyId).ToList();
+                    foreach (string phone in phones)
+                    {
+                        cbPhones.Items.Add(phone);
+                    }
+
+                    txtStreet.Text = company.Calle;
+                    txtNumber.Text = company.Numero;
+                    txtSuburb.Text = company.Colonia;
+                    txtPostalCode.Text = company.CodigoPostal;
+                    cbStates.SelectedIndex = cbStates.FindString(company.Estado);
+                    cbCities.SelectedIndex = cbCities.FindString(company.Ciudad);
+                    CompanyState = EntityState.Modify;
+                }
+                catch (SqlException ex)
+                {
+                    RJMessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 

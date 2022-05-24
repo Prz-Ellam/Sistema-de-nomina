@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using PdfiumViewer;
 using Data_Access.Interfaces;
 using CustomMessageBox;
+using System.Data.SqlClient;
 
 namespace Presentation.Views
 {
@@ -27,46 +28,30 @@ namespace Presentation.Views
 
         private void PayrollReceipts_Load(object sender, EventArgs e)
         {
-            IEmployeesRepository employeeRepository = new EmployeesRepository();
-            DateTime hiringDate = employeeRepository.GetHiringDate(Session.id, true);
-            DateTime payrollDate = repository.GetDate(Session.companyId, true);
-            dtpDate.MinDate = hiringDate;
-            dtpDate.MaxDate = (hiringDate == payrollDate) ? payrollDate : payrollDate.AddMonths(-1);
-            dtpDate.Value = hiringDate;
+            try
+            {
+                IEmployeesRepository employeeRepository = new EmployeesRepository();
+                DateTime hiringDate = employeeRepository.GetHiringDate(Session.id, true);
+                DateTime payrollDate = repository.GetDate(Session.companyId, true);
+                dtpDate.MinDate = hiringDate;
+                dtpDate.MaxDate = (hiringDate == payrollDate) ? payrollDate : payrollDate.AddMonths(-1);
+                dtpDate.Value = hiringDate;
+            }
+            catch (SqlException ex)
+            {
+                RJMessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnConsult_Click(object sender, EventArgs e)
         {
-            var report = repository.GetPayrollReceipt(Session.id, dtpDate.Value);
-            if (report == null)
-            {
-                MessageBox.Show("No se ha generado el recibo de nómina de este periodo",
-                    "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            var applyPerceptions = new ApplyPerceptionsRepository();
-            var applyDeductions = new ApplyDeductionsRepository();
-
-            var perceptions = applyPerceptions.ReadPayrollPerceptions(report.IdNomina);
-            var deductions = applyDeductions.ReadPayrollDeductions(report.IdNomina);
-
-            var stream = PDFReceipt.ReadPDFReceipt(report, perceptions, deductions);
-            PdfDocument document = PdfDocument.Load(stream);
-            pdfViewer.Document = document;
-        }
-
-        private void btnPDF_Click(object sender, EventArgs e)
-        {
-            ofnPayroll.FileName = $"{dtpDate.Value.Year}-{dtpDate.Value.Month} {DateTime.Now.ToString("yyyy-MM-dd HH.mm.ss")}";
-
-            if (ofnPayroll.ShowDialog() == DialogResult.OK)
+            try
             {
                 var report = repository.GetPayrollReceipt(Session.id, dtpDate.Value);
                 if (report == null)
                 {
-                    MessageBox.Show("No se ha generado el recibo de nómina de este periodo",
-                        "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    RJMessageBox.Show("No se ha generado el recibo de nómina de este periodo",
+                        "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -76,16 +61,53 @@ namespace Presentation.Views
                 var perceptions = applyPerceptions.ReadPayrollPerceptions(report.IdNomina);
                 var deductions = applyDeductions.ReadPayrollDeductions(report.IdNomina);
 
-                bool result = PDFReceipt.GeneratePDFReceipt(report, perceptions, deductions, ofnPayroll.FileName);
+                var stream = PDFReceipt.ReadPDFReceipt(report, perceptions, deductions);
+                PdfDocument document = PdfDocument.Load(stream);
+                pdfViewer.Document = document;
+            }
+            catch (SqlException ex)
+            {
+                RJMessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
-                if (result)
+        private void btnPDF_Click(object sender, EventArgs e)
+        {
+            ofnPayroll.FileName = $"{dtpDate.Value.Year}-{dtpDate.Value.Month} {DateTime.Now.ToString("yyyy-MM-dd HH.mm.ss")}";
+
+            if (ofnPayroll.ShowDialog() == DialogResult.OK)
+            {
+                try
                 {
-                    RJMessageBox.Show("El recibo se generó éxitosamente", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    System.Diagnostics.Process.Start(ofnPayroll.FileName);
+                    var report = repository.GetPayrollReceipt(Session.id, dtpDate.Value);
+                    if (report == null)
+                    {
+                        RJMessageBox.Show("No se ha generado el recibo de nómina de este periodo",
+                            "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    var applyPerceptions = new ApplyPerceptionsRepository();
+                    var applyDeductions = new ApplyDeductionsRepository();
+
+                    var perceptions = applyPerceptions.ReadPayrollPerceptions(report.IdNomina);
+                    var deductions = applyDeductions.ReadPayrollDeductions(report.IdNomina);
+
+                    bool result = PDFReceipt.GeneratePDFReceipt(report, perceptions, deductions, ofnPayroll.FileName);
+
+                    if (result)
+                    {
+                        RJMessageBox.Show("El recibo se generó éxitosamente", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        System.Diagnostics.Process.Start(ofnPayroll.FileName);
+                    }
+                    else
+                    {
+                        RJMessageBox.Show("No se pudo generar el recibo", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
-                else
+                catch (SqlException ex)
                 {
-                    RJMessageBox.Show("No se pudo generar el recibo", "Sistema de nómina dice:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    RJMessageBox.Show(ex.Message, "Sistema de nómina dice: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

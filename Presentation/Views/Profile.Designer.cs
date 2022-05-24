@@ -96,7 +96,7 @@ namespace Presentation.Views
             this.cbCity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbCity.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
             this.cbCity.FormattingEnabled = true;
-            this.cbCity.Location = new System.Drawing.Point(829, 176);
+            this.cbCity.Location = new System.Drawing.Point(829, 211);
             this.cbCity.Name = "cbCity";
             this.cbCity.Size = new System.Drawing.Size(200, 27);
             this.cbCity.TabIndex = 95;
@@ -106,7 +106,7 @@ namespace Presentation.Views
             this.cbState.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbState.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
             this.cbState.FormattingEnabled = true;
-            this.cbState.Location = new System.Drawing.Point(829, 209);
+            this.cbState.Location = new System.Drawing.Point(829, 174);
             this.cbState.Name = "cbState";
             this.cbState.Size = new System.Drawing.Size(200, 27);
             this.cbState.TabIndex = 94;
@@ -273,7 +273,7 @@ namespace Presentation.Views
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label13.Location = new System.Drawing.Point(765, 212);
+            this.label13.Location = new System.Drawing.Point(765, 177);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(50, 19);
             this.label13.TabIndex = 74;
@@ -284,7 +284,7 @@ namespace Presentation.Views
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label12.Location = new System.Drawing.Point(742, 179);
+            this.label12.Location = new System.Drawing.Point(742, 214);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(70, 19);
             this.label12.TabIndex = 73;
